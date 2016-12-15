@@ -9,7 +9,7 @@ import org.springframework.stereotype.Controller;
 @EnableAutoConfiguration
 @SpringBootApplication
 public class Application {
-//测试冲突safds 
+//测试冲突啥地方
 	public static void main(String[] args) throws Exception {
 		SpringApplication.run(Application.class, args);
 	}
