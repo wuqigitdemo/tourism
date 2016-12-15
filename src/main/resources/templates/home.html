@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<meta charset="UTF-8" />
+<title>Add and Remove Layout - jQuery EasyUI Demo</title>
+<link rel="stylesheet" type="text/css"
+	href="/easyui/themes/default/easyui.css" />
+<link rel="stylesheet" type="text/css" href="/easyui/themes/icon.css" />
+<link rel="stylesheet" type="text/css" href="/easyui/demo.css" />
+<script type="text/javascript" src="/easyui/jquery.min.js"></script>
+<script type="text/javascript" src="/easyui/jquery.easyui.min.js"></script>
+</head>
+<body>
+	<div id="cc" class="easyui-layout" style="width: 100%; height: 599px;">
+		<div data-options="region:'north'" style="height: 50px"></div>
+		<div data-options="region:'south',split:true" style="height: 30px;"></div>
+		<div data-options="region:'west',split:true" title="菜单"
+			style="width: 200px;">
+			<div class="easyui-panel"
+				style="padding: 5px; width: 100%; height: 100%">
+				<ul id="mt" class="easyui-tree">
+					<li><span>产品级业务管理</span>
+						<ul>
+							<li data-options="state:'open'"><span>线路管理</span>
+								<ul>
+									<li><span>自营线路管理</span></li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+					<li><span>其它类型等参数管理</span>
+						<ul>
+							<li id="/OtherTypeManage/OtherTypeManage"><span>旅游主题管理</span></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div data-options="region:'center'">
+			<div id="tt" class="easyui-tabs" data-options="tools:'#tab-tools'"
+				style="width: 100%; height: 100%">
+				<div title="首页" data-options="closable:false"
+					style="overflow: hidden; width: 100%;height: 100%;">
+					<iframe scrolling="yes" frameborder="0"
+						src="/welcome"
+						style="width: 100%; height: 100%;"></iframe>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		$('#mt').tree({
+			onClick : function(node) {
+				addPanel(node.text, node.id);
+			}
+		});
+		var index = 0;
+		var tab = $('#tt').tabs('getSelected');
+		if (tab) {
+			index = $('#tt').tabs('getTabIndex', tab);
+		}
+		function addPanel(title, url) {
+			if (url != null) {
+				index++;
+				$('#tt').tabs('add', {
+					title : title,
+					content : '<div title="Iframe" data-options="closable:true" style="overflow: hidden; width: 100%;height: 100%;"> <iframe scrolling="yes" frameborder="0" src="'+url+'" style="width: 100%; height: 100%;"></iframe> </div>',
+					closable : true
+				});
+			}
+		}
+	</script>
+</body>
+</html>
