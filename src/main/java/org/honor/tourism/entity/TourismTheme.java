@@ -10,7 +10,6 @@ import org.hibernate.validator.constraints.Length;
 
 /**
  * 旅游主题
- * 
  * @author 222
  *
  */
@@ -23,7 +22,7 @@ public class TourismTheme {
 	@GenericGenerator(name = "uuid", strategy = "uuid")
 	@Length(min = 32, max = 32, message="id需要32位字符")
 	private String id;
-	/**主题名称2*/
+	/**主题名称*/
 	@Length(min = 1, max = 30, message="主题名称格式需要1-30位字符")
 	private String themeName;
 
