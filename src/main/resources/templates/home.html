@@ -32,7 +32,14 @@
 					</li>
 					<li><span>其它类型等参数管理</span>
 						<ul>
+							<li id="/OtherTypeManage/RouteType"><span>线路类别管理</span></li>
 							<li id="/OtherTypeManage/OtherTypeManage"><span>旅游主题管理</span></li>
+						</ul>
+						<ul>
+							<li id="/OtherTypeManage/TrafficWayManage"><span>交通方式管理</span></li>
+						</ul>
+						<ul>
+							<li id="/OtherTypeManage/RouteCategory"><span>线路类别管理</span></li>
 						</ul>
 					</li>
 				</ul>
@@ -64,11 +71,15 @@
 		function addPanel(title, url) {
 			if (url != null) {
 				index++;
-				$('#tt').tabs('add', {
-					title : title,
-					content : '<div title="Iframe" data-options="closable:true" style="overflow: hidden; width: 100%;height: 100%;"> <iframe scrolling="yes" frameborder="0" src="'+url+'" style="width: 100%; height: 100%;"></iframe> </div>',
-					closable : true
-				});
+				if($('#tt').tabs('exists',title)){
+					$('#tt').tabs("select",title);
+				}else{
+					$('#tt').tabs('add', {
+						title : title,
+						content : '<div title="Iframe" data-options="closable:true" style="overflow: hidden; width: 100%;height: 100%;"> <iframe scrolling="yes" frameborder="0" src="'+url+'" style="width: 100%; height: 100%;"></iframe> </div>',
+						closable : true
+					});
+				}
 			}
 		}
 	</script>
