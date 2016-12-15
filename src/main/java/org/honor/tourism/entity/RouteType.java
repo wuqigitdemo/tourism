@@ -10,7 +10,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.Length;
 
 /**
- * 线路类型
+ * 线路类别
  */
 @Entity
 @Table(name = "t_route_type")
@@ -21,15 +21,12 @@ public class RouteType {
 	@GenericGenerator(name = "uuid", strategy = "uuid")
 	@Length(min = 32, max = 32, message = "id需要32位字符")
 	private String id;
-
-	/** 类型名称 */
-	@Length(min = 1, max = 30, message = "线路类型名称需要1-30位字符")
+	/** 类别名称 */
+	@Length(min = 1, max = 30, message = "线路类别名称需要1-30位字符")
 	private String typeName;
-
 	/** 父类id */
 	@Length(min = 32, max = 32, message = "父类id需要32位字符")
 	private String parentId;
-
 	@ManyToOne
 	private RouteCategory routeCategory;
 
@@ -64,5 +61,4 @@ public class RouteType {
 	public void setRouteCategory(RouteCategory routeCategory) {
 		this.routeCategory = routeCategory;
 	}
-
 }
