@@ -10,6 +10,11 @@ import org.springframework.stereotype.Controller;
 @SpringBootApplication
 public class Application {
 //abc
+	/**
+	 * 主程序
+	 * @param args
+	 * @throws Exception
+	 */
 	public static void main(String[] args) throws Exception {
 		SpringApplication.run(Application.class, args);
 	}
