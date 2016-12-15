@@ -9,14 +9,14 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.Length;
 
 /**
- * 行程表
+ * 交通方式
  * 
  * @author keiwu
  *
  */
 @Entity
-@Table(name = "t_route_trip")
-public class RouteTrip {
+@Table(name = "t_traffic")
+public class Traffic {
 
 	@Id
 	@GeneratedValue(generator = "uuid")
@@ -24,13 +24,9 @@ public class RouteTrip {
 	@Length(min = 32, max = 32, message = "id需要32位字符")
 	private String id;
 
-	/** 行程标题 */
-	@Length(min = 1, max = 50, message = "行程标题需要1-50位字符")
-	private String tripTitle;
-
-	/** 行程详细 */
-	@Length(min = 1, max = 50, message = "行程详细需要1-50位字符")
-	private String tripDetail;
+	/** 交通方式 */
+	@Length(min = 1, max = 50, message = "交通方式需要1-50位字符")
+	private String trafficType;
 
 	public String getId() {
 		return id;
@@ -40,20 +36,12 @@ public class RouteTrip {
 		this.id = id;
 	}
 
-	public String getTripTitle() {
-		return tripTitle;
+	public String getTrafficType() {
+		return trafficType;
 	}
 
-	public void setTripTitle(String tripTitle) {
-		this.tripTitle = tripTitle;
-	}
-
-	public String getTripDetail() {
-		return tripDetail;
-	}
-
-	public void setTripDetail(String tripDetail) {
-		this.tripDetail = tripDetail;
+	public void setTrafficType(String trafficType) {
+		this.trafficType = trafficType;
 	}
 
 }
