@@ -73,14 +73,14 @@ public class MultiHttpSecurityConfig {
 				.antMatchers("/login/login").permitAll()
 //				.antMatchers("/persons/**").hasRole("USER")
 				.anyRequest()
-//				.permitAll()
-				.authenticated().and()
-//				.httpBasic()
-				.formLogin()
-					.loginPage("/login")
-					.permitAll()
-				.and()
-				.logout().permitAll()
+				.permitAll()
+//				.authenticated().and()
+////				.httpBasic()
+//				.formLogin()
+//					.loginPage("/login")
+//					.permitAll()
+//				.and()
+//				.logout().permitAll()
 				;
 		}
 		
