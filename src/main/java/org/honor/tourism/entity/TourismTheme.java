@@ -11,7 +11,7 @@ import org.hibernate.validator.constraints.Length;
 /**
  * 旅游主题
  * 
- * @author 0000
+ * @author 111
  *
  */
 @Entity
