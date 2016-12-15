@@ -10,11 +10,10 @@ import org.springframework.stereotype.Controller;
 @EnableAutoConfiguration
 @SpringBootApplication
 public class Application {
-	//ifdas
 
 	/**
 	 * 主方法测试
-	 * @param args
+	 * @param aaaa
 	 * @throws Exception
 	 */
 	public static void main(String[] args) throws Exception {
