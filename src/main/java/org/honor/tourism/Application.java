@@ -12,7 +12,7 @@ import org.springframework.stereotype.Controller;
 public class Application {
 
 	/**
-	 * 主方法测试
+	 * 主方法测试abc
 	 * @param args
 	 * @throws Exception
 	 */
