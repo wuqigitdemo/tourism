@@ -23,11 +23,9 @@ public class RouteTrip {
 	@GenericGenerator(name = "uuid", strategy = "uuid")
 	@Length(min = 32, max = 32, message = "id需要32位字符")
 	private String id;
-
 	/** 行程标题 */
 	@Length(min = 1, max = 50, message = "行程标题需要1-50位字符")
 	private String tripTitle;
-
 	/** 行程详细 */
 	@Length(min = 1, max = 50, message = "行程详细需要1-50位字符")
 	private String tripDetail;

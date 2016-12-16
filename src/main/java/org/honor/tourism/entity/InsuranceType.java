@@ -9,23 +9,23 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.Length;
 
 /**
- * 交通方式
+ * 保险种类
  * 
  * @author keiwu
  *
  */
 @Entity
-@Table(name = "t_traffic")
-public class Traffic {
+@Table(name = "t_insurance_type")
+public class InsuranceType {
 
 	@Id
 	@GeneratedValue(generator = "uuid")
 	@GenericGenerator(name = "uuid", strategy = "uuid")
 	@Length(min = 32, max = 32, message = "id需要32位字符")
 	private String id;
-	/** 交通方式 */
-	@Length(min = 1, max = 50, message = "交通方式需要1-50位字符")
-	private String trafficType;
+	/** 保险种类名称 */
+	@Length(min = 1, max = 40, message = "保险种类名称需要1-40位字符")
+	private String insuranceTypeName;
 
 	public String getId() {
 		return id;
@@ -35,12 +35,12 @@ public class Traffic {
 		this.id = id;
 	}
 
-	public String getTrafficType() {
-		return trafficType;
+	public String getInsuranceTypeName() {
+		return insuranceTypeName;
 	}
 
-	public void setTrafficType(String trafficType) {
-		this.trafficType = trafficType;
+	public void setInsuranceTypeName(String insuranceTypeName) {
+		this.insuranceTypeName = insuranceTypeName;
 	}
 
 }
