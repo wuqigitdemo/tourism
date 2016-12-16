@@ -20,5 +20,4 @@ public class MyWebAppConfigurer extends WebMvcConfigurerAdapter {
 		registry.addViewController("/OtherTypeManage/RouteCategory").setViewName("OtherTypeManage/RouteCategory");
 		registry.addViewController("/OtherTypeManage/InsuranceManagement").setViewName("OtherTypeManage/InsuranceManagement");
 	}
-
 }
