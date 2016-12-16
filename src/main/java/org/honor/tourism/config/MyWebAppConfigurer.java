@@ -14,6 +14,7 @@ public class MyWebAppConfigurer extends WebMvcConfigurerAdapter {
 		registry.addViewController("/hello").setViewName("hello");
 		registry.addViewController("/login").setViewName("login");
 		//registry.addViewController("/easyuidemo").setViewName("easyuidemo");
+		registry.addViewController("/aaa").setViewName("bbb");
 		registry.addViewController("/register").setViewName("register");
 		registry.addViewController("/welcome").setViewName("welcome");
 		registry.addViewController("/OtherTypeManage/OtherTypeManage").setViewName("OtherTypeManage/OtherTypeManage");
