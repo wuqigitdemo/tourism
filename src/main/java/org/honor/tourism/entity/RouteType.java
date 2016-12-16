@@ -26,7 +26,7 @@ public class RouteType {
 	private String typeName;
 	/** 父级 */
 	@ManyToOne
-	private RouteType parentRouteType;
+	private RouteType routeType;
 	@ManyToOne
 	private RouteCategory routeCategory;
 
@@ -46,12 +46,12 @@ public class RouteType {
 		this.typeName = typeName;
 	}
 
-	public RouteType getParentRouteType() {
-		return parentRouteType;
+	public RouteType getRouteType() {
+		return routeType;
 	}
 
-	public void setParentRouteType(RouteType parentRouteType) {
-		this.parentRouteType = parentRouteType;
+	public void setRouteType(RouteType routeType) {
+		this.routeType = routeType;
 	}
 
 	public RouteCategory getRouteCategory() {
