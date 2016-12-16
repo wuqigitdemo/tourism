@@ -103,9 +103,9 @@
              	   //刷新保险类别下拉列表
  	               $('#insuranceType').combobox('reload'); 
                 }
-            }); 
-        }
+            });
             url = '/InsuranceManagement/save';
+        }
             
         function editUser(){
             var row = $('#dg').datagrid('getSelected');
@@ -155,7 +155,7 @@
             }
         }
 		function doSearch(insuranceName){
-			alert('You input: ' + insuranceName);
+			alert('You input:' + insuranceName);
 			$('#ss').searchbox('selectName', 'insuranceName');
 		}
     </script>
