@@ -15,7 +15,7 @@ import org.hibernate.validator.constraints.Length;
  *
  */
 @Entity
-@Table(name = "t_self_support_route")
+@Table(name = "t_self_support_route_other_info")
 public class SelfSupportRouteOtherInfo {
 
 	@Id

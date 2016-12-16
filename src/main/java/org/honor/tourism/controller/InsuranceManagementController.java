@@ -6,8 +6,10 @@ import java.util.Map;
 import javax.validation.Valid;
 
 import org.honor.tourism.entity.InsuranceManagement;
+import org.honor.tourism.entity.InsuranceType;
 import org.honor.tourism.entity.RouteCategory;
 import org.honor.tourism.service.InsuranceManagementService;
+import org.honor.tourism.service.InsuranceTypeService;
 import org.honor.tourism.service.RouteCategoryService;
 import org.honor.tourism.util.EasyuiPage;
 import org.honor.tourism.util.EasyuiResult;
@@ -30,9 +32,13 @@ public class InsuranceManagementController {
 	
 	@Autowired 
 	private InsuranceManagementService service;
+	
+	@Autowired 
+	private InsuranceTypeService service2;
+	
 
 	/**
-	 * 获取旅游主题
+	 * 获取保险
 	 * @param page
 	 * @return
 	 */
@@ -62,6 +68,20 @@ public class InsuranceManagementController {
 			EasyuiResult.result(false, "添加失败");
 		}
 		return EasyuiResult.result(true);
+	}
+	
+	/**
+	 * 获取保险类型
+	 * @param page
+	 * @return
+	 */
+	@RequestMapping("/selectType")
+	@ResponseBody
+	public List<InsuranceType> selectType() {
+		Pageable pageable = new PageRequest(0, 100000);
+		Page<InsuranceType> insuranceType =  service2.findAll(pageable);
+		List<InsuranceType> rows = insuranceType.getContent();
+		return rows;
 	}
 	
 	/**
