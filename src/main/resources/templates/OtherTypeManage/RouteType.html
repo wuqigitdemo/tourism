@@ -15,50 +15,109 @@
 </head>
 <body>
     <table id="dg" class="easyui-datagrid" style="width:100%;height:440px"
-            url="/TourismTheme/findAll"
+            url="/RouteType/findAll"
             toolbar="#toolbar" pagination="true"
             rownumbers="true" fitColumns="true" singleSelect="true">
-        <thead>
-            <tr>
-                <th field="themeName" width="50">主题名称</th>
-            </tr>
-        </thead>
-    </table>
-    
+        
+    </table> 
+      
     <div id="toolbar">
-        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newUser()">新增</a>
-        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editUser()">修改</a>
-        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyUser()">删除</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newType()">新增</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editType()">修改</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyType()">删除</a>
     </div>
     
     <div id="dlg" class="easyui-dialog" style="width:400px"
             closed="true" buttons="#dlg-buttons">
         <form id="fm" method="post" novalidate="" style="margin:0;padding:20px 50px">
             <div style="margin-bottom:10px">
-                <input name="themeName" class="easyui-validatebox textbox" data-options="required:true,validType:'length[1,30]'" label="主题名称:" style="width:100%"/>
+				<table>
+	            	<tr>
+	            		<td>
+	            			<label for="typeName" class="label-center">线路类别:</label>
+	            		</td>
+	            		<td>
+	            			<input name="typeName" class="easyui-validatebox tb" data-options="required:true,validType:['charts','length[1,30]']"/>
+	            		</td>
+	            	</tr>
+	            	<tr>
+	            		<td>
+	            			<label for="routeCategory" class="label-center">线路类型:</label>
+	            		</td>
+	            		<td>
+	            			<input id="routeCategory" style="width:100%" name="routeCategory" />
+	            		</td>
+	            	</tr>
+	            	<tr>
+	            		<td>
+	            			<label for="parentId" class="label-center">上级类别:</label>
+	            		</td>
+	            		<td>
+	            			<input id="parentId" style="width:100%" name="parentId"/>
+	            		</td>
+	            	</tr>
+	            </table>
             </div>
         </form>
     </div>
     <div id="dlg-buttons">
-        <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="saveUser()" style="width:90px">提交</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="saveType()" style="width:90px">提交</a>
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')" style="width:90px">取消</a>
     </div>
     <script type="text/javascript">
+    
+    $('#dg').datagrid({
+        //url:'/RouteType/selectAll',
+        columns:[[
+            {field:'typeName',title:'线路类别',width:100},
+            {field:'routeCategory',title:'线路类型', width:80,
+    			formatter: function(value,row,index){
+    				if(row.routeCategory.categoryName){
+    					return row.routeCategory.categoryName;
+    				}
+    			}
+    		},
+            {field:'parentId',title:'上级类别',width:100}
+        ]]
+    });
+
+    	//上级类别
+	    $('#parentId').combobox({    
+	    	valueField: 'id',    
+	        textField: 'typeName',    
+	        url: '/RouteType/selectAll', 
+	        onLoadSuccess: function(){   
+	        	var data = $(this).combobox('getData');
+	        	$(this).combobox('select',data[0].id);
+	        }
+	    });
+	    
+    	//线路类型
+	    $('#routeCategory').combobox({    
+	    	valueField: 'id',    
+	        textField: 'categoryName',    
+	        url: '/RouteType/selectCategory', 
+	        onLoadSuccess: function(){   
+	        	var data = $(this).combobox('getData');
+	        	$(this).combobox('select',data[0].id);
+	        } 
+	    });
+    
         var url;
-        function newUser(){
+        function newType(){
             $('#dlg').dialog('open').dialog('center').dialog('setTitle','新增');
-            $('#fm').form('clear');
-            url = '/TourismTheme/save';
+            //$('#fm').form('clear');
+            url = '/RouteType/save';
         }
-        function editUser(){
+        function editType(){
             var row = $('#dg').datagrid('getSelected');
             if (row){
                 $('#dlg').dialog('open').dialog('center').dialog('setTitle','修改');
                 $('#fm').form('load',row);
-                url = '/TourismTheme/save?id='+row.id;
+                url = '/RouteType/save?id='+row.id;
             }
         }
-        function saveUser(){
+        function saveType(){
             $('#fm').form('submit',{
                 url: url,
                 onSubmit: function(){
@@ -78,12 +137,12 @@
                 }
             });
         }
-        function destroyUser(){
+        function destroyType(){
             var row = $('#dg').datagrid('getSelected');
             if (row){
-                $.messager.confirm('Confirm','Are you sure you want to destroy this user?',function(r){
+                $.messager.confirm('Confirm','确定删除这个线路类别吗？',function(r){
                     if (r){
-                        $.post('/TourismTheme/delete',{id:row.id},function(result){
+                        $.post('/RouteType/delete',{id:row.id},function(result){
                             if (result.success){
                                 $('#dg').datagrid('reload');    // reload the user data
                             } else {
