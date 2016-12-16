@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<meta charset="UTF-8" />
+<title>保险管理</title>
+<link rel="stylesheet" type="text/css" href="/easyui/themes/default/easyui.css" />
+<link rel="stylesheet" type="text/css" href="/easyui/themes/icon.css" />
+<link rel="stylesheet" type="text/css" href="/easyui/demo/demo.css" />    
+<link rel="stylesheet" type="text/css" href="/easyui/themes/color.css"/>
+<script type="text/javascript" src="/easyui/jquery.min.js"></script>
+<script type="text/javascript" src="/easyui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="/easyui/locale/easyui-lang-zh_CN.js"></script>
+</head>
+<body>
+
+    <table id="dg" class="easyui-datagrid" style="width:100%;height:440px"
+            url="/InsuranceManagement/findAll"
+            toolbar="#toolbar" pagination="true"
+            rownumbers="true" fitColumns="true" singleSelect="true">
+        <thead>
+            <tr>
+                <th field="insuranceType" width="50">险种</th>
+                <th field="insuranceName" width="50">保险名称</th>
+                <th field="cost" width="50">成本</th>
+                <th field="price" width="50">售价</th>
+                <th field="insuranceInstructions" width="50">保险说明</th>
+                <th field="insurancePeriod" width="50">保险期限</th>
+                <th field="insuranceContent" width="50">保险内容</th>
+            </tr>
+        </thead>
+    </table>
+    
+    <div id="toolbar">
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newUser()">新增</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editUser()">修改</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyUser()">删除</a>
+        <input id="ss" name="ss" class="easyui-searchbox"  searcher="doSearch" prompt="请输入保险名称"  style="width: 130px; vertical-align: middle;"></input>   
+    </div>
+    
+    <div id="dlg" class="easyui-dialog" style="width:400px"
+            closed="true" buttons="#dlg-buttons">
+        <form id="fm" method="post" novalidate="" style="margin:0;padding:20px 50px">
+            <div style="margin-bottom:10px">
+               <label for="insuranceType" class="label-top">险种:</label>
+               <select class="easyui-combobox" name="insuranceType" style="width:100%">
+			    <option value="">请选择...</option>
+			    <option value="意外险">意外险</option>
+			    <option value="医疗险">医疗险</option>
+			    <option value="养老险">养老险</option>
+               </select>
+               <label for="insuranceName" class="label-top">保险名称:</label> <input name="insuranceName" class="easyui-validatebox tb" data-options="required:true,validType:['charts','length[2,25]']" style="width:100%"/>
+               <label for="cost" class="label-top">成本:</label> <input name="cost" class="easyui-numberbox"  data-options="required:true,min:0,precision:2" style="width:100%"/>
+               <label for="price" class="label-top">售价:</label> <input name="price" class="easyui-numberbox"  data-options="required:true,min:0,precision:2" style="width:100%"/>
+               <label for="insuranceInstructions" class="label-top">保险说明:</label> <input name="insuranceInstructions" class="easyui-validatebox tb" data-options="required:true,validType:['charts','length[2,25]']" style="width:100%"/>
+               <label for="insurancePeriod" class="label-top">保险期限:</label> <input name="insurancePeriod" class="easyui-validatebox tb" data-options="required:true,validType:['charts','length[2,25]']" style="width:100%"/>
+               <label for="insuranceContent" class="label-top">保险内容:</label> <input name="insuranceContent" class="easyui-validatebox tb" data-options="required:true,validType:['charts','length[2,25]']" style="width:100%"/>
+            </div>
+        </form>
+    </div>
+    <div id="dlg-buttons">
+        <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="saveUser()" style="width:90px">提交</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')" style="width:90px">取消</a>
+    </div>
+    <script type="text/javascript">
+	     /* $('#insuranceType').combobox({    
+	    	valueField: 'id',    
+	        textField: 'insuranceType',    
+	        url: '/OtherTypeManage/InsuranceManagement', 
+	        onLoadSuccess: function(){   
+	        	var data = $(this).combobox('getData');
+	        	$(this).combobox('select',data[0].id);
+	        } 
+	     }); */
+        var url;
+        function newUser(){
+            $('#dlg').dialog('open').dialog('center').dialog('setTitle','新增');
+            $('#fm').form('clear');
+            url = '/InsuranceManagement/save';
+        }
+        function editUser(){
+            var row = $('#dg').datagrid('getSelected');
+            if (row){
+                $('#dlg').dialog('open').dialog('center').dialog('setTitle','修改');
+                $('#fm').form('load',row);
+                url = '/InsuranceManagement/save?id='+row.id;
+            }
+        }
+        function saveUser(){
+            $('#fm').form('submit',{
+                url: url,
+                onSubmit: function(){
+                    return $(this).form('validate');
+                },
+                success: function(resultJSON){
+                	var result = JSON.parse(resultJSON);
+                    if (result.errorMsg){
+                        $.messager.show({
+                            title: 'Error',
+                            msg: result.errorMsg
+                        });
+                    } else {
+                        $('#dlg').dialog('close');        // close the dialog
+                        $('#dg').datagrid('reload');    // reload the user data
+                    }
+                }
+            });
+        }
+        function destroyUser(){
+            var row = $('#dg').datagrid('getSelected');
+            if (row){
+                $.messager.confirm('Confirm','确认删除?',function(r){
+                    if (r){
+                        $.post('/InsuranceManagement/delete',{id:row.id},function(result){
+                            if (result.success){
+                                $('#dg').datagrid('reload');    // reload the user data
+                            } else {
+                                $.messager.show({    // show error message
+                                    title: 'Error',
+                                    msg: result.errorMsg
+                                });
+                            }
+                        },'json');
+                    }
+                });
+            }
+        }
+		function doSearch(insuranceName){
+			alert('You input: ' + insuranceName);
+			$('#ss').searchbox('selectName', 'insuranceName');
+		}
+    </script>
+</body>
+</html>

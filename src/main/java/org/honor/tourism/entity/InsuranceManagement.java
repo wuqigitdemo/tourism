@@ -3,6 +3,7 @@ package org.honor.tourism.entity;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.DecimalMin;
 
@@ -25,8 +26,8 @@ public class InsuranceManagement {
 	@Length(min = 32, max = 32, message = "id需要32位字符")
 	private String id;
 	/** 险种 */
-	@Length(min = 1, max = 30, message = "险种需要1-30位字符")
-	private String insuranceType;
+	@ManyToOne
+	private InsuranceType insuranceType;
 	/** 保险名称 */
 	@Length(min = 1, max = 30, message = "保险名称需要1-30位字符")
 	private String insuranceName;
@@ -54,11 +55,11 @@ public class InsuranceManagement {
 		this.id = id;
 	}
 
-	public String getInsuranceType() {
+	public InsuranceType getInsuranceType() {
 		return insuranceType;
 	}
 
-	public void setInsuranceType(String insuranceType) {
+	public void setInsuranceType(InsuranceType insuranceType) {
 		this.insuranceType = insuranceType;
 	}
 

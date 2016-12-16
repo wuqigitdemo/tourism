@@ -76,7 +76,13 @@
 	    				}
 	    			}
 	    		},
-	            {field:'parentId',title:'上级类别',width:100}
+	            {field:'parentRouteType',title:'上级类别',width:100,
+	    			formatter: function(value,row,index){
+	    				if(row.parentRouteType != null) {
+		    				return row.parentRouteType.typeName;
+	    				}
+	    				return "";
+	    			}}
 	        ]]
 	    });
 
