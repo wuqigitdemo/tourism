@@ -18,7 +18,6 @@
             url="/RouteType/findAll"
             toolbar="#toolbar" pagination="true"
             rownumbers="true" fitColumns="true" singleSelect="true">
-        
     </table> 
       
     <div id="toolbar">
@@ -27,8 +26,8 @@
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyType()">删除</a>
     </div>
     
-    <div id="dlg" class="easyui-dialog" style="width:400px"
-            closed="true" buttons="#dlg-buttons">
+    <!-- <div id="dlg" class="easyui-dialog"> -->
+    <div id="dlg" class="easyui-dialog" closed="true">
         <form id="fm" method="post" novalidate="" style="margin:0;padding:20px 50px">
             <div style="margin-bottom:10px">
 				<table>
@@ -53,17 +52,18 @@
 	            			<label for="parentId" class="label-center">上级类别:</label>
 	            		</td>
 	            		<td>
-	            			<input id="parentId" style="width:100%" name="parentRouteType.id"/>
+	            			<input id="parentId" style="width:100%" name="parentRouteType"/>
 	            		</td>
 	            	</tr>
 	            </table>
             </div>
         </form>
-    </div>
     <div id="dlg-buttons">
         <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="saveType()" style="width:90px">提交</a>
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')" style="width:90px">取消</a>
     </div>
+    </div>
+    
     <script type="text/javascript">
     
 	    $('#dg').datagrid({
@@ -104,9 +104,23 @@
     
         var url;
         function newType(){
-            $('#dlg').dialog('open').dialog('center').dialog('setTitle','新增');
-            //$('#fm').form('clear');
-            url = '/RouteType/save';
+            $('#fm').form('clear');
+            //$('#dlg').dialog('open').dialog('center').dialog('setTitle','新增');
+            
+            $('#dlg').dialog({    
+               title: '新增', 
+               closed: false,    
+               cache: false,       
+               modal: true,
+               buttons:'#dlg-buttons',
+               onOpen:function(){
+            	   //刷新俩个下拉列表
+	               $('#parentId').combobox('reload'); 
+	               $('#routeCategory').combobox('reload'); 
+               }
+           }); 
+            
+           url = '/RouteType/save';
         }
         function editType(){
             var row = $('#dg').datagrid('getSelected');
