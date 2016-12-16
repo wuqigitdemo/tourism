@@ -24,10 +24,8 @@ public class SelfSupportRoute {
 	@GenericGenerator(name = "uuid", strategy = "uuid")
 	@Length(min = 32, max = 32, message = "id需要32位字符")
 	private String id;
-
 	@OneToMany
 	private List<RouteType> routeTypeList;
-
 	@OneToOne
 	private RouteBaseInfo routeBaseInfo;
 
