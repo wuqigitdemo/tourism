@@ -24,9 +24,9 @@ public class RouteType {
 	/** 类别名称 */
 	@Length(min = 1, max = 30, message = "线路类别名称需要1-30位字符")
 	private String typeName;
-	/** 父类id */
-	@Length(min = 32, max = 32, message = "父类id需要32位字符")
-	private String parentId;
+	/** 父级 */
+	@ManyToOne
+	private RouteType parentRouteType;
 	@ManyToOne
 	private RouteCategory routeCategory;
 
@@ -46,12 +46,12 @@ public class RouteType {
 		this.typeName = typeName;
 	}
 
-	public String getParentId() {
-		return parentId;
+	public RouteType getParentRouteType() {
+		return parentRouteType;
 	}
 
-	public void setParentId(String parentId) {
-		this.parentId = parentId;
+	public void setParentRouteType(RouteType parentRouteType) {
+		this.parentRouteType = parentRouteType;
 	}
 
 	public RouteCategory getRouteCategory() {
