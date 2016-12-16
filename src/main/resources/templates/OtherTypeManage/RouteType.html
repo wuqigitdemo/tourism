@@ -25,8 +25,6 @@
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editType()">修改</a>
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyType()">删除</a>
     </div>
-    
-    <!-- <div id="dlg" class="easyui-dialog"> -->
     <div id="dlg" class="easyui-dialog" closed="true">
         <form id="fm" method="post" novalidate="" style="margin:0;padding:20px 50px">
             <div style="margin-bottom:10px">
@@ -41,15 +39,15 @@
 	            	</tr>
 	            	<tr>
 	            		<td>
-	            			<label for="routeCategory" class="label-center">线路类型:</label>
+	            			<label class="label-center">线路类型:</label>
 	            		</td>
 	            		<td>
-	            			<input id="routeCategory" style="width:100%" name="routeCategory" />
+	            			<input id="routeCategory" class="easyui-validatebox" data-options="validType:'selected'" style="width:100%" name="routeCategory" />
 	            		</td>
 	            	</tr>
 	            	<tr>
 	            		<td>
-	            			<label for="parentId" class="label-center">上级类别:</label>
+	            			<label class="label-center">上级类别:</label>
 	            		</td>
 	            		<td>
 	            			<input id="parentId" style="width:100%" name="parentRouteType"/>
@@ -66,12 +64,24 @@
     
     <script type="text/javascript">
     
+    	//下拉框验证开始
+    	
+	    $.extend($.fn.validatebox.defaults.rules, {
+	    	selected: {
+	    		validator: function(value, param){
+	    			return value != '--请选择--';
+	    		},
+	    		message: '请选择线路类型'
+	        }
+	    });
+	  	//下拉框验证结束
+	  	
 	    $('#dg').datagrid({
 	        columns:[[
 	            {field:'typeName',title:'线路类别',width:100},
 	            {field:'routeCategory',title:'线路类型', width:80,
 	    			formatter: function(value,row,index){
-	    				if(row.routeCategory.categoryName){
+	    				if(row.routeCategory!=null){
 	    					return row.routeCategory.categoryName;
 	    				}
 	    			}
@@ -82,47 +92,75 @@
 		    				return row.parentRouteType.typeName;
 	    				}
 	    				return "";
-	    			}}
+	    			}
+	    		}
 	        ]]
 	    });
 
-    	//上级类别
-	    $('#parentId').combobox({    
-	    	valueField: 'id',    
-	        textField: 'typeName',    
-	        url: '/RouteType/selectAll', 
-	        onLoadSuccess: function(){   
-	        	var data = $(this).combobox('getData');
-	        	$(this).combobox('select',data[0].id);
-	        }
-	    });
+	  	//上级类别
+	    $.ajax({  
+            url: '/RouteType/selectAll',  
+            dataType: 'json',  
+            success: function (jsonstr) {  
+                jsonstr.unshift({  
+                    'id': '-1',  
+                    'typeName': '--请选择--'  
+                });//向json数组开头添加自定义数据  
+                $('#parentId').combobox({ 
+                	data: jsonstr,  
+        	    	valueField: 'id',    
+        	        textField: 'typeName',
+        	        editable:false,
+        	        onLoadSuccess: function(){ 
+        	        	var data = $(this).combobox('getData');
+        	        	$(this).combobox('select',data[0].id);
+        	        }
+        	    }); 
+            }  
+        });
+	  	
+	  	//线路类型
+	    $.ajax({  
+            url: '/RouteType/selectCategory',  
+            dataType: 'json',  
+            success: function (jsonstr) {  
+                jsonstr.unshift({  
+                    'id': '-1',  
+                    'categoryName': '--请选择--'  
+                });//向json数组开头添加自定义数据  
+                $('#routeCategory').combobox({   
+                	data:jsonstr,
+        	    	valueField: 'id',    
+        	        textField: 'categoryName',  
+        	        editable:false,
+        	        onLoadSuccess: function(){   
+        	        	var data = $(this).combobox('getData');
+        	        	$(this).combobox('select',data[0].id);
+        	        } 
+        	    });
+            }  
+        });
 	    
-    	//线路类型
-	    $('#routeCategory').combobox({    
-	    	valueField: 'id',    
-	        textField: 'categoryName',    
-	        url: '/RouteType/selectCategory', 
-	        onLoadSuccess: function(){   
-	        	var data = $(this).combobox('getData');
-	        	$(this).combobox('select',data[0].id);
-	        } 
-	    });
-    
         var url;
         function newType(){
             $('#fm').form('clear');
-            //$('#dlg').dialog('open').dialog('center').dialog('setTitle','新增');
             
             $('#dlg').dialog({    
                title: '新增', 
+               width:350,
+               height:220,
                closed: false,    
                cache: false,       
                modal: true,
                buttons:'#dlg-buttons',
                onOpen:function(){
-            	   //刷新俩个下拉列表
-	               $('#parentId').combobox('reload'); 
-	               $('#routeCategory').combobox('reload'); 
+            	  //刷新俩个下拉列表 
+            	  //上级类别
+            	  var parentData = $('#parentId').combobox('getData');
+            	  $('#parentId').combobox('select',parentData[0].id);
+            	  //线路类型
+            	  var routeCategoryData = $('#routeCategory').combobox('getData');
+            	  $('#routeCategory').combobox('select',routeCategoryData[0].id);
                }
            }); 
             
@@ -131,8 +169,37 @@
         function editType(){
             var row = $('#dg').datagrid('getSelected');
             if (row){
-                $('#dlg').dialog('open').dialog('center').dialog('setTitle','修改');
+                //$('#dlg').dialog('open').dialog('center').dialog('setTitle','修改');
                 $('#fm').form('load',row);
+                
+                $('#dlg').dialog({    
+                    title: '修改', 
+                    width:350,
+                    height:220,
+                    closed: false,    
+                    cache: false,       
+                    modal: true,
+                    buttons:'#dlg-buttons',
+                    onOpen:function(){
+                 	  //刷新俩个下拉列表 
+                    	//上级类别
+                        if(row.parentRouteType != null){
+                    		$('#parentId').combobox('select',row.parentRouteType.id);
+                        }else{
+                        	var parentData = $('#parentId').combobox('getData');
+                      	  	$('#parentId').combobox('select',parentData[0].id);
+                        }
+                        
+                      	//线路类型
+                        if(row.routeCategory != null){
+                    		$('#routeCategory').combobox('select',row.routeCategory.id);
+                        }else{
+                        	var routeCategoryData = $('#routeCategory').combobox('getData');
+                      	  	$('#routeCategory').combobox('select',routeCategoryData[0].id);
+                        }
+                    }
+                });
+                
                 url = '/RouteType/save?id='+row.id;
             }
         }

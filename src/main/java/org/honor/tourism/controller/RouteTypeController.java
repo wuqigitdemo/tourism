@@ -104,7 +104,15 @@ public class RouteTypeController {
 	@RequestMapping("/delete")
 	@ResponseBody
 	public Map<String, Object> delete(String id) {
-		service.delete(id);
+		
+		try {
+			service.delete(id);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return EasyuiResult.result(false,"该类别下有子类，无法删除。");
+		}
+		
 		return EasyuiResult.result(true);
 	}
 	
