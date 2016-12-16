@@ -1,7 +1,11 @@
 package org.honor.tourism.service.impl;
 
+import java.util.List;
+
 import org.honor.tourism.entity.InsuranceManagement;
+import org.honor.tourism.entity.InsuranceType;
 import org.honor.tourism.repository.InsuranceManagementRepository;
+import org.honor.tourism.repository.InsuranceTypeRepository;
 import org.honor.tourism.service.InsuranceManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,6 +22,9 @@ public class InsuranceManagementServiceImpl implements InsuranceManagementServic
 	
 	@Autowired
 	private InsuranceManagementRepository repository;
+	
+	@Autowired
+	private InsuranceTypeRepository repository2;
 
 	@Override
 	public Page<InsuranceManagement> findAll(Pageable pageable) {
@@ -38,5 +45,4 @@ public class InsuranceManagementServiceImpl implements InsuranceManagementServic
 	public void delete(String id) {
 		repository.delete(id);
 	}
-
 }

@@ -19,7 +19,7 @@
             url="/InsuranceManagement/findAll"
             toolbar="#toolbar" pagination="true"
             rownumbers="true" fitColumns="true" singleSelect="true">
-        <thead>
+        <!-- <thead>
             <tr>
                 <th field="insuranceType" width="50">险种</th>
                 <th field="insuranceName" width="50">保险名称</th>
@@ -29,7 +29,7 @@
                 <th field="insurancePeriod" width="50">保险期限</th>
                 <th field="insuranceContent" width="50">保险内容</th>
             </tr>
-        </thead>
+        </thead> -->
     </table>
     
     <div id="toolbar">
@@ -43,19 +43,15 @@
             closed="true" buttons="#dlg-buttons">
         <form id="fm" method="post" novalidate="" style="margin:0;padding:20px 50px">
             <div style="margin-bottom:10px">
-               <label for="insuranceType" class="label-top">险种:</label>
-               <select class="easyui-combobox" name="insuranceType" style="width:100%">
-			    <option value="">请选择...</option>
-			    <option value="意外险">意外险</option>
-			    <option value="医疗险">医疗险</option>
-			    <option value="养老险">养老险</option>
-               </select>
+              <td>
+	           <label for="insuranceType" class="label-top">险种:</label> <input id="insuranceType" style="width:100%" name="insuranceType" />
                <label for="insuranceName" class="label-top">保险名称:</label> <input name="insuranceName" class="easyui-validatebox tb" data-options="required:true,validType:['charts','length[2,25]']" style="width:100%"/>
                <label for="cost" class="label-top">成本:</label> <input name="cost" class="easyui-numberbox"  data-options="required:true,min:0,precision:2" style="width:100%"/>
                <label for="price" class="label-top">售价:</label> <input name="price" class="easyui-numberbox"  data-options="required:true,min:0,precision:2" style="width:100%"/>
                <label for="insuranceInstructions" class="label-top">保险说明:</label> <input name="insuranceInstructions" class="easyui-validatebox tb" data-options="required:true,validType:['charts','length[2,25]']" style="width:100%"/>
                <label for="insurancePeriod" class="label-top">保险期限:</label> <input name="insurancePeriod" class="easyui-validatebox tb" data-options="required:true,validType:['charts','length[2,25]']" style="width:100%"/>
                <label for="insuranceContent" class="label-top">保险内容:</label> <input name="insuranceContent" class="easyui-validatebox tb" data-options="required:true,validType:['charts','length[2,25]']" style="width:100%"/>
+              </td>
             </div>
         </form>
     </div>
@@ -64,21 +60,53 @@
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')" style="width:90px">取消</a>
     </div>
     <script type="text/javascript">
-	     /* $('#insuranceType').combobox({    
-	    	valueField: 'id',    
-	        textField: 'insuranceType',    
-	        url: '/OtherTypeManage/InsuranceManagement', 
-	        onLoadSuccess: function(){   
-	        	var data = $(this).combobox('getData');
-	        	$(this).combobox('select',data[0].id);
-	        } 
-	     }); */
+    
+    $('#dg').datagrid({
+    	columns:[[
+        
+        {field:'insuranceType',title:'险种',width:100,
+			formatter: function(value,row,index){
+				if(row.insuranceType.insuranceTypeName) {
+    				return row.insuranceType.insuranceTypeName;
+				}
+				return "";
+			}},
+		{field:'insuranceName',title:'保险名称',width:100},
+		{field:'cost',title:'成本',width:100},
+		{field:'price',title:'售价',width:100},
+		{field:'insuranceInstructions',title:'保险说明',width:100},
+		{field:'insurancePeriod',title:'保险期限',width:100},
+		{field:'insuranceContent',title:'保险内容',width:100},
+    	]]
+	});
+    $('#insuranceType').combobox({    
+    	valueField: 'id',    
+        textField: 'insuranceTypeName',    
+        url: '/InsuranceManagement/selectType', 
+        onLoadSuccess: function(){
+        	var data = $(this).combobox('getData');
+        	$(this).combobox('select',data[0].id);
+        } 
+     });
+    
         var url;
         function newUser(){
-            $('#dlg').dialog('open').dialog('center').dialog('setTitle','新增');
             $('#fm').form('clear');
-            url = '/InsuranceManagement/save';
+            //$('#dlg').dialog('open').dialog('center').dialog('setTitle','新增');
+            $('#dlg').dialog({    
+                title: '新增', 
+                closed: false,    
+                cache: false,       
+                modal: true,
+                buttons:'#dlg-buttons',
+                onOpen:function(){
+             	   //刷新保险类别下拉列表
+ 	               $('#insuranceType').combobox('reload'); 
+                }
+            }); 
         }
+            url = '/InsuranceManagement/save';
+            
         function editUser(){
             var row = $('#dg').datagrid('getSelected');
             if (row){
