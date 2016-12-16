@@ -38,7 +38,10 @@
 							<li id="/OtherTypeManage/TrafficWayManage"><span>交通方式管理</span></li>
 						</ul>
 						<ul>
-							<li id="/OtherTypeManage/RouteCategory"><span>线路类别管理</span></li>
+							<li id="/OtherTypeManage/RouteType"><span>线路类别管理</span></li>
+						</ul>
+						<ul>
+							<li id="/OtherTypeManage/RouteCategory"><span>线路类型管理</span></li>
 						</ul>
 						<ul>
 							<li id="/OtherTypeManage/InsuranceManagement"><span>保险管理</span></li>
@@ -62,6 +65,7 @@
 			</div>
 		</div>
 	</div>
+	
 	<script type="text/javascript">
 		$('#mt').tree({
 			onClick : function(node) {
@@ -76,11 +80,15 @@
 		function addPanel(title, url) {
 			if (url != null) {
 				index++;
-				$('#tt').tabs('add', {
-					title : title,
-					content : '<div title="Iframe" data-options="closable:true" style="overflow: hidden; width: 100%;height: 100%;"> <iframe scrolling="yes" frameborder="0" src="'+url+'" style="width: 100%; height: 100%;"></iframe> </div>',
-					closable : true
-				});
+				if($('#tt').tabs('exists',title)){
+					$('#tt').tabs("select",title);
+				}else{
+					$('#tt').tabs('add', {
+						title : title,
+						content : '<div title="Iframe" data-options="closable:true" style="overflow: hidden; width: 100%;height: 100%;"> <iframe scrolling="yes" frameborder="0" src="'+url+'" style="width: 100%; height: 100%;"></iframe> </div>',
+						closable : true
+					});
+				}
 			}
 		}
 	</script>
