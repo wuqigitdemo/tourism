@@ -25,7 +25,12 @@
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editType()">修改</a>
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyType()">删除</a>
     </div>
-    <div id="dlg" class="easyui-dialog" closed="true">
+    <div id="dlg" class="easyui-dialog" closed="true" data-options="
+    			width:350,
+               	height:220,   
+               	cache: false,       
+               	modal: true,
+               	buttons:'#dlg-buttons'">
         <form id="fm" method="post" novalidate="" style="margin:0;padding:20px 50px">
             <div style="margin-bottom:10px">
 				<table>
@@ -65,7 +70,6 @@
     <script type="text/javascript">
     
     	//下拉框验证开始
-    	
 	    $.extend($.fn.validatebox.defaults.rules, {
 	    	selected: {
 	    		validator: function(value, param){
@@ -114,7 +118,19 @@
 	        	    	valueField: 'id',    
 	        	        textField: 'typeName',
 	        	        editable:false,
-	        	        onLoadSuccess: onLoadSuccess 
+	        	        onLoadSuccess: function(){
+	        		  		if(row != undefined){
+	            	        	if(row.parentRouteType != null){
+	                        		$(this).combobox('select',row.parentRouteType.id);
+	                            }else{
+	                            	var Data = $(this).combobox('getData');
+	                          	  	$(this).combobox('select',Data[0].id);
+	                            }
+	        	        	}else{
+	                        	var Data = $(this).combobox('getData');
+	                      	  	$(this).combobox('select',Data[0].id);
+	                        }
+	        		  	}  
 	        	    }); 
 	            }  
 	        });
@@ -133,44 +149,37 @@
 	        	    	valueField: 'id',    
 	        	        textField: 'categoryName',  
 	        	        editable:false,
-	        	        onLoadSuccess: onLoadSuccess 
+	        	        onLoadSuccess: function(){
+	        	        	
+	        		  		if(row != undefined){
+	            	        	if(row.routeCategory != null){
+	                        		$(this).combobox('select',row.routeCategory.id);
+	                            }else{
+	                            	var Data = $(this).combobox('getData');
+	                          	  	$(this).combobox('select',Data[0].id);
+	                            }
+	        	        	}else{
+	                        	var Data = $(this).combobox('getData');
+	                      	  	$(this).combobox('select',Data[0].id);
+	                        }
+	        		  	} 
 	        	    });
 	            }  
 	        });
-		  	
-		  	//加载成功方法
-		  	function onLoadSuccess(){
-		  		if(row != undefined){
-    	        	if(row.parentRouteType != null){
-                		$(this).combobox('select',row.parentRouteType.id);
-                    }else{
-                    	var parentData = $(this).combobox('getData');
-                  	  	$(this).combobox('select',parentData[0].id);
-                    }
-	        	}else{
-                	var parentData = $(this).combobox('getData');
-              	  	$(this).combobox('select',parentData[0].id);
-                }
-		  	}
 	  	}
 	  	
         var url;
         function newType(){
-            $('#fm').form('clear');
+           $('#fm').form('clear');
+           //$('#dlg').dialog('open');
             
-            $('#dlg').dialog({    
-               title: '新增', 
-               width:350,
-               height:220,
-               closed: false,    
-               cache: false,       
-               modal: true,
-               buttons:'#dlg-buttons',
-               onOpen:function(){
-            	   
-            	  getComboboxData();
-               }
-           }); 
+           $('#dlg').dialog({    
+              title: '新增', 
+              closed: false,
+              onOpen:function(){
+           	  	getComboboxData();
+              }
+           });
             
            url = '/RouteType/save';
         }
@@ -181,17 +190,11 @@
                 
                 $('#dlg').dialog({    
                     title: '修改', 
-                    width:350,
-                    height:220,
-                    closed: false,    
-                    cache: false,       
-                    modal: true,
-                    buttons:'#dlg-buttons',
+                    closed: false,
                     onOpen:function(){
-                 	  	//刷新两个下拉列表 
                  	  	getComboboxData(row);
                     }
-                });
+                 });
                 
                 url = '/RouteType/save?id='+row.id;
             }
