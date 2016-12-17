@@ -4,7 +4,7 @@
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
 <meta charset="UTF-8" />
-<title>线路主题管理</title>
+<title>线路类别管理</title>
 <link rel="stylesheet" type="text/css" href="/easyui/themes/default/easyui.css" />
 <link rel="stylesheet" type="text/css" href="/easyui/themes/icon.css" />
 <link rel="stylesheet" type="text/css" href="/easyui/demo/demo.css" />    
@@ -97,50 +97,63 @@
 	        ]]
 	    });
 
-	  	//上级类别
-	    $.ajax({  
-            url: '/RouteType/selectAll',  
-            dataType: 'json',  
-            success: function (jsonstr) {  
-                jsonstr.unshift({  
-                    'id': '-1',  
-                    'typeName': '--请选择--'  
-                });//向json数组开头添加自定义数据  
-                $('#parentId').combobox({ 
-                	data: jsonstr,  
-        	    	valueField: 'id',    
-        	        textField: 'typeName',
-        	        editable:false,
-        	        onLoadSuccess: function(){ 
-        	        	var data = $(this).combobox('getData');
-        	        	$(this).combobox('select',data[0].id);
-        	        }
-        	    }); 
-            }  
-        });
+	  	//获取下拉列表框数据
+	  	function getComboboxData(row)
+	  	{
+		  	//上级类别
+		    $.ajax({  
+	            url: '/RouteType/selectAll',  
+	            dataType: 'json',  
+	            success: function (jsonstr) {  
+	                jsonstr.unshift({  
+	                    'id': '-1',  
+	                    'typeName': '--请选择--'  
+	                });//向json数组开头添加自定义数据  
+	                $('#parentId').combobox({ 
+	                	data: jsonstr,  
+	        	    	valueField: 'id',    
+	        	        textField: 'typeName',
+	        	        editable:false,
+	        	        onLoadSuccess: onLoadSuccess 
+	        	    }); 
+	            }  
+	        });
+		  	
+		  	//线路类型
+		    $.ajax({  
+	            url: '/RouteType/selectCategory',  
+	            dataType: 'json',  
+	            success: function (jsonstr) {  
+	                jsonstr.unshift({  
+	                    'id': '-1',  
+	                    'categoryName': '--请选择--'  
+	                });//向json数组开头添加自定义数据  
+	                $('#routeCategory').combobox({   
+	                	data:jsonstr,
+	        	    	valueField: 'id',    
+	        	        textField: 'categoryName',  
+	        	        editable:false,
+	        	        onLoadSuccess: onLoadSuccess 
+	        	    });
+	            }  
+	        });
+		  	
+		  	//加载成功方法
+		  	function onLoadSuccess(){
+		  		if(row != undefined){
+    	        	if(row.parentRouteType != null){
+                		$(this).combobox('select',row.parentRouteType.id);
+                    }else{
+                    	var parentData = $(this).combobox('getData');
+                  	  	$(this).combobox('select',parentData[0].id);
+                    }
+	        	}else{
+                	var parentData = $(this).combobox('getData');
+              	  	$(this).combobox('select',parentData[0].id);
+                }
+		  	}
+	  	}
 	  	
-	  	//线路类型
-	    $.ajax({  
-            url: '/RouteType/selectCategory',  
-            dataType: 'json',  
-            success: function (jsonstr) {  
-                jsonstr.unshift({  
-                    'id': '-1',  
-                    'categoryName': '--请选择--'  
-                });//向json数组开头添加自定义数据  
-                $('#routeCategory').combobox({   
-                	data:jsonstr,
-        	    	valueField: 'id',    
-        	        textField: 'categoryName',  
-        	        editable:false,
-        	        onLoadSuccess: function(){   
-        	        	var data = $(this).combobox('getData');
-        	        	$(this).combobox('select',data[0].id);
-        	        } 
-        	    });
-            }  
-        });
-	    
         var url;
         function newType(){
             $('#fm').form('clear');
@@ -154,13 +167,8 @@
                modal: true,
                buttons:'#dlg-buttons',
                onOpen:function(){
-            	  //刷新俩个下拉列表 
-            	  //上级类别
-            	  var parentData = $('#parentId').combobox('getData');
-            	  $('#parentId').combobox('select',parentData[0].id);
-            	  //线路类型
-            	  var routeCategoryData = $('#routeCategory').combobox('getData');
-            	  $('#routeCategory').combobox('select',routeCategoryData[0].id);
+            	   
+            	  getComboboxData();
                }
            }); 
             
@@ -169,7 +177,6 @@
         function editType(){
             var row = $('#dg').datagrid('getSelected');
             if (row){
-                //$('#dlg').dialog('open').dialog('center').dialog('setTitle','修改');
                 $('#fm').form('load',row);
                 
                 $('#dlg').dialog({    
@@ -181,22 +188,8 @@
                     modal: true,
                     buttons:'#dlg-buttons',
                     onOpen:function(){
-                 	  //刷新俩个下拉列表 
-                    	//上级类别
-                        if(row.parentRouteType != null){
-                    		$('#parentId').combobox('select',row.parentRouteType.id);
-                        }else{
-                        	var parentData = $('#parentId').combobox('getData');
-                      	  	$('#parentId').combobox('select',parentData[0].id);
-                        }
-                        
-                      	//线路类型
-                        if(row.routeCategory != null){
-                    		$('#routeCategory').combobox('select',row.routeCategory.id);
-                        }else{
-                        	var routeCategoryData = $('#routeCategory').combobox('getData');
-                      	  	$('#routeCategory').combobox('select',routeCategoryData[0].id);
-                        }
+                 	  	//刷新两个下拉列表 
+                 	  	getComboboxData(row);
                     }
                 });
                 
