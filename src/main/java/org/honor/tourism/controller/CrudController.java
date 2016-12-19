@@ -32,7 +32,6 @@ public class CrudController<T> {
 	@RequestMapping("/findAll")
 	@ResponseBody
 	public Map<String, Object> findAll(EasyuiPage page) {
-		System.out.println("进入封装");
 		Pageable pageable = new PageRequest(page.getPage(), page.getRows());
 		Page<T> t =  service.findAll(pageable);
 		List<T> rows = t.getContent();
