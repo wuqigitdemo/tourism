@@ -1,15 +1,18 @@
 package org.honor.tourism.entity;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.Length;
 
 /**
- * 行程表
+ * 行程信息
  * 
  * @author keiwu
  *
@@ -29,6 +32,8 @@ public class RouteTrip {
 	/** 行程详细 */
 	@Length(min = 1, max = 50, message = "行程详细需要1-50位字符")
 	private String tripDetail;
+	@OneToMany
+	private List<RouteDay> routeDayList;
 
 	public String getId() {
 		return id;
