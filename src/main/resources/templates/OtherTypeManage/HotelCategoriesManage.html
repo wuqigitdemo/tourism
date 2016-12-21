@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<meta charset="UTF-8" />
+<title>线路类别管理</title>
+<link rel="stylesheet" type="text/css" href="/easyui/themes/default/easyui.css" />
+<link rel="stylesheet" type="text/css" href="/easyui/themes/icon.css" />
+<link rel="stylesheet" type="text/css" href="/easyui/demo/demo.css" />    
+<link rel="stylesheet" type="text/css" href="/easyui/themes/color.css"/>
+<script type="text/javascript" src="/easyui/jquery.min.js"></script>
+<script type="text/javascript" src="/easyui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="/easyui/locale/easyui-lang-zh_CN.js"></script>
+</head>
+<body>
+    <table id="dg" class="easyui-datagrid" style="width:100%;height:440px"
+            url="/HotelCategories/findAll"
+            toolbar="#toolbar" pagination="true"
+            rownumbers="true" fitColumns="true">
+    </table> 
+      
+    <div id="toolbar">
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newType()">新增</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editType()">修改</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyType()">删除</a>
+    </div>
+    <div id="dlg" class="easyui-dialog" closed="true" data-options="
+    			width:500,
+               	height:150,   
+               	cache: false,       
+               	modal: true,
+               	buttons:'#dlg-buttons'">
+        <form id="fm" method="post" novalidate="" style="margin:0;padding:20px 50px" onsubmit="return false;">
+            <div style="margin-bottom:10px">
+				<table style="width:100%">
+	            	<tr>
+	            		<td style="width:20%">
+	            			<label style="width:80px;">分类名称:</label>
+	            		</td>
+	            		<td style="width:100%">
+	            			<input id="categoriesName" style="width:100%;" name="categoriesName" class="easyui-validatebox textbox" data-options="required:true,validType:['charts','length[1,30]']"/>
+	            		</td>
+	            	</tr>
+	            </table>
+            </div>
+        </form>
+    <div id="dlg-buttons">
+        <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="saveType()" style="width:90px">提交</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')" style="width:90px">取消</a>
+    </div>
+    </div>
+    
+    <script type="text/javascript">
+    
+	  	//回车事件绑定
+		$(function() 
+		{
+			$('#categoriesName').keyup(function(event){
+				if(event.keyCode ==13){
+					saveType();
+				}
+			});
+		});
+  
+	    $('#dg').datagrid({
+	        columns:[[
+	            {field:'id',checkbox:true},
+	            {field:'categoriesName',title:'酒店类型',width:100}
+	        ]]
+	    });
+    
+        var url;
+        function newType(){
+           $('#fm').form('clear');
+           
+           $('#dlg').dialog({    
+              title: '新增', 
+              closed: false
+           });
+            
+           url = '/HotelCategories/save';
+        }
+        function editType(){
+            var row = $('#dg').datagrid('getSelected');
+            if (row){
+                $('#fm').form('load',row);
+                
+                $('#dlg').dialog({    
+                    title: '修改', 
+                    closed: false
+                 });
+                
+                url = '/HotelCategories/save?id='+row.id;
+            }
+        }
+        function saveType(){
+            $('#fm').form('submit',{
+                url: url,
+                onSubmit: function(){
+                    return $(this).form('validate');
+                },
+                success: function(resultJSON){
+                	var result = JSON.parse(resultJSON);
+                    if (result.errorMsg){
+                        $.messager.show({
+                            title: 'Error',
+                            msg: result.errorMsg
+                        });
+                    } else {
+                        $('#dlg').dialog('close');        // close the dialog
+                        $('#dg').datagrid('reload');    // reload the user data
+                    }
+                }
+            });
+        }
+        
+        function destroyType(){
+            var row = $('#dg').datagrid('getSelections');
+           
+            var rowIDS = [];
+           	row.forEach(function(value, index, array) {
+				//rowIDS.push(value.id);
+				var rowID = {id:value.id};
+				rowIDS.push(rowID);
+           	});
+            
+            if (row){
+                $.messager.confirm('Confirm','确定删除吗？',function(r){
+                    if (r){
+                    	$.ajax({
+                            url: "/HotelCategories/deleteList",
+                            type: "POST",
+                            contentType : 'application/json;charset=utf-8', //设置请求头信息
+                            dataType:"json",
+                            data: JSON.stringify(rowIDS),            //将Json对象序列化成Json字符串
+                            success: function(data){
+                            	$('#dg').datagrid('reload');
+                            },
+                            error: function(res){
+                            	$.messager.show({    // show error message
+                                    title: 'Error',
+                                    msg: result.errorMsg
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+        }
+    </script>
+</body>
+</html>
