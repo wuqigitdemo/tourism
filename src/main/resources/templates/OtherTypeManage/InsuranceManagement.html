@@ -60,13 +60,11 @@
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')" style="width:90px">取消</a>
     </div>
     <script type="text/javascript">
-    
     $('#dg').datagrid({
     	columns:[[
-        
         {field:'insuranceType',title:'险种',width:100,
 			formatter: function(value,row,index){
-				if(row.insuranceType.insuranceTypeName) {
+				if(row.insuranceType!=null) {
     				return row.insuranceType.insuranceTypeName;
 				}
 				return "";
@@ -91,7 +89,7 @@
     
         var url;
         function newUser(){
-            $('#fm').form('clear');
+        	$('#fm').form('clear');
             //$('#dlg').dialog('open').dialog('center').dialog('setTitle','新增');
             $('#dlg').dialog({    
                 title: '新增', 
@@ -103,7 +101,7 @@
              	   //刷新保险类别下拉列表
  	               $('#insuranceType').combobox('reload'); 
                 }
-            });
+            }); 
             url = '/InsuranceManagement/save';
         }
             

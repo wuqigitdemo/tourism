@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<meta charset="UTF-8" />
+<title>自营线路基本信息管理</title>
+<link rel="stylesheet" type="text/css" href="/easyui/themes/default/easyui.css" />
+<link rel="stylesheet" type="text/css" href="/easyui/themes/icon.css" />
+<link rel="stylesheet" type="text/css" href="/easyui/demo/demo.css" />    
+<link rel="stylesheet" type="text/css" href="/easyui/themes/color.css"/>
+<script type="text/javascript" src="/easyui/jquery.min.js"></script>
+<script type="text/javascript" src="/easyui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="/easyui/locale/easyui-lang-zh_CN.js"></script>
+</head>
+<body>
+	<div class="easyui-panel" title="基础信息" style="width:100%"/>
+<form class="easyui-panel" id="myform1" name="myform1" method="post"  action="" >
+<table cellpadding="5">
+	<tbody>
+		<tr>
+			<td style="font-size: 16px; text-align: center;">线路名称：</td>
+			<td colspan="4" style="text-align: left;"><input name="route.routename" value="" style="width:100%;"/></td>
+		</tr>
+		<tr>
+			<td style="font-size: 16px; text-align: center;">去程交通：</td>
+			<td ><select  style='width:100%;'  id="traffic"  name="traffic" >
+			<option value="">请选择</option>
+			</select>
+			</td>
+			<td style="font-size: 16px; text-align: center;">回程交通：</td>
+			<td><select  style='width:100%;'  id="backtraffic"  name="route.backtraffic" >
+			<option value="">请选择</option>
+			<option value="飞机">飞机</option>
+			<option value="火车">火车</option>
+			<option value="汽车">汽车</option>
+			<option value="游轮">游轮</option>
+			<option value="自理">自理</option>
+			</select>
+			</td>
+		</tr>
+		<tr>
+			<input name="route.days" value="" type="hidden" id="routedays"></input>
+			<td style="font-size: 16px; text-align: center;">出发地：</td>
+			<td ><input name="route.outplace" value="" type="text" style="width:100%;"></input></td>
+			<td style="font-size: 16px; text-align: center;">浏览地：</td>
+			<td><input name="route.destination" value="" type="text" style="width:100%;"></input></td>
+		</tr>
+		<tr>
+			<td style="font-size: 16px; text-align: center;">签证国家：</td>
+			<td ><select  style='width:100%;'  id="areavisaid"  name="route.areavisaid" >
+			<option value="">请选择地区</option>
+			<option value="1">日本</option>
+			<option value="2">韩国</option>
+			</select>
+			</td>
+			<td style="font-size: 16px; text-align: center;">电商页面排序：</td>
+			<td>
+				<input type="hidden" name="route.recommend" id="istopid" value="1"></input>
+				<input type="hidden" id ="istop" value = '1'></input>
+				<input type="text" name="route.sortstr" value="" placeholder="请输入数字"></input>
+			</td>
+		</tr>
+		<tr>
+		<td colspan="6" class="liTit">
+		<input type="hidden" id="categoryids" name="categoryids"/>
+		<div style="font-size: 16px;width:45%;color: blue;font-weight: bold">产品类别</div>
+		</td>
+		</tr>
+		
+		<tr>
+			<td style="font-size: 16px; text-align: center;">原创路线</td>
+			<td ><button>选择</button>
+			</td>
+		</tr>	
+		<tr>
+			<td style="font-size: 16px; text-align: center;">龙江1+1</td>
+			<td><button>选择</button>
+			</td>
+		</tr>	
+		<tr>
+			<td style="font-size: 16px; text-align: center;">出境游</td>
+			<td><button>选择</button>
+			</td>
+		</tr>
+		<tr>
+			<td style="font-size: 16px; text-align: center;">起价说明：</td>
+			<td colspan="4" style="text-align: left;"><textarea name="route.routename" value="" style="width:100%;"/></td>
+		</tr>
+		<tr>
+			<td style="font-size: 16px; text-align: center;">推荐理由：</td>
+			<td colspan="4" style="text-align: left;"><textarea name="route.routename" value="" style="width:100%;"/></td>
+		</tr>
+		<tr>
+			<td style="font-size: 16px; text-align: center;">重要提示：</td>
+			<td colspan="4" style="text-align: left;"><textarea name="route.routename" value="" style="width:100%;"/></td>
+		</tr>
+		<tr>
+			<td style="font-size: 16px; text-align: center;">保险赠送情况说明：</td>
+			<td colspan="4" style="text-align: left;"><textarea name="route.routename" value="" style="width:100%;"/></td>
+		</tr>
+		<tr>
+			<td style="font-size: 16px; text-align: center;">限制报名期限：</td>
+			<td colspan="4" style="text-align: left;"><input name="route.routename" value="" style="width:100%;"/></td>
+		</tr>
+		<tr>
+			<td style="font-size: 16px; text-align: center;">限制付款天数：</td>
+			<td colspan="4" style="text-align: left;"><input name="route.routename" value="" style="width:100%;"/></td>
+		</tr>
+		<tr>
+			<td style="font-size: 16px; text-align: center;">限制付款小时：</td>
+			<td colspan="4" style="text-align: left;"><input name="route.routename" value="" style="width:100%;"/></td>
+		</tr>
+		<tr>
+			<td style="font-size: 16px; text-align: center;">付款方式：</td>
+			<td colspan="4" style="text-align: left;">
+			<input type="radio" name="payway" checked="checked" onclick="setPayway(0);"/>
+			<span style="font-size: 16px;padding-left: 12px;" >即时付款：与原有流程一致</span>
+			</td>
+		</tr>
+		<tr>
+			<td style="font-size: 16px; text-align: center;"></td>
+			<td colspan="4" style="text-align: left;">
+			<button>确认保存</button>
+			<button>返回列表</button>
+			</td>
+		</tr>
+	</tbody>
+</table>
+</form>	
+	<script type="text/javascript">
+	
+	
+		$('#traffic').combobox({    
+	    	valueField: 'id',    
+	        textField: 'trafficType',    
+	        url: '/InsuranceManagement/selectGoWay', 
+	        onLoadSuccess: function(){
+	        	var data = $(this).combobox('getData');
+	        	$(this).combobox('select',data[0].id);
+	        } 
+	     });
+	
+        var url;
+        function newUser(){
+            $('#dlg').dialog('open').dialog('center').dialog('setTitle','新增');
+            $('#fm').form('clear');
+            url = '/SelfSupportRoute/save';
+        }
+        function editUser(){
+            var row = $('#dg').datagrid('getSelected');
+            if (row){
+                $('#dlg').dialog('open').dialog('center').dialog('setTitle','修改');
+                $('#fm').form('load',row);
+                url = '/SelfSupportRoute/save?id='+row.id;
+            }
+        }
+        function saveUser(){
+            $('#fm').form('submit',{
+                url: url,
+                onSubmit: function(){
+                    return $(this).form('validate');
+                },
+                success: function(resultJSON){
+                	var result = JSON.parse(resultJSON);
+                    if (result.errorMsg){
+                        $.messager.show({
+                            title: 'Error',
+                            msg: result.errorMsg
+                        });
+                    } else {
+                        $('#dlg').dialog('close');        // close the dialog
+                        $('#dg').datagrid('reload');    // reload the user data
+                    }
+                }
+            });
+        }
+        function destroyUser(){
+            var row = $('#dg').datagrid('getSelected');
+            if (row){
+                $.messager.confirm('Confirm','Are you sure you want to destroy this user?',function(r){
+                    if (r){
+                        $.post('/SelfSupportRoute/delete',{id:row.id},function(result){
+                            if (result.success){
+                                $('#dg').datagrid('reload');    // reload the user data
+                            } else {
+                                $.messager.show({    // show error message
+                                    title: 'Error',
+                                    msg: result.errorMsg
+                                });
+                            }
+                        },'json');
+                    }
+                });
+            }
+        }
+    </script>
+   </body>
+</html>
