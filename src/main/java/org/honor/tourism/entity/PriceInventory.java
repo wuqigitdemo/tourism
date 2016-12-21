@@ -93,6 +93,15 @@ public class PriceInventory {
 	/**库存(人)*/
 	@Min(value = 0, message = "库存必须大于0")
 	private Integer inventoryPerson;
+	/**儿童售价*/
+	@Min(value = 0, message = "儿童售价必须大于0")
+	private Double childrenPrice;
+	/**儿童售价*/
+	@Min(value = 0, message = "儿童售价必须大于0")
+	private Double rriceFfBed;
+	/**占床加价*/
+	@Min(value = 0, message = "占床加价必须大于0")
+	private Double priceOfBed;
 
 	public String getId() {
 		return id;
