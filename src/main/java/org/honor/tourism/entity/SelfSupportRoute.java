@@ -11,6 +11,9 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**
  * 自营线路
@@ -28,6 +31,12 @@ public class SelfSupportRoute {
 	private List<RouteType> routeTypeList;
 	@OneToOne
 	private RouteBaseInfo routeBaseInfo;
+	@OneToMany
+	private List<RouteTrip> routeTripList;
+	/**创建日期*/
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+	@DateTimeFormat( pattern = "yyyy-MM-dd" )
+	private Date createDate;
 
 	public String getId() {
 		return id;

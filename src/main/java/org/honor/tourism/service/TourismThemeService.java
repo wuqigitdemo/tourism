@@ -9,14 +9,6 @@ import org.springframework.data.domain.Pageable;
  * @author keiwu
  *
  */
-public interface TourismThemeService {
+public interface TourismThemeService extends CrudService<TourismTheme> {
 
-	public Page<TourismTheme> findAll(Pageable pageable);
-	
-	public Long count();
-	
-	public TourismTheme save(TourismTheme tourismTheme);
-	
-	public void delete(String id);
-	
 }

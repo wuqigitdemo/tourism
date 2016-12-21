@@ -5,7 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 /**
- * 旅游主题service
+ * 保险种类service
  * @author 刘海
  *
  */
