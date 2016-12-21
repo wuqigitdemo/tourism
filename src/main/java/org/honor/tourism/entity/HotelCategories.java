@@ -24,6 +24,7 @@ public class HotelCategories {
 	@Length(min = 32, max = 32, message = "id需要32位字符")
 	private String id;
 	/** 分类名称 */
+	@Length(min = 1, max = 30, message = "酒店类型需要1-30位字符")
 	private String categoriesName;
 
 	public String getId() {
