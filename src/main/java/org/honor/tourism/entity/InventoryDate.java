@@ -1,5 +1,7 @@
 package org.honor.tourism.entity;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -7,25 +9,29 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**
- * 酒店类型
+ * 库存日期
  * 
  * @author keiwu
  *
  */
 @Entity
-@Table(name = "t_hotel_categories")
-public class HotelCategories {
+@Table(name = "t_inventory_date")
+public class InventoryDate {
 
 	@Id
 	@GeneratedValue(generator = "uuid")
 	@GenericGenerator(name = "uuid", strategy = "uuid")
 	@Length(min = 32, max = 32, message = "id需要32位字符")
 	private String id;
-	/** 分类名称 */
-	@Length(min = 1, max = 30, message = "酒店类型需要1-30位字符")
-	private String categoriesName;
+	/** 库存日期 */
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date inventoryDate;
 
 	public String getId() {
 		return id;
@@ -35,12 +41,12 @@ public class HotelCategories {
 		this.id = id;
 	}
 
-	public String getCategoriesName() {
-		return categoriesName;
+	public Date getInventoryDate() {
+		return inventoryDate;
 	}
 
-	public void setCategoriesName(String categoriesName) {
-		this.categoriesName = categoriesName;
+	public void setInventoryDate(Date inventoryDate) {
+		this.inventoryDate = inventoryDate;
 	}
 
 }
