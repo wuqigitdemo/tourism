@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -34,6 +35,24 @@ public class RouteTrip {
 	private String tripDetail;
 	@OneToMany
 	private List<RouteDay> routeDayList;
+	/** 早餐 */
+	@ManyToOne
+	private DiningType breakfast;
+	/** 午餐 */
+	@ManyToOne
+	private DiningType lunch;
+	/** 晚餐 */
+	@ManyToOne
+	private DiningType dinner;
+	/** 餐饮图片 */
+	@OneToMany
+	private List<ImageAddress> foodPictures;
+	/** 酒店分类 */
+	@ManyToOne
+	private HotelCategories hotelCategories;
+	/** 酒店图片 */
+	@OneToMany
+	private List<ImageAddress> hotelPicture;
 
 	public String getId() {
 		return id;
@@ -57,6 +76,62 @@ public class RouteTrip {
 
 	public void setTripDetail(String tripDetail) {
 		this.tripDetail = tripDetail;
+	}
+
+	public List<RouteDay> getRouteDayList() {
+		return routeDayList;
+	}
+
+	public void setRouteDayList(List<RouteDay> routeDayList) {
+		this.routeDayList = routeDayList;
+	}
+
+	public DiningType getBreakfast() {
+		return breakfast;
+	}
+
+	public void setBreakfast(DiningType breakfast) {
+		this.breakfast = breakfast;
+	}
+
+	public DiningType getLunch() {
+		return lunch;
+	}
+
+	public void setLunch(DiningType lunch) {
+		this.lunch = lunch;
+	}
+
+	public DiningType getDinner() {
+		return dinner;
+	}
+
+	public void setDinner(DiningType dinner) {
+		this.dinner = dinner;
+	}
+
+	public List<ImageAddress> getFoodPictures() {
+		return foodPictures;
+	}
+
+	public void setFoodPictures(List<ImageAddress> foodPictures) {
+		this.foodPictures = foodPictures;
+	}
+
+	public HotelCategories getHotelCategories() {
+		return hotelCategories;
+	}
+
+	public void setHotelCategories(HotelCategories hotelCategories) {
+		this.hotelCategories = hotelCategories;
+	}
+
+	public List<ImageAddress> getHotelPicture() {
+		return hotelPicture;
+	}
+
+	public void setHotelPicture(List<ImageAddress> hotelPicture) {
+		this.hotelPicture = hotelPicture;
 	}
 
 }
