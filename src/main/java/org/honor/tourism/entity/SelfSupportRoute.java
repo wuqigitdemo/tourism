@@ -5,6 +5,7 @@ import java.util.*;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -27,15 +28,19 @@ public class SelfSupportRoute {
 	@GenericGenerator(name = "uuid", strategy = "uuid")
 	@Length(min = 32, max = 32, message = "id需要32位字符")
 	private String id;
-	@OneToMany
-	private List<RouteType> routeTypeList;
 	@OneToOne
 	private RouteBaseInfo routeBaseInfo;
 	@OneToMany
 	private List<RouteTrip> routeTripList;
-	/**创建日期*/
+	@OneToOne
+	private PriceInventory priceInventory;
+	@OneToOne
+	private SelfSupportRouteOtherInfo selfSupportRouteOtherInfo;
+	@ManyToMany
+	private List<InsuranceManagement> insuranceManagementList;
+	/** 创建日期 */
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-	@DateTimeFormat( pattern = "yyyy-MM-dd" )
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date createDate;
 
 	public String getId() {
@@ -46,20 +51,52 @@ public class SelfSupportRoute {
 		this.id = id;
 	}
 
-	public List<RouteType> getRouteTypeList() {
-		return routeTypeList;
-	}
-
-	public void setRouteTypeList(List<RouteType> routeTypeList) {
-		this.routeTypeList = routeTypeList;
-	}
-
 	public RouteBaseInfo getRouteBaseInfo() {
 		return routeBaseInfo;
 	}
 
 	public void setRouteBaseInfo(RouteBaseInfo routeBaseInfo) {
 		this.routeBaseInfo = routeBaseInfo;
+	}
+
+	public List<RouteTrip> getRouteTripList() {
+		return routeTripList;
+	}
+
+	public void setRouteTripList(List<RouteTrip> routeTripList) {
+		this.routeTripList = routeTripList;
+	}
+
+	public PriceInventory getPriceInventory() {
+		return priceInventory;
+	}
+
+	public void setPriceInventory(PriceInventory priceInventory) {
+		this.priceInventory = priceInventory;
+	}
+
+	public SelfSupportRouteOtherInfo getSelfSupportRouteOtherInfo() {
+		return selfSupportRouteOtherInfo;
+	}
+
+	public void setSelfSupportRouteOtherInfo(SelfSupportRouteOtherInfo selfSupportRouteOtherInfo) {
+		this.selfSupportRouteOtherInfo = selfSupportRouteOtherInfo;
+	}
+
+	public List<InsuranceManagement> getInsuranceManagementList() {
+		return insuranceManagementList;
+	}
+
+	public void setInsuranceManagementList(List<InsuranceManagement> insuranceManagementList) {
+		this.insuranceManagementList = insuranceManagementList;
+	}
+
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
 	}
 
 }
