@@ -15,13 +15,15 @@ public class MyWebAppConfigurer extends WebMvcConfigurerAdapter {
 		registry.addViewController("/login").setViewName("login");
 		registry.addViewController("/register").setViewName("register");
 		registry.addViewController("/welcome").setViewName("welcome");
-		registry.addViewController("/OtherTypeManage/OtherTypeManage").setViewName("OtherTypeManage/OtherTypeManage");
+		registry.addViewController("/OtherTypeManage/TourismTheme").setViewName("OtherTypeManage/TourismTheme");
 		registry.addViewController("/OtherTypeManage/TrafficWayManage").setViewName("OtherTypeManage/TrafficWayManage");
 		registry.addViewController("/OtherTypeManage/RouteType").setViewName("OtherTypeManage/RouteType");
 		registry.addViewController("/OtherTypeManage/RouteCategory").setViewName("OtherTypeManage/RouteCategory");
 		registry.addViewController("/OtherTypeManage/InsuranceManagement").setViewName("OtherTypeManage/InsuranceManagement");
 		registry.addViewController("/OtherTypeManage/InsuranceType").setViewName("OtherTypeManage/InsuranceType");
+		registry.addViewController("/OtherTypeManage/SelfSupportRoute").setViewName("OtherTypeManage/SelfSupportRoute");
 		registry.addViewController("/OtherTypeManage/SelfSupportRouteOtherInfo").setViewName("OtherTypeManage/SelfSupportRouteOtherInfo");
 		registry.addViewController("/OtherTypeManage/VisaNationalsManage").setViewName("OtherTypeManage/VisaNationalsManage");
+		registry.addViewController("/OtherTypeManage/SelfSupportRouteBaseInfo").setViewName("OtherTypeManage/SelfSupportRouteBaseInfo");
 	}
 }
