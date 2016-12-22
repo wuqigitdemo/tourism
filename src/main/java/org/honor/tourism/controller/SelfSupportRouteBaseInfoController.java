@@ -8,8 +8,10 @@ import javax.validation.Valid;
 import org.honor.tourism.entity.InsuranceType;
 import org.honor.tourism.entity.SelfSupportRoute;
 import org.honor.tourism.entity.Traffic;
+import org.honor.tourism.entity.VisaNationals;
 import org.honor.tourism.service.SelfSupportRouteBaseInfoService;
 import org.honor.tourism.service.TrafficWayService;
+import org.honor.tourism.service.VisaNationalsService;
 import org.honor.tourism.util.EasyuiPage;
 import org.honor.tourism.util.EasyuiResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,14 +28,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
  *
  */
 @Controller
-@RequestMapping("/SelfSupportRoute")
-public class SelfSupportRouteController {
+@RequestMapping("/SelfSupportRouteBaseInfo")
+public class SelfSupportRouteBaseInfoController {
 	
 	@Autowired 
 	private SelfSupportRouteBaseInfoService service;
 	
 	@Autowired 
 	private TrafficWayService trafficWayService;
+	
+	@Autowired 
+	private VisaNationalsService visaNationalsService;
 	
 	/**
 	 * 获取自营线路信息
@@ -88,9 +93,22 @@ public class SelfSupportRouteController {
 	@ResponseBody
 	public List<Traffic> selectType() {
 		Pageable pageable = new PageRequest(0, 100000);
-		Page<Traffic> insuranceType =  trafficWayService.findAll(pageable);
-		List<Traffic> rows = insuranceType.getContent();
+		Page<Traffic> traffic =  trafficWayService.findAll(pageable);
+		List<Traffic> rows = traffic.getContent();
 		return rows;
 	}
 
+	/**
+	 * 查询签证国家
+	 * @param page
+	 * @return
+	 */
+	@RequestMapping("/selectCountry")
+	@ResponseBody
+	public List<VisaNationals> selectCountry() {
+		Pageable pageable = new PageRequest(0, 100000);
+		Page<VisaNationals> visaNationals =  visaNationalsService.findAll(pageable);
+		List<VisaNationals> rows = visaNationals.getContent();
+		return rows;
+	}
 }

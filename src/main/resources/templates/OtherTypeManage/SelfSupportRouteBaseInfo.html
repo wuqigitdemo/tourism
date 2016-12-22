@@ -24,19 +24,30 @@
 		</tr>
 		<tr>
 			<td style="font-size: 16px; text-align: center;">去程交通：</td>
-			<td ><select  style='width:100%;'  id="traffic"  name="traffic" >
-			<option value="">请选择</option>
-			</select>
+			<td>
+				<input class="easyui-combobox" 
+						name="traffic"
+						data-options="
+					url: '/SelfSupportRouteBaseInfo/selectGoWay', 
+					method:'get',
+					valueField:'id',
+					textField:'trafficType',
+					value:'请选择',
+					panelHeight:'auto'">
+				</input>
 			</td>
 			<td style="font-size: 16px; text-align: center;">回程交通：</td>
-			<td><select  style='width:100%;'  id="backtraffic"  name="route.backtraffic" >
-			<option value="">请选择</option>
-			<option value="飞机">飞机</option>
-			<option value="火车">火车</option>
-			<option value="汽车">汽车</option>
-			<option value="游轮">游轮</option>
-			<option value="自理">自理</option>
-			</select>
+			<td>
+				<input class="easyui-combobox" 
+						name="backtraffic"
+						data-options="
+					url: '/SelfSupportRouteBaseInfo/selectGoWay', 
+					method:'get',
+					valueField:'id',
+					textField:'trafficType',
+					value:'请选择',
+					panelHeight:'auto'">
+				</input>
 			</td>
 		</tr>
 		<tr>
@@ -48,11 +59,17 @@
 		</tr>
 		<tr>
 			<td style="font-size: 16px; text-align: center;">签证国家：</td>
-			<td ><select  style='width:100%;'  id="areavisaid"  name="route.areavisaid" >
-			<option value="">请选择地区</option>
-			<option value="1">日本</option>
-			<option value="2">韩国</option>
-			</select>
+			<td >
+				<input class="easyui-combobox" 
+						name="areavisaid"
+						data-options="
+					url: '/SelfSupportRouteBaseInfo/selectCountry', 
+					method:'get',
+					valueField:'id',
+					textField:'country',
+					value:'请选择',
+					panelHeight:'auto'">
+				</input>
 			</td>
 			<td style="font-size: 16px; text-align: center;">电商页面排序：</td>
 			<td>
@@ -70,17 +87,20 @@
 		
 		<tr>
 			<td style="font-size: 16px; text-align: center;">原创路线</td>
-			<td ><button>选择</button>
+			<td>
+			<button id="originalRoute" >选择</button>
 			</td>
 		</tr>	
 		<tr>
 			<td style="font-size: 16px; text-align: center;">龙江1+1</td>
-			<td><button>选择</button>
+			<td>
+			<button id="oneAndOne" >选择</button>
 			</td>
 		</tr>	
 		<tr>
 			<td style="font-size: 16px; text-align: center;">出境游</td>
-			<td><button>选择</button>
+			<td>
+			<button id="outboundTravel" >选择</button>
 			</td>
 		</tr>
 		<tr>
@@ -130,29 +150,20 @@
 </form>	
 	<script type="text/javascript">
 	
-	
-		$('#traffic').combobox({    
-	    	valueField: 'id',    
-	        textField: 'trafficType',    
-	        url: '/InsuranceManagement/selectGoWay', 
-	        onLoadSuccess: function(){
-	        	var data = $(this).combobox('getData');
-	        	$(this).combobox('select',data[0].id);
-	        } 
-	     });
+		
 	
         var url;
         function newUser(){
             $('#dlg').dialog('open').dialog('center').dialog('setTitle','新增');
             $('#fm').form('clear');
-            url = '/SelfSupportRoute/save';
+            url = '/SelfSupportRouteBaseInfo/save';
         }
         function editUser(){
             var row = $('#dg').datagrid('getSelected');
             if (row){
                 $('#dlg').dialog('open').dialog('center').dialog('setTitle','修改');
                 $('#fm').form('load',row);
-                url = '/SelfSupportRoute/save?id='+row.id;
+                url = '/SelfSupportRouteBaseInfo/save?id='+row.id;
             }
         }
         function saveUser(){
@@ -180,7 +191,7 @@
             if (row){
                 $.messager.confirm('Confirm','Are you sure you want to destroy this user?',function(r){
                     if (r){
-                        $.post('/SelfSupportRoute/delete',{id:row.id},function(result){
+                        $.post('/SelfSupportRouteBaseInfo/delete',{id:row.id},function(result){
                             if (result.success){
                                 $('#dg').datagrid('reload');    // reload the user data
                             } else {
