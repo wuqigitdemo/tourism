@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<meta charset="UTF-8" />
+<title>价格/库存</title>
+<link rel="stylesheet" type="text/css"
+	href="/easyui/themes/default/easyui.css" />
+<link rel="stylesheet" type="text/css" href="/easyui/themes/icon.css" />
+<link rel="stylesheet" type="text/css" href="/easyui/demo/demo.css" />
+<link rel="stylesheet" type="text/css" href="/easyui/themes/color.css" />
+<script type="text/javascript" src="/easyui/jquery.min.js"></script>
+<script type="text/javascript" src="/easyui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="/easyui/locale/easyui-lang-zh_CN.js"></script>
+
+<link rel="stylesheet" type="text/css"
+	href="/css/fullcalendar/fullcalendar.css" />
+<link rel="stylesheet" type="text/css"
+	href="/css/fullcalendar/fullcalendar.print.css" />
+<script type="text/javascript"
+	src="/js/fullcalendar/fullcalendar.min.js"></script>
+
+</head>
+<body>
+	<div class="glg">
+		<form class="table table-bordered table2 glg_tab" style=""
+			id="myform3" name="myform3" method="post"
+			action="/operatorcenter/jsp/routemanage/routeSave.action">
+			<table class="table table-bordered table2 glg_tab">
+				<tbody>
+					<tr style="height: 433px;">
+						<td>
+							<div class="checkboxleft">
+								<div class="chcekboxleft" id="left" style="visibility: visible;">
+									<input style="width:70px;padding:0px;margin-top:2px;margin-left:5px;" name="choose" value="第1周" selected="true" onclick="chooseWeek(this,1);" type="button" />
+									<input style="width:70px;padding:0px;margin-top:2px;margin-left:5px;" name="choose" value="第2周" selected="true" onclick="chooseWeek(this,2);" type="button" />
+									<input style="width:70px;padding:0px;margin-top:2px;margin-left:5px;" name="choose" value="第3周" selected="true" onclick="chooseWeek(this,3);" type="button" />
+									<input style="width:70px;padding:0px;margin-top:2px;margin-left:5px;" name="choose" value="第4周" selected="true" onclick="chooseWeek(this,4);" type="button" />
+									<input style="width:70px;padding:0px;margin-top:2px;margin-left:5px;" name="choose" value="第5周" selected="true" onclick="chooseWeek(this,5);" type="button" />
+									<input style="width:70px;padding:0px;margin-top:2px;margin-left:5px;" name="choose" value="整月选择" selected="true" onclick="chooseTheMonth(this);" type="button" />
+									<br />
+									<input style="width:70px;padding:0px;margin-top:2px;margin-left:5px;" name="choose" value="星期一" selected="true" onclick="chooseWeek(this,0,1);" type="button" />
+									<input style="width:70px;padding:0px;margin-top:2px;margin-left:5px;" name="choose" value="星期二" selected="true" onclick="chooseWeek(this,0,2);" type="button" />
+									<input style="width:70px;padding:0px;margin-top:2px;margin-left:5px;" name="choose" value="星期三" selected="true" onclick="chooseWeek(this,0,3);" type="button" />
+									<input style="width:70px;padding:0px;margin-top:2px;margin-left:5px;" name="choose" value="星期四" selected="true" onclick="chooseWeek(this,0,4);" type="button" />
+									<input style="width:70px;padding:0px;margin-top:2px;margin-left:5px;" name="choose" value="星期五" selected="true" onclick="chooseWeek(this,0,5);" type="button" />
+									<input style="width:70px;padding:0px;margin-top:2px;margin-left:5px;" name="choose" value="星期六" selected="true" onclick="chooseWeek(this,0,6);" type="button" />
+									<input style="width:70px;padding:0px;margin-top:2px;margin-left:5px;" name="choose" value="星期日" selected="true" onclick="chooseWeek(this,0,0);" type="button" />
+								</div>
+							</div>
+								
+							<div id='calendar' style="width: 600px; height: 600px;"></div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</form>
+	</div>
+</body>
+
+<script type="text/javascript">
+/*<![CDATA[*/   //这句坚决不能删
+
+    //存放选中的日期
+    var selectedDates = [];
+           
+	/*日历控件开始*/
+	//加载fullcarlendar
+	$(document).ready(function() {
+		$('#calendar').fullCalendar({
+			firstDay:1,
+			weekMode:'liquid', //不固定周数，高度随周数变化
+			header: {
+		        left: '',
+		        center: 'title',
+		        right: 'today,prev,next'
+		    },
+			titleFormat : {
+				month : "yyyy MMMM",
+				week : "MMM d[ yyyy]{ '&#8212;'[ MMM] d yyyy}",
+				day : "dddd, MMM d, yyyy"
+			},
+			events: function(start,end,timezone, callback) {
+				
+				$(":input[name='choose']").each(function (index,value,array)
+				{
+					value.setAttribute("selected","true");
+				});
+				
+				//所有日期的input
+				var dates = $(":input[name='chooseDate']");
+				for (var i = 0;i < dates.length;i++)
+				{
+					var element = dates[i];
+					selectedDates.forEach(function (value,index,array){
+						if (element.value == value) {
+							element.checked = true;
+						}
+					}); 
+				}
+			}
+		});
+	});
+
+	//时间复选框单击
+	function dateClick(e) {
+		var date = new Date(e.value);
+		//日期往后加一天
+		var dateTemp = new Date(date);
+		dateTemp.setDate(dateTemp.getDate() + 1);
+
+		if (dateTemp < new Date()) {
+			e.checked = false;
+			alert('已过期');
+		} else {
+			//遍历是否存在，不存在就放入数组，存在就从数组移除
+			selectedDatesPushWithDate(date);
+		}
+	}
+	
+	/* 整月选择
+	 * 
+	 */
+	function chooseTheMonth(btn) 
+	{
+		//自定义selected属性标示选中和取消
+		var isSelected = btn.getAttribute("selected");
+		
+		if (isSelected == "true") {
+			btn.setAttribute("selected","false");
+		}else{
+			btn.setAttribute("selected","true");
+		}
+		
+		//所有日期的input
+		var dates = $(":input[name='chooseDate']");
+		
+		var month = new Date(dates[10].value).getMonth();
+		
+		for (var i = 0; i < dates.length; i++) {
+			var element = dates[i];
+			var date = new Date(element.value);
+			var dateTemp = new Date(date);
+			dateTemp.setDate(dateTemp.getDate()+1);
+			if (date.getMonth() == month && dateTemp >= new Date())
+			{
+				element.checked = (isSelected == "true" ? true : false);
+				//遍历是否存在，不存在就放入数组，存在就从数组移除
+				selectedDatesPushWithDate(date,isSelected);
+			}
+		}
+	}
+	 
+	//批量选择
+	/**
+	 * @param week:第几周
+	 * @param weekDay:星期几
+	 */
+	function chooseWeek(btn,week,weekDay)
+	{
+		//自定义selected属性标示选中和取消
+		var isSelected = btn.getAttribute("selected");
+		
+		if (isSelected == "true") {
+			btn.setAttribute("selected","false");
+		}else{
+			btn.setAttribute("selected","true");
+		}
+		
+		//所有日期的input
+		var dates = $(":input[name='chooseDate']");
+		
+		for (var i = 0;i < dates.length;i++)
+		{
+			var element = dates[i];
+	 		var date = new Date(element.value);
+	 		
+	 		if (weekDay != null)
+			{
+				if (date.getDay() == weekDay)
+				{
+					var dateTemp = new Date(date);
+					dateTemp.setDate(dateTemp.getDate() + 1);
+					
+					if (dateTemp >= new Date())
+					{
+						element.checked = (isSelected == "true" ? true : false);
+						//遍历是否存在，不存在就放入数组，存在就从数组移除
+						selectedDatesPushWithDate(date,isSelected) 
+					}
+				}
+			}else{
+				//当前月视图的年份和月份
+				var year = new Date(dates[10].value).getFullYear();
+				var month = new Date(dates[10].value).getMonth();
+
+				//年份小于今年
+				if (year < (new Date()).getFullYear())
+				{
+					alert("已过期");
+					return;
+				}else if (year > (new Date()).getFullYear()) {
+					
+				}else if (month <= (new Date()).getMonth()){//今年
+
+					//判读如果选择的周数小于今天的周数提示过期
+					if (week < currentWeekWithDate(new Date())) {
+						alert("已过期");
+						return;
+					}
+				}
+				
+				//获取遍历的日期是本月第几周
+				var currentWeekDay = currentWeekWithDate(date);
+				if (week == currentWeekDay)
+				{
+					var dateTemp = new Date(date);
+					dateTemp.setDate(date.getDate() + 1);
+					
+					if (date >= new Date())
+					{
+						element.checked = (isSelected == "true" ? true : false);
+						//遍历是否存在，不存在就放入数组，存在就从数组移除
+						selectedDatesPushWithDate(date,isSelected) 
+					}
+				}
+			}
+		}
+	}
+	
+	//获取日期是当前月的第几周（一周的第一天是周一）
+	function currentWeekWithDate(date) {
+		//周剩余天数
+		var residueDys = date.getDay() > 0 ? (7 - date.getDay()) : 0;
+		//第几周
+		return Math.ceil((date.getDate() + residueDys) / 7);
+	}
+	
+	//遍历是否存在，不存在就放入数组，存在就从数组移除
+	function selectedDatesPushWithDate(date,isSelected) 
+	{
+		var isExist = false;
+		var dateIndex; //如果存在，保存索引，方便删除
+		selectedDates.forEach(function(value,index,array)
+		{
+			var date1 = new Date(value);
+			if (date > date1 || date < date1)
+			{	
+				
+			}else{
+				isExist = true;
+				dateIndex = index;
+			}
+		});
+		
+		if (!isExist && isSelected == "true") {
+			selectedDates.push(date);
+		}else if (isExist && isSelected == "false")
+		{ //删除
+			selectedDates.splice(dateIndex,1);
+		}
+	}
+	
+	/*日历控件结束*/
+
+	//测试使用的输出数组方法
+	function arrayPrint(arr) {
+		var arrStr = "";
+		arr.forEach(function(value,index,array) {
+			arrStr = arrStr + "\r\n" + value;
+		});
+		alert("array:"+arrStr);
+	}
+	
+/*]]>*/    //这句坚决不能删
+</script>
+
+</html>
