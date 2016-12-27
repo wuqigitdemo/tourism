@@ -12,10 +12,14 @@
 <script type="text/javascript" src="/easyui/jquery.min.js"></script>
 <script type="text/javascript" src="/easyui/jquery.easyui.min.js"></script>
 <script type="text/javascript" src="/easyui/locale/easyui-lang-zh_CN.js"></script>
+<style type="text/css">
+.td{border:1px #0066ff solid;}
+.table{border-collapse:collapse;}
+</style>
 </head>
 <body>
 	<div class="easyui-panel" title="基础信息" style="width:100%"/>
-<form class="easyui-panel" id="myform1" name="myform1" method="post"  action="" >
+<form class="easyui-panel" id="myform1" name="myform1" method="post" >
 <table cellpadding="5">
 	<tbody>
 		<tr>
@@ -84,23 +88,31 @@
 		<div style="font-size: 16px;width:45%;color: blue;font-weight: bold">产品类别</div>
 		</td>
 		</tr>
-		
 		<tr>
-			<td style="font-size: 16px; text-align: center;">原创路线</td>
+			<td style="font-size: 16px; text-align: center;">原创路线:</td>
+			<td >
+			<a href="javascript:void(0)" class="easyui-linkbutton" plain="true" onclick="newUser()">选择路线</a>
+			</td>
 			<td>
-			<button id="originalRoute" >选择</button>
+			哈尔滨 
 			</td>
 		</tr>	
 		<tr>
-			<td style="font-size: 16px; text-align: center;">龙江1+1</td>
+			<td style="font-size: 16px; text-align: center;">龙江1+1:</td>
 			<td>
-			<button id="oneAndOne" >选择</button>
+			<a href="javascript:void(0)" class="easyui-linkbutton" plain="true" onclick="newUser()">选择路线</a>
+			</td>
+			<td>
+			哈尔滨 
 			</td>
 		</tr>	
 		<tr>
-			<td style="font-size: 16px; text-align: center;">出境游</td>
+			<td style="font-size: 16px; text-align: center;">出境游:</td>
 			<td>
-			<button id="outboundTravel" >选择</button>
+			<a href="javascript:void(0)" class="easyui-linkbutton" plain="true" onclick="newUser()">选择路线</a>
+			</td>
+			<td>
+			 
 			</td>
 		</tr>
 		<tr>
@@ -148,13 +160,59 @@
 	</tbody>
 </table>
 </form>	
+
+ 	<div id="dlg" class="easyui-dialog" style="width:500px"
+            closed="true" buttons="#dlg-buttons">
+        <form id="fm" method="post" novalidate="" style="margin:0;padding:20px 50px" >
+            <div style="margin-bottom:10px">
+            	<table id="cs" class="table" border="1px" cellspacing="1" style="width: 400px;">
+				<tr>
+				  <td><input type="checkbox" name="qx" value="黑龙江省" />黑龙江省</td>
+				  <td><input type="checkbox" name="qx" value="哈尔滨市" />哈尔滨市</td>
+				  <td><input type="checkbox" name="qx" value="齐齐哈尔市" />齐齐哈尔市</td>
+				  <td><input type="checkbox" name="qx" value="大庆市" />大庆市</td>
+				</tr>
+				<tr>
+				  <td><input type="checkbox" name="qx" value="吉林省" />吉林省</td>
+				  <td><input type="checkbox" name="qx" value="长春市" />长春市</td>
+				  <td><input type="checkbox" name="qx" value="吉林市" />吉林市</td>
+				  <td><input type="checkbox" name="qx" value="白山市" />白山市</td>
+				</tr>
+				<tr>
+				  <td><input type="checkbox" name="qx" value="辽宁省" />辽宁省</td>
+				  <td><input type="checkbox" name="qx" value="沈阳市" />沈阳市</td>
+				  <td><input type="checkbox" name="qx" value="铁岭市" />铁岭市</td>
+				  <td><input type="checkbox" name="qx" value="大连市" />大连市</td>
+				</tr>
+            	</table>
+            </div>
+        </form>
+    </div>
+    <div id="dlg-buttons">
+        <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="getInfo()" style="width:90px">提交</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')" style="width:90px">取消</a>
+    </div>
 	<script type="text/javascript">
 	
+		var chk_value =[];//定义一个数组  
+		function getInfo(){
+	   /*  $('input[name="qx"]:checked').each(function(){//遍历每一个名字为qx的复选框，其中选中的执行函数  
+	    	chk_value.push($(this).val());//将选中的值添加到数组chk_value中  
+	    });
+	    alert(chk_value.length==0 ?'你还没有选择任何内容！':chk_value);  
+	    dwr.util.setValue(checkboxInfo,chk_value);
+	    $('#fm').submit(); */
+			$('input[name="qx"]:checked').each(function(){
+			chk_value.push($(this).val());
+			});
+			alert(chk_value.length==0 ?'你还没有选择任何内容！':chk_value); 
+			$('#fm').submit();
+		}
 		
-	
+	      
         var url;
         function newUser(){
-            $('#dlg').dialog('open').dialog('center').dialog('setTitle','新增');
+            $('#dlg').dialog('open').dialog('center').dialog('setTitle','原创路线');
             $('#fm').form('clear');
             url = '/SelfSupportRouteBaseInfo/save';
         }
