@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<meta charset="UTF-8" />
+<title>自营线路基本信息管理</title>
+<link rel="stylesheet" type="text/css" href="/easyui/themes/default/easyui.css" />
+<link rel="stylesheet" type="text/css" href="/easyui/themes/icon.css" />
+<link rel="stylesheet" type="text/css" href="/easyui/demo/demo.css" />    
+<link rel="stylesheet" type="text/css" href="/easyui/themes/color.css"/>
+<script type="text/javascript" src="/easyui/jquery.min.js"></script>
+<script type="text/javascript" src="/easyui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="/easyui/locale/easyui-lang-zh_CN.js"></script>
+<style type="text/css">
+.td{border:1px #0066ff solid;}
+.table{border-collapse:collapse;}
+</style>
+</head>
+<body>
+	<div class="easyui-panel" title="基础信息" style="width:100%"/>
+<form class="easyui-panel" id="myform1" name="myform1" method="post" >
+<table cellpadding="5">
+	<tbody>
+		<tr>
+			<td style="font-size: 16px; text-align: center;">线路名称：</td>
+			<td colspan="4" style="text-align: left;"><input name="route.routename" value="" style="width:100%;"/></td>
+		</tr>
+		<tr>
+			<td style="font-size: 16px; text-align: center;">去程交通：</td>
+			<td>
+				<input class="easyui-combobox" 
+						name="traffic"
+						data-options="
+					url: '/SelfSupportRouteBaseInfo/selectGoWay', 
+					method:'get',
+					valueField:'id',
+					textField:'trafficType',
+					value:'请选择',
+					panelHeight:'auto'">
+				</input>
+			</td>
+			<td style="font-size: 16px; text-align: center;">回程交通：</td>
+			<td>
+				<input class="easyui-combobox" 
+						name="backtraffic"
+						data-options="
+					url: '/SelfSupportRouteBaseInfo/selectGoWay', 
+					method:'get',
+					valueField:'id',
+					textField:'trafficType',
+					value:'请选择',
+					panelHeight:'auto'">
+				</input>
+			</td>
+		</tr>
+		<tr>
+			<input name="route.days" value="" type="hidden" id="routedays"></input>
+			<td style="font-size: 16px; text-align: center;">出发地：</td>
+			<td ><input name="route.outplace" value="" type="text" style="width:100%;"></input></td>
+			<td style="font-size: 16px; text-align: center;">浏览地：</td>
+			<td><input name="route.destination" value="" type="text" style="width:100%;"></input></td>
+		</tr>
+		<tr>
+			<td style="font-size: 16px; text-align: center;">签证国家：</td>
+			<td >
+				<input class="easyui-combobox" 
+						name="areavisaid"
+						data-options="
+					url: '/SelfSupportRouteBaseInfo/selectCountry', 
+					method:'get',
+					valueField:'id',
+					textField:'country',
+					value:'请选择',
+					panelHeight:'auto'">
+				</input>
+			</td>
+			<td style="font-size: 16px; text-align: center;">电商页面排序：</td>
+			<td>
+				<input type="hidden" name="route.recommend" id="istopid" value="1"></input>
+				<input type="hidden" id ="istop" value = '1'></input>
+				<input type="text" name="route.sortstr" value="" placeholder="请输入数字"></input>
+			</td>
+		</tr>
+		<tr>
+		<td colspan="6" class="liTit">
+		<input type="hidden" id="categoryids" name="categoryids"/>
+		<div style="font-size: 16px;width:45%;color: blue;font-weight: bold">产品类别</div>
+		</td>
+		</tr>
+		<tr>
+			<td style="font-size: 16px; text-align: center;">原创路线:</td>
+			<td >
+			<a href="javascript:void(0)" class="easyui-linkbutton" plain="true" onclick="newUser()">选择路线</a>
+			</td>
+			<td>
+			哈尔滨 
+			</td>
+		</tr>	
+		<tr>
+			<td style="font-size: 16px; text-align: center;">龙江1+1:</td>
+			<td>
+			<a href="javascript:void(0)" class="easyui-linkbutton" plain="true" onclick="newUser()">选择路线</a>
+			</td>
+			<td>
+			哈尔滨 
+			</td>
+		</tr>	
+		<tr>
+			<td style="font-size: 16px; text-align: center;">出境游:</td>
+			<td>
+			<a href="javascript:void(0)" class="easyui-linkbutton" plain="true" onclick="newUser()">选择路线</a>
+			</td>
+			<td>
+			 
+			</td>
+		</tr>
+		<tr>
+			<td style="font-size: 16px; text-align: center;">起价说明：</td>
+			<td colspan="4" style="text-align: left;"><textarea name="route.routename" value="" style="width:100%;"/></td>
+		</tr>
+		<tr>
+			<td style="font-size: 16px; text-align: center;">推荐理由：</td>
+			<td colspan="4" style="text-align: left;"><textarea name="route.routename" value="" style="width:100%;"/></td>
+		</tr>
+		<tr>
+			<td style="font-size: 16px; text-align: center;">重要提示：</td>
+			<td colspan="4" style="text-align: left;"><textarea name="route.routename" value="" style="width:100%;"/></td>
+		</tr>
+		<tr>
+			<td style="font-size: 16px; text-align: center;">保险赠送情况说明：</td>
+			<td colspan="4" style="text-align: left;"><textarea name="route.routename" value="" style="width:100%;"/></td>
+		</tr>
+		<tr>
+			<td style="font-size: 16px; text-align: center;">限制报名期限：</td>
+			<td colspan="4" style="text-align: left;"><input name="route.routename" value="" style="width:100%;"/></td>
+		</tr>
+		<tr>
+			<td style="font-size: 16px; text-align: center;">限制付款天数：</td>
+			<td colspan="4" style="text-align: left;"><input name="route.routename" value="" style="width:100%;"/></td>
+		</tr>
+		<tr>
+			<td style="font-size: 16px; text-align: center;">限制付款小时：</td>
+			<td colspan="4" style="text-align: left;"><input name="route.routename" value="" style="width:100%;"/></td>
+		</tr>
+		<tr>
+			<td style="font-size: 16px; text-align: center;">付款方式：</td>
+			<td colspan="4" style="text-align: left;">
+			<input type="radio" name="payway" checked="checked" onclick="setPayway(0);"/>
+			<span style="font-size: 16px;padding-left: 12px;" >即时付款：与原有流程一致</span>
+			</td>
+		</tr>
+		<tr>
+			<td style="font-size: 16px; text-align: center;"></td>
+			<td colspan="4" style="text-align: left;">
+			<button>确认保存</button>
+			<button>返回列表</button>
+			</td>
+		</tr>
+	</tbody>
+</table>
+</form>	
+
+ 	<div id="dlg" class="easyui-dialog" style="width:500px"
+            closed="true" buttons="#dlg-buttons">
+        <form id="fm" method="post" novalidate="" style="margin:0;padding:20px 50px" >
+            <div style="margin-bottom:10px">
+            	<table id="cs" class="table" border="1px" cellspacing="1" style="width: 400px;">
+				<tr>
+				  <td><input type="checkbox" name="qx" value="黑龙江省" />黑龙江省</td>
+				  <td><input type="checkbox" name="qx" value="哈尔滨市" />哈尔滨市</td>
+				  <td><input type="checkbox" name="qx" value="齐齐哈尔市" />齐齐哈尔市</td>
+				  <td><input type="checkbox" name="qx" value="大庆市" />大庆市</td>
+				</tr>
+				<tr>
+				  <td><input type="checkbox" name="qx" value="吉林省" />吉林省</td>
+				  <td><input type="checkbox" name="qx" value="长春市" />长春市</td>
+				  <td><input type="checkbox" name="qx" value="吉林市" />吉林市</td>
+				  <td><input type="checkbox" name="qx" value="白山市" />白山市</td>
+				</tr>
+				<tr>
+				  <td><input type="checkbox" name="qx" value="辽宁省" />辽宁省</td>
+				  <td><input type="checkbox" name="qx" value="沈阳市" />沈阳市</td>
+				  <td><input type="checkbox" name="qx" value="铁岭市" />铁岭市</td>
+				  <td><input type="checkbox" name="qx" value="大连市" />大连市</td>
+				</tr>
+            	</table>
+            </div>
+        </form>
+    </div>
+    <div id="dlg-buttons">
+        <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="getInfo()" style="width:90px">提交</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')" style="width:90px">取消</a>
+    </div>
+	<script type="text/javascript">
+	
+		var chk_value =[];//定义一个数组  
+		function getInfo(){
+	   /*  $('input[name="qx"]:checked').each(function(){//遍历每一个名字为qx的复选框，其中选中的执行函数  
+	    	chk_value.push($(this).val());//将选中的值添加到数组chk_value中  
+	    });
+	    alert(chk_value.length==0 ?'你还没有选择任何内容！':chk_value);  
+	    dwr.util.setValue(checkboxInfo,chk_value);
+	    $('#fm').submit(); */
+			$('input[name="qx"]:checked').each(function(){
+			chk_value.push($(this).val());
+			});
+			alert(chk_value.length==0 ?'你还没有选择任何内容！':chk_value); 
+			$('#fm').submit();
+		}
+		
+	      
+        var url;
+        function newUser(){
+            $('#dlg').dialog('open').dialog('center').dialog('setTitle','原创路线');
+            $('#fm').form('clear');
+            url = '/SelfSupportRouteBaseInfo/save';
+        }
+        function editUser(){
+            var row = $('#dg').datagrid('getSelected');
+            if (row){
+                $('#dlg').dialog('open').dialog('center').dialog('setTitle','修改');
+                $('#fm').form('load',row);
+                url = '/SelfSupportRouteBaseInfo/save?id='+row.id;
+            }
+        }
+        function saveUser(){
+            $('#fm').form('submit',{
+                url: url,
+                onSubmit: function(){
+                    return $(this).form('validate');
+                },
+                success: function(resultJSON){
+                	var result = JSON.parse(resultJSON);
+                    if (result.errorMsg){
+                        $.messager.show({
+                            title: 'Error',
+                            msg: result.errorMsg
+                        });
+                    } else {
+                        $('#dlg').dialog('close');        // close the dialog
+                        $('#dg').datagrid('reload');    // reload the user data
+                    }
+                }
+            });
+        }
+        function destroyUser(){
+            var row = $('#dg').datagrid('getSelected');
+            if (row){
+                $.messager.confirm('Confirm','Are you sure you want to destroy this user?',function(r){
+                    if (r){
+                        $.post('/SelfSupportRouteBaseInfo/delete',{id:row.id},function(result){
+                            if (result.success){
+                                $('#dg').datagrid('reload');    // reload the user data
+                            } else {
+                                $.messager.show({    // show error message
+                                    title: 'Error',
+                                    msg: result.errorMsg
+                                });
+                            }
+                        },'json');
+                    }
+                });
+            }
+        }
+    </script>
+   </body>
+</html>

@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<meta charset="UTF-8" />
+<title>价格/库存</title>
+<link rel="stylesheet" type="text/css"
+	href="/easyui/themes/default/easyui.css" />
+<link rel="stylesheet" type="text/css" href="/easyui/themes/icon.css" />
+<link rel="stylesheet" type="text/css" href="/easyui/demo/demo.css" />
+<link rel="stylesheet" type="text/css" href="/easyui/themes/color.css" />
+<script type="text/javascript" src="/easyui/jquery.min.js"></script>
+<script type="text/javascript" src="/easyui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="/easyui/locale/easyui-lang-zh_CN.js"></script>
+
+<link rel="stylesheet" type="text/css"
+	href="/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css"
+	href="/css/common.css" />
+<link rel="stylesheet" type="text/css"
+	href="/css/page.css" />
+<link rel="stylesheet" type="text/css"
+	href="/css/reset.css" />
+	
+<link rel="stylesheet" type="text/css"
+	href="/css/fullcalendar/fullcalendar.css" />
+<link rel="stylesheet" type="text/css"
+	href="/css/fullcalendar/fullcalendar.print.css" />
+<script type="text/javascript"
+	src="/js/fullcalendar/fullcalendar.min.js"></script>
+
+</head>
+<body>
+	<div class="glg">
+		<form class="table table-bordered table2 glg_tab" style=""
+			id="myform3" name="myform3" method="post"
+			action="/operatorcenter/jsp/routemanage/routeSave.action">
+			<table class="table table-bordered table2 glg_tab">
+				<tbody>
+					<tr style="height: 433px;">
+						<td>
+							<div class="checkboxleft">
+								<div class="chcekboxleft" id="left" style="visibility: visible;">
+									<input style="width:70px;padding:0px;margin-top:2px;margin-left:5px;" name="choose" value="第1周" selected="true" onclick="chooseWeek(this,1);" type="button" />
+									<input style="width:70px;padding:0px;margin-top:2px;margin-left:5px;" name="choose" value="第2周" selected="true" onclick="chooseWeek(this,2);" type="button" />
+									<input style="width:70px;padding:0px;margin-top:2px;margin-left:5px;" name="choose" value="第3周" selected="true" onclick="chooseWeek(this,3);" type="button" />
+									<input style="width:70px;padding:0px;margin-top:2px;margin-left:5px;" name="choose" value="第4周" selected="true" onclick="chooseWeek(this,4);" type="button" />
+									<input style="width:70px;padding:0px;margin-top:2px;margin-left:5px;" name="choose" value="第5周" selected="true" onclick="chooseWeek(this,5);" type="button" />
+									<input style="width:70px;padding:0px;margin-top:2px;margin-left:5px;" name="choose" value="整月选择" selected="true" onclick="chooseTheMonth(this);" type="button" />
+									<br />
+									<input style="width:70px;padding:0px;margin-top:2px;margin-left:5px;" name="choose" value="星期一" selected="true" onclick="chooseWeek(this,0,1);" type="button" />
+									<input style="width:70px;padding:0px;margin-top:2px;margin-left:5px;" name="choose" value="星期二" selected="true" onclick="chooseWeek(this,0,2);" type="button" />
+									<input style="width:70px;padding:0px;margin-top:2px;margin-left:5px;" name="choose" value="星期三" selected="true" onclick="chooseWeek(this,0,3);" type="button" />
+									<input style="width:70px;padding:0px;margin-top:2px;margin-left:5px;" name="choose" value="星期四" selected="true" onclick="chooseWeek(this,0,4);" type="button" />
+									<input style="width:70px;padding:0px;margin-top:2px;margin-left:5px;" name="choose" value="星期五" selected="true" onclick="chooseWeek(this,0,5);" type="button" />
+									<input style="width:70px;padding:0px;margin-top:2px;margin-left:5px;" name="choose" value="星期六" selected="true" onclick="chooseWeek(this,0,6);" type="button" />
+									<input style="width:70px;padding:0px;margin-top:2px;margin-left:5px;" name="choose" value="星期日" selected="true" onclick="chooseWeek(this,0,0);" type="button" />
+								</div>
+							</div>
+								
+							<div id='calendar' style="width: 600px; height: 600px;"></div>
+							
+							<!-- 下方表格  -->
+							
+							
+							
+							<table class="table table-bordered table2">
+								<tbody>
+									<tr>
+										<td colspan="6" class="liTit"><div
+												style="padding-left: 24px; font-size: 16px; width: 45%;">价格/库存设置</div></td>
+									</tr>
+
+									<tr>
+										<td>登记占位时限：</td>
+										<td colspan="2" style="text-align: left;"><input
+											id="occupiedtimeStr" placeholder=""
+											name="productInfo.occupiedtime" value=""
+											style="width: 151px;" type="text" />(单位：小时)<font
+											style="color: red">*</font></td>
+										<td>保留位置：</td>
+										<td colspan="2" style="text-align: left;"><input
+											id="holdtimeStr" placeholder="" name="productInfo.holdtime"
+											value="" style="width: 151px;" type="text" />(单位：小时)<font
+											style="color: red">*</font></td>
+									</tr>
+									<tr>
+										<td>单房差</td>
+										<td colspan="2"><input
+											name="productInfo.singlesupplement" value=""
+											datatype="/^(-?\d{1,32})(\.\d{1,2})?$/" errormsg="此处请填入价格"
+											ignore="ignore" maxlength="18" size="6" type="text" />元</td>
+										<td>签证补价</td>
+										<td colspan="2"><input name="productInfo.visapremium"
+											value="" datatype="/^(-?\d{1,32})(\.\d{1,2})?$/"
+											errormsg="此处请填入价格" ignore="ignore" maxlength="18" size="6"
+											type="text" />元</td>
+									</tr>
+
+									<tr>
+										<td colspan="6" class="liTit"><div
+												style="padding-left: 24px; font-size: 16px; width: 45%;">资源中心单价分配</div></td>
+									</tr>
+
+									<tr>
+										<td colspan="6" style="font-weight: bold;">车队中心</td>
+									</tr>
+									<tr>
+										<td>分配单价</td>
+										<td colspan="2"><input onfocus="clearTotalOrPrice(this);"
+											name="productInfo.fleetcenterprice" value=""
+											datatype="/^(-?\d{1,32})(\.\d{1,2})?$/" errormsg="此处请填入单价"
+											ignore="ignore" maxlength="18" type="text" />元</td>
+										<td>分配总价</td>
+										<td colspan="3"><input onfocus="clearTotalOrPrice(this);"
+											name="productInfo.fleetcentertotal" value=""
+											datatype="/^(-?\d{1,32})(\.\d{1,2})?$/" errormsg="此处请填入总价"
+											ignore="ignore" maxlength="18" type="text" />元</td>
+									</tr>
+
+									<tr>
+										<td colspan="6" style="font-weight: bold;">交通中心</td>
+									</tr>
+									<tr>
+										<td>分配单价</td>
+										<td colspan="2"><input onfocus="clearTotalOrPrice(this);"
+											name="productInfo.traffichubprice" value=""
+											datatype="/^(-?\d{1,32})(\.\d{1,2})?$/" errormsg="此处请填入单价"
+											ignore="ignore" maxlength="18" type="text" />元</td>
+										<td>分配总价</td>
+										<td colspan="3"><input onfocus="clearTotalOrPrice(this);"
+											name="productInfo.traffichubtotal" value=""
+											datatype="/^(-?\d{1,32})(\.\d{1,2})?$/" errormsg="此处请填入总价"
+											ignore="ignore" maxlength="18" type="text" />元</td>
+									</tr>
+
+									<tr>
+										<td colspan="6" style="font-weight: bold;">餐饮中心</td>
+									</tr>
+									<tr>
+										<td>分配单价</td>
+										<td colspan="2"><input onfocus="clearTotalOrPrice(this);"
+											name="productInfo.diningcenterprice" value=""
+											datatype="/^(-?\d{1,32})(\.\d{1,2})?$/" errormsg="此处请填入单价"
+											ignore="ignore" maxlength="18" type="text" />元</td>
+										<td>分配总价</td>
+										<td colspan="3"><input onfocus="clearTotalOrPrice(this);"
+											name="productInfo.diningcentertotal" value=""
+											datatype="/^(-?\d{1,32})(\.\d{1,2})?$/" errormsg="此处请填入总价"
+											ignore="ignore" maxlength="18" type="text" />元</td>
+									</tr>
+									<tr>
+										<td colspan="6" style="font-weight: bold;">景区中心</td>
+									</tr>
+									<tr>
+										<td>分配单价</td>
+										<td colspan="2"><input onfocus="clearTotalOrPrice(this);"
+											name="productInfo.touristprice" value=""
+											datatype="/^(-?\d{1,32})(\.\d{1,2})?$/" errormsg="此处请填入单价"
+											ignore="ignore" maxlength="18" type="text" />元</td>
+										<td>分配总价</td>
+										<td colspan="3"><input onfocus="clearTotalOrPrice(this);"
+											name="productInfo.touristtotal" value=""
+											datatype="/^(-?\d{1,32})(\.\d{1,2})?$/" errormsg="此处请填入总价"
+											ignore="ignore" maxlength="18" type="text" />元</td>
+									</tr>
+									<tr>
+										<td colspan="6" style="font-weight: bold;">住房中心</td>
+									</tr>
+									<tr>
+										<td>分配单价</td>
+										<td colspan="2"><input onfocus="clearTotalOrPrice(this);"
+											name="productInfo.housingprice" value=""
+											datatype="/^(-?\d{1,32})(\.\d{1,2})?$/" errormsg="此处请填入单价"
+											ignore="ignore" maxlength="18" type="text" />元</td>
+										<td>分配总价</td>
+										<td colspan="3"><input onfocus="clearTotalOrPrice(this);"
+											name="productInfo.housingtotal" value=""
+											datatype="/^(-?\d{1,32})(\.\d{1,2})?$/" errormsg="此处请填入总价"
+											ignore="ignore" maxlength="18" type="text" />元</td>
+									</tr>
+									<tr>
+										<td colspan="6" style="font-weight: bold;">导游中心</td>
+									</tr>
+									<tr>
+										<td>分配单价</td>
+										<td colspan="2"><input onfocus="clearTotalOrPrice(this);"
+											name="productInfo.tourprice" value=""
+											datatype="/^(-?\d{1,32})(\.\d{1,2})?$/" errormsg="此处请填入单价"
+											ignore="ignore" maxlength="18" type="text" />元</td>
+										<td>分配总价</td>
+										<td colspan="3"><input onfocus="clearTotalOrPrice(this);"
+											name="productInfo.tourtotal" value=""
+											datatype="/^(-?\d{1,32})(\.\d{1,2})?$/" errormsg="此处请填入总价"
+											ignore="ignore" maxlength="18" type="text" />元</td>
+									</tr>
+									<tr>
+										<td colspan="6" style="font-weight: bold;">签证中心</td>
+									</tr>
+									<tr>
+										<td>分配单价</td>
+										<td colspan="2"><input onfocus="clearTotalOrPrice(this);"
+											name="productInfo.vacprice" value=""
+											datatype="/^(-?\d{1,32})(\.\d{1,2})?$/" errormsg="此处请填入单价"
+											ignore="ignore" maxlength="18" type="text" />元</td>
+										<td>分配总价</td>
+										<td colspan="3"><input onfocus="clearTotalOrPrice(this);"
+											name="productInfo.vactotal" value=""
+											datatype="/^(-?\d{1,32})(\.\d{1,2})?$/" errormsg="此处请填入总价"
+											ignore="ignore" maxlength="18" type="text" />元</td>
+									</tr>
+
+									<tr>
+										<td colspan="6" class="liTit"><div
+												style="padding-left: 24px; font-size: 16px; width: 45%;">渠道中心售价设置及人数分配</div></td>
+									</tr>
+									<tr>
+										<td colspan="6" style="font-weight: bold;">电商平台</td>
+									</tr>
+									<tr>
+										<td>成人售价</td>
+										<td><input name="prochannelLists[3].channeltype"
+											value="3" type="hidden" /> <input
+											name="prochannelLists[3].price"
+											onblur="setPriceValueTo3(this);"
+											datatype="/^(-?\d{1,32})(\.\d{1,2})?$/" errormsg="此处请填入单价"
+											ignore="ignore" maxlength="18" type="text" />元</td>
+										<td>折扣价</td>
+										<td><input name="prochannelLists[3].discountprice"
+											onblur="setDisPriceValueTo3(this);"
+											datatype="/^(-?\d{1,32})(\.\d{1,2})?$/" errormsg="此处请填入单价"
+											ignore="ignore" maxlength="18" type="text" />元</td>
+										<td>库存</td>
+										<td><input name="prochannelLists[3].totalnumber"
+											onblur="setCountValueTo3(this);" datatype="n1-32"
+											errormsg="此处请填入人数" ignore="ignore" maxlength="18" type="text" />人<font
+											style="color: red">*</font></td>
+									</tr>
+									<tr>
+										<td>儿童售价</td>
+										<td><input name="prochannelLists[3].childprice"
+											onblur="setChildpriceTo3(this);" value=""
+											datatype="/^(-?\d{1,32})(\.\d{1,2})?$/" errormsg="此处请填入单价"
+											ignore="ignore" maxlength="18" type="text" />元</td>
+										<td>儿童折扣价</td>
+										<td><input name="prochannelLists[3].discountchildprice"
+											onblur="setDiscountchildpriceTo3(this);" value=""
+											datatype="/^(-?\d{1,32})(\.\d{1,2})?$/" errormsg="此处请填入单价"
+											ignore="ignore" maxlength="18" type="text" />元</td>
+										<td>占床价</td>
+										<td><input name="prochannelLists[3].bedprice"
+											onblur="setBedpriceTo3(this);" value=""
+											datatype="/^(-?\d{1,32})(\.\d{1,2})?$/" errormsg="此处请填入单价"
+											ignore="ignore" maxlength="18" type="text" />元</td>
+									</tr>
+									<tr>
+										<td>儿童界定标准</td>
+										<td colspan="5"><input value=""
+											onblur="setDefinitionTo3(this);" name=""
+											id="childrendefinition_id_3" type="text" /> <input
+											onclick="checkDefinition(0,'childrendefinition_id_3');"
+											name="childrendefinition3" type="radio" />年龄(周岁)&nbsp;
+											<input
+											onclick="checkDefinition(1,'childrendefinition_id_3');"
+											name="childrendefinition3" type="radio" />身高(米)</td>
+									</tr>
+									<tr>
+										<td>特殊人群说明</td>
+										<td colspan="5"><textarea
+												name="prochannelLists[3].childpricedetail" rows="3"
+												cols="70" datatype="*1-1500" errormsg="此项为必填"
+												maxlength="1500"></textarea></td>
+									</tr>
+									<tr>
+										<td>儿童价格说明</td>
+										<td colspan="5"><textarea
+												name="prochannelLists[3].childrendetail" rows="3" cols="70"
+												datatype="*1-1500" errormsg="此项为必填" maxlength="1500"></textarea></td>
+									</tr>
+
+									<tr>
+										<td colspan="6" style="font-weight: bold;">同业</td>
+									</tr>
+									<tr>
+										<td>成人售价</td>
+										<td><input name="prochannelLists[1].channeltype"
+											value="1" type="hidden" /> <input
+											name="prochannelLists[1].price" value=""
+											datatype="/^(-?\d{1,32})(\.\d{1,2})?$/" errormsg="此处请填入单价"
+											ignore="ignore" maxlength="18" type="text" />元</td>
+										<td>折扣价</td>
+										<td><input name="prochannelLists[1].discountprice"
+											value="" datatype="/^(-?\d{1,32})(\.\d{1,2})?$/"
+											errormsg="此处请填入单价" ignore="ignore" maxlength="18" type="text" />元</td>
+										<td>库存</td>
+										<td colspan="3"><input
+											name="prochannelLists[1].totalnumber" value=""
+											datatype="n1-32" errormsg="此处请填入人数" ignore="ignore"
+											maxlength="18" type="text" />人<font style="color: red">*</font></td>
+									</tr>
+									<tr>
+										<td>儿童售价</td>
+										<td><input name="prochannelLists[1].childprice" value=""
+											datatype="/^(-?\d{1,32})(\.\d{1,2})?$/" errormsg="此处请填入单价"
+											ignore="ignore" maxlength="18" type="text" />元</td>
+										<td>儿童折扣价</td>
+										<td><input name="prochannelLists[1].discountchildprice"
+											value="" datatype="/^(-?\d{1,32})(\.\d{1,2})?$/"
+											errormsg="此处请填入单价" ignore="ignore" maxlength="18" type="text" />元</td>
+										<td>占床价</td>
+										<td><input name="prochannelLists[1].bedprice" value=""
+											datatype="/^(-?\d{1,32})(\.\d{1,2})?$/" errormsg="此处请填入单价"
+											ignore="ignore" maxlength="18" type="text" />元</td>
+									</tr>
+									<tr>
+										<td>儿童界定标准</td>
+										<td colspan="5"><input value="" name=""
+											id="childrendefinition_id_1" type="text" /> <input
+											onclick="checkDefinition(0,'childrendefinition_id_1');"
+											name="childrendefinition" type="radio" />年龄(周岁)&nbsp; <input
+											onclick="checkDefinition(1,'childrendefinition_id_1');"
+											name="childrendefinition" type="radio" />身高(米)</td>
+									</tr>
+
+									<tr>
+										<td>特殊人群说明</td>
+										<td colspan="5"><textarea
+												name="prochannelLists[1].childpricedetail" rows="3"
+												cols="70" datatype="*1-1500" errormsg="此项为必填"
+												maxlength="1500"></textarea></td>
+									</tr>
+									<tr>
+										<td>儿童价格说明</td>
+										<td colspan="5"><textarea
+												name="prochannelLists[1].childrendetail" rows="3" cols="70"
+												datatype="*1-1500" errormsg="此项为必填" maxlength="1500"></textarea></td>
+									</tr>
+
+
+
+									<tr class="beijingq">
+										<td colspan="6">
+											<div class="btn btn-success btn2 anan">
+												<span onclick="saveForm(3);" id="span3">添加产品</span>
+											</div>
+											<div class="btn btn-info btn2 anan">
+												<span onclick="backList();">返回列表</span>
+											</div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</form>
+	</div>
+</body>
+
+<script type="text/javascript">
+/*<![CDATA[*/   //这句坚决不能删
+
+    //存放选中的日期
+    var selectedDates = [];
+           
+	/*日历控件开始*/
+	//加载fullcarlendar
+	$(document).ready(function() {
+		$('#calendar').fullCalendar({
+			firstDay:1,
+			weekMode:'liquid', //不固定周数，高度随周数变化
+			header: {
+		        left: '',
+		        center: 'title',
+		        right: 'today,prev,next'
+		    },
+			titleFormat : {
+				month : "yyyy MMMM",
+				week : "MMM d[ yyyy]{ '&#8212;'[ MMM] d yyyy}",
+				day : "dddd, MMM d, yyyy"
+			},
+			events: function(start,end,timezone, callback) {
+				
+				$(":input[name='choose']").each(function (index,value,array)
+				{
+					value.setAttribute("selected","true");
+				});
+				
+				//所有日期的input
+				var dates = $(":input[name='chooseDate']");
+				for (var i = 0;i < dates.length;i++)
+				{
+					var element = dates[i];
+					selectedDates.forEach(function (value,index,array){
+						if (element.value == value) {
+							element.checked = true;
+						}
+					}); 
+				}
+			}
+		});
+	});
+
+	//时间复选框单击
+	function dateClick(e) {
+		var date = new Date(e.value);
+		//日期往后加一天
+		var dateTemp = new Date(date);
+		dateTemp.setDate(dateTemp.getDate() + 1);
+
+		if (dateTemp < new Date()) {
+			e.checked = false;
+			alert('已过期');
+		} else {
+			//遍历是否存在，不存在就放入数组，存在就从数组移除
+			selectedDatesPushWithDate(date);
+		}
+	}
+	
+	/* 整月选择
+	 * 
+	 */
+	function chooseTheMonth(btn) 
+	{
+		//自定义selected属性标示选中和取消
+		var isSelected = btn.getAttribute("selected");
+		
+		if (isSelected == "true") {
+			btn.setAttribute("selected","false");
+		}else{
+			btn.setAttribute("selected","true");
+		}
+		
+		//所有日期的input
+		var dates = $(":input[name='chooseDate']");
+		
+		var month = new Date(dates[10].value).getMonth();
+		
+		for (var i = 0; i < dates.length; i++) {
+			var element = dates[i];
+			var date = new Date(element.value);
+			var dateTemp = new Date(date);
+			dateTemp.setDate(dateTemp.getDate()+1);
+			if (date.getMonth() == month && dateTemp >= new Date())
+			{
+				element.checked = (isSelected == "true" ? true : false);
+				//遍历是否存在，不存在就放入数组，存在就从数组移除
+				selectedDatesPushWithDate(date,isSelected);
+			}
+		}
+	}
+	 
+	//批量选择
+	/**
+	 * @param week:第几周
+	 * @param weekDay:星期几
+	 */
+	function chooseWeek(btn,week,weekDay)
+	{
+		//自定义selected属性标示选中和取消
+		var isSelected = btn.getAttribute("selected");
+		
+		if (isSelected == "true") {
+			btn.setAttribute("selected","false");
+		}else{
+			btn.setAttribute("selected","true");
+		}
+		
+		//所有日期的input
+		var dates = $(":input[name='chooseDate']");
+		
+		for (var i = 0;i < dates.length;i++)
+		{
+			var element = dates[i];
+	 		var date = new Date(element.value);
+	 		
+	 		if (weekDay != null)
+			{
+				if (date.getDay() == weekDay)
+				{
+					var dateTemp = new Date(date);
+					dateTemp.setDate(dateTemp.getDate() + 1);
+					
+					if (dateTemp >= new Date())
+					{
+						element.checked = (isSelected == "true" ? true : false);
+						//遍历是否存在，不存在就放入数组，存在就从数组移除
+						selectedDatesPushWithDate(date,isSelected) 
+					}
+				}
+			}else{
+				//当前月视图的年份和月份
+				var year = new Date(dates[10].value).getFullYear();
+				var month = new Date(dates[10].value).getMonth();
+
+				//年份小于今年
+				if (year < (new Date()).getFullYear())
+				{
+					alert("已过期");
+					return;
+				}else if (year > (new Date()).getFullYear()) {
+					
+				}else if (month <= (new Date()).getMonth()){//今年
+
+					//判读如果选择的周数小于今天的周数提示过期
+					if (week < currentWeekWithDate(new Date())) {
+						alert("已过期");
+						return;
+					}
+				}
+				
+				//获取遍历的日期是本月第几周
+				var currentWeekDay = currentWeekWithDate(date);
+				if (week == currentWeekDay)
+				{
+					var dateTemp = new Date(date);
+					dateTemp.setDate(date.getDate() + 1);
+					
+					if (date >= new Date())
+					{
+						element.checked = (isSelected == "true" ? true : false);
+						//遍历是否存在，不存在就放入数组，存在就从数组移除
+						selectedDatesPushWithDate(date,isSelected) 
+					}
+				}
+			}
+		}
+	}
+	
+	//获取日期是当前月的第几周（一周的第一天是周一）
+	function currentWeekWithDate(date) {
+		//周剩余天数
+		var residueDys = date.getDay() > 0 ? (7 - date.getDay()) : 0;
+		//第几周
+		return Math.ceil((date.getDate() + residueDys) / 7);
+	}
+	
+	//遍历是否存在，不存在就放入数组，存在就从数组移除
+	function selectedDatesPushWithDate(date,isSelected) 
+	{
+		var isExist = false;
+		var dateIndex; //如果存在，保存索引，方便删除
+		selectedDates.forEach(function(value,index,array)
+		{
+			var date1 = new Date(value);
+			if (date > date1 || date < date1)
+			{	
+				
+			}else{
+				isExist = true;
+				dateIndex = index;
+			}
+		});
+		
+		if (!isExist && isSelected == "true") {
+			selectedDates.push(date);
+		}else if (isExist && isSelected == "false")
+		{ //删除
+			selectedDates.splice(dateIndex,1);
+		}
+	}
+	
+	/*日历控件结束*/
+
+	//测试使用的输出数组方法
+	function arrayPrint(arr) {
+		var arrStr = "";
+		arr.forEach(function(value,index,array) {
+			arrStr = arrStr + "\r\n" + value;
+		});
+		alert("array:"+arrStr);
+	}
+	
+/*]]>*/    //这句坚决不能删
+</script>
+
+</html>
