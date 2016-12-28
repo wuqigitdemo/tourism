@@ -1,19 +1,19 @@
 package org.honor.tourism.service;
 
-import org.honor.tourism.entity.SelfSupportRoute;
+import org.honor.tourism.entity.RouteBaseInfo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 /**
  * 自营路线信息
  */
-public interface SelfSupportRouteBaseInfoService {
+public interface RouteBaseInfoService {
 	
-	public Page<SelfSupportRoute> findAll(Pageable pageable);
+	public Page<RouteBaseInfo> findAll(Pageable pageable);
 	
 	public Long count();
 	
-	public SelfSupportRoute save(SelfSupportRoute selfSupportRoute);
+	public RouteBaseInfo save(RouteBaseInfo routeBaseInfo);
 	
 	public void delete(String id);
 

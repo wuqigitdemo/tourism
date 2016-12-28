@@ -49,7 +49,7 @@
 				<input class="easyui-combobox" 
 						name="traffic"
 						data-options="
-					url: '/SelfSupportRouteBaseInfo/selectGoWay', 
+					url: '/RouteBaseInfo/selectGoWay', 
 					method:'get',
 					valueField:'id',
 					textField:'trafficType',
@@ -62,7 +62,7 @@
 				<input class="easyui-combobox" 
 						name="backtraffic"
 						data-options="
-					url: '/SelfSupportRouteBaseInfo/selectGoWay', 
+					url: '/RouteBaseInfo/selectGoWay', 
 					method:'get',
 					valueField:'id',
 					textField:'trafficType',
@@ -84,7 +84,7 @@
 				<input class="easyui-combobox" 
 						name="areavisaid"
 						data-options="
-					url: '/SelfSupportRouteBaseInfo/selectCountry', 
+					url: '/RouteBaseInfo/selectCountry', 
 					method:'get',
 					valueField:'id',
 					textField:'country',
@@ -279,24 +279,24 @@
         function originalRoute(){
             $('#dlg').dialog('open').dialog('center').dialog('setTitle','原创路线');
             $('#fm').form('clear');
-            url = '/SelfSupportRouteBaseInfo/findAll';
+            url = '/RouteBaseInfo/findAll';
         }
         function longJiang(){
             $('#dlg2').dialog('open').dialog('center').dialog('setTitle','龙江1+1');
             $('#fm').form('clear');
-            url = '/SelfSupportRouteBaseInfo/findAll';
+            url = '/RouteBaseInfo/findAll';
         }
         function outboundTravel(){
             $('#dlg3').dialog('open').dialog('center').dialog('setTitle','出境游');
             $('#fm').form('clear');
-            url = '/SelfSupportRouteBaseInfo/findAll';
+            url = '/RouteBaseInfo/findAll';
         }
         function editUser(){
             var row = $('#dg').datagrid('getSelected');
             if (row){
                 $('#dlg').dialog('open').dialog('center').dialog('setTitle','修改');
                 $('#fm').form('load',row);
-                url = '/SelfSupportRouteBaseInfo/save?id='+row.id;
+                url = '/RouteBaseInfo/save?id='+row.id;
             }
         }
         function saveUser(){
@@ -324,7 +324,7 @@
             if (row){
                 $.messager.confirm('Confirm','Are you sure you want to destroy this user?',function(r){
                     if (r){
-                        $.post('/SelfSupportRouteBaseInfo/delete',{id:row.id},function(result){
+                        $.post('/RouteBaseInfo/delete',{id:row.id},function(result){
                             if (result.success){
                                 $('#dg').datagrid('reload');    // reload the user data
                             } else {

@@ -6,10 +6,11 @@ import java.util.Map;
 import javax.validation.Valid;
 
 import org.honor.tourism.entity.InsuranceType;
+import org.honor.tourism.entity.RouteBaseInfo;
 import org.honor.tourism.entity.SelfSupportRoute;
 import org.honor.tourism.entity.Traffic;
 import org.honor.tourism.entity.VisaNationals;
-import org.honor.tourism.service.SelfSupportRouteBaseInfoService;
+import org.honor.tourism.service.RouteBaseInfoService;
 import org.honor.tourism.service.TrafficWayService;
 import org.honor.tourism.service.VisaNationalsService;
 import org.honor.tourism.util.EasyuiPage;
@@ -29,11 +30,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
  *
  */
 @Controller
-@RequestMapping("/SelfSupportRouteBaseInfo")
-public class SelfSupportRouteBaseInfoController {
+@RequestMapping("/RouteBaseInfo")
+public class RouteBaseInfoController {
 	
 	@Autowired 
-	private SelfSupportRouteBaseInfoService service;
+	private RouteBaseInfoService service;
 	
 	@Autowired 
 	private TrafficWayService trafficWayService;
@@ -50,8 +51,8 @@ public class SelfSupportRouteBaseInfoController {
 	@ResponseBody
 	public Map<String, Object> findAll(EasyuiPage page) {
 		Pageable pageable = new PageRequest(page.getPage(), page.getRows());
-		Page<SelfSupportRoute> pageSelfSupportRoute =  service.findAll(pageable);
-		List<SelfSupportRoute> rows = pageSelfSupportRoute.getContent();
+		Page<RouteBaseInfo> pageRouteBaseInfo =  service.findAll(pageable);
+		List<RouteBaseInfo> rows = pageRouteBaseInfo.getContent();
 		Long total = service.count();
 		return EasyuiResult.result(rows, total);
 	}
@@ -62,12 +63,12 @@ public class SelfSupportRouteBaseInfoController {
 	 */
 	@RequestMapping("/save")
 	@ResponseBody
-	public Map<String, Object> save(@Valid SelfSupportRoute selfSupportRoute, BindingResult result) {
+	public Map<String, Object> save(@Valid RouteBaseInfo routeBaseInfo, BindingResult result) {
 		if (result.hasErrors()) {//数据交验
 			return EasyuiResult.result(result);
         }
-		SelfSupportRoute returnSelfSupportRoute = service.save(selfSupportRoute);
-		if (returnSelfSupportRoute == null) {
+		RouteBaseInfo returnRouteBaseInfo = service.save(routeBaseInfo);
+		if (returnRouteBaseInfo == null) {
 			EasyuiResult.result(false, "添加失败");
 		}
 		return EasyuiResult.result(true);
