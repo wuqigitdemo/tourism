@@ -37,6 +37,7 @@ public class MyWebAppConfigurer extends WebMvcConfigurerAdapter {
 		registry.addViewController("/OtherTypeManage/PriceInventory").setViewName("OtherTypeManage/PriceInventory");
 		registry.addViewController("/OtherTypeManage/FileUpload").setViewName("OtherTypeManage/FileUpload");
 		registry.addViewController("/OtherTypeManage/OtherInfo").setViewName("OtherTypeManage/OtherInfo");
+		registry.addViewController("/OtherTypeManage/RouteInsurance").setViewName("OtherTypeManage/RouteInsurance");
 	}
 
 	@Override
@@ -47,5 +48,4 @@ public class MyWebAppConfigurer extends WebMvcConfigurerAdapter {
 		registry.addResourceHandler("/files/**").addResourceLocations(sb.toString());
 		super.addResourceHandlers(registry);
 	}
-
 }

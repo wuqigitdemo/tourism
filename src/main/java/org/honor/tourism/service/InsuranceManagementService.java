@@ -21,4 +21,6 @@ public interface InsuranceManagementService {
 	public InsuranceManagement save(InsuranceManagement insuranceManagement);
 	//删除
 	public void delete(String id);
+	//获取单条数据
+	public List<InsuranceManagement> findOne(String id);
 }

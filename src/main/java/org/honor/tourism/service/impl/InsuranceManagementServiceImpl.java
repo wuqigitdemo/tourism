@@ -1,5 +1,6 @@
 package org.honor.tourism.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.honor.tourism.entity.InsuranceManagement;
@@ -44,5 +45,12 @@ public class InsuranceManagementServiceImpl implements InsuranceManagementServic
 	@Override
 	public void delete(String id) {
 		repository.delete(id);
+	}
+	
+	@Override
+	public List<InsuranceManagement> findOne(String id) {
+		List<InsuranceManagement> rows = new ArrayList<InsuranceManagement>();
+		rows.add(repository.findOne(id));
+		return rows;
 	}
 }

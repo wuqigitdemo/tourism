@@ -96,4 +96,16 @@ public class InsuranceManagementController {
 		return EasyuiResult.result(true);
 	}
 	
+	/**
+	 * 获取单条保险详情
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping("/findOne")
+	@ResponseBody
+	public Map<String, Object> findOne(String id) {
+		List<InsuranceManagement> rows = service.findOne(id);
+		Long total = (long)rows.size();
+		return EasyuiResult.result(rows,total);
+	}
 }
