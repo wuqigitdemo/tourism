@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.Length;
@@ -73,9 +74,9 @@ public class PriceInventory {
 	@Min(value = 0, message = "住房中心-分配总价必须大于0")
 	private Double housingSpotCenterAllocationTotalPrice;
 	/** 导游中心-分配单价 */
-	@Min(value = 0, message = "住房中心-分配单价必须大于0")
+	@Min(value = 0, message = "导游中心-分配单价必须大于0")
 	private Double tourGuideSpotCenterAllocationUnitPrice;
-	/** 住房中心-分配总价 */
+	/** 导游中心-分配总价 */
 	@Min(value = 0, message = "导游中心-分配总价必须大于0")
 	private Double tourGuideSpotCenterAllocationTotalPrice;
 	/** 签证中心-分配单价 */
@@ -96,9 +97,15 @@ public class PriceInventory {
 	/** 儿童售价 */
 	@Min(value = 0, message = "儿童售价必须大于0")
 	private Double childrenPrice;
+	/** 儿童折扣价 */
+	@Min(value = 0, message = "儿童折扣价必须大于0")
+	private Double childrenDiscountPrice;
 	/** 占床加价 */
 	@Min(value = 0, message = "占床加价必须大于0")
 	private Double priceOfBed;
+	/** 儿童界定标准值 */
+	@Min(value = 0, message = "儿童界定标准值 必须大于0")
+	private Integer childrenDefineStandardValue;
 	/** 儿童界定标准 */
 	private ChildrenDefineStandard childrenDefineStandard;
 	/** 特殊人群说明 */
@@ -117,9 +124,15 @@ public class PriceInventory {
 	/** 同业儿童售价 */
 	@Min(value = 0, message = "同业儿童售价必须大于0")
 	private Double withTheIndustryChildrenPrice;
+	/** 同业儿童折扣价 */
+	@Min(value = 0, message = "同业儿童折扣价必须大于0")
+	private Double withTheIndustryChildrenDiscountPrice;
 	/** 同业占床加价 */
 	@Min(value = 0, message = "同业占床加价必须大于0")
 	private Double withTheIndustryPriceOfBed;
+	/** 同业儿童界定标准值 */
+	@Min(value = 0, message = "同业儿童界定标准值 必须大于0")
+	private Integer withTheIndustryChildrenDefineStandardValue;
 	/** 同业儿童界定标准 */
 	private ChildrenDefineStandard withTheIndustryChildrenDefineStandard;
 	/** 同业特殊人群说明 */
@@ -417,6 +430,38 @@ public class PriceInventory {
 
 	public void setWithTheIndustryChildrensPriceDescription(String withTheIndustryChildrensPriceDescription) {
 		this.withTheIndustryChildrensPriceDescription = withTheIndustryChildrensPriceDescription;
+	}
+
+	public Double getChildrenDiscountPrice() {
+		return childrenDiscountPrice;
+	}
+
+	public void setChildrenDiscountPrice(Double childrenDiscountPrice) {
+		this.childrenDiscountPrice = childrenDiscountPrice;
+	}
+
+	public Integer getChildrenDefineStandardValue() {
+		return childrenDefineStandardValue;
+	}
+
+	public void setChildrenDefineStandardValue(Integer childrenDefineStandardValue) {
+		this.childrenDefineStandardValue = childrenDefineStandardValue;
+	}
+
+	public Double getWithTheIndustryChildrenDiscountPrice() {
+		return withTheIndustryChildrenDiscountPrice;
+	}
+
+	public void setWithTheIndustryChildrenDiscountPrice(Double withTheIndustryChildrenDiscountPrice) {
+		this.withTheIndustryChildrenDiscountPrice = withTheIndustryChildrenDiscountPrice;
+	}
+
+	public Integer getWithTheIndustryChildrenDefineStandardValue() {
+		return withTheIndustryChildrenDefineStandardValue;
+	}
+
+	public void setWithTheIndustryChildrenDefineStandardValue(Integer withTheIndustryChildrenDefineStandardValue) {
+		this.withTheIndustryChildrenDefineStandardValue = withTheIndustryChildrenDefineStandardValue;
 	}
 
 }
