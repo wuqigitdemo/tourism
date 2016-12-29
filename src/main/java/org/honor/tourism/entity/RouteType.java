@@ -10,7 +10,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.Length;
 
 /**
- * 线路类别
+ * 线路类型
  */
 @Entity
 @Table(name = "t_route_type")

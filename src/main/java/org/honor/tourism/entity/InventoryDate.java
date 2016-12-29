@@ -29,7 +29,7 @@ public class InventoryDate {
 	@Length(min = 32, max = 32, message = "id需要32位字符")
 	private String id;
 	/** 库存日期 */
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date inventoryDate;
 
