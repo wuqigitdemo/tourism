@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -26,6 +27,7 @@ public class SysUser implements UserDetails {
 	@GenericGenerator(name = "uuid", strategy = "uuid")
 	private String id;
 	@Length(min = 4, max = 30, message = "{SysUser.username}")
+	@Column(nullable = false, unique = true)  
 	private String username;
 	@Length(min = 5, max = 50, message = "{SysUser.password}")
 	private String password;
