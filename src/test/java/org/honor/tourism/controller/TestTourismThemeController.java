@@ -1,9 +1,7 @@
 package org.honor.tourism.controller;
 
 
-import static org.junit.Assert.*;
-
-import java.util.Date;
+import static org.junit.Assert.assertEquals;
 
 import org.honor.tourism.Application;
 import org.honor.tourism.entity.TourismTheme;
@@ -43,7 +41,8 @@ public class TestTourismThemeController {
 	public void testSave() throws Exception {
 		MvcResult result = mockMvc.perform(
 			MockMvcRequestBuilders.post("/TourismTheme/save")
-				.param("themeName", "单元测试旅游主题"))
+				.param("themeName", "单元测试旅游主题")
+				)
 				.andDo(MockMvcResultHandlers.print())
 				.andReturn();
 		 assertEquals("{\"success\":true}", result.getResponse().getContentAsString());
@@ -53,12 +52,13 @@ public class TestTourismThemeController {
 	 * json提交方式
 	 * @throws Exception
 	 */
+	@Test
 	public void testSave2() throws Exception {
 		TourismTheme tt = new TourismTheme();
 		tt.setThemeName("&&**((");
 		ObjectMapper mapper = new ObjectMapper();  
 		MvcResult result = mockMvc.perform(
-			MockMvcRequestBuilders.post("/TourismTheme/save")
+			MockMvcRequestBuilders.post("/TourismTheme/saveJson")
 				.contentType(MediaType.APPLICATION_JSON_UTF8)
 				.content(mapper.writeValueAsString(tt))
 				)
