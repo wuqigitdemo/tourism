@@ -6,4 +6,6 @@ public interface SysUserService {
 
 	public SysUser save(SysUser sysUser);
 	
+	public SysUser findByLogin();
+	
 }
