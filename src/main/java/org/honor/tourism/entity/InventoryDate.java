@@ -48,4 +48,5 @@ public class InventoryDate {
 	public void setInventoryDate(Date inventoryDate) {
 		this.inventoryDate = inventoryDate;
 	}
+	
 }
