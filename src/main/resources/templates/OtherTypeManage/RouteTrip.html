@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<meta charset="UTF-8" />
+<title>行程信息管理</title>
+<link rel="stylesheet" type="text/css"
+	href="/easyui/themes/default/easyui.css" />
+<link rel="stylesheet" type="text/css" href="/easyui/themes/icon.css" />
+<link rel="stylesheet" type="text/css" href="/easyui/demo/demo.css" />
+<link rel="stylesheet" type="text/css" href="/easyui/themes/color.css" />
+<script type="text/javascript" src="/easyui/jquery.min.js"></script>
+<script type="text/javascript" src="/easyui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="/easyui/locale/easyui-lang-zh_CN.js"></script>
+</head>
+<body onload="ckCbo()">
+	<div style="margin: 10px 0;"></div>
+	<div class="easyui-panel" title="行程信息"
+		style="width: 100%; padding: 30px 30px">
+		<div style="margin-bottom: 20px">
+			<div>行程标题:</div>
+			<input class="easyui-textbox" style="width: 500px; height: 32px" />
+		</div>
+		<div style="margin-bottom: 20px">
+			<div>行程详细:</div>
+			<input class="easyui-textbox" data-options="multiline:true"
+				style="width: 400px; height: 100px" />
+		</div>
+		<div style="margin-bottom: 20px">
+			<div>选择时间:</div>
+			<input class="easyui-datetimebox" data-options="prompt:'请选择日期...'"
+				style="width: 200px" />
+		</div>
+		<div style="margin-bottom: 20px">
+			<div>日程简单说明:</div>
+			<input class="easyui-textbox" data-options="multiline:true"
+				style="width: 400px; height: 100px" />
+		</div>
+		<div style="margin-bottom: 20px">
+			<div>图片上传:</div>
+			<input class="easyui-filebox" name="file1"
+				data-options="prompt:'Choose a file...'" style="width: 400px" />
+		</div>
+		<div>
+			<a href="#" class="easyui-linkbutton" iconCls="icon-ok"
+				style="width: 100px; height: 32px">添加日程</a> <a href="#"
+				class="easyui-linkbutton" iconCls="icon-cancel"
+				style="width: 100px; height: 32px">删除日程</a>
+		</div>
+	</div>
+
+	<div class="easyui-panel" title="行程餐饮"
+		style="width: 100%; padding: 30px 30px">
+		<div style="margin-bottom: 20px">
+			<div>早餐:</div>
+			<select class="easyui-combobox" name="state" style="width: 200px;">
+				<option value="AL">酒店用餐</option>
+				<option value="AK">团餐</option>
+				<option value="AZ">自理</option>
+			</select> <input class="easyui-textbox" data-options="prompt:'备注'"
+				style="width: 500px; height: 32px" />
+		</div>
+		<div style="margin-bottom: 20px">
+			<div>中餐:</div>
+			<select class="easyui-combobox" name="state" style="width: 200px;">
+				<option value="AL">酒店用餐</option>
+				<option value="AK">团餐</option>
+				<option value="AZ">自理</option>
+			</select> <input class="easyui-textbox" data-options="prompt:'备注'"
+				style="width: 500px; height: 32px" />
+		</div>
+		<div style="margin-bottom: 20px">
+			<div>晚餐:</div>
+			<select class="easyui-combobox" name="state" style="width: 200px;">
+				<option value="AL">酒店用餐</option>
+				<option value="AK">团餐</option>
+				<option value="AZ">自理</option>
+			</select> <input class="easyui-textbox" data-options="prompt:'备注'"
+				style="width: 500px; height: 32px" />
+		</div>
+		<div style="margin-bottom: 20px">
+			<div>图片上传:</div>
+			<input class="easyui-filebox" name="file1"
+				data-options="prompt:'Choose a file...'" style="width: 400px" />
+		</div>
+	</div>
+
+	<div class="easyui-panel" title="行程酒店"
+		style="width: 100%; padding: 30px 30px">
+		<div style="margin-bottom: 20px">
+			<div>酒店类型:</div>
+			<input class="easyui-textbox" data-options="prompt:'备注'"
+				style="width: 500px; height: 32px" />
+		</div>
+		<div style="margin-bottom: 20px">
+			<div>图片上传:</div>
+			<input class="easyui-filebox" name="file1"
+				data-options="prompt:'Choose a file...'" style="width: 400px" />
+		</div>
+	</div>
+
+	<div class="easyui-panel" style="width: 100%; padding: 30px 30px">
+		<div style="margin-bottom: 20px">
+			<div>
+				<a href="#" class="easyui-linkbutton" iconCls="icon-ok"
+					style="width: 100px; height: 32px">添加行程</a> <a href="#"
+					class="easyui-linkbutton" iconCls="icon-cancel"
+					style="width: 100px; height: 32px">删除行程</a>
+			</div>
+		</div>
+	</div>
+
+	<div class="easyui-panel" style="width: 100%; padding: 30px 30px">
+		<div style="margin-bottom: 20px">
+			<div>
+				<a href="#" class="easyui-linkbutton" iconCls="icon-ok"
+					style="width: 100px; height: 32px">保存行程</a> <a href="#"
+					class="easyui-linkbutton" iconCls="icon-cancel"
+					style="width: 100px; height: 32px">返回列表</a>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
