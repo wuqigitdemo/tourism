@@ -12,15 +12,32 @@
 <script type="text/javascript" src="/easyui/jquery.min.js"></script>
 <script type="text/javascript" src="/easyui/jquery.easyui.min.js"></script>
 <script type="text/javascript" src="/easyui/locale/easyui-lang-zh_CN.js"></script>
+
+<link rel="stylesheet" type="text/css"
+	href="/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css"
+	href="/css/common.css" />
+<link rel="stylesheet" type="text/css"
+	href="/css/page.css" />
+<link rel="stylesheet" type="text/css"
+	href="/css/reset.css" />
+	
+<link rel="stylesheet" type="text/css"
+	href="/css/fullcalendar/fullcalendar.css" />
+<link rel="stylesheet" type="text/css"
+	href="/css/fullcalendar/fullcalendar.print.css" />
+<script type="text/javascript"
+	src="/js/fullcalendar/fullcalendar.min.js"></script>
+
 <style type="text/css">
 .td{border:1px #0066ff solid;}
 .table{border-collapse:collapse;}
 </style>
+
 </head>
 <body>
-	<div class="easyui-panel" title="基础信息" style="width:100%"/>
 <form class="easyui-panel" id="myform1" name="myform1" method="post" >
-<table cellpadding="5">
+<table class="table table-bordered table2 glg_tab" >
 	<tbody>
 		<tr>
 			<td style="font-size: 16px; text-align: center;">线路名称：</td>
@@ -32,7 +49,7 @@
 				<input class="easyui-combobox" 
 						name="traffic"
 						data-options="
-					url: '/SelfSupportRouteBaseInfo/selectGoWay', 
+					url: '/RouteBaseInfo/selectGoWay', 
 					method:'get',
 					valueField:'id',
 					textField:'trafficType',
@@ -45,7 +62,7 @@
 				<input class="easyui-combobox" 
 						name="backtraffic"
 						data-options="
-					url: '/SelfSupportRouteBaseInfo/selectGoWay', 
+					url: '/RouteBaseInfo/selectGoWay', 
 					method:'get',
 					valueField:'id',
 					textField:'trafficType',
@@ -67,7 +84,7 @@
 				<input class="easyui-combobox" 
 						name="areavisaid"
 						data-options="
-					url: '/SelfSupportRouteBaseInfo/selectCountry', 
+					url: '/RouteBaseInfo/selectCountry', 
 					method:'get',
 					valueField:'id',
 					textField:'country',
@@ -91,28 +108,34 @@
 		<tr>
 			<td style="font-size: 16px; text-align: center;">原创路线:</td>
 			<td >
-			<a href="javascript:void(0)" class="easyui-linkbutton" plain="true" onclick="newUser()">选择路线</a>
+			<a  class="easyui-linkbutton" plain="true" onclick="originalRoute()">选择路线</a>
 			</td>
 			<td>
-			哈尔滨 
+			<div id="originalRoute" name="originalRoute">
+			 	  	
+			 </div>
 			</td>
 		</tr>	
 		<tr>
 			<td style="font-size: 16px; text-align: center;">龙江1+1:</td>
 			<td>
-			<a href="javascript:void(0)" class="easyui-linkbutton" plain="true" onclick="newUser()">选择路线</a>
+			<a  class="easyui-linkbutton" plain="true" onclick="longJiang()">选择路线</a>
 			</td>
 			<td>
-			哈尔滨 
+			<div id="longJiang" name="longJiang">
+			 	  	
+			 </div>
 			</td>
 		</tr>	
 		<tr>
 			<td style="font-size: 16px; text-align: center;">出境游:</td>
 			<td>
-			<a href="javascript:void(0)" class="easyui-linkbutton" plain="true" onclick="newUser()">选择路线</a>
+			<a  class="easyui-linkbutton" plain="true" onclick="outboundTravel()">选择路线</a>
 			</td>
 			<td>
-			 
+			 <div id="outboundTravel" name="outboundTravel">
+			 	  	
+			 </div>
 			</td>
 		</tr>
 		<tr>
@@ -163,65 +186,117 @@
 
  	<div id="dlg" class="easyui-dialog" style="width:500px"
             closed="true" buttons="#dlg-buttons">
-        <form id="fm" method="post" novalidate="" style="margin:0;padding:20px 50px" >
+        <form id="fm" novalidate="" style="margin:0;padding:20px 50px">
             <div style="margin-bottom:10px">
-            	<table id="cs" class="table" border="1px" cellspacing="1" style="width: 400px;">
+            	<table id="cs" name="cs" class="table" border="1px" cellspacing="1" style="width: 400px;">
 				<tr>
 				  <td><input type="checkbox" name="qx" value="黑龙江省" />黑龙江省</td>
 				  <td><input type="checkbox" name="qx" value="哈尔滨市" />哈尔滨市</td>
 				  <td><input type="checkbox" name="qx" value="齐齐哈尔市" />齐齐哈尔市</td>
 				  <td><input type="checkbox" name="qx" value="大庆市" />大庆市</td>
 				</tr>
+            	</table>
+            </div>
+        </form>
+    </div>
+ 	<div id="dlg2" class="easyui-dialog" style="width:500px"
+            closed="true" buttons="#dlg-buttons2">
+        <form id="fm" novalidate="" style="margin:0;padding:20px 50px">
+            <div style="margin-bottom:10px">
+            	<table id="cs2" name="cs2" class="table" border="1px" cellspacing="1" style="width: 400px;">
 				<tr>
-				  <td><input type="checkbox" name="qx" value="吉林省" />吉林省</td>
-				  <td><input type="checkbox" name="qx" value="长春市" />长春市</td>
-				  <td><input type="checkbox" name="qx" value="吉林市" />吉林市</td>
-				  <td><input type="checkbox" name="qx" value="白山市" />白山市</td>
-				</tr>
-				<tr>
-				  <td><input type="checkbox" name="qx" value="辽宁省" />辽宁省</td>
-				  <td><input type="checkbox" name="qx" value="沈阳市" />沈阳市</td>
-				  <td><input type="checkbox" name="qx" value="铁岭市" />铁岭市</td>
-				  <td><input type="checkbox" name="qx" value="大连市" />大连市</td>
+				  <td><input type="checkbox" name="qx2" value="黑龙江省" />黑龙江省</td>
+				  <td><input type="checkbox" name="qx2" value="哈尔滨市" />哈尔滨市</td>
+				  <td><input type="checkbox" name="qx2" value="齐齐哈尔市" />齐齐哈尔市</td>
+				  <td><input type="checkbox" name="qx2" value="大庆市" />大庆市</td>
 				</tr>
             	</table>
             </div>
         </form>
     </div>
+ 	<div id="dlg3" class="easyui-dialog" style="width:500px"
+            closed="true" buttons="#dlg-buttons3">
+        <form id="fm" novalidate="" style="margin:0;padding:20px 50px">
+            <div style="margin-bottom:10px">
+            	<table id="cs3" name="cs3" class="table" border="1px" cellspacing="1" style="width: 400px;">
+				<tr>
+				  <td><input type="checkbox" name="qx3" value="黑龙江省" />黑龙江省</td>
+				  <td><input type="checkbox" name="qx3" value="哈尔滨市" />哈尔滨市</td>
+				  <td><input type="checkbox" name="qx3" value="齐齐哈尔市" />齐齐哈尔市</td>
+				  <td><input type="checkbox" name="qx3" value="大庆市" />大庆市</td>
+				</tr>
+            	</table>
+            </div>
+        </form>
+    </div>
+    
     <div id="dlg-buttons">
         <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="getInfo()" style="width:90px">提交</a>
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')" style="width:90px">取消</a>
     </div>
+    <div id="dlg-buttons2">
+        <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="getInfo2()" style="width:90px">提交</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')" style="width:90px">取消</a>
+    </div>
+    <div id="dlg-buttons3">
+        <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="getInfo3()" style="width:90px">提交</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')" style="width:90px">取消</a>
+    </div>
 	<script type="text/javascript">
-	
-		var chk_value =[];//定义一个数组  
+	/*<![CDATA[*/
 		function getInfo(){
-	   /*  $('input[name="qx"]:checked').each(function(){//遍历每一个名字为qx的复选框，其中选中的执行函数  
-	    	chk_value.push($(this).val());//将选中的值添加到数组chk_value中  
-	    });
-	    alert(chk_value.length==0 ?'你还没有选择任何内容！':chk_value);  
-	    dwr.util.setValue(checkboxInfo,chk_value);
-	    $('#fm').submit(); */
-			$('input[name="qx"]:checked').each(function(){
-			chk_value.push($(this).val());
-			});
-			alert(chk_value.length==0 ?'你还没有选择任何内容！':chk_value); 
-			$('#fm').submit();
+			  obj = document.getElementsByName("qx");
+			    check_val = [];
+			    for(k in obj){
+			        if(obj[k].checked)
+			            check_val.push(obj[k].value);
+			    }
+			    document.getElementById('originalRoute').innerHTML = check_val; 
+		  $('#dlg').dialog('close');
+		}
+		function getInfo2(){
+			obj = document.getElementsByName("qx2");
+		    check_val = [];
+		    for(k in obj){
+		        if(obj[k].checked)
+		            check_val.push(obj[k].value);
+		    }
+		    document.getElementById('longJiang').innerHTML = check_val;
+		  $('#dlg2').dialog('close');
+		}
+		function getInfo3(){
+			obj = document.getElementsByName("qx3");
+		    check_val = [];
+		    for(k in obj){
+		        if(obj[k].checked)
+		            check_val.push(obj[k].value);
+		    }
+		    document.getElementById('outboundTravel').innerHTML = check_val;
+		  $('#dlg3').dialog('close');
 		}
 		
-	      
         var url;
-        function newUser(){
+        function originalRoute(){
             $('#dlg').dialog('open').dialog('center').dialog('setTitle','原创路线');
             $('#fm').form('clear');
-            url = '/SelfSupportRouteBaseInfo/save';
+            url = '/RouteBaseInfo/findAll';
+        }
+        function longJiang(){
+            $('#dlg2').dialog('open').dialog('center').dialog('setTitle','龙江1+1');
+            $('#fm').form('clear');
+            url = '/RouteBaseInfo/findAll';
+        }
+        function outboundTravel(){
+            $('#dlg3').dialog('open').dialog('center').dialog('setTitle','出境游');
+            $('#fm').form('clear');
+            url = '/RouteBaseInfo/findAll';
         }
         function editUser(){
             var row = $('#dg').datagrid('getSelected');
             if (row){
                 $('#dlg').dialog('open').dialog('center').dialog('setTitle','修改');
                 $('#fm').form('load',row);
-                url = '/SelfSupportRouteBaseInfo/save?id='+row.id;
+                url = '/RouteBaseInfo/save?id='+row.id;
             }
         }
         function saveUser(){
@@ -249,7 +324,7 @@
             if (row){
                 $.messager.confirm('Confirm','Are you sure you want to destroy this user?',function(r){
                     if (r){
-                        $.post('/SelfSupportRouteBaseInfo/delete',{id:row.id},function(result){
+                        $.post('/RouteBaseInfo/delete',{id:row.id},function(result){
                             if (result.success){
                                 $('#dg').datagrid('reload');    // reload the user data
                             } else {
@@ -263,6 +338,7 @@
                 });
             }
         }
+        /*]]>*/
     </script>
    </body>
 </html>

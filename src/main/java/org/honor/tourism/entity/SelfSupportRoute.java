@@ -39,7 +39,7 @@ public class SelfSupportRoute {
 	@ManyToMany
 	private List<InsuranceManagement> insuranceManagementList;
 	/** 创建日期 */
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date createDate;
 

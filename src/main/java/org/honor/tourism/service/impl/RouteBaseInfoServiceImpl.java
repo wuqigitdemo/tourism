@@ -1,21 +1,22 @@
 package org.honor.tourism.service.impl;
 
+import org.honor.tourism.entity.RouteBaseInfo;
 import org.honor.tourism.entity.SelfSupportRoute;
-import org.honor.tourism.repository.SelfSupportRouteBaseInfoRepository;
-import org.honor.tourism.service.SelfSupportRouteBaseInfoService;
+import org.honor.tourism.repository.RouteBaseInfoRepository;
+import org.honor.tourism.service.RouteBaseInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
-public class SelfSupportRouteBaseInfoServiceImpl implements SelfSupportRouteBaseInfoService {
+public class RouteBaseInfoServiceImpl implements RouteBaseInfoService {
 
 	@Autowired
-	private SelfSupportRouteBaseInfoRepository repository;
+	private RouteBaseInfoRepository repository;
 	
 	@Override
-	public Page<SelfSupportRoute> findAll(Pageable pageable) {
+	public Page<RouteBaseInfo> findAll(Pageable pageable) {
 		return repository.findAll(pageable);
 	}
 
@@ -25,8 +26,8 @@ public class SelfSupportRouteBaseInfoServiceImpl implements SelfSupportRouteBase
 	}
 
 	@Override
-	public SelfSupportRoute save(SelfSupportRoute selfSupportRoute) {
-		return repository.save(selfSupportRoute);
+	public RouteBaseInfo save(RouteBaseInfo routeBaseInfo) {
+		return repository.save(routeBaseInfo);
 	}
 
 	@Override
