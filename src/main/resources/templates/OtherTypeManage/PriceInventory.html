@@ -34,8 +34,10 @@
 <body>
 	<div class="glg">
 		<form class="table table-bordered table2 glg_tab" style=""
-			id="myform3" name="myform3" method="post"
-			action="/operatorcenter/jsp/routemanage/routeSave.action">
+			id="myform" name="myform" method="POST"
+			enctype="application/json;charset=utf-8"
+			action="/PriceInventory/savePriceInventory">
+			
 			<table class="table table-bordered table2 glg_tab">
 				<tbody>
 					<tr style="height: 433px;">
@@ -63,9 +65,7 @@
 							
 							<!-- 下方表格  -->
 							
-							
-							
-							<table class="table table-bordered table2">
+							<table id="submitTable" class="table table-bordered table2" style="width:100%;">
 								<tbody>
 									<tr>
 										<td colspan="6" class="liTit"><div
@@ -74,28 +74,27 @@
 
 									<tr>
 										<td>登记占位时限：</td>
-										<td colspan="2" style="text-align: left;"><input
-											id="occupiedtimeStr" placeholder=""
-											name="productInfo.occupiedtime" value=""
-											style="width: 151px;" type="text" />(单位：小时)<font
-											style="color: red">*</font></td>
+										<td colspan="2" style="text-align: left;">
+											<input id="registrationTimeLimitPlaceholder" placeholder=""
+												name="registrationTimeLimitPlaceholder" value=""
+												style="width: 151px;" type="text" />(单位：小时)
+											<font style="color: red">*</font>
+										</td>
 										<td>保留位置：</td>
 										<td colspan="2" style="text-align: left;"><input
-											id="holdtimeStr" placeholder="" name="productInfo.holdtime"
+											id="reservedPosition" placeholder="" name="reservedPosition"
 											value="" style="width: 151px;" type="text" />(单位：小时)<font
 											style="color: red">*</font></td>
 									</tr>
 									<tr>
 										<td>单房差</td>
-										<td colspan="2"><input
-											name="productInfo.singlesupplement" value=""
-											datatype="/^(-?\d{1,32})(\.\d{1,2})?$/" errormsg="此处请填入价格"
-											ignore="ignore" maxlength="18" size="6" type="text" />元</td>
+										<td colspan="2">
+											<input id="SingleRoomIsPoor" name="SingleRoomIsPoor" value="" type="text" />元
+										</td>
 										<td>签证补价</td>
-										<td colspan="2"><input name="productInfo.visapremium"
-											value="" datatype="/^(-?\d{1,32})(\.\d{1,2})?$/"
-											errormsg="此处请填入价格" ignore="ignore" maxlength="18" size="6"
-											type="text" />元</td>
+										<td colspan="2">
+											<input id="aPremiumVisa" name="aPremiumVisa" value="" type="text" />元
+										</td>
 									</tr>
 
 									<tr>
@@ -108,15 +107,18 @@
 									</tr>
 									<tr>
 										<td>分配单价</td>
-										<td colspan="2"><input onfocus="clearTotalOrPrice(this);"
-											name="productInfo.fleetcenterprice" value=""
-											datatype="/^(-?\d{1,32})(\.\d{1,2})?$/" errormsg="此处请填入单价"
-											ignore="ignore" maxlength="18" type="text" />元</td>
+										<td colspan="2">
+											<input onfocus="clearTotalOrPrice(this);"
+													id="fleetCenterAllocationUnitPrice"
+													name="fleetCenterAllocationPrice" type="text" />元
+										</td>
 										<td>分配总价</td>
-										<td colspan="3"><input onfocus="clearTotalOrPrice(this);"
-											name="productInfo.fleetcentertotal" value=""
-											datatype="/^(-?\d{1,32})(\.\d{1,2})?$/" errormsg="此处请填入总价"
-											ignore="ignore" maxlength="18" type="text" />元</td>
+										<td colspan="2">
+											<input onfocus="clearTotalOrPrice(this);"
+												id="fleetCenterAllocationTotalPrice"
+												name="fleetCenterAllocationTotal" value=""
+												type="text" />元
+										</td>
 									</tr>
 
 									<tr>
@@ -124,15 +126,17 @@
 									</tr>
 									<tr>
 										<td>分配单价</td>
-										<td colspan="2"><input onfocus="clearTotalOrPrice(this);"
-											name="productInfo.traffichubprice" value=""
-											datatype="/^(-?\d{1,32})(\.\d{1,2})?$/" errormsg="此处请填入单价"
-											ignore="ignore" maxlength="18" type="text" />元</td>
+										<td colspan="2">
+											<input onfocus="clearTotalOrPrice(this);"
+												id="trafficCenterAllocationUnitPrice"
+												name="trafficCenterAllocationPrice" value="" type="text" />元
+										</td>
 										<td>分配总价</td>
-										<td colspan="3"><input onfocus="clearTotalOrPrice(this);"
-											name="productInfo.traffichubtotal" value=""
-											datatype="/^(-?\d{1,32})(\.\d{1,2})?$/" errormsg="此处请填入总价"
-											ignore="ignore" maxlength="18" type="text" />元</td>
+										<td colspan="2">
+											<input onfocus="clearTotalOrPrice(this);"
+												id="trafficCenterAllocationTotalPrice"
+												name="trafficCenterAllocationTotal" value="" type="text" />元
+										</td>
 									</tr>
 
 									<tr>
@@ -140,75 +144,94 @@
 									</tr>
 									<tr>
 										<td>分配单价</td>
-										<td colspan="2"><input onfocus="clearTotalOrPrice(this);"
-											name="productInfo.diningcenterprice" value=""
-											datatype="/^(-?\d{1,32})(\.\d{1,2})?$/" errormsg="此处请填入单价"
-											ignore="ignore" maxlength="18" type="text" />元</td>
+										<td colspan="2">
+											<input onfocus="clearTotalOrPrice(this);"
+												id="cateringCenterAllocationUnitPrice"
+												name="cateringCenterAllocationPrice" value="" type="text" />元
+										</td>
 										<td>分配总价</td>
-										<td colspan="3"><input onfocus="clearTotalOrPrice(this);"
-											name="productInfo.diningcentertotal" value=""
-											datatype="/^(-?\d{1,32})(\.\d{1,2})?$/" errormsg="此处请填入总价"
-											ignore="ignore" maxlength="18" type="text" />元</td>
+										<td colspan="2">
+											<input onfocus="clearTotalOrPrice(this);"
+												id="cateringCenterAllocationTotalPrice"
+												name="cateringCenterAllocationTotal" value=""
+												type="text" />元
+										</td>
 									</tr>
 									<tr>
 										<td colspan="6" style="font-weight: bold;">景区中心</td>
 									</tr>
 									<tr>
 										<td>分配单价</td>
-										<td colspan="2"><input onfocus="clearTotalOrPrice(this);"
-											name="productInfo.touristprice" value=""
-											datatype="/^(-?\d{1,32})(\.\d{1,2})?$/" errormsg="此处请填入单价"
-											ignore="ignore" maxlength="18" type="text" />元</td>
+										<td colspan="2">
+											<input onfocus="clearTotalOrPrice(this);"
+												id="scenicSpotCenterAllocationUnitPrice"
+												name="scenicSpotCenterAllocationPrice"
+												type="text" />元
+										</td>
 										<td>分配总价</td>
-										<td colspan="3"><input onfocus="clearTotalOrPrice(this);"
-											name="productInfo.touristtotal" value=""
-											datatype="/^(-?\d{1,32})(\.\d{1,2})?$/" errormsg="此处请填入总价"
-											ignore="ignore" maxlength="18" type="text" />元</td>
+										<td colspan="2">
+											<input onfocus="clearTotalOrPrice(this);"
+												id="scenicSpotCenterAllocationTotalPrice"
+												name="scenicSpotCenterAllocationTotal" value=""
+												type="text" />元
+										</td>
 									</tr>
 									<tr>
 										<td colspan="6" style="font-weight: bold;">住房中心</td>
 									</tr>
 									<tr>
 										<td>分配单价</td>
-										<td colspan="2"><input onfocus="clearTotalOrPrice(this);"
-											name="productInfo.housingprice" value=""
-											datatype="/^(-?\d{1,32})(\.\d{1,2})?$/" errormsg="此处请填入单价"
-											ignore="ignore" maxlength="18" type="text" />元</td>
+										<td colspan="2">
+											<input onfocus="clearTotalOrPrice(this);"
+												id="housingSpotCenterAllocationUnitPrice"
+												name="housingSpotCenterAllocationPrice" value=""
+												type="text" />元
+										</td>
 										<td>分配总价</td>
-										<td colspan="3"><input onfocus="clearTotalOrPrice(this);"
-											name="productInfo.housingtotal" value=""
-											datatype="/^(-?\d{1,32})(\.\d{1,2})?$/" errormsg="此处请填入总价"
-											ignore="ignore" maxlength="18" type="text" />元</td>
+										<td colspan="2">
+											<input onfocus="clearTotalOrPrice(this);"
+												id="housingSpotCenterAllocationTotalPrice"
+												name="housingSpotCenterAllocationTotal" value=""
+												type="text" />元
+										</td>
 									</tr>
 									<tr>
 										<td colspan="6" style="font-weight: bold;">导游中心</td>
 									</tr>
 									<tr>
 										<td>分配单价</td>
-										<td colspan="2"><input onfocus="clearTotalOrPrice(this);"
-											name="productInfo.tourprice" value=""
-											datatype="/^(-?\d{1,32})(\.\d{1,2})?$/" errormsg="此处请填入单价"
-											ignore="ignore" maxlength="18" type="text" />元</td>
+										<td colspan="2">
+											<input onfocus="clearTotalOrPrice(this);"
+											 	id="tourGuideSpotCenterAllocationUnitPrice"
+												name="tourGuideSpotCenterAllocationPrice" 
+												type="text" />元
+										</td>
 										<td>分配总价</td>
-										<td colspan="3"><input onfocus="clearTotalOrPrice(this);"
-											name="productInfo.tourtotal" value=""
-											datatype="/^(-?\d{1,32})(\.\d{1,2})?$/" errormsg="此处请填入总价"
-											ignore="ignore" maxlength="18" type="text" />元</td>
+										<td colspan="2">
+											<input onfocus="clearTotalOrPrice(this);"
+												id="tourGuideSpotCenterAllocationTotalPrice"
+												name="tourGuideSpotCenterAllocationTotal"
+												type="text" />元
+										</td>
 									</tr>
 									<tr>
 										<td colspan="6" style="font-weight: bold;">签证中心</td>
 									</tr>
 									<tr>
 										<td>分配单价</td>
-										<td colspan="2"><input onfocus="clearTotalOrPrice(this);"
-											name="productInfo.vacprice" value=""
-											datatype="/^(-?\d{1,32})(\.\d{1,2})?$/" errormsg="此处请填入单价"
-											ignore="ignore" maxlength="18" type="text" />元</td>
+										<td colspan="2">
+											<input onfocus="clearTotalOrPrice(this);"
+												id="visaCenterAllocationUnitPrice"
+												name="visaCenterAllocationPrice"
+												type="text" />元
+										</td>
 										<td>分配总价</td>
-										<td colspan="3"><input onfocus="clearTotalOrPrice(this);"
-											name="productInfo.vactotal" value=""
-											datatype="/^(-?\d{1,32})(\.\d{1,2})?$/" errormsg="此处请填入总价"
-											ignore="ignore" maxlength="18" type="text" />元</td>
+										<td colspan="2">
+											<input onfocus="clearTotalOrPrice(this);"
+												id="visaCenterAllocationTotalPrice"
+												name="visaCenterAllocationTotal" 
+												type="text" />元
+										</td>
 									</tr>
 
 									<tr>
@@ -220,63 +243,69 @@
 									</tr>
 									<tr>
 										<td>成人售价</td>
-										<td><input name="prochannelLists[3].channeltype"
-											value="3" type="hidden" /> <input
-											name="prochannelLists[3].price"
-											onblur="setPriceValueTo3(this);"
-											datatype="/^(-?\d{1,32})(\.\d{1,2})?$/" errormsg="此处请填入单价"
-											ignore="ignore" maxlength="18" type="text" />元</td>
+										<td>
+											<input onfocus="clearTotalOrPrice(this);"
+												id="adultPrice"
+												name="adultPrice" 
+												type="text" />元
+										</td>
 										<td>折扣价</td>
-										<td><input name="prochannelLists[3].discountprice"
-											onblur="setDisPriceValueTo3(this);"
-											datatype="/^(-?\d{1,32})(\.\d{1,2})?$/" errormsg="此处请填入单价"
-											ignore="ignore" maxlength="18" type="text" />元</td>
+										<td>
+											<input name="discountPrice"
+												id="discountPrice" onblur="setDisPriceValueTo3(this);" type="text" />元
+										</td>
 										<td>库存</td>
-										<td><input name="prochannelLists[3].totalnumber"
-											onblur="setCountValueTo3(this);" datatype="n1-32"
-											errormsg="此处请填入人数" ignore="ignore" maxlength="18" type="text" />人<font
-											style="color: red">*</font></td>
+										<td>
+											<input name="inventoryPerson"
+												id="inventoryPerson"
+												onblur="setDisPriceValueTo3(this);" type="text" />元
+										</td>
 									</tr>
 									<tr>
 										<td>儿童售价</td>
-										<td><input name="prochannelLists[3].childprice"
-											onblur="setChildpriceTo3(this);" value=""
-											datatype="/^(-?\d{1,32})(\.\d{1,2})?$/" errormsg="此处请填入单价"
-											ignore="ignore" maxlength="18" type="text" />元</td>
+										<td>
+											<input name="childrenPrice"
+												id="childrenPrice"
+												onblur="setDisPriceValueTo3(this);" type="text" />元
+										</td>
 										<td>儿童折扣价</td>
-										<td><input name="prochannelLists[3].discountchildprice"
-											onblur="setDiscountchildpriceTo3(this);" value=""
-											datatype="/^(-?\d{1,32})(\.\d{1,2})?$/" errormsg="此处请填入单价"
-											ignore="ignore" maxlength="18" type="text" />元</td>
+										<td>
+											<input name="childrenDiscountPrice"
+												id="childrenDiscountPrice"
+												onblur="setDisPriceValueTo3(this);" type="text" />元
+										</td>
 										<td>占床价</td>
-										<td><input name="prochannelLists[3].bedprice"
-											onblur="setBedpriceTo3(this);" value=""
-											datatype="/^(-?\d{1,32})(\.\d{1,2})?$/" errormsg="此处请填入单价"
-											ignore="ignore" maxlength="18" type="text" />元</td>
+										<td>
+											<input name="priceOfBed"
+												id="priceOfBed"
+												onblur="setDisPriceValueTo3(this);" type="text" />元
+										</td>
 									</tr>
 									<tr>
 										<td>儿童界定标准</td>
-										<td colspan="5"><input value=""
-											onblur="setDefinitionTo3(this);" name=""
-											id="childrendefinition_id_3" type="text" /> <input
-											onclick="checkDefinition(0,'childrendefinition_id_3');"
-											name="childrendefinition3" type="radio" />年龄(周岁)&nbsp;
-											<input
-											onclick="checkDefinition(1,'childrendefinition_id_3');"
-											name="childrendefinition3" type="radio" />身高(米)</td>
+										<td colspan="5">
+											<input id="childrenDefineStandardValue" type="text" /> 
+											<input id="childrenDefineStandard" name="childrenDefineStandard" type="hidden"/>
+											<input name="childrenDefineStandard_Radio" onclick="childrenDefineStandardRadio('0');" type="radio" />年龄(周岁)&nbsp;
+											<input name="childrenDefineStandard_Radio" onclick="childrenDefineStandardRadio('1');" type="radio" />身高(厘米)
+										</td>
 									</tr>
 									<tr>
 										<td>特殊人群说明</td>
-										<td colspan="5"><textarea
-												name="prochannelLists[3].childpricedetail" rows="3"
-												cols="70" datatype="*1-1500" errormsg="此项为必填"
-												maxlength="1500"></textarea></td>
+										<td colspan="5">
+											<textarea id="specialPopulationDescription" 
+												name="specialPopulationDescription" rows="3"
+												cols="70">
+											</textarea>
+										</td>
 									</tr>
 									<tr>
 										<td>儿童价格说明</td>
-										<td colspan="5"><textarea
-												name="prochannelLists[3].childrendetail" rows="3" cols="70"
-												datatype="*1-1500" errormsg="此项为必填" maxlength="1500"></textarea></td>
+										<td colspan="5">
+											<textarea id="childrensPriceDescription" 
+												name="childrensPriceDescription" rows="3" cols="70">
+											</textarea>
+										</td>
 									</tr>
 
 									<tr>
@@ -284,65 +313,76 @@
 									</tr>
 									<tr>
 										<td>成人售价</td>
-										<td><input name="prochannelLists[1].channeltype"
-											value="1" type="hidden" /> <input
-											name="prochannelLists[1].price" value=""
-											datatype="/^(-?\d{1,32})(\.\d{1,2})?$/" errormsg="此处请填入单价"
-											ignore="ignore" maxlength="18" type="text" />元</td>
+										<td>
+											<input name="withTheIndustryAdultPrice"
+												id="withTheIndustryAdultPrice" type="text" />元
+										</td>
 										<td>折扣价</td>
-										<td><input name="prochannelLists[1].discountprice"
-											value="" datatype="/^(-?\d{1,32})(\.\d{1,2})?$/"
-											errormsg="此处请填入单价" ignore="ignore" maxlength="18" type="text" />元</td>
+										<td>
+											<input name="withTheIndustryDiscountPrice" 
+												id="withTheIndustryDiscountPrice" type="text" />元
+										</td>
 										<td>库存</td>
-										<td colspan="3"><input
-											name="prochannelLists[1].totalnumber" value=""
-											datatype="n1-32" errormsg="此处请填入人数" ignore="ignore"
-											maxlength="18" type="text" />人<font style="color: red">*</font></td>
+										<td colspan="3">
+											<input name="withTheIndustryInventoryPerson" value=""
+												id="withTheIndustryInventoryPerson" type="text" />人
+											<font style="color: red">*</font>
+										</td>
 									</tr>
 									<tr>
 										<td>儿童售价</td>
-										<td><input name="prochannelLists[1].childprice" value=""
-											datatype="/^(-?\d{1,32})(\.\d{1,2})?$/" errormsg="此处请填入单价"
-											ignore="ignore" maxlength="18" type="text" />元</td>
+										<td>
+											<input name="withTheIndustryChildrenPrice" value=""
+												id="withTheIndustryChildrenPrice" type="text" />元
+										</td>
 										<td>儿童折扣价</td>
-										<td><input name="prochannelLists[1].discountchildprice"
-											value="" datatype="/^(-?\d{1,32})(\.\d{1,2})?$/"
-											errormsg="此处请填入单价" ignore="ignore" maxlength="18" type="text" />元</td>
+										<td>
+											<input name="withTheIndustryChildrenDiscountPrice"
+												id="withTheIndustryChildrenDiscountPrice" type="text" />元
+										</td>
 										<td>占床价</td>
-										<td><input name="prochannelLists[1].bedprice" value=""
-											datatype="/^(-?\d{1,32})(\.\d{1,2})?$/" errormsg="此处请填入单价"
-											ignore="ignore" maxlength="18" type="text" />元</td>
+										<td>
+											<input name="withTheIndustryPriceOfBed"
+												id="withTheIndustryPriceOfBed" type="text" />元
+										</td>
 									</tr>
 									<tr>
 										<td>儿童界定标准</td>
-										<td colspan="5"><input value="" name=""
-											id="childrendefinition_id_1" type="text" /> <input
-											onclick="checkDefinition(0,'childrendefinition_id_1');"
-											name="childrendefinition" type="radio" />年龄(周岁)&nbsp; <input
-											onclick="checkDefinition(1,'childrendefinition_id_1');"
-											name="childrendefinition" type="radio" />身高(米)</td>
+										<td colspan="5">
+											<input value="" name="withTheIndustryChildrenDefineStandardValue"
+												id="withTheIndustryChildrenDefineStandardValue" type="text" /> 
+											<input id="withTheIndustryChildrenDefineStandard" 
+												name="withTheIndustryChildrenDefineStandard" type="hidden" />
+											<input onclick="withTheIndustryChildrenDefineStandardRadio('0');"
+												name="withTheIndustryChildrenDefineStandard_Radio" type="radio" />年龄(周岁)&nbsp; 
+											<input onclick="withTheIndustryChildrenDefineStandardRadio('1');"
+												name="withTheIndustryChildrenDefineStandard_Radio" type="radio" />身高(厘米)
+										</td>
 									</tr>
 
 									<tr>
 										<td>特殊人群说明</td>
-										<td colspan="5"><textarea
-												name="prochannelLists[1].childpricedetail" rows="3"
-												cols="70" datatype="*1-1500" errormsg="此项为必填"
-												maxlength="1500"></textarea></td>
+										<td colspan="5">
+											<textarea id="withTheIndustrySpecialPopulationDescription" 
+												name="withTheIndustrySpecialPopulationDescription" 
+												rows="3" cols="70" >
+											</textarea>
+										</td>
 									</tr>
 									<tr>
 										<td>儿童价格说明</td>
-										<td colspan="5"><textarea
-												name="prochannelLists[1].childrendetail" rows="3" cols="70"
-												datatype="*1-1500" errormsg="此项为必填" maxlength="1500"></textarea></td>
+										<td colspan="5">
+											<textarea id="withTheIndustryChildrensPriceDescription" 
+												name="withTheIndustryChildrensPriceDescription" 
+												rows="3" cols="70">
+											</textarea>
+										</td>
 									</tr>
-
-
 
 									<tr class="beijingq">
 										<td colspan="6">
 											<div class="btn btn-success btn2 anan">
-												<span onclick="saveForm(3);" id="span3">添加产品</span>
+												<span onclick="saveForm();" id="span3">添加产品</span>
 											</div>
 											<div class="btn btn-info btn2 anan">
 												<span onclick="backList();">返回列表</span>
@@ -363,10 +403,108 @@
 <script type="text/javascript">
 /*<![CDATA[*/   //这句坚决不能删
 
+    //提交
+    function saveForm()
+	{
+		var inventoryDateList = [];
+		
+		//遍历时间
+		selectedDates.forEach(function (value,index,array){
+			
+			var date = new Date(value);
+			var dateStr = date.getFullYear()+"-"+date.getMonth()+"-"+date.getDate();
+			var dateJSON = {};
+			dateJSON.inventoryDate = dateStr;
+			
+			inventoryDateList.push(dateJSON);
+		});
+		
+		//组装提交的数据
+		var priceInventory = {};
+		
+		if(inventoryDateList.length > 0)
+		{
+			priceInventory.inventoryDateList = inventoryDateList;
+		}
+
+		var a = $("#submitTable :input");
+
+		$.each(a,function(index,obj,array){
+				var id = $(obj).attr("id");
+				var value = $(obj).val();
+				
+				if (value != null && value != "")
+				{
+					priceInventory[id] = value;
+				}
+			}
+		);
+		
+		//提交
+		$.ajax({  
+			   type: "POST",  
+			   url: "/PriceInventory/savePriceInventory?routeId=402882a65949d34b015949d360560000",  
+			   data: JSON.stringify(priceInventory),//将对象序列化成JSON字符串  
+			   dataType:"json",  
+			   contentType : 'application/json;charset=utf-8', //设置请求头信息  
+			   success: function(data){
+				  	if(data.success)
+					{
+				  		alert(data.msg);
+					}else{
+				      	alert(data.errorMsg);
+					}
+			   }
+		});
+	}
+	
+	//电商平台儿童界定标准
+	function childrenDefineStandardRadio(value)
+	{
+		if(value == '0')
+		{
+			//年龄
+			$("#childrenDefineStandard").val("AGE");
+		}else{
+			//身高
+			$("#childrenDefineStandard").val("HEIGHT");
+		}
+	}
+	
+	//同业儿童界定标准
+	function withTheIndustryChildrenDefineStandardRadio(value)
+	{
+		if(value == '0')
+		{
+			//年龄
+			$("#withTheIndustryChildrenDefineStandard").val("AGE");
+		}else{
+			//身高
+			$("#withTheIndustryChildrenDefineStandard").val("HEIGHT");
+		}
+	}
+	
+	//总价和单价切换
+	function clearTotalOrPrice(_this){
+		var inputName = _this.name;
+
+		var suffixName = inputName.substring(inputName.length-5, inputName.length);
+		var preName = inputName.substring(0,inputName.length-5);
+		if(suffixName=="Price"){
+			//清空total
+			document.getElementsByName(preName+"Total")[0].value="";
+		}
+		if(suffixName=="Total"){
+			//清空price
+			document.getElementsByName(preName+"Price")[0].value="";
+		}
+	}
+	
+    /*日历控件开始*/   
+           
     //存放选中的日期
     var selectedDates = [];
-           
-	/*日历控件开始*/
+	
 	//加载fullcarlendar
 	$(document).ready(function() {
 		$('#calendar').fullCalendar({
@@ -555,7 +693,7 @@
 			}
 		});
 		
-		if (!isExist && isSelected == "true") {
+		if (!isExist && isSelected != "false") {
 			selectedDates.push(date);
 		}else if (isExist && isSelected == "false")
 		{ //删除

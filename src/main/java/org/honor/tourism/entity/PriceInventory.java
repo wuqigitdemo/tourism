@@ -30,12 +30,15 @@ public class PriceInventory {
 	private String id;
 	/** 库存日期 */
 	@OneToMany
+	@NotNull(message = "库存日期不能为空")
 	private List<InventoryDate> inventoryDateList;
 	/** 登记占位时限 */
 	@Min(value = 0, message = "登记占位时限必须大于0")
+	@NotNull(message = "登记占位时限不能为空")
 	private Integer registrationTimeLimitPlaceholder;
 	/** 保留位置 */
 	@Min(value = 0, message = "保留位置必须大于0")
+	@NotNull(message = "保留位置不能为空")
 	private Integer reservedPosition;
 	/** 单房差 */
 	@Min(value = 0, message = "单房差必须大于0")
