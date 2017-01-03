@@ -20,12 +20,11 @@
 <link rel="stylesheet" type="text/css" href="/css/reset.css" />
 </head>
 <body>
-	<form class="table table-bordered table2 glg_tab" style="" id="myform4"
-		name="myform4" method="post"
-		action="/operatorcenter/jsp/routemanage/routeSave.action">
+	<form class="table table-bordered table2 glg_tab" style="" id="myform"
+		name="myform" method="post" onsubmit="return false;"
+		action="/SelfSupportRouteOtherInfo/saveOtherInfo">
 		<table class="table table-bordered table2 glg_tab">
-			<input name="routeEdit" value="4" type="hidden" />
-			<input name="route.id" value="" type="hidden" />
+			<input name="routeId" value="402882a65949d34b015949d360560000" type="hidden" />
 			<tbody>
 				<tr>
 					<td>
@@ -33,57 +32,56 @@
 							<tbody>
 								<tr>
 									<td style="width: 160px;">购物店：</td>
-									<td colspan="5" style="text-align: left;"><textarea
-											name="route.shopping" rows="3" cols="70" datatype="*1-1500"
-											errormsg="此项为必填" maxlength="1500"></textarea></td>
+									<td colspan="5" style="text-align: left;">
+										<textarea name="shop" rows="3" cols="70"></textarea>
+									</td>
 								</tr>
 								<tr>
 									<td>特殊限制：</td>
-									<td colspan="5" style="text-align: left;"><textarea
-											name="route.speciallimit" rows="3" cols="70"
-											datatype="*1-1500" errormsg="此项为必填" maxlength="1500"></textarea></td>
+									<td colspan="5" style="text-align: left;">
+										<textarea name="specialRestrictions" rows="3" cols="70"></textarea>
+									</td>
 								</tr>
 								<tr>
 									<td>预订须知：</td>
-									<td colspan="5" style="text-align: left;"><textarea
-											name="route.bookingdetails" rows="3" cols="70"
-											datatype="*1-1500" errormsg="此项为必填" maxlength="1500"></textarea></td>
+									<td colspan="5" style="text-align: left;">
+										<textarea name="reservationInform" cols="70"></textarea>
+									</td>
 								</tr>
 								<tr>
 									<td>自费项目备注：</td>
-									<td colspan="5" style="text-align: left;"><textarea
-											name="route.remark" rows="3" cols="70" datatype="*1-1500"
-											errormsg="此项为必填" maxlength="5000"></textarea></td>
+									<td colspan="5" style="text-align: left;">
+										<textarea name="selfPayItemRemark" rows="3" cols="70"></textarea>
+									</td>
 								</tr>
 								<tr>
 									<td>自费项目推荐：</td>
-									<td colspan="5" style="text-align: left;"><textarea
-											name="route.projects" rows="3" cols="70" datatype="*1-1500"
-											errormsg="此项为必填" maxlength="5000"></textarea></td>
+									<td colspan="5" style="text-align: left;">
+										<textarea name="selfPayItemRecommend" rows="3" cols="70"></textarea>
+									</td>
 								</tr>
 								<tr>
 									<td>费用包含：</td>
-									<td colspan="5" style="text-align: left;"><textarea
-											name="route.includedetails" rows="3" cols="70"
-											datatype="*1-1500" errormsg="此项为必填" maxlength="1500"></textarea></td>
+									<td colspan="5" style="text-align: left;">
+										<textarea name="costCover" rows="3" cols="70"></textarea>
+									</td>
 								</tr>
 								<tr>
 									<td>费用不包含：</td>
-									<td colspan="5" style="text-align: left;"><textarea
-											name="route.noincludedetails" rows="3" cols="70"
-											datatype="*1-1500" errormsg="此项为必填" maxlength="1500"></textarea></td>
+									<td colspan="5" style="text-align: left;">
+										<textarea name="costNoCover" rows="3" cols="70"></textarea>
+									</td>
 								</tr>
 								<tr>
 									<td>退款说明：</td>
-									<td colspan="5" style="text-align: left;"><textarea
-											name="route.refunddetails" rows="3" cols="70"
-											datatype="*1-1500" errormsg="此项为必填" maxlength="1500"></textarea>
-										<!-- <input style="width:80%;" type="text" placeholder="" style="" name="route.refunddetails"> --></td>
+									<td colspan="5" style="text-align: left;">
+										<textarea name="refundInstruction" rows="3" cols="70"></textarea>
+									</td>
 								</tr>
 								<tr class="beijingq">
 									<td colspan="6">
 										<div class="btn btn-success btn2 anan">
-											<span onclick="saveForm(4);" id="span4">添加线路</span>
+											<span onclick="saveForm();" id="span4">添加线路</span>
 										</div>
 										<div class="btn btn-info btn2 anan">
 											<span onclick="backList();">返回列表</span>
@@ -98,4 +96,26 @@
 		</table>
 	</form>
 </body>
+<script type="text/javascript">
+/*<![CDATA[*/   //这句坚决不能删
+
+function saveForm()
+{
+	$('#myform').form('submit',{
+        onSubmit: function(){
+            return 'true';
+        },
+        success: function(resultJSON){
+        	var result = JSON.parse(resultJSON);
+            if (result.errorMsg){
+            	alert(result.errorMsg);
+            } else {
+                alert(result.msg);
+            }
+        }
+    });
+}
+           
+/*]]>*/    //这句坚决不能删
+</script>
 </html>

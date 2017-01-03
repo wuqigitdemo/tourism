@@ -98,7 +98,19 @@
 		{
 			id = $("#insuranceId").val();
 		}
-		alert(id);
+
+		$.ajax({  
+            url: '/SelfSupportRouteInsuranceManagement/addInsuranceManagement',  
+            dataType: 'json', 
+            data:{insuranceManagementId:id,routeId:"402882a65949d34b015949d360560000"},
+            success: function (data) {
+            	if(data.success){
+            		alert(data.msg);
+            	}else{
+            		alert(data.errorMsg);
+            	}
+            }  
+	    });
 	}
 
 	function details(id) 
@@ -112,7 +124,7 @@
             	//单条保险详情
             	var im = data.rows[0];
             	$('#dlg').dialog({
-        			title : '新增',
+        			title : '详情',
         			closed : false,
         			onOpen : function() {
         				$("#insuranceId").val(im.id);

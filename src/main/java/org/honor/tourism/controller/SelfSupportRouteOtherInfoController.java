@@ -1,78 +1,63 @@
 package org.honor.tourism.controller;
 
-import java.util.List;
 import java.util.Map;
 
 import javax.validation.Valid;
 
 import org.honor.tourism.entity.SelfSupportRouteOtherInfo;
+import org.honor.tourism.service.CrudService;
 import org.honor.tourism.service.SelfSupportRouteOtherInfoService;
-import org.honor.tourism.util.EasyuiPage;
 import org.honor.tourism.util.EasyuiResult;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
- * 自营线路其他信息Controller
- * @author 刘海
- *
+ * 作者:修罗大人
+ * 日期:Dec 28, 2016
+ * 时间:10:37:43 AM
+ * 其他信息Controller
  */
+
 @Controller
 @RequestMapping("/SelfSupportRouteOtherInfo")
-public class SelfSupportRouteOtherInfoController {
-	
-	@Autowired 
-	private SelfSupportRouteOtherInfoService service;
-	
-	/**
-	 * 获取自营线路其他信息
-	 * @param page
-	 * @return
-	 */
-	@RequestMapping("/findAll")
-	@ResponseBody
-	public Map<String, Object> findAll(EasyuiPage page) {
-		Pageable pageable = new PageRequest(page.getPage(), page.getRows());
-		Page<SelfSupportRouteOtherInfo> pageSelfSupportRouteOtherInfo =  service.findAll(pageable);
-		List<SelfSupportRouteOtherInfo> rows = pageSelfSupportRouteOtherInfo.getContent();
-		Long total = service.count();
-		return EasyuiResult.result(rows, total);
-	}
+public class SelfSupportRouteOtherInfoController extends CrudController<SelfSupportRouteOtherInfo>{
 
+	@Autowired
+	public SelfSupportRouteOtherInfoService selfSupportRouteOtherInfoService;
+	
+	@Autowired
+	public SelfSupportRouteOtherInfoController(CrudService<SelfSupportRouteOtherInfo> service) {
+		super(service);
+		// TODO Auto-generated constructor stub
+	}
+	
 	/**
-	 * 新增和修改自营线路其他信息
-	 * @param tourismTheme
+	 * 保存其他信息
+	 * @param selfSupportRouteOtherInfo
+	 * @param result
+	 * @param routeId
 	 * @return
 	 */
-	@RequestMapping("/save")
+	@RequestMapping(value = "/saveOtherInfo",method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> save(@Valid SelfSupportRouteOtherInfo selfSupportRouteOtherInfo, BindingResult result) {
+	public Map<String, Object> saveOtherInfo(@Valid SelfSupportRouteOtherInfo selfSupportRouteOtherInfo,BindingResult result, String routeId) {
 		if (result.hasErrors()) {//数据交验
 			return EasyuiResult.result(result);
         }
-		SelfSupportRouteOtherInfo returnSelfSupportRouteOtherInfo = service.save(selfSupportRouteOtherInfo);
-		if (returnSelfSupportRouteOtherInfo == null) {
-			EasyuiResult.result(false, "添加失败");
+		
+		try {
+			selfSupportRouteOtherInfoService.saveOtherInfo(selfSupportRouteOtherInfo, routeId);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return EasyuiResult.result(false,"操作失败");
 		}
-		return EasyuiResult.result(true);
+		
+		return EasyuiResult.result(true,"操作成功");
 	}
-	
-	/**
-	 * 删除自营线路其他信息
-	 * @param id
-	 * @return
-	 */
-	@RequestMapping("/delete")
-	@ResponseBody
-	public Map<String, Object> delete(String id) {
-		service.delete(id);
-		return EasyuiResult.result(true);
-	}
-
 }

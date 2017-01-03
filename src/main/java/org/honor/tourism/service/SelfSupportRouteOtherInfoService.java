@@ -1,22 +1,22 @@
 package org.honor.tourism.service;
 
+import java.util.Map;
+
 import org.honor.tourism.entity.SelfSupportRouteOtherInfo;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 /**
- * 自营路线其他信息
- * @author 刘海
- *
+ * 作者:修罗大人
+ * 日期:Dec 28, 2016
+ * 时间:10:37:43 AM
+ * 其他信息service
  */
-public interface SelfSupportRouteOtherInfoService {
+public interface SelfSupportRouteOtherInfoService extends CrudService<SelfSupportRouteOtherInfo> {
 	
-	public Page<SelfSupportRouteOtherInfo> findAll(Pageable pageable);
-	
-	public Long count();
-	
-	public SelfSupportRouteOtherInfo save(SelfSupportRouteOtherInfo selfSupportRouteOtherInfo);
-	
-	public void delete(String id);
-
+	/**
+	 * 保存其他信息
+	 * @param selfSupportRouteOtherInfo
+	 * @param routeId
+	 * @return
+	 */
+	public Map<String, Object> saveOtherInfo(SelfSupportRouteOtherInfo selfSupportRouteOtherInfo,String routeId);
 }
