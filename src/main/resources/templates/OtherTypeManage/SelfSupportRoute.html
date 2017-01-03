@@ -153,13 +153,30 @@ form td{
 	        });
 	  	
 	    $('#dg').datagrid({
-	    	data:[{"createTime":"2016-12-08 09:29:01","days":2,"destination":"浏览地：\t2","id":"2c90809e58d24b400158dc0c452d0136","issupplier":0,"outplace":"出发地：2","routeNum":"Z2016128002","routename":"信息中心测试20161208","shelves":0,"traffic":"","updateTime":"2016-12-19 10:17:19"},{"createTime":"2016-12-06 13:36:22","days":1,"destination":"信息部修罗测试12061334","id":"2c90809e58d24b400158d2a2004d002e","issupplier":0,"outplace":"信息部修罗测试12061334","routeNum":"Z2016126001","routename":"信息部修罗测试12061334","shelves":0,"traffic":"","updateTime":"2016-12-06 13:37:20"},{"createTime":"2016-12-05 15:25:06","days":1,"destination":"哈尔滨","id":"2c90809e58cc863a0158cddf311c03e6","issupplier":0,"outplace":"哈尔滨","routeNum":"Z2016125005","routename":"线路名称：刘海1205","shelves":1,"traffic":"","updateTime":"2016-12-12 09:49:14"},{"createTime":"2016-12-05 15:15:11","days":1,"destination":"佳木斯","id":"2c90809e58cc863a0158cdd61ec30249","issupplier":0,"outplace":"哈尔滨","routeNum":"Z2016125003","routename":"信心中心测试2016120502","shelves":0,"traffic":"","updateTime":"2016-12-07 11:00:53"},{"createTime":"2016-12-05 15:12:32","days":2,"destination":"三亚","id":"2c90809e58cc863a0158cdd3b1950247","issupplier":0,"outplace":"哈尔滨","routeNum":"Z2016125002","routename":"信息部测试12051501","shelves":0,"traffic":"","updateTime":"2016-12-08 10:08:38"},{"createTime":"2016-12-05 14:13:46","days":2,"destination":"哈尔滨","id":"2c90809e58cc863a0158cd9de44200d4","issupplier":0,"outplace":"哈尔滨","routeNum":"Z2016125001","routename":"信心中心测试2016120501","shelves":0,"traffic":"","updateTime":"2016-12-08 10:08:41"},{"createTime":"2016-12-04 09:34:02","days":2,"destination":"哈尔滨","id":"2c90800658be35740158c7776e3100c6","issupplier":0,"outplace":"哈尔滨","routeNum":"20160750","routename":"2016/12/4杨明晨测试（自营）","shelves":0,"traffic":"","updateTime":"2016-12-05 10:38:06"},{"createTime":"2016-12-02 14:11:26","days":2,"destination":"宿舍","id":"2c90809e58bcf7ba0158be28ac3f004e","issupplier":0,"outplace":"啊啊","routeNum":"20160746","routename":"5000测试1","shelves":0,"traffic":"","updateTime":"2016-12-02 14:13:05"},{"createTime":"2016-12-01 10:08:00","days":7,"destination":"哈尔滨","id":"2c90800658aa4df70158b82370e816d5","issupplier":0,"outplace":"哈尔滨","routeNum":"20160719","routename":"保存时出错测试？？？","shelves":1,"traffic":"","updateTime":"2016-12-01 10:17:32"},{"createTime":"2016-11-29 10:48:27","days":5,"destination":"首尔","id":"2c90800658aa4df70158adfbc3bc083e","issupplier":0,"outplace":"出发地","routeNum":"20160682","routename":"【自助定制游】韩国首尔烂漫冬季之旅4晚5天【赠送接送机】","shelves":1,"traffic":"","updateTime":"2016-12-03 09:09:58"}],
+//	    	data:[{"createTime":"2016-12-08 09:29:01","days":2,"destination":"浏览地：\t2","id":"2c90809e58d24b400158dc0c452d0136","issupplier":0,"outplace":"出发地：2","routeNum":"Z2016128002","routename":"信息中心测试20161208","shelves":0,"traffic":"","updateTime":"2016-12-19 10:17:19"},{"createTime":"2016-12-06 13:36:22","days":1,"destination":"信息部修罗测试12061334","id":"2c90809e58d24b400158d2a2004d002e","issupplier":0,"outplace":"信息部修罗测试12061334","routeNum":"Z2016126001","routename":"信息部修罗测试12061334","shelves":0,"traffic":"","updateTime":"2016-12-06 13:37:20"},{"createTime":"2016-12-05 15:25:06","days":1,"destination":"哈尔滨","id":"2c90809e58cc863a0158cddf311c03e6","issupplier":0,"outplace":"哈尔滨","routeNum":"Z2016125005","routename":"线路名称：刘海1205","shelves":1,"traffic":"","updateTime":"2016-12-12 09:49:14"},{"createTime":"2016-12-05 15:15:11","days":1,"destination":"佳木斯","id":"2c90809e58cc863a0158cdd61ec30249","issupplier":0,"outplace":"哈尔滨","routeNum":"Z2016125003","routename":"信心中心测试2016120502","shelves":0,"traffic":"","updateTime":"2016-12-07 11:00:53"},{"createTime":"2016-12-05 15:12:32","days":2,"destination":"三亚","id":"2c90809e58cc863a0158cdd3b1950247","issupplier":0,"outplace":"哈尔滨","routeNum":"Z2016125002","routename":"信息部测试12051501","shelves":0,"traffic":"","updateTime":"2016-12-08 10:08:38"},{"createTime":"2016-12-05 14:13:46","days":2,"destination":"哈尔滨","id":"2c90809e58cc863a0158cd9de44200d4","issupplier":0,"outplace":"哈尔滨","routeNum":"Z2016125001","routename":"信心中心测试2016120501","shelves":0,"traffic":"","updateTime":"2016-12-08 10:08:41"},{"createTime":"2016-12-04 09:34:02","days":2,"destination":"哈尔滨","id":"2c90800658be35740158c7776e3100c6","issupplier":0,"outplace":"哈尔滨","routeNum":"20160750","routename":"2016/12/4杨明晨测试（自营）","shelves":0,"traffic":"","updateTime":"2016-12-05 10:38:06"},{"createTime":"2016-12-02 14:11:26","days":2,"destination":"宿舍","id":"2c90809e58bcf7ba0158be28ac3f004e","issupplier":0,"outplace":"啊啊","routeNum":"20160746","routename":"5000测试1","shelves":0,"traffic":"","updateTime":"2016-12-02 14:13:05"},{"createTime":"2016-12-01 10:08:00","days":7,"destination":"哈尔滨","id":"2c90800658aa4df70158b82370e816d5","issupplier":0,"outplace":"哈尔滨","routeNum":"20160719","routename":"保存时出错测试？？？","shelves":1,"traffic":"","updateTime":"2016-12-01 10:17:32"},{"createTime":"2016-11-29 10:48:27","days":5,"destination":"首尔","id":"2c90800658aa4df70158adfbc3bc083e","issupplier":0,"outplace":"出发地","routeNum":"20160682","routename":"【自助定制游】韩国首尔烂漫冬季之旅4晚5天【赠送接送机】","shelves":1,"traffic":"","updateTime":"2016-12-03 09:09:58"}],
+	    	url:'/SelfSupportRoute/findAll',
 	    	nowrap:false,
 	    	columns:[[
 				{field:'undefined',checkbox:true},
 				{field:'routeNum',title:'线路编号',width:100},
-				{field:'routename',title:'线路名称',width:150},
-				{field:'outplace',title:'出发地',width:100},
+				{field:'routeName',title:'线路名称',width:150,
+	    			formatter: function(value,row,index){
+	    				if (row.routeBaseInfo != null){
+	    					return row.routeBaseInfo.routeName;
+	    				} else {
+	    					return "";
+	    				}
+	    			}
+				},
+				{field:'outPlace',title:'出发地',width:100,
+	    			formatter: function(value,row,index){
+	    				if (row.routeBaseInfo != null){
+	    					return row.routeBaseInfo.outPlace;
+	    				} else {
+	    					return "";
+	    				}
+	    			}
+				},
 				{field:'days',title:'天数',width:50,
 	    			formatter: function(value,row,index){
 	    				return value+'天';
@@ -174,8 +191,8 @@ form td{
 	    				}
 	    			}
 	    		},
-				{field:'createTime',title:'创建时间',width:100},
-				{field:'updateTime',title:'最后更新时间',width:100},
+				{field:'createDate',title:'创建时间',width:100},
+				{field:'updateDate',title:'最后更新时间',width:100},
 				{field:'operation',title:'操作',width:100,align:'center',
 	    			formatter: function(value,row,index){
 	    				return '<a href="">查看</a> <a href="">修改</a> <a href="">添加产<br />品</a> <a href="">项目</a> <a href="">预览</a>';
@@ -276,7 +293,7 @@ form td{
             if (row){
                 $.messager.confirm('Confirm','确定删除这个线路类别吗？',function(r){
                     if (r){
-                        $.post('/RouteType/delete',{id:row.id},function(result){
+                        $.post('/SelfSupportRoute/delete',{id:row.id},function(result){
                             if (result.success){
                                 $('#dg').datagrid('reload');    // reload the user data
                             } else {

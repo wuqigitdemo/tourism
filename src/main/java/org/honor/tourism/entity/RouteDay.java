@@ -3,6 +3,7 @@ package org.honor.tourism.entity;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -39,7 +40,7 @@ public class RouteDay {
 	/** 日程详细说明 */
 	private String detailednessExplain;
 	/** 日程图片 */
-	@OneToMany
+	@OneToMany(cascade={CascadeType.ALL})
 	private List<ImageAddress> routeDayImageAddress;
 
 	public String getId() {

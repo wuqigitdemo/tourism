@@ -2,6 +2,7 @@ package org.honor.tourism.entity;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -29,7 +30,7 @@ public class PriceInventory {
 	@Length(min = 32, max = 32, message = "id需要32位字符")
 	private String id;
 	/** 库存日期 */
-	@OneToMany
+	@OneToMany(cascade={CascadeType.ALL})
 	@NotNull(message = "库存日期不能为空")
 	private List<InventoryDate> inventoryDateList;
 	/** 登记占位时限 */

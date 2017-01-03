@@ -2,6 +2,7 @@ package org.honor.tourism.entity;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -33,7 +34,7 @@ public class RouteTrip {
 	/** 行程详细 */
 	@Length(min = 1, max = 50, message = "行程详细需要1-50位字符")
 	private String tripDetail;
-	@OneToMany
+	@OneToMany(cascade={CascadeType.ALL})
 	private List<RouteDay> routeDayList;
 	/** 早餐 */
 	@ManyToOne
@@ -45,13 +46,13 @@ public class RouteTrip {
 	@ManyToOne
 	private DiningType dinner;
 	/** 餐饮图片 */
-	@OneToMany
+	@OneToMany(cascade={CascadeType.ALL})
 	private List<ImageAddress> foodPictures;
 	/** 酒店分类 */
 	@ManyToOne
 	private HotelCategories hotelCategories;
 	/** 酒店图片 */
-	@OneToMany
+	@OneToMany(cascade={CascadeType.ALL})
 	private List<ImageAddress> hotelPicture;
 
 	public String getId() {

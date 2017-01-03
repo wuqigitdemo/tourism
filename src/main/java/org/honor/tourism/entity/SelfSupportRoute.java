@@ -2,6 +2,7 @@ package org.honor.tourism.entity;
 
 import java.util.*;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -28,13 +29,13 @@ public class SelfSupportRoute {
 	@GenericGenerator(name = "uuid", strategy = "uuid")
 	@Length(min = 32, max = 32, message = "id需要32位字符")
 	private String id;
-	@OneToOne
+	@OneToOne(cascade={CascadeType.ALL})
 	private RouteBaseInfo routeBaseInfo;
-	@OneToMany
+	@OneToMany(cascade={CascadeType.ALL})
 	private List<RouteTrip> routeTripList;
-	@OneToOne
+	@OneToOne(cascade={CascadeType.ALL})
 	private PriceInventory priceInventory;
-	@OneToOne
+	@OneToOne(cascade={CascadeType.ALL})
 	private SelfSupportRouteOtherInfo selfSupportRouteOtherInfo;
 	@ManyToMany
 	private List<InsuranceManagement> insuranceManagementList;
@@ -42,6 +43,10 @@ public class SelfSupportRoute {
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date createDate;
+	/** 更新日期 */
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date updateDate;
 
 	public String getId() {
 		return id;
@@ -97,6 +102,14 @@ public class SelfSupportRoute {
 
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
+	}
+
+	public Date getUpdateDate() {
+		return updateDate;
+	}
+
+	public void setUpdateDate(Date updateDate) {
+		this.updateDate = updateDate;
 	}
 
 }
