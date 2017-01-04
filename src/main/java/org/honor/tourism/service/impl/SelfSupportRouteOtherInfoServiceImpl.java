@@ -3,6 +3,7 @@ package org.honor.tourism.service.impl;
 import java.util.Map;
 
 import javax.transaction.Transactional;
+import javax.validation.constraints.Null;
 
 import org.honor.tourism.entity.SelfSupportRoute;
 import org.honor.tourism.entity.SelfSupportRouteOtherInfo;
@@ -23,9 +24,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class SelfSupportRouteOtherInfoServiceImpl extends CrudServiceImpl<SelfSupportRouteOtherInfo> implements SelfSupportRouteOtherInfoService {
-
-	@Autowired
-	private SelfSupportRouteOtherInfoRepository selfSupportRouteOtherInfoRepository;
 	
 	@Autowired
 	private SelfSupportRouteRepository selfSupportRouteRepository;
@@ -46,12 +44,15 @@ public class SelfSupportRouteOtherInfoServiceImpl extends CrudServiceImpl<SelfSu
 	@Transactional
 	public Map<String, Object> saveOtherInfo(SelfSupportRouteOtherInfo selfSupportRouteOtherInfo, String routeId) {
 
+		//获得线路
+		SelfSupportRoute selfSupportRoute = selfSupportRouteRepository.findOne(routeId);
+			
 		//保存线路其他信息
-		selfSupportRouteOtherInfoRepository.save(selfSupportRouteOtherInfo);
+		super.save(selfSupportRouteOtherInfo);
 		
 		//将其他信息保存到线路
-		SelfSupportRoute selfSupportRoute = selfSupportRouteRepository.getOne(routeId);
 		selfSupportRoute.setSelfSupportRouteOtherInfo(selfSupportRouteOtherInfo);
+		
 		selfSupportRouteRepository.save(selfSupportRoute);
 		
 		return EasyuiResult.result(true, "操作成功");

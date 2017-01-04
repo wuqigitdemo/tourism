@@ -54,5 +54,4 @@ public class SelfSupportRouteController extends CrudController<SelfSupportRoute>
 		long total = pageList.getTotalElements();
 		return EasyuiResult.result(rows, total);
 	}
-
 }

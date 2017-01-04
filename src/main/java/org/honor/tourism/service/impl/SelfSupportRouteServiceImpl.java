@@ -38,5 +38,4 @@ public class SelfSupportRouteServiceImpl extends CrudServiceImpl<SelfSupportRout
 			String routeName, String outPlace, String destination, String typeName, Pageable pageable) {
 		return selfSupportRouteRepository.findByRouteBaseInfoRouteNameOrRouteBaseInfoOutPlaceOrRouteBaseInfoDestinationOrRouteBaseInfoRouteTypeListTypeName(routeName, outPlace, destination, typeName, pageable);
 	}
-
 }
