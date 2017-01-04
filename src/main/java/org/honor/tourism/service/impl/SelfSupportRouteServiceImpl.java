@@ -1,6 +1,5 @@
 package org.honor.tourism.service.impl;
 
-
 import org.honor.tourism.entity.SelfSupportRoute;
 import org.honor.tourism.repository.SelfSupportRouteRepository;
 import org.honor.tourism.service.SelfSupportRouteService;
