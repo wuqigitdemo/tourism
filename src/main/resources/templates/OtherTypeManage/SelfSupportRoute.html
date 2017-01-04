@@ -76,6 +76,255 @@ form td{
 	        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-search" plain="true" onclick="searchRoute()">查询</a>
         </div>
     </div>
+
+    <div id="dlg" class="easyui-dialog" closed="true" data-options="
+    			width:350,
+               	height:220,   
+               	cache: false,       
+               	modal: true,
+               	buttons:'#dlg-buttons'">
+        <form id="fm" method="post" novalidate="" style="margin:0;padding:20px 50px">
+            <div style="margin-bottom:10px">
+				<table>
+	            	<tr>
+	            		<td>
+	            			<label for="typeName" class="label-center">线路类别:</label>
+	            		</td>
+	            		<td>
+	            			<input name="typeName" class="easyui-validatebox tb" data-options="required:true,validType:['charts','length[1,30]']"/>
+	            		</td>
+	            	</tr>
+	            	<tr>
+	            		<td>
+	            			<label class="label-center">线路类型:</label>
+	            		</td>
+	            		<td>
+	            			<input id="routeCategory" class="easyui-validatebox" data-options="validType:'selected'" style="width:100%" name="routeCategory" />
+	            		</td>
+	            	</tr>
+	            	<tr>
+	            		<td>
+	            			<label class="label-center">上级类别:</label>
+	            		</td>
+	            		<td>
+	            			<input id="parentId" style="width:100%" name="parentRouteType"/>
+	            		</td>
+	            	</tr>
+	            </table>
+            </div>
+        </form>
+    <div id="dlg-buttons">
+        <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="saveType()" style="width:90px">提交</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')" style="width:90px">取消</a>
+    </div>
+    </div>
+    
+    <script type="text/javascript">
+    
+    	//下拉框验证开始
+	    $.extend($.fn.validatebox.defaults.rules, {
+	    	selected: {
+	    		validator: function(value, param){
+	    			return value != '--请选择--';
+	    		},
+	    		message: '请选择线路类型'
+	        }
+	    });
+	  	//下拉框验证结束
+	  	
+	  	$.ajax({  
+	            url: '/RouteType/selectAll',  
+	            dataType: 'json',  
+	            success: function (jsonstr) {  
+	                jsonstr.unshift({  
+	                    'id': '-1',  
+	                    'typeName': '--请选择--'  
+	                });//向json数组开头添加自定义数据  
+	                $('#routeType').combobox({ 
+	                	data: jsonstr,  
+	        	    	valueField: 'id',    
+	        	        textField: 'typeName',
+	        	        editable:false,
+	        	        onLoadSuccess: function(){
+	                       	var Data = $(this).combobox('getData');
+	                     	  	$(this).combobox('select',Data[0].id);
+	        		  	}  
+	        	    }); 
+	            }  
+	        });
+	  	
+	    $('#dg').datagrid({
+	    	url:'/SelfSupportRoute/findByPar',
+	    	nowrap:false,
+	    	columns:[[
+				{field:'undefined',checkbox:true},
+				{field:'routeNum',title:'线路编号',width:100},
+				{field:'routeName',title:'线路名称',width:150,
+	    			formatter: function(value,row,index){
+	    				if (row.routeBaseInfo != null){
+	    					return row.routeBaseInfo.routeName;
+	    				} else {
+	    					return "";
+	    				}
+	    			}
+				},
+				{field:'outPlace',title:'出发地',width:100,
+	    			formatter: function(value,row,index){
+	    				if (row.routeBaseInfo != null){
+	    					return row.routeBaseInfo.outPlace;
+	    				} else {
+	    					return "";
+	    				}
+	    			}
+				},
+				{field:'days',title:'天数',width:50,
+	    			formatter: function(value,row,index){
+	    				return value+'天';
+	    			}
+				},
+				{field:'issupplier',title:'经营类型',width:80,
+	    			formatter: function(value,row,index){
+	    				if(value=="1"){
+	    					return "供应商";
+	    				}else{
+	    					return "自营";
+	    				}
+	    			}
+	    		},
+				{field:'createDate',title:'创建时间',width:100},
+				{field:'updateDate',title:'最后更新时间',width:100},
+				{field:'operation',title:'操作',width:100,align:'center',
+	    			formatter: function(value,row,index){
+	    				return '<a href="">查看</a> <a href="">修改</a> <a href="">添加产<br />品</a> <a href="">项目</a> <a href="">预览</a>';
+	    			}
+				}
+	        ]]
+	    });
+
+	  	//获取下拉列表框数据
+	  	function getComboboxData(row)
+	  	{
+		  	//线路类型
+		    $.ajax({  
+	            url: '/RouteType/selectCategory',  
+	            dataType: 'json',  
+	            success: function (jsonstr) {  
+	                jsonstr.unshift({  
+	                    'id': '-1',  
+	                    'categoryName': '--请选择--'  
+	                });//向json数组开头添加自定义数据  
+	                $('#routeCategory').combobox({   
+	                	data:jsonstr,
+	        	    	valueField: 'id',    
+	        	        textField: 'categoryName',  
+	        	        editable:false,
+	        	        onLoadSuccess: function(){
+	        	        	
+	        		  		if(row != undefined){
+	            	        	if(row.routeCategory != null){
+	                        		$(this).combobox('select',row.routeCategory.id);
+	                            }else{
+	                            	var Data = $(this).combobox('getData');
+	                          	  	$(this).combobox('select',Data[0].id);
+	                            }
+	        	        	}else{
+	                        	var Data = $(this).combobox('getData');
+	                      	  	$(this).combobox('select',Data[0].id);
+	                        }
+	        		  	} 
+	        	    });
+	            }  
+	        });
+	  	}
+	  	
+        var url;
+        function newRoute(){
+           $('#fm').form('clear');
+           //$('#dlg').dialog('open');
+            
+           $('#dlg').dialog({    
+              title: '新增', 
+              closed: false,
+              onOpen:function(){
+           	  	getComboboxData();
+              }
+           });
+            
+           url = '/RouteType/save';
+        }
+        function editRoute(){
+            var row = $('#dg').datagrid('getSelected');
+            if (row){
+                $('#fm').form('load',row);
+                
+                $('#dlg').dialog({    
+                    title: '修改', 
+                    closed: false,
+                    onOpen:function(){
+                 	  	getComboboxData(row);
+                    }
+                 });
+                
+                url = '/RouteType/save?id='+row.id;
+            }
+        }
+        function saveRoute(){
+            $('#fm').form('submit',{
+                url: url,
+                onSubmit: function(){
+                    return $(this).form('validate');
+                },
+                success: function(resultJSON){
+                	var result = JSON.parse(resultJSON);
+                    if (result.errorMsg){
+                        $.messager.show({
+                            title: 'Error',
+                            msg: result.errorMsg
+                        });
+                    } else {
+                        $('#dlg').dialog('close');        // close the dialog
+                        $('#dg').datagrid('reload');    // reload the user data
+                    }
+                }
+            });
+        }
+        function destroyRoute(){
+            var row = $('#dg').datagrid('getSelected');
+            if (row){
+                $.messager.confirm('Confirm','确定删除这个线路类别吗？',function(r){
+                    if (r){
+                        $.post('/SelfSupportRoute/delete',{id:row.id},function(result){
+                            if (result.success){
+                                $('#dg').datagrid('reload');    // reload the user data
+                            } else {
+                                $.messager.show({    // show error message
+                                    title: 'Error',
+                                    msg: result.errorMsg
+                                });
+                            }
+                        },'json');
+                    }
+                });
+            }
+        }
+        
+        function searchRoute()
+        {
+        	var routeName = $("#routeName").val();
+        	var outPlace = $("#outPlace").val();
+        	var destination =  $("#destination").val();
+        	var typeName = $("#typeName").val();
+        	$('#dg').datagrid({
+        		queryParams: {
+        			routeName:routeName,
+        			outPlace:outPlace,
+        			destination:destination,
+        			typeName:typeName
+        		}
+        	});
+        	//$('#dataForm').submit();
+        }
+    </script>
 </body>
 <script type="text/javascript">
 /*<![CDATA[*/   //这句坚决不能删

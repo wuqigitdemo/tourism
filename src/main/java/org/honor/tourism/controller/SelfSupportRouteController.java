@@ -27,6 +27,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * 自营线路Controller
  */
 public class SelfSupportRouteController extends CrudController<SelfSupportRoute> {
+	
+	@Autowired
+	private SelfSupportRouteService service;
 
 	@Autowired
 	public SelfSupportRouteService selfSupportRouteService;

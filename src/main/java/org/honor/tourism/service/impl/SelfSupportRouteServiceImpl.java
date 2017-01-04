@@ -33,6 +33,7 @@ public class SelfSupportRouteServiceImpl extends CrudServiceImpl<SelfSupportRout
 		SelfSupportRoute selfSupportRoute = selfSupportRouteRepository.findOne(routeId);
 		return selfSupportRoute;
 	}
+	
 	@Override
 	public Page<SelfSupportRoute> findByRouteBaseInfoRouteNameOrRouteBaseInfoOutPlaceOrRouteBaseInfoDestinationOrRouteBaseInfoRouteTypeListTypeName(
 			String routeName, String outPlace, String destination, String typeName, Pageable pageable) {
