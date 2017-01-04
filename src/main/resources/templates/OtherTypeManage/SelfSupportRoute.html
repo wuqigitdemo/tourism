@@ -42,7 +42,7 @@ form td{
 		        	<tr>
 		        		<td width="100"><font style="letter-spacing: 0.5em;">出</font><font style="letter-spacing: 0.5em;">发</font>地：</td>
 		        		<td colspan="2" style="text-align: left;width:40%;">
-		        			<input name="routeBaseInfo.outplace" id="outplace" value="" type="text" />
+		        			<input name="routeBaseInfo.outplace" id="outPlace" value="" type="text" />
 		        		</td>
 		                <td width="100"><font style="letter-spacing: 2em;">天</font>数：</td>
 		                <td colspan="2" style="text-align: left;">
@@ -58,7 +58,7 @@ form td{
 		        	<tr>
 		        		<td width="100">类别：</td>
 		        		<td colspan="2" style="text-align: left;">
-			        		<input id="routeType" name="routeType" />  
+			        		<input id="typeName" name="typeName" />  
 		        		</td>
 		        		<td width="100">编号：</td>
 		        		<td style="text-align: left;">
@@ -309,10 +309,16 @@ form td{
         
         function searchRoute()
         {
-        	var routeName = $("#routeName").val()
+        	var routeName = $("#routeName").val();
+        	var outPlace = $("#outPlace").val();
+        	var destination =  $("#destination").val();
+        	var typeName = $("#typeName").val();
         	$('#dg').datagrid({
         		queryParams: {
-        			routeName: routeName
+        			routeName:routeName,
+        			outPlace:outPlace,
+        			destination:destination,
+        			typeName:typeName
         		}
         	});
         	//$('#dataForm').submit();
