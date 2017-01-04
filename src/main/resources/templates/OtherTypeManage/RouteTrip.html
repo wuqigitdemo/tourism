@@ -13,113 +13,516 @@
 <script type="text/javascript" src="/easyui/jquery.min.js"></script>
 <script type="text/javascript" src="/easyui/jquery.easyui.min.js"></script>
 <script type="text/javascript" src="/easyui/locale/easyui-lang-zh_CN.js"></script>
+
+<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="/css/common.css" />
+<link rel="stylesheet" type="text/css" href="/css/page.css" />
+<link rel="stylesheet" type="text/css" href="/css/reset.css" />
+
+<link rel="stylesheet" type="text/css"
+	href="/css/fullcalendar/fullcalendar.css" />
+<link rel="stylesheet" type="text/css"
+	href="/css/fullcalendar/fullcalendar.print.css" />
+<script type="text/javascript"
+	src="/js/fullcalendar/fullcalendar.min.js"></script>
+
+<style type="text/css">
+.td {
+	border: 1px #0066ff solid;
+}
+
+.table {
+	border-collapse: collapse;
+}
+</style>
 </head>
-<body onload="ckCbo()">
-	<div style="margin: 10px 0;"></div>
-	<div class="easyui-panel" title="行程信息"
-		style="width: 100%; padding: 30px 30px">
-		<div style="margin-bottom: 20px">
-			<div>行程标题:</div>
-			<input class="easyui-textbox" style="width: 500px; height: 32px" />
-		</div>
-		<div style="margin-bottom: 20px">
-			<div>行程详细:</div>
-			<input class="easyui-textbox" data-options="multiline:true"
-				style="width: 400px; height: 100px" />
-		</div>
-		<div style="margin-bottom: 20px">
-			<div>选择时间:</div>
-			<input class="easyui-datetimebox" data-options="prompt:'请选择日期...'"
-				style="width: 200px" />
-		</div>
-		<div style="margin-bottom: 20px">
-			<div>日程简单说明:</div>
-			<input class="easyui-textbox" data-options="multiline:true"
-				style="width: 400px; height: 100px" />
-		</div>
-		<div style="margin-bottom: 20px">
-			<div>图片上传:</div>
-			<input class="easyui-filebox" name="file1"
-				data-options="prompt:'Choose a file...'" style="width: 400px" />
-		</div>
-		<div>
-			<a href="#" class="easyui-linkbutton" iconCls="icon-ok"
-				style="width: 100px; height: 32px">添加日程</a> <a href="#"
-				class="easyui-linkbutton" iconCls="icon-cancel"
-				style="width: 100px; height: 32px">删除日程</a>
-		</div>
-	</div>
-
-	<div class="easyui-panel" title="行程餐饮"
-		style="width: 100%; padding: 30px 30px">
-		<div style="margin-bottom: 20px">
-			<div>早餐:</div>
-			<select class="easyui-combobox" name="state" style="width: 200px;">
-				<option value="AL">酒店用餐</option>
-				<option value="AK">团餐</option>
-				<option value="AZ">自理</option>
-			</select> <input class="easyui-textbox" data-options="prompt:'备注'"
-				style="width: 500px; height: 32px" />
-		</div>
-		<div style="margin-bottom: 20px">
-			<div>中餐:</div>
-			<select class="easyui-combobox" name="state" style="width: 200px;">
-				<option value="AL">酒店用餐</option>
-				<option value="AK">团餐</option>
-				<option value="AZ">自理</option>
-			</select> <input class="easyui-textbox" data-options="prompt:'备注'"
-				style="width: 500px; height: 32px" />
-		</div>
-		<div style="margin-bottom: 20px">
-			<div>晚餐:</div>
-			<select class="easyui-combobox" name="state" style="width: 200px;">
-				<option value="AL">酒店用餐</option>
-				<option value="AK">团餐</option>
-				<option value="AZ">自理</option>
-			</select> <input class="easyui-textbox" data-options="prompt:'备注'"
-				style="width: 500px; height: 32px" />
-		</div>
-		<div style="margin-bottom: 20px">
-			<div>图片上传:</div>
-			<input class="easyui-filebox" name="file1"
-				data-options="prompt:'Choose a file...'" style="width: 400px" />
-		</div>
-	</div>
-
-	<div class="easyui-panel" title="行程酒店"
-		style="width: 100%; padding: 30px 30px">
-		<div style="margin-bottom: 20px">
-			<div>酒店类型:</div>
-			<input class="easyui-textbox" data-options="prompt:'备注'"
-				style="width: 500px; height: 32px" />
-		</div>
-		<div style="margin-bottom: 20px">
-			<div>图片上传:</div>
-			<input class="easyui-filebox" name="file1"
-				data-options="prompt:'Choose a file...'" style="width: 400px" />
-		</div>
-	</div>
-
-	<div class="easyui-panel" style="width: 100%; padding: 30px 30px">
-		<div style="margin-bottom: 20px">
-			<div>
-				<a href="#" class="easyui-linkbutton" iconCls="icon-ok"
-					style="width: 100px; height: 32px">添加行程</a> <a href="#"
-					class="easyui-linkbutton" iconCls="icon-cancel"
-					style="width: 100px; height: 32px">删除行程</a>
-			</div>
-		</div>
-	</div>
-
-	<div class="easyui-panel" style="width: 100%; padding: 30px 30px">
-		<div style="margin-bottom: 20px">
-			<div>
-				<a href="#" class="easyui-linkbutton" iconCls="icon-ok"
-					style="width: 100px; height: 32px">保存行程</a> <a href="#"
-					class="easyui-linkbutton" iconCls="icon-cancel"
-					style="width: 100px; height: 32px">返回列表</a>
-			</div>
-		</div>
-	</div>
+<body>
+	<form class="easyui-panel" id="myform1" name="myform1" method="post">
+		<table class="table table-bordered table2 glg_tab">
+		<tbody id="dayTrip">
+		<tr name="trip_1" id="trip_1">
+		<td>
+		
+		
+		
+		<table class="table table-bordered table2">
+		<tbody>
+			<tr>
+				<td colspan="6" class="liTit">
+					<div
+						style="font-size: 16px; width: 45%; color: blue; font-weight: bold">行程信息</div>
+				</td>
+			</tr>
+			<tr>
+				<td style="font-size: 16px; text-align: center;">行程标题：</td>
+				<td colspan="4" style="text-align: left;"><input
+					name="route.routename" value="" style="width: 100%;" /></td>
+			</tr>
+		<tr>
+				<td style="font-size: 16px; text-align: center;">行程详细：</td>
+				<td colspan="4" style="text-align: left;"><textarea
+						name="route.routename" style="width: 100%;"></textarea></td>
+			</tr>
+			</tbody>
+			</table>
+	
+	
+	
+		<table class="table table-bordered table2">
+		<tbody id="tripDaysResource_1">
+			<tr>
+				<td style="font-size: 16px; text-align: center;">选择时间：</td>
+				<td colspan="4" style="text-align: left;"><input
+					class="easyui-datetimebox" data-options="prompt:'请选择日期...'"
+					style="width: 200px" /></td>
+			</tr>
+			<tr>
+				<td style="font-size: 16px; text-align: center;">日程简单说明：</td>
+				<td colspan="4" style="text-align: left;"><input
+					name="route.routename" value="" style="width: 100%;" /></td>
+			</tr>
+			<tr>
+				<td style="font-size: 16px; text-align: center;">日程详细说明：</td>
+				<td colspan="4" style="text-align: left;"><textarea
+						name="route.routename" style="width: 100%;"></textarea></td>
+			</tr>
+			<tr>
+						<td style="font-size: 16px; text-align: center;">图片上传：</td>
+						<td colspan="4" style="text-align: left;"><input
+							class="easyui-filebox" name="file1"
+							data-options="prompt:'Choose a file...'" style="width: 400px" /></td>
+					</tr>
+					</tbody>
+					<tfoot>
+					<tr>
+					<td style="text-align: right;" colspan="2">
+					<a href="#" class="easyui-linkbutton" iconCls="icon-ok"
+							style="width: 100px; height: 32px" onclick="addTripResource()">添加日程</a>
+						<a onclick="removeTripResource('tripDaysResource_1');"
+							href="#" class="easyui-linkbutton" iconCls="icon-cancel"
+							style="width: 100px; height: 32px">删除日程</a>
+					</td>
+					</tr>
+					</tfoot>
+			</table>
+			
+			
+			
+			<table class="table table-bordered table2">
+			<tbody>
+			<tr>
+			<td colspan="6" class="liTit">
+					<div
+						style="font-size: 16px; width: 45%; color: blue; font-weight: bold">行程餐饮</div>
+				</td>
+			</tr>
+			<tr>
+			<td style="font-size: 16px; text-align: center;">早餐：</td>
+			<td><input class="easyui-combobox" name="traffic"
+						data-options="
+								url: '/SelfSupportRouteBaseInfo/selectGoWay', 
+								method:'get',
+								valueField:'id',
+								textField:'trafficType',
+								value:'请选择',
+								panelHeight:'auto'"/></td>
+			</tr>
+			<tr>
+			<td style="font-size: 16px; text-align: center;">中餐：</td>
+			<td><input class="easyui-combobox" name="traffic"
+						data-options="
+								url: '/SelfSupportRouteBaseInfo/selectGoWay', 
+								method:'get',
+								valueField:'id',
+								textField:'trafficType',
+								value:'请选择',
+								panelHeight:'auto'"/></td>
+			</tr>
+			<tr>
+			<td style="font-size: 16px; text-align: center;">晚餐：</td>
+			<td><input class="easyui-combobox" name="traffic"
+						data-options="
+								url: '/SelfSupportRouteBaseInfo/selectGoWay', 
+								method:'get',
+								valueField:'id',
+								textField:'trafficType',
+								value:'请选择',
+								panelHeight:'auto'"/></td>
+			</tr>
+			<tr>
+						<td style="font-size: 16px; text-align: center;">图片上传：</td>
+						<td colspan="4" style="text-align: left;"><input
+							class="easyui-filebox" name="file1"
+							data-options="prompt:'Choose a file...'" style="width: 400px" /></td>
+					</tr>
+			</tbody>
+			</table>
+			
+			
+			<table class="table table-bordered table2">
+			<tbody>
+			<tr>
+			<td colspan="6" class="liTit">
+					<div
+						style="font-size: 16px; width: 45%; color: blue; font-weight: bold">行程酒店</div>
+				</td>
+			</tr>
+			<tr>
+			<td style="font-size: 16px; text-align: center;">酒店类型：</td>
+			<td><input class="easyui-combobox" name="traffic"
+						data-options="
+								url: '/SelfSupportRouteBaseInfo/selectGoWay', 
+								method:'get',
+								valueField:'id',
+								textField:'trafficType',
+								value:'请选择',
+								panelHeight:'auto'"/></td>
+			</tr>
+				<tr>
+					<td style="font-size: 16px; text-align: center;">图片上传：</td>
+					<td colspan="4" style="text-align: left;"><input
+						class="easyui-filebox" name="file1"
+						data-options="prompt:'Choose a file...'" style="width: 400px" /></td>
+				</tr>
+			</tbody>
+			</table>
+			</td>
+			</tr>
+			</tbody>
+			
+			
+			
+			<tfoot>
+			<tr>
+			<td>
+			<table class="table table-bordered table2">
+				<tbody>
+					<tr>
+					<td>
+					<a onclick="addTrips('/operatorcenter');"
+							href="#" class="easyui-linkbutton" iconCls="icon-ok"
+							style="width: 100px; height: 32px">添加行程</a></td>
+							<td>
+						<a onclick="removeTrips();"
+							href="#" class="easyui-linkbutton" iconCls="icon-cancel"
+							style="width: 100px; height: 32px">删除行程</a>
+					</td>
+					</tr>
+					<tr>
+					<td colspan="6">
+						<a href="#" class="easyui-linkbutton" iconCls="icon-ok"
+						style="width: 100px; height: 32px">保存行程</a> <a href="#"
+						class="easyui-linkbutton" iconCls="icon-cancel"
+						style="width: 100px; height: 32px">返回行程</a>
+					</td>
+					</tr>
+				</tbody>
+				</table>
+			</td>
+			</tr>
+			</tfoot>
+		</table>
+	</form>
+	 <script type="text/javascript">
+	/*<![CDATA[*/
+		   function addTripResource(){
+		   var str = "<tr>"+
+		   "<td style='font-size: 16px; text-align: center;'>选择时间：</td>"+
+		   "<td colspan='4' style='text-align: left;'>"+
+		   "<input class= \"easyui-datetimebox\" data-options= \"prompt:'请选择日期...'\" style='width: 200px' />"+
+		   "</td>"+
+		   "</tr>"+
+		   "<tr>"+
+		   "<td style=\"font-size: 16px; text-align: center;\">日程简单说明：</td>"+
+		   "<td colspan=\"4\" style=\"text-align: left;\">"+
+		   "<input name=\"route.routename\" style=\"width: 100%;\" />"+
+		   "</td>"+
+		   "</tr>"+
+		   "<tr>"+
+		   "<td style=\"font-size: 16px; text-align: center;\">日程详细说明：</td>"+
+		   "<td colspan=\"4\" style=\"text-align: left;\">"+
+		   "<textarea name=\"route.routename\" style=\"width: 100%;\"></textarea>"+
+		   "</td>"+
+		   "</tr>"+
+		   "<tr>"+
+		   "<td style=\"font-size: 16px; text-align: center;\">图片上传：</td>"+
+		   "<td colspan=\"4\" style=\"text-align: left;\">"+
+		   "<input class=\"easyui-filebox\" name=\"file1\" data-options=\"prompt:\'Choose a file...\'\" style=\"width: 400px\" />"+
+		   "</td>"+
+			"</tr>";
+		$(str).appendTo("#tripDaysResource_1"); 
+		$.parser.parse("#tripDaysResource_1");
+		}
+	
+	
+		   function removeTripResource(delbodyId){
+				//tripDaysResource_day_1
+				//从后往前删除
+				var tbodyNode = document.getElementById(delbodyId);
+				var bodylength = tbodyNode.children.length;
+				//可删除
+				var res = bodylength / 3;
+				if(res > 1) {
+					var resVal = backDelTripRes(tbodyNode);
+					if(null!=resVal && ""!=resVal){
+						//alert(resVal);
+						var ctx = $("#ctx").val();
+						$.ajax({
+							//url : ctx+"/jsp/routemanage/delRes.action",
+							type : 'post',
+							dataType : 'json',
+							data : {
+								"delResId" : resVal,
+							},
+							error : function() {
+								alert('操作时出错！');
+							},
+							success : function(data) {
+								if(data.result){
+									//删除最后的三个tr
+									for(var i=0; i<3; i++){
+										var trNode = tbodyNode.children[bodylength-1-i];
+										tbodyNode.removeChild(trNode);
+									}
+									alert("删除成功！");
+								}else{
+									alert("删除失败！");
+								}
+								console.log(data);
+								
+							}
+						});
+					}else{
+						//删除最后的三个tr
+						for(var i=0; i<3; i++){
+							var trNode = tbodyNode.children[bodylength-1-i];
+							tbodyNode.removeChild(trNode);
+						}
+						alert("删除成功！");
+					}
+					
+				}else{alert("无法删除!");}
+			}
+			function backDelTripRes(tbodyNode){
+				var trNode = tbodyNode.children[0];
+				var inputNode = trNode.children[1];
+				var resId = inputNode.value;
+				return resId;
+			}
+			
+			function addTrips(){
+				var str ="<tr name=\"trip_1\" id=\"trip_1\">"+
+				"<td>"+
+				"<table class=\"table table-bordered table2\">"+
+				"<tbody>"+
+					"<tr>"+
+						"<td colspan=\"6\" class=\"liTit\">"+
+							"<div style=\"font-size: 16px; width: 45%; color: blue; font-weight: bold\">行程信息</div>"+
+						"</td>"+
+					"</tr>"+
+					"<tr>"+
+						"<td style=\"font-size: 16px; text-align: center;\">行程标题：</td>"+
+						"<td colspan=\"4\" style=\"text-align: left;\">"+
+						"<input name=\"route.routename\" style=\"width: 100%;\" /></td>"+
+					"</tr>"+
+				"<tr>"+
+						"<td style=\"font-size: 16px; text-align: center;\">行程详细：</td>"+
+						"<td colspan=\"4\" style=\"text-align: left;\">"+
+						"<textarea	name=\"route.routename\" style=\"width: 100%;\"></textarea></td>"+
+					"</tr>"+
+					"</tbody>"+
+					"</table>"+
+			
+			
+			
+				"<table class=\"table table-bordered table2\">"+
+				"<tbody id=\"tripDaysResource_1\">"+
+					 "<tr>"+
+						"<td style=\"font-size: 16px; text-align: center;\">选择时间：</td>"+
+						 "<td colspan=\"4\" style=\"text-align: left;\">"+
+						 "<input class= \"easyui-datetimebox\" data-options= \"prompt:'请选择日期...'\" style='width: 200px' />"+ 
+						"</td>"+
+					"</tr>"+ 
+					"<tr>"+
+						"<td style=\"font-size: 16px; text-align: center;\">日程简单说明：</td>"+
+						"<td colspan=\"4\" style=\"text-align: left;\">"+
+						"<input name=\"route.routename\" style=\"width: 100%;\" />"+
+						"</td>"+
+					"</tr>"+ 
+					 "<tr>"+
+						"<td style=\"font-size: 16px; text-align: center;\">日程详细说明：</td>"+
+						"<td colspan=\"4\" style=\"text-align: left;\">"+
+						"<textarea name=\"route.routename\" style=\"width: 100%;\">"+
+						"</textarea>"+
+						"</td>"+
+					"</tr>"+ 
+					 "<tr>"+
+								"<td style=\"font-size: 16px; text-align: center;\">图片上传：</td>"+
+								"<td colspan=\"4\" style=\"text-align: left;\">"+
+								"<input class=\"easyui-filebox\" name=\"file1\" data-options=\"prompt:\'Choose a file...'\" style=\"width: 400px\" /></td>"+
+							"</tr>"+ 
+							"</tbody>"+
+							"<tfoot>"+
+							"<tr>"+
+							"<td style=\"text-align: right;\" colspan=\"2\">"+
+							"<a href=\"#\" class=\"easyui-linkbutton\" iconCls=\"icon-ok\" style=\"width: 100px; height: 32px\" onclick=\"addTripResource()\">添加日程</a>"+
+								"<a onclick=\"removeTripResource(\'tripDaysResource_1\');\" href=\"#\" class=\"easyui-linkbutton\" iconCls=\"icon-cancel\" style=\"width: 100px; height: 32px\">删除日程</a>"+
+							"</td>"+
+							"</tr>"+
+							"</tfoot>"+ 
+					"</table>"+
+					
+					
+					
+						"<table class=\"table table-bordered table2\">"+
+					"<tbody>"+
+					"<tr>"+
+					"<td colspan=\"6\" class=\"liTit\">"+
+							"<div style=\"font-size: 16px; width: 45%; color: blue; font-weight: bold\">行程餐饮</div>"+
+						"</td>"+
+						 "</tr>"+
+					"<tr>"+
+					"<td style=\"font-size: 16px; text-align: center;\">早餐：</td>"+
+					"<td><input class=\"easyui-combobox\" name=\"traffic\""+
+								"data-options=\""+
+										"url: \'/SelfSupportRouteBaseInfo/selectGoWay\',"+ 
+										"method:\'get\',"+
+										"valueField:'id',"+
+										"textField:\'trafficType\',"+
+										"value:'请选择',"+
+										"panelHeight:\'auto\'\"/></td>"+
+					"</tr>"+
+						"<tr>"+
+					"<td style=\"font-size: 16px; text-align: center;\">中餐：</td>"+
+					"<td><input class=\"easyui-combobox\" name=\"traffic\""+
+								"data-options=\""+
+										"url: \'/SelfSupportRouteBaseInfo/selectGoWay\',"+ 
+										"method:\'get\',"+
+										"valueField:\'id\',"+
+										"textField:\'trafficType\',"+
+										"value:\'请选择\',"+
+										"panelHeight:\'auto\'\"/></td>"+
+					"</tr>"+
+					"<tr>"+
+					"<td style=\"font-size: 16px; text-align: center;\">晚餐：</td>"+
+					"<td><input class=\"easyui-combobox\" name=\"traffic\""+
+								"data-options=\""+
+										"url: '/SelfSupportRouteBaseInfo/selectGoWay',"+ 
+										"method:\'get\',"+
+										"valueField:\'id\',"+
+										"textField:\'trafficType\',"+
+										"value:\'请选择\',"+
+										"panelHeight:\'auto\'\"/></td>"+
+					"</tr>"+
+						"<tr>"+
+								"<td style=\"font-size: 16px; text-align: center;\">图片上传：</td>"+
+								"<td colspan=\"4\" style=\"text-align: left;\">"+
+								"<input class=\"easyui-filebox\" name=\"file1\" data-options=\"prompt:\'Choose a file...\'\" style=\"width: 400px\" /></td>"+
+							"</tr>"+
+					"</tbody>"+
+					"</table>"+
+					
+					
+						"<table class=\"table table-bordered table2\">"+
+					"<tbody>"+
+					"<tr>"+
+					"<td colspan=\"6\" class=\"liTit\">"+
+							"<div style=\"font-size: 16px; width: 45%; color: blue; font-weight: bold\">行程酒店</div>"+
+						"</td>"+
+					"</tr>"+
+					 	"<tr>"+
+					"<td style=\"font-size: 16px; text-align: center;\">酒店类型：</td>"+
+					
+				 	"<td><input class=\"easyui-combobox\" name=\"traffic\""+
+					"data-options=\""+
+							"url: '/SelfSupportRouteBaseInfo/selectGoWay',"+ 
+							"method:\'get\',"+
+							"valueField:\'id\',"+
+							"textField:\'trafficType\',"+
+							"value:\'请选择\',"+
+							"panelHeight:\'auto\'\"/></td>"+
+					"</tr>"+
+						"<tr>"+
+							"<td style=\"font-size: 16px; text-align: center;\">图片上传：</td>"+
+							"<td colspan=\"4\" style=\"text-align: left;\">"+
+							"<input class=\"easyui-filebox\" name=\"file1\" data-options=\"prompt:\'Choose a file...\'\" style=\"width: 400px\" /></td>"+
+						"</tr>"+ 
+					"</tbody>"+
+					"</table>"+  
+					"</td>"+
+					"</tr>";
+					$(str).appendTo("#dayTrip");
+					$.parser.parse("#dayTrip");
+			}
+			
+			
+			function removeTrips(){
+				var tbodyNode = document.getElementById("dayTrip");
+				var bodylength = tbodyNode.children.length;
+				//可删除
+				if(bodylength > 1) {
+					//删除最后的这个
+					var trNode = tbodyNode.children[bodylength-1];
+					var tripId = backDelTrips(trNode);
+					if(null!=tripId && ""!=tripId){
+						var routeid = $("#routeIdStr").val();
+						var ctx = $("#ctx").val();
+						$.ajax({
+							type : 'post',
+							dataType : 'json',
+							data : {
+								"route.id" : routeid,
+								"updateTripId":tripId
+							},
+							error : function() {
+								alert('操作时出错！');
+							},
+							success : function(data) {
+								console.log(data);
+								if(data.result){
+									tbodyNode.removeChild(trNode);
+									
+									//天数减一天
+									index --;
+									$("#routedays").val(index);
+									alert("删除成功！");
+									reload();
+								}else{
+									alert("删除失败！");
+								}
+							}
+						});
+					}else{
+						tbodyNode.removeChild(trNode);
+						
+						//天数减一天
+						index --;
+						$("#routedays").val(index);
+						alert("删除成功！");
+					}				
+				}else{
+					alert("只剩下一天，无法删除!");
+				}
+			}
+			
+			function backDelTrips(trNode){
+				var tdNode = trNode.children[0];
+				var tableNode = tdNode.children[1];
+				var tbodyNode = tableNode.children[0];
+				var trNode = tbodyNode.children[0];
+				var inputNode = trNode.children[0];
+				return inputNode.value;
+			}
+			
+			//判断当前是哪个添加
+			function getCurrImgCounts(day, type, rows, num){
+				var idStr = "pic_"+day+"_"+type+"_"+rows+"_"+num;
+				var ulNode = $id(idStr);
+				var lilength = ulNode.children.length;
+				return lilength-1;
+			}
+			
+			/*]]>*/
+    </script>
 </body>
 </html>
