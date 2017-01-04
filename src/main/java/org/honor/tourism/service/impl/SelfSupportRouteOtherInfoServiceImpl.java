@@ -3,7 +3,6 @@ package org.honor.tourism.service.impl;
 import java.util.Map;
 
 import javax.transaction.Transactional;
-import javax.validation.constraints.Null;
 
 import org.honor.tourism.entity.SelfSupportRoute;
 import org.honor.tourism.entity.SelfSupportRouteOtherInfo;
