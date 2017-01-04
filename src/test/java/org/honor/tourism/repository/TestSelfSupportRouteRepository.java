@@ -28,7 +28,7 @@ public class TestSelfSupportRouteRepository {
 	@Autowired
 	private RouteBaseInfoService routeBaseInfoService;
 	
-	@Test
+//	@Test
 	public void testSave() {
 		RouteBaseInfo routeBaseInfo = new RouteBaseInfo();
 		routeBaseInfo.setRouteName("测试基础名称3");
@@ -44,9 +44,11 @@ public class TestSelfSupportRouteRepository {
 	
 	@Test
 	public void testFindByRouteBaseInfoRouteName() {
-		Pageable pageable = new PageRequest(0, 22);
-		List<SelfSupportRoute> page = repository.findByRouteBaseInfoRouteNameOrRouteBaseInfoOutPlaceOrRouteBaseInfoDestinationOrRouteBaseInfoRouteTypeListTypeName("", "","", "", pageable);
-		for (SelfSupportRoute selfSupportRoute : page) {
+		Pageable pageable = new PageRequest(0, 5);
+		Page<SelfSupportRoute> page = repository.findByRouteBaseInfoRouteNameOrRouteBaseInfoOutPlaceOrRouteBaseInfoDestinationOrRouteBaseInfoRouteTypeListTypeName("", "","", "", pageable);
+		List<SelfSupportRoute> list = page.getContent();
+		System.out.println("总数2：" + page.getTotalElements());
+		for (SelfSupportRoute selfSupportRoute : list) {
 			System.out.println(selfSupportRoute.getRouteBaseInfo().getRouteName());
 		}
 	}

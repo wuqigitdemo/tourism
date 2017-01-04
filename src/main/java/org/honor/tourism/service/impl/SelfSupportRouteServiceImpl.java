@@ -1,7 +1,5 @@
 package org.honor.tourism.service.impl;
 
-import java.util.List;
-
 import org.honor.tourism.entity.SelfSupportRoute;
 import org.honor.tourism.repository.SelfSupportRouteRepository;
 import org.honor.tourism.service.SelfSupportRouteService;
@@ -23,7 +21,7 @@ public class SelfSupportRouteServiceImpl extends CrudServiceImpl<SelfSupportRout
 	}
 
 	@Override
-	public List<SelfSupportRoute> findByRouteBaseInfoRouteNameOrRouteBaseInfoOutPlaceOrRouteBaseInfoDestinationOrRouteBaseInfoRouteTypeListTypeName(
+	public Page<SelfSupportRoute> findByRouteBaseInfoRouteNameOrRouteBaseInfoOutPlaceOrRouteBaseInfoDestinationOrRouteBaseInfoRouteTypeListTypeName(
 			String routeName, String outPlace, String destination, String typeName, Pageable pageable) {
 		return repository.findByRouteBaseInfoRouteNameOrRouteBaseInfoOutPlaceOrRouteBaseInfoDestinationOrRouteBaseInfoRouteTypeListTypeName(routeName, outPlace, destination, typeName, pageable);
 	}

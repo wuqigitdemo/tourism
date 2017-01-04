@@ -1,7 +1,5 @@
 package org.honor.tourism.repository.impl;
 
-import java.util.List;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -12,6 +10,7 @@ import javax.persistence.criteria.Root;
 
 import org.honor.tourism.entity.SelfSupportRoute;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
 public class SelfSupportRouteRepositoryImpl {
@@ -19,7 +18,7 @@ public class SelfSupportRouteRepositoryImpl {
 	@PersistenceContext
 	private EntityManager em;
 
-	public List<SelfSupportRoute> findByRouteBaseInfoRouteNameOrRouteBaseInfoOutPlaceOrRouteBaseInfoDestinationOrRouteBaseInfoRouteTypeListTypeName(
+	public Page<SelfSupportRoute> findByRouteBaseInfoRouteNameOrRouteBaseInfoOutPlaceOrRouteBaseInfoDestinationOrRouteBaseInfoRouteTypeListTypeName(
 			String routeName, String outPlace, String destination, String typeName, Pageable pageable) {
 		CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
 		CriteriaQuery<SelfSupportRoute> criteriaQuery = criteriaBuilder.createQuery(SelfSupportRoute.class);
@@ -32,9 +31,11 @@ public class SelfSupportRouteRepositoryImpl {
 		}
 		criteriaQuery.where(restrictions);
 		TypedQuery<SelfSupportRoute> tq = em.createQuery(criteriaQuery);
+		long total = tq.getResultList().size();
 		tq.setFirstResult(pageable.getPageNumber() * pageable.getPageSize());
 		tq.setMaxResults(pageable.getPageSize());
-		return tq.getResultList();
+		Page<SelfSupportRoute> page = new PageImpl<SelfSupportRoute>(tq.getResultList(), pageable, total);
+		return page;
 	}
 
 }
