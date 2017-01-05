@@ -19,11 +19,11 @@ public class FileUpload {
 	 * Controller方法参数例子：@RequestParam("uploadFile") MultipartFile file
 	 * 页面form参数加  enctype="multipart/form-data"
 	 * @param file
-	 * @return
+	 * @return 返回保存的文件名 （如为null则为保存失败）
 	 */
-	public boolean uploadFile(MultipartFile file) {
+	public String uploadFile(MultipartFile file) {
 		if (file.isEmpty()) {
-			return false;
+			return null;
 		}
 		// 获取文件名
 		String fileName = file.getOriginalFilename();
@@ -34,6 +34,10 @@ public class FileUpload {
 		sb.append(fileHeadName);
 		sb.append(UUID.randomUUID());
 		sb.append(suffixName);
+		StringBuffer returnFileName = new StringBuffer();
+		returnFileName.append(fileHeadName);
+		returnFileName.append(UUID.randomUUID());
+		returnFileName.append(suffixName);
 		File dest = new File(sb.toString());
 		// 检测是否存在目录
 		if (!dest.getParentFile().exists()) {
@@ -41,13 +45,13 @@ public class FileUpload {
 		}
 		try {
 			file.transferTo(dest);
-			return true;
+			return returnFileName.toString();
 		} catch (IllegalStateException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return false;
+		return null;
 	}
 
 	public String getFileUploadPath() {
