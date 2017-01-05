@@ -36,18 +36,20 @@
 
 </head>
 <body>
-<form class="easyui-panel" id="myform1" name="myform1" method="post" >
+<form class="easyui-panel" id="myform" name="myform" method="post" >
 <table class="table table-bordered table2 glg_tab" >
 	<tbody>
 		<tr>
 			<td style="font-size: 16px; text-align: center;">线路名称：</td>
-			<td colspan="4" style="text-align: left;"><input name="route.routename" value="" style="width:100%;"/></td>
+			<td colspan="4" style="text-align: left;">
+			<input id="routeName" name="routeName" value="" style="width:100%;" class="easyui-validatebox tb" data-options="required:true,validType:['charts','length[2,25]']"/>
+			</td>
 		</tr>
 		<tr>
 			<td style="font-size: 16px; text-align: center;">去程交通：</td>
 			<td>
 				<input class="easyui-combobox" 
-						name="traffic"
+						name="goTraffic"
 						data-options="
 					url: '/RouteBaseInfo/selectGoWay', 
 					method:'get',
@@ -60,7 +62,7 @@
 			<td style="font-size: 16px; text-align: center;">回程交通：</td>
 			<td>
 				<input class="easyui-combobox" 
-						name="backtraffic"
+						name="returnTraffic"
 						data-options="
 					url: '/RouteBaseInfo/selectGoWay', 
 					method:'get',
@@ -72,17 +74,16 @@
 			</td>
 		</tr>
 		<tr>
-			<input name="route.days" value="" type="hidden" id="routedays"></input>
 			<td style="font-size: 16px; text-align: center;">出发地：</td>
-			<td ><input name="route.outplace" value="" type="text" style="width:100%;"></input></td>
+			<td ><input name="outPlace" class="easyui-validatebox tb" data-options="required:true,validType:['charts','length[2,25]']" value="" type="text" style="width:100%;"></input></td>
 			<td style="font-size: 16px; text-align: center;">浏览地：</td>
-			<td><input name="route.destination" value="" type="text" style="width:100%;"></input></td>
+			<td><input name="destination" class="easyui-validatebox tb" data-options="required:true,validType:['charts','length[2,25]']" value="" type="text" style="width:100%;"></input></td>
 		</tr>
 		<tr>
 			<td style="font-size: 16px; text-align: center;">签证国家：</td>
 			<td >
 				<input class="easyui-combobox" 
-						name="areavisaid"
+						name="visaNationals"
 						data-options="
 					url: '/RouteBaseInfo/selectCountry', 
 					method:'get',
@@ -94,17 +95,16 @@
 			</td>
 			<td style="font-size: 16px; text-align: center;">电商页面排序：</td>
 			<td>
-				<input type="hidden" name="route.recommend" id="istopid" value="1"></input>
-				<input type="hidden" id ="istop" value = '1'></input>
-				<input type="text" name="route.sortstr" value="" placeholder="请输入数字"></input>
+				<input type="text" name="pageOrder" class="easyui-numberbox"  data-options="required:true,min:0" value="" placeholder="请输入数字"></input>
 			</td>
 		</tr>
 		<tr>
 		<td colspan="6" class="liTit">
 		<input type="hidden" id="categoryids" name="categoryids"/>
-		<div style="font-size: 16px;width:45%;color: blue;font-weight: bold">产品类别</div>
+		<div style="font-size: 16px;width:45%;color: blue;font-weight: bold;padding-left: 30px">产品类别</div>
 		</td>
 		</tr>
+		
 		<tr>
 			<td style="font-size: 16px; text-align: center;">原创路线:</td>
 			<td >
@@ -124,7 +124,7 @@
 			<td>
 			<div id="longJiang" name="longJiang">
 			 	  	
-			 </div>
+			</div>
 			</td>
 		</tr>	
 		<tr>
@@ -139,45 +139,65 @@
 			</td>
 		</tr>
 		<tr>
+			<td style="font-size: 16px; text-align: center;">旅游主题:</td>
+			<td>
+			<a  class="easyui-linkbutton" plain="true" onclick="tourismTheme()">选择主题</a>
+			</td>
+			<td>
+			<div id="tourismTheme" name="tourismTheme">
+			 	  	
+			 </div> 
+			</td>
+		</tr>
+		
+		<tr>
+			<td style="font-size: 16px; text-align: center;">线路列表简图：<br/>建议尺寸-宽1500*高200</td>
+			<td >
+				<input name="thumbnails" value="" type="file" />
+			</td>
+			<td style="font-size: 16px; text-align: center;">路线简图：<br/>建议尺寸-宽1500*高200</td>
+			<td >
+				<input name="routeImg" value="" type="file" />
+			</td>
+		</tr>
+		
+		<tr>
 			<td style="font-size: 16px; text-align: center;">起价说明：</td>
-			<td colspan="4" style="text-align: left;"><textarea name="route.routename" value="" style="width:100%;"/></td>
+			<td colspan="4" style="text-align: left;"><textarea name="startPriceExplain" class="easyui-validatebox tb" data-options="required:true,validType:['charts','length[2,25]']" value="" style="width:100%;"/></td>
 		</tr>
 		<tr>
 			<td style="font-size: 16px; text-align: center;">推荐理由：</td>
-			<td colspan="4" style="text-align: left;"><textarea name="route.routename" value="" style="width:100%;"/></td>
+			<td colspan="4" style="text-align: left;"><textarea name="recommendedReason" class="easyui-validatebox tb" data-options="required:true,validType:['charts','length[2,25]']" value="" style="width:100%;"/></td>
 		</tr>
 		<tr>
 			<td style="font-size: 16px; text-align: center;">重要提示：</td>
-			<td colspan="4" style="text-align: left;"><textarea name="route.routename" value="" style="width:100%;"/></td>
+			<td colspan="4" style="text-align: left;"><textarea name="importanceHint" class="easyui-validatebox tb" data-options="required:true,validType:['charts','length[2,25]']" value="" style="width:100%;"/></td>
 		</tr>
 		<tr>
 			<td style="font-size: 16px; text-align: center;">保险赠送情况说明：</td>
-			<td colspan="4" style="text-align: left;"><textarea name="route.routename" value="" style="width:100%;"/></td>
+			<td colspan="4" style="text-align: left;"><textarea name="insuranceGiveExplain" class="easyui-validatebox tb" data-options="required:true,validType:['charts','length[2,25]']" value="" style="width:100%;"/></td>
 		</tr>
 		<tr>
 			<td style="font-size: 16px; text-align: center;">限制报名期限：</td>
-			<td colspan="4" style="text-align: left;"><input name="route.routename" value="" style="width:100%;"/></td>
+			<td colspan="4" style="text-align: left;"><input name="limitedRegistrationDeadline" class="easyui-numberbox"  data-options="required:true,min:0" value="" style="width:100%;"/></td>
 		</tr>
 		<tr>
 			<td style="font-size: 16px; text-align: center;">限制付款天数：</td>
-			<td colspan="4" style="text-align: left;"><input name="route.routename" value="" style="width:100%;"/></td>
+			<td colspan="4" style="text-align: left;"><input name="restrictedPaymentDays" class="easyui-numberbox"  data-options="required:true,min:0" value="" style="width:100%;"/></td>
 		</tr>
 		<tr>
 			<td style="font-size: 16px; text-align: center;">限制付款小时：</td>
-			<td colspan="4" style="text-align: left;"><input name="route.routename" value="" style="width:100%;"/></td>
+			<td colspan="4" style="text-align: left;"><input name="limitedPaymentHours" class="easyui-numberbox"  data-options="required:true,min:0" value="" style="width:100%;"/></td>
 		</tr>
 		<tr>
 			<td style="font-size: 16px; text-align: center;">付款方式：</td>
-			<td colspan="4" style="text-align: left;">
-			<input type="radio" name="payway" checked="checked" onclick="setPayway(0);"/>
-			<span style="font-size: 16px;padding-left: 12px;" >即时付款：与原有流程一致</span>
-			</td>
+			<td colspan="4" style="text-align: left;"><input name="paymentMethod" class="easyui-validatebox tb" data-options="required:true,validType:['charts','length[2,25]']" value="" style="width:100%;"/></td>
 		</tr>
 		<tr>
 			<td style="font-size: 16px; text-align: center;"></td>
 			<td colspan="4" style="text-align: left;">
-			<button>确认保存</button>
-			<button>返回列表</button>
+			<a href="javascript:void(0)" class="easyui-linkbutton c6" onclick="saveUser()" style="width:90px">确认保存</a>
+			<a href="javascript:void(0)" class="easyui-linkbutton c6" style="width:90px">返回列表</a>
 			</td>
 		</tr>
 	</tbody>
@@ -192,8 +212,6 @@
 				<tr>
 				  <td><input type="checkbox" name="qx" value="黑龙江省" />黑龙江省</td>
 				  <td><input type="checkbox" name="qx" value="哈尔滨市" />哈尔滨市</td>
-				  <td><input type="checkbox" name="qx" value="齐齐哈尔市" />齐齐哈尔市</td>
-				  <td><input type="checkbox" name="qx" value="大庆市" />大庆市</td>
 				</tr>
             	</table>
             </div>
@@ -207,8 +225,6 @@
 				<tr>
 				  <td><input type="checkbox" name="qx2" value="黑龙江省" />黑龙江省</td>
 				  <td><input type="checkbox" name="qx2" value="哈尔滨市" />哈尔滨市</td>
-				  <td><input type="checkbox" name="qx2" value="齐齐哈尔市" />齐齐哈尔市</td>
-				  <td><input type="checkbox" name="qx2" value="大庆市" />大庆市</td>
 				</tr>
             	</table>
             </div>
@@ -222,30 +238,72 @@
 				<tr>
 				  <td><input type="checkbox" name="qx3" value="黑龙江省" />黑龙江省</td>
 				  <td><input type="checkbox" name="qx3" value="哈尔滨市" />哈尔滨市</td>
-				  <td><input type="checkbox" name="qx3" value="齐齐哈尔市" />齐齐哈尔市</td>
-				  <td><input type="checkbox" name="qx3" value="大庆市" />大庆市</td>
 				</tr>
             	</table>
             </div>
         </form>
     </div>
-    
+ 	<div id="dlg4" class="easyui-dialog" style="width:500px"
+            closed="true" buttons="#dlg-buttons4">
+        <form id="fm" novalidate="" style="margin:0;padding:20px 50px">
+            <div style="margin-bottom:10px">
+            	<table id="cs4" name="cs4" class="table" border="1px" cellspacing="1" style="width: 400px;">
+            	<div class="show" id="show" style="width: 300px;">
+            	
+            	</div>
+            	</table>
+            </div> 
+        </form>
+    </div>
+            
     <div id="dlg-buttons">
         <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="getInfo()" style="width:90px">提交</a>
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')" style="width:90px">取消</a>
     </div>
     <div id="dlg-buttons2">
         <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="getInfo2()" style="width:90px">提交</a>
-        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')" style="width:90px">取消</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg2').dialog('close')" style="width:90px">取消</a>
     </div>
     <div id="dlg-buttons3">
         <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="getInfo3()" style="width:90px">提交</a>
-        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')" style="width:90px">取消</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg3').dialog('close')" style="width:90px">取消</a>
+    </div>
+    <div id="dlg-buttons4">
+        <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="getInfo4()" style="width:90px">提交</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg4').dialog('close')" style="width:90px">取消</a>
     </div>
 	<script type="text/javascript">
 	/*<![CDATA[*/
+    
+	  	/* function getData()
+	  	{
+		    $.ajax({  
+	            url: '/RouteBaseInfo/selectTourismTheme',  
+	            dataType: 'json', 
+	            success: function () {
+        	        	    var executerDiv=$("executerDiv");
+        	        	    executerDiv.innerHTML="";
+        	        	    var ul=document.createElement("ul");
+        	        	    var tableDatas = new Array("1","Volvo");
+        	        	　　 for(var i=0;i<tableDatas.length;i++){
+        	        	        var arr=tableDatas[i];
+        	        	        // 加入复选框
+        	        	        var checkBox=document.createElement("executerDiv");
+        	        	        checkBox.setAttribute("type","checkbox");
+        	        	        checkBox.setAttribute("id",arr[0]);
+        	        	        checkBox.setAttribute("name", arr[1]);
+        	        	        var li=document.createElement("li");
+        	        	        li.append(checkBox);       
+        	        	        li.append(document.createTextNode(arr[1]));
+        	        	        ul.append(li);
+        	        	    }   
+        	        	    executerDiv.append(ul);  
+	            }  
+	        });
+	  	}  */      
+	           
 		function getInfo(){
-			  obj = document.getElementsByName("qx");
+			  	obj = document.getElementsByName("qx");
 			    check_val = [];
 			    for(k in obj){
 			        if(obj[k].checked)
@@ -274,6 +332,16 @@
 		    document.getElementById('outboundTravel').innerHTML = check_val;
 		  $('#dlg3').dialog('close');
 		}
+		function getInfo4(){
+			obj = document.getElementsByName("qx4");
+		    check_val = [];
+		    for(k in obj){
+		        if(obj[k].checked)
+		            check_val.push(obj[k].value);
+		    }
+		    document.getElementById('tourismTheme').innerHTML = check_val;
+		  $('#dlg4').dialog('close');
+		}
 		
         var url;
         function originalRoute(){
@@ -291,17 +359,21 @@
             $('#fm').form('clear');
             url = '/RouteBaseInfo/findAll';
         }
-        function editUser(){
-            var row = $('#dg').datagrid('getSelected');
-            if (row){
-                $('#dlg').dialog('open').dialog('center').dialog('setTitle','修改');
-                $('#fm').form('load',row);
-                url = '/RouteBaseInfo/save?id='+row.id;
-            }
+        function tourismTheme(){
+			$('#dlg4').dialog({
+				title:'旅游主题',
+				closed: false,
+	            onOpen:function(){
+	            	
+	              }
+	           });
+            $('#fm').form('clear');
+            url = '/RouteBaseInfo/findAll';
         }
+       
         function saveUser(){
-            $('#fm').form('submit',{
-                url: url,
+        	$('#myform').form('submit',{
+                url: '/RouteBaseInfo/save',
                 onSubmit: function(){
                     return $(this).form('validate');
                 },
@@ -313,31 +385,107 @@
                             msg: result.errorMsg
                         });
                     } else {
-                        $('#dlg').dialog('close');        // close the dialog
-                        $('#dg').datagrid('reload');    // reload the user data
                     }
                 }
             });
         }
-        function destroyUser(){
-            var row = $('#dg').datagrid('getSelected');
-            if (row){
-                $.messager.confirm('Confirm','Are you sure you want to destroy this user?',function(r){
-                    if (r){
-                        $.post('/RouteBaseInfo/delete',{id:row.id},function(result){
-                            if (result.success){
-                                $('#dg').datagrid('reload');    // reload the user data
-                            } else {
-                                $.messager.show({    // show error message
-                                    title: 'Error',
-                                    msg: result.errorMsg
-                                });
-                            }
-                        },'json');
+        
+        window.onload = function () {
+            var type = ["热门", "岛游","特价"];
+            var city = {
+                "热门": ["哈尔滨", "牡丹江", "大连"],
+                "岛游": ["台湾", "海南", "韩国"],
+                "特价": ["泰国", "新加坡", "日本"]
+            };
+            var select = [type, city];
+            genCheck(select);
+        }
+
+        function genCheck(select) {
+            var content = "content";
+            var checkText = "checkbox";
+            var link = "link";
+            var size;
+
+            $("#show").html("");
+
+            var type = select[0];
+            size = type.length;
+            for (var i = 0; i < type.length; i++) {
+                genShowContent("show", checkText + i, i, type[i], content + i);
+            }
+            var monthObj = select[1];
+
+            for (var i = 0; i < type.length; i++) {
+                var array = monthObj["" + type[i] + ""];
+                for (var j = 0; j < array.length; j++) {
+                    genCheckBox(content + i, link + i, array[j], array[j], i, false);
+                }
+
+                var flag = isAllCheck(link + i);
+                var box = document.getElementById(checkText + i);
+                if (flag) {
+                    box.checked = true;
+                } else {
+                    box.checked = false;
+                }
+                $("input[name=" + link + i + "]").each(function () {
+                    $(this).unbind();
+                    $(this).change(function () {
+                        var flag = isAllCheck($(this).attr("name"));
+                        var box = document.getElementById(checkText + $(this).attr("parentIndex"));
+                        if (flag) {
+                            box.checked = true;
+                        } else {
+                            box.checked = false;
+                        }
+                    });
+                });
+            }
+            for (var i = 0; i < size; i++) {
+                $("#" + checkText + i).unbind();
+                $("#" + checkText + i).change(function () {
+                    var temp = link + $(this).attr("index");
+                    var p = document.getElementById(checkText + $(this).attr("index"));
+                    var box = document.getElementsByName(temp);
+                    for (var j = 0; j < box.length; j++) {
+                        if (p.checked) {
+                            box[j].checked = true;
+                        } else {
+                            box[j].checked = false;
+                        }
                     }
                 });
             }
         }
+
+
+        function genCheckBox(id, name, value, showText, parentIndex, isCheck) {
+            if (!isCheck) {
+                var checkbox = "<div class='la'><input type='checkbox' parentIndex=" + parentIndex + " name=".concat(name).concat(" value=").concat(value).concat(" alt=").concat(showText).concat(" /><span>").concat(showText).concat("</span></div>");
+                $("#" + id).append(checkbox);
+            } else {
+                var checkbox = "<div class='la'><input type='checkbox' parentIndex=" + parentIndex + " name=".concat(name).concat(" checked='checked' value=").concat(value).concat(" alt=").concat(showText).concat(" /><span>").concat(showText).concat("</span></div>");
+                $("#" + id).append(checkbox);
+            }
+        }
+
+
+        function genShowContent(id, checkboxId, index, showText, idName) {
+            var showContent = "<div class='msg'><span class='bigfont'>".concat(showText).concat("： </span><input type='checkbox' index=").concat(index).concat(" id='").concat(checkboxId).concat("'/><span>全选</span><div class='content' id='").concat(idName).concat("' ></div></div>");
+            $("#" + id).append(showContent);
+        }
+
+        function isAllCheck(name) {
+            var box = document.getElementsByName(name);
+            for (var j = 0; j < box.length; j++) {
+                if (!box[j].checked) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        
         /*]]>*/
     </script>
    </body>

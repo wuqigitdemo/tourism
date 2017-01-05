@@ -7,10 +7,14 @@ import javax.validation.Valid;
 
 import org.honor.tourism.entity.InsuranceType;
 import org.honor.tourism.entity.RouteBaseInfo;
+import org.honor.tourism.entity.RouteType;
 import org.honor.tourism.entity.SelfSupportRoute;
+import org.honor.tourism.entity.TourismTheme;
 import org.honor.tourism.entity.Traffic;
 import org.honor.tourism.entity.VisaNationals;
 import org.honor.tourism.service.RouteBaseInfoService;
+import org.honor.tourism.service.RouteTypeService;
+import org.honor.tourism.service.TourismThemeService;
 import org.honor.tourism.service.TrafficWayService;
 import org.honor.tourism.service.VisaNationalsService;
 import org.honor.tourism.util.EasyuiPage;
@@ -41,6 +45,12 @@ public class RouteBaseInfoController {
 	
 	@Autowired 
 	private VisaNationalsService visaNationalsService;
+	
+	@Autowired 
+	private RouteTypeService routeTypeService;
+	
+	@Autowired 
+	private TourismThemeService tourismThemeService;
 	
 	/**
 	 * 获取自营线路信息
@@ -113,4 +123,30 @@ public class RouteBaseInfoController {
 		List<VisaNationals> rows = visaNationals.getContent();
 		return rows;
 	}
+	/**
+	 * 查询线路类别list
+	 * @param page
+	 * @return
+	 */
+	@RequestMapping("/selectRouteTypeList")
+	@ResponseBody
+	public List<RouteType> selectRouteTypeList() {
+		List<RouteType> routeTypeList =  routeTypeService.findAll();
+		return routeTypeList;
+	}
+	
+	/**
+	 * 查询旅游主题
+	 * @param page
+	 * @return
+	 */
+	@RequestMapping("/selectTourismTheme")
+	@ResponseBody
+	public List<TourismTheme> selecttourismTheme() {
+		Pageable pageable = new PageRequest(0, 100000);
+		Page<TourismTheme> tourismTheme = tourismThemeService.findAll(pageable);
+		List<TourismTheme> rows = tourismTheme.getContent();
+		return rows;
+	}
+	
 }

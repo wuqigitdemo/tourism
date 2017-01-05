@@ -68,9 +68,28 @@ public class RouteBaseInfo {
 	private String insuranceGiveExplain;
 	/** 限制报名期限 */
 	private Integer limitedRegistrationDeadline;
+	/** 限制付款天数 */
+	private Integer restrictedPaymentDays;
+	/** 限制付款小时 */
+	private Integer limitedPaymentHours;
 	/** 付款方式 */
 	@Length(min = 0, max = 100, message = "付款方式需要1-100位字符")
 	private String paymentMethod;
+	public Integer getRestrictedPaymentDays() {
+		return restrictedPaymentDays;
+	}
+
+	public void setRestrictedPaymentDays(Integer restrictedPaymentDays) {
+		this.restrictedPaymentDays = restrictedPaymentDays;
+	}
+
+	public Integer getLimitedPaymentHours() {
+		return limitedPaymentHours;
+	}
+
+	public void setLimitedPaymentHours(Integer limitedPaymentHours) {
+		this.limitedPaymentHours = limitedPaymentHours;
+	}
 
 	public String getId() {
 		return id;

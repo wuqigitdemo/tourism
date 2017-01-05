@@ -19,12 +19,14 @@
 <link rel="stylesheet" type="text/css" href="/css/page.css" />
 <link rel="stylesheet" type="text/css" href="/css/reset.css" />
 </head>
-<body>
+<body id="OtherInfo">
 	<form class="table table-bordered table2 glg_tab" style="" id="myform"
 		name="myform" method="post" onsubmit="return false;"
 		action="/SelfSupportRouteOtherInfo/saveOtherInfo">
 		<table class="table table-bordered table2 glg_tab">
-			<input name="routeId" value="402882a65949d34b015949d360560000" type="hidden" />
+			<input name="routeId" th:if="${not #lists.isEmpty(selfSupportRoute)}" th:value="${selfSupportRoute.id}" type="hidden" />
+			<input name="id" th:if="${not #lists.isEmpty(selfSupportRoute)} and ${not #lists.isEmpty(selfSupportRoute.selfSupportRouteOtherInfo)}" 
+					th:value="${selfSupportRoute.selfSupportRouteOtherInfo.id}" type="hidden" />
 			<tbody>
 				<tr>
 					<td>
@@ -33,49 +35,65 @@
 								<tr>
 									<td style="width: 160px;">购物店：</td>
 									<td colspan="5" style="text-align: left;">
-										<textarea name="shop" rows="3" cols="70"></textarea>
+										<textarea name="shop" rows="3" cols="70" 
+											th:text="(${not #lists.isEmpty(selfSupportRoute)} and ${not #lists.isEmpty(selfSupportRoute.selfSupportRouteOtherInfo)})?${selfSupportRoute.selfSupportRouteOtherInfo.shop}">
+										</textarea>
 									</td>
 								</tr>
 								<tr>
 									<td>特殊限制：</td>
 									<td colspan="5" style="text-align: left;">
-										<textarea name="specialRestrictions" rows="3" cols="70"></textarea>
+										<textarea name="specialRestrictions" rows="3" cols="70" 
+											th:text="(${not #lists.isEmpty(selfSupportRoute)} and ${not #lists.isEmpty(selfSupportRoute.selfSupportRouteOtherInfo)})?${selfSupportRoute.selfSupportRouteOtherInfo.specialRestrictions}">
+										</textarea>
 									</td>
 								</tr>
 								<tr>
 									<td>预订须知：</td>
 									<td colspan="5" style="text-align: left;">
-										<textarea name="reservationInform" cols="70"></textarea>
+										<textarea name="reservationInform" cols="70" 
+											th:text="(${not #lists.isEmpty(selfSupportRoute)} and ${not #lists.isEmpty(selfSupportRoute.selfSupportRouteOtherInfo)})?${selfSupportRoute.selfSupportRouteOtherInfo.reservationInform}">
+										</textarea>
 									</td>
 								</tr>
 								<tr>
 									<td>自费项目备注：</td>
 									<td colspan="5" style="text-align: left;">
-										<textarea name="selfPayItemRemark" rows="3" cols="70"></textarea>
+										<textarea name="selfPayItemRemark" rows="3" cols="70" 
+											th:text="(${not #lists.isEmpty(selfSupportRoute)} and ${not #lists.isEmpty(selfSupportRoute.selfSupportRouteOtherInfo)})?${selfSupportRoute.selfSupportRouteOtherInfo.selfPayItemRemark}">
+										</textarea>
 									</td>
 								</tr>
 								<tr>
 									<td>自费项目推荐：</td>
 									<td colspan="5" style="text-align: left;">
-										<textarea name="selfPayItemRecommend" rows="3" cols="70"></textarea>
+										<textarea name="selfPayItemRecommend" rows="3" cols="70"
+											th:text="(${not #lists.isEmpty(selfSupportRoute)} and ${not #lists.isEmpty(selfSupportRoute.selfSupportRouteOtherInfo)})?${selfSupportRoute.selfSupportRouteOtherInfo.selfPayItemRecommend}">
+										</textarea>
 									</td>
 								</tr>
 								<tr>
 									<td>费用包含：</td>
 									<td colspan="5" style="text-align: left;">
-										<textarea name="costCover" rows="3" cols="70"></textarea>
+										<textarea name="costCover" rows="3" cols="70" 
+											th:text="(${not #lists.isEmpty(selfSupportRoute)} and ${not #lists.isEmpty(selfSupportRoute.selfSupportRouteOtherInfo)})?${selfSupportRoute.selfSupportRouteOtherInfo.costCover}">
+										</textarea>
 									</td>
 								</tr>
 								<tr>
 									<td>费用不包含：</td>
 									<td colspan="5" style="text-align: left;">
-										<textarea name="costNoCover" rows="3" cols="70"></textarea>
+										<textarea name="costNoCover" rows="3" cols="70" 
+											th:text="(${not #lists.isEmpty(selfSupportRoute)} and ${not #lists.isEmpty(selfSupportRoute.selfSupportRouteOtherInfo)})?${selfSupportRoute.selfSupportRouteOtherInfo.costNoCover}">
+										</textarea>
 									</td>
 								</tr>
 								<tr>
 									<td>退款说明：</td>
 									<td colspan="5" style="text-align: left;">
-										<textarea name="refundInstruction" rows="3" cols="70"></textarea>
+										<textarea name="refundInstruction" rows="3" cols="70" 
+											th:text="(${not #lists.isEmpty(selfSupportRoute)} and ${not #lists.isEmpty(selfSupportRoute.selfSupportRouteOtherInfo)})?${selfSupportRoute.selfSupportRouteOtherInfo.refundInstruction}">
+										</textarea>
 									</td>
 								</tr>
 								<tr class="beijingq">
@@ -95,27 +113,29 @@
 			</tbody>
 		</table>
 	</form>
-</body>
-<script type="text/javascript">
-/*<![CDATA[*/   //这句坚决不能删
 
-function saveForm()
-{
-	$('#myform').form('submit',{
-        onSubmit: function(){
-            return 'true';
-        },
-        success: function(resultJSON){
-        	var result = JSON.parse(resultJSON);
-            if (result.errorMsg){
-            	alert(result.errorMsg);
-            } else {
-                alert(result.msg);
-            }
-        }
-    });
-}
-           
-/*]]>*/    //这句坚决不能删
-</script>
+	<script th:inline="javascript">
+	/*<![CDATA[*/   //这句坚决不能删
+	
+	function saveForm()
+	{
+		$('#myform').form('submit',{
+	        onSubmit: function(){
+	            return 'true';
+	        },
+	        success: function(resultJSON){
+	        	var result = JSON.parse(resultJSON);
+	            if (result.errorMsg){
+	            	alert(result.errorMsg);
+	            } else {
+	                alert(result.msg);
+	            }
+	        }
+	    });
+	}
+	           
+	/*]]>*/    //这句坚决不能删
+	</script>
+	
+</body>
 </html>
