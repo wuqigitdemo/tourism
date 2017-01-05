@@ -1,6 +1,7 @@
 package org.honor.tourism.entity;
 
-import java.util.*;
+import java.util.Date;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -29,13 +30,17 @@ public class SelfSupportRoute {
 	@GenericGenerator(name = "uuid", strategy = "uuid")
 	@Length(min = 32, max = 32, message = "id需要32位字符")
 	private String id;
-	@OneToOne(cascade={CascadeType.ALL})
+	/** 自营线路编号 */
+	private String numbering;
+	/**经营类型*/
+	private BusinessType businessType;
+	@OneToOne(cascade = { CascadeType.ALL })
 	private RouteBaseInfo routeBaseInfo;
-	@OneToMany(cascade={CascadeType.ALL})
+	@OneToMany(cascade = { CascadeType.ALL })
 	private List<RouteTrip> routeTripList;
-	@OneToOne(cascade={CascadeType.ALL})
+	@OneToOne(cascade = { CascadeType.ALL })
 	private PriceInventory priceInventory;
-	@OneToOne(cascade={CascadeType.ALL})
+	@OneToOne(cascade = { CascadeType.ALL })
 	private SelfSupportRouteOtherInfo selfSupportRouteOtherInfo;
 	@ManyToMany
 	private List<InsuranceManagement> insuranceManagementList;
@@ -47,6 +52,15 @@ public class SelfSupportRoute {
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date updateDate;
+	
+	/**
+	 * 经营类型
+	 * @author keiwu
+	 *
+	 */
+	public enum BusinessType {
+		SELF_EMPLOYED	//自营
+	}
 
 	public String getId() {
 		return id;
@@ -110,6 +124,14 @@ public class SelfSupportRoute {
 
 	public void setUpdateDate(Date updateDate) {
 		this.updateDate = updateDate;
+	}
+
+	public String getNumbering() {
+		return numbering;
+	}
+
+	public void setNumbering(String numbering) {
+		this.numbering = numbering;
 	}
 
 }
