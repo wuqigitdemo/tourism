@@ -415,6 +415,11 @@
 			var dateStr = date.getFullYear()+"-"+date.getMonth()+"-"+date.getDate();
 			var dateJSON = {};
 			dateJSON.inventoryDate = dateStr;
+			dateJSON.adultPrice = $("#adultPrice").val();
+			dateJSON.discountPrice = $("#discountPrice").val();
+			dateJSON.childrenPrice = $("#childrenPrice").val();
+			dateJSON.childrenDiscountPrice = $("#childrenDiscountPrice").val();
+			dateJSON.inventoryPerson = $("#inventoryPerson").val();
 			
 			inventoryDateList.push(dateJSON);
 		});

@@ -13,43 +13,58 @@
 <script type="text/javascript" src="/easyui/jquery.easyui.min.js"></script>
 <script type="text/javascript" src="/easyui/locale/easyui-lang-zh_CN.js"></script>
 </head>
-<body>
-
-    <table id="dg" class="easyui-datagrid" style="width:100%;height:440px"
-            url="/InsuranceManagement/findAll"
-            pagination="true"
+<body id="RouteInsurance">
+    <table id="dg" class="easyui-datagrid" style="width:100%;height:95%;"
+            toolbar="#toolbar" pagination="true"
             rownumbers="true" fitColumns="true" singleSelect="true">
     </table>
 
+	<div id="toolbar">
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="javascript:$('#dlgNewRouteIM').dialog('open');">新增</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyRouteIM()">删除</a>
+    </div>
+
+	<div id="dlgNewRouteIM" class="easyui-dialog" closed="true"
+	 	title="添加保险"
+		data-options="width:500, height:450, cache: false, 
+						modal: true, zIndex:2000, left:150, top:20">
+
+	    <table id="dgNewRouteIM" class="easyui-datagrid" style="width:100%;height:95%;"
+	            pagination="true"
+	            rownumbers="true" fitColumns="true" singleSelect="true">
+	    </table>
+    
+	</div>
+
 	<div id="dlg" class="easyui-dialog" closed="true"
 		data-options="
-    			width:350,  
+    			width:500,  
                	cache: false,       
                	modal: true,
                	buttons:'#dlg-buttons',
                	zIndex:3000,
                	left:200,
                	top:20">
-		<div style="margin-bottom: 10px;padding: 20px 50px">
-			<table>
+		<div style="margin-bottom: 10px;padding: 20px 50px;width:100%">
+			<table style="width:100%">
 				<tr>
-					<div style="margin-bottom:10px">
+					<div style="margin-bottom:10px;width:100%">
 		              <td>
 		               <input id="insuranceId" hidden="true"/>
 			           <label class="label-top">险种:</label> 
-			           <input id="insuranceType" class="textbox" style="width:100%" disabled="disabled"/>
+			           <input id="insuranceType" class="textbox" style="width:100%" disabled="disabled" />
 		               <label class="label-top">保险名称:</label> 
-		               <input id="insuranceName" class="textbox" style="width:100%" disabled="disabled"/>
+		               <input id="insuranceName" class="textbox" style="width:100%" disabled="disabled" />
 		               <label class="label-top">成本:</label> 
-		               <input id="cost" class="textbox" style="width:100%" disabled="disabled"/>
+		               <input id="cost" class="textbox" style="width:100%" disabled="disabled" />
 		               <label class="label-top">售价:</label> 
-		               <input id="price" class="textbox" style="width:100%" disabled="disabled"/>
+		               <input id="price" class="textbox" style="width:100%" disabled="disabled" />
 		               <label class="label-top">保险说明:</label> 
-		               <input id="insuranceInstructions" class="textbox" style="width:100%" disabled="disabled"/>
+		               <input id="insuranceInstructions" class="textbox" style="width:100%" disabled="disabled" />
 		               <label class="label-top">保险期限:</label> 
-		               <input id="insurancePeriod" class="textbox" style="width:100%" disabled="disabled"/>
+		               <input id="insurancePeriod" class="textbox" style="width:100%" disabled="disabled" />
 		               <label class="label-top">保险内容:</label> 
-		               <input id="insuranceContent" class="textbox" style="width:100%" disabled="disabled"/>
+		               <input id="insuranceContent" class="textbox" style="width:100%" disabled="disabled" />
 		              </td>
 		            </div>
 				</tr>
@@ -64,84 +79,143 @@
 				style="width: 90px">取消</a>
 		</div>
 	</div>
-</body>
 
-<script type="text/javascript">
-/*<![CDATA[*/   //这句坚决不能删
-           
-	$('#dg').datagrid(
-	{
-		columns : [[
-		{
-			field : 'insuranceName',
-			title : '保险名称',
-			width : 100
-		},
-		{
-			field : 'insuranceInstructions',
-			title : '保险说明',
-			width : 80
-		},
-		{
-			field : 'operation',
-			title : '操作',
-			width : 100,
-			formatter : function(value, row, index) {
-				return "<a href=\"javascript:addInsurance(\'"+row.id+"\');\">添加 </a><a href=\"javascript:details(\'"+row.id+"\');\">查看 </a>";
-			}
-		}]]
-	});
+	<script th:inline="javascript">
+	/*<![CDATA[*/   //这句坚决不能删
 
-	function addInsurance(id)
-	{
-		if(id == null)
+	    var routeId = [[${not #lists.isEmpty(selfSupportRoute)}?${selfSupportRoute.id}]];
+
+		//测试用
+		if (routeId == null)
 		{
-			id = $("#insuranceId").val();
+			routeId = "402882a65949d34b015949d360560000";
 		}
-
-		$.ajax({  
-            url: '/SelfSupportRouteInsuranceManagement/addInsuranceManagement',  
-            dataType: 'json', 
-            data:{insuranceManagementId:id,routeId:"402882a65949d34b015949d360560000"},
-            success: function (data) {
-            	if(data.success){
-            		alert(data.msg);
-            	}else{
-            		alert(data.errorMsg);
-            	}
-            }  
-	    });
-	}
-
-	function details(id) 
-	{		
-		$('#fm').form('clear');
-
-		$.ajax({  
-            url: '/InsuranceManagement/findOne?id='+id,  
-            dataType: 'json',  
-            success: function (data) {
-            	//单条保险详情
-            	var im = data.rows[0];
-            	$('#dlg').dialog({
-        			title : '详情',
-        			closed : false,
-        			onOpen : function() {
-        				$("#insuranceId").val(im.id);
-        				$("#insuranceType").val(im.insuranceType.insuranceTypeName);
-        				$("#insuranceName").val(im.insuranceName);
-        				$("#cost").val(im.cost);
-        				$("#price").val(im.price);
-        				$("#insuranceInstructions").val(im.insuranceInstructions);
-        				$("#insurancePeriod").val(im.insurancePeriod);
-        				$("#insuranceContent").val(im.insuranceContent);
-        			}
-        		});
-            }  
-	    });
-	}
-
-/*]]>*/    //这句坚决不能删
-</script>
-
+	
+		//线路已有的保险
+		$('#dg').datagrid(
+		{
+			method:'GET',
+			url:"/SelfSupportRouteInsuranceManagement/findList?routeId="+routeId,
+			//data:[[(${not #lists.isEmpty(selfSupportRoute)} and ${not #lists.isEmpty(selfSupportRoute.insuranceManagementList)})?${selfSupportRoute.insuranceManagementList}]],
+			columns : [[
+			{
+				field : 'insuranceName',
+				title : '保险名称',
+				width : 100
+			},
+			{
+				field : 'insuranceInstructions',
+				title : '保险说明',
+				width : 80
+			},
+			{
+				field : 'operation',
+				title : '操作',
+				width : 100,
+				formatter : function(value, row, index) {
+					return "<a href=\"javascript:details(\'"+row.id+"\');\">查看 </a><a href=\"javascript:destroyRouteIM(\'"+row.id+"\');\">删除 </a>";
+				}
+			}]]
+		});
+	
+		//全部保险
+		$('#dgNewRouteIM').datagrid(
+		{
+			method:'GET',
+			url:"/InsuranceManagement/findAll",
+			columns : [[
+			{
+				field : 'insuranceName',
+				title : '保险名称',
+				width : 100
+			},
+			{
+				field : 'insuranceInstructions',
+				title : '保险说明',
+				width : 140
+			},
+			{
+				field : 'operation',
+				title : '操作',
+				width : 40,
+				formatter : function(value, row, index) {
+					return "<a href=\"javascript:addInsurance(\'"+row.id+"\');\">添加</a>";
+				}
+			}]]
+		});
+		
+		//添加保险
+		function addInsurance(id)
+		{
+			if(id == null)
+			{
+				id = $("#insuranceId").val();
+			}
+	
+			$.ajax({  
+	            url: '/SelfSupportRouteInsuranceManagement/addInsuranceManagement',  
+	            dataType: 'json', 
+	            data:{insuranceManagementId:id,routeId:routeId},
+	            success: function (data) {
+	            	if(data.success){
+	            		alert(data.msg);
+	            		$('#dg').datagrid('reload');
+	            	}else{
+	            		alert(data.errorMsg);
+	            	}
+	            }  
+		    });
+		}
+	
+		//删除保险
+		function destroyRouteIM(imId)
+		{
+			$.ajax({  
+	            url: '/SelfSupportRouteInsuranceManagement/deleteInsuranceManagement',  
+	            dataType: 'json', 
+	            data:{insuranceManagementId:imId,routeId:routeId},
+	            success: function (data) {
+	            	if(data.success){
+	            		alert(data.msg);
+	            		$('#dg').datagrid('reload');
+	            	}else{
+	            		alert(data.errorMsg);
+	            	}
+	            }  
+		    });
+		}
+		
+		//保险详情
+		function details(id) 
+		{		
+			$('#fm').form('clear');
+	
+			$.ajax({  
+	            url: '/InsuranceManagement/findOne?id='+id,  
+	            dataType: 'json',  
+	            success: function (data) {
+	            	//单条保险详情
+	            	var im = data.rows[0];
+	            	$('#dlg').dialog({
+	        			title : '详情',
+	        			closed : false,
+	        			onOpen : function() {
+	        				$("#insuranceId").val(im.id);
+	        				$("#insuranceType").val(im.insuranceType.insuranceTypeName);
+	        				$("#insuranceName").val(im.insuranceName);
+	        				$("#cost").val(im.cost);
+	        				$("#price").val(im.price);
+	        				$("#insuranceInstructions").val(im.insuranceInstructions);
+	        				$("#insurancePeriod").val(im.insurancePeriod);
+	        				$("#insuranceContent").val(im.insuranceContent);
+	        			}
+	        		});
+	            }  
+		    });
+		}
+	
+	/*]]>*/    //这句坚决不能删
+	</script>
+	
+</body>
 </html>
