@@ -134,4 +134,12 @@ public class SelfSupportRoute {
 		this.numbering = numbering;
 	}
 
+	public BusinessType getBusinessType() {
+		return businessType;
+	}
+
+	public void setBusinessType(BusinessType businessType) {
+		this.businessType = businessType;
+	}
+
 }
