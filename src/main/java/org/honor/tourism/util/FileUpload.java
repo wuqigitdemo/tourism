@@ -8,6 +8,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+/**
+ * 文件上传工具类
+ * @author keiwu
+ *
+ */
 @Component
 public class FileUpload {
 
@@ -29,14 +34,15 @@ public class FileUpload {
 		String fileName = file.getOriginalFilename();
 		String fileHeadName = fileName.substring(0, fileName.lastIndexOf("."));
 		String suffixName = fileName.substring(fileName.lastIndexOf("."));
+		String uuid = UUID.randomUUID().toString();
 		StringBuffer sb = new StringBuffer();
 		sb.append(fileUploadPath);
 		sb.append(fileHeadName);
-		sb.append(UUID.randomUUID());
+		sb.append(uuid);
 		sb.append(suffixName);
 		StringBuffer returnFileName = new StringBuffer();
 		returnFileName.append(fileHeadName);
-		returnFileName.append(UUID.randomUUID());
+		returnFileName.append(uuid);
 		returnFileName.append(suffixName);
 		File dest = new File(sb.toString());
 		// 检测是否存在目录
