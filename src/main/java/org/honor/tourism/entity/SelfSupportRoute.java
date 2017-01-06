@@ -32,14 +32,14 @@ public class SelfSupportRoute {
 	private String id;
 	/** 自营线路编号 */
 	private String numbering;
-	/**经营类型*/
+	/** 经营类型 */
 	private BusinessType businessType;
 	@OneToOne(cascade = { CascadeType.ALL })
 	private RouteBaseInfo routeBaseInfo;
 	@OneToMany(cascade = { CascadeType.ALL })
 	private List<RouteTrip> routeTripList;
-	@OneToOne(cascade = { CascadeType.ALL })
-	private PriceInventory priceInventory;
+	@OneToMany(cascade = { CascadeType.ALL })
+	private List<PriceInventory> priceInventory;
 	@OneToOne(cascade = { CascadeType.ALL })
 	private SelfSupportRouteOtherInfo selfSupportRouteOtherInfo;
 	@ManyToMany
@@ -52,14 +52,15 @@ public class SelfSupportRoute {
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date updateDate;
-	
+
 	/**
 	 * 经营类型
+	 * 
 	 * @author keiwu
 	 *
 	 */
 	public enum BusinessType {
-		SELF_EMPLOYED	//自营
+		SELF_EMPLOYED // 自营
 	}
 
 	public String getId() {
@@ -86,11 +87,11 @@ public class SelfSupportRoute {
 		this.routeTripList = routeTripList;
 	}
 
-	public PriceInventory getPriceInventory() {
+	public List<PriceInventory> getPriceInventory() {
 		return priceInventory;
 	}
 
-	public void setPriceInventory(PriceInventory priceInventory) {
+	public void setPriceInventory(List<PriceInventory> priceInventory) {
 		this.priceInventory = priceInventory;
 	}
 
