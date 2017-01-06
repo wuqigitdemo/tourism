@@ -32,6 +32,18 @@ public class HotelCategoriesController extends CrudController<HotelCategories>{
 		super(service);
 	}
 	
+	/**
+	 * 获取酒店类型
+	 * @param page
+	 * @return
+	 */
+	@RequestMapping("/selectAll")
+	@ResponseBody
+	public List<HotelCategories> selectAll() {
+		List<HotelCategories> hotelCategories =  hoteCategoriesService.findAll();
+		return hotelCategories;
+	}
+	
 	@RequestMapping("/deleteList")
 	@ResponseBody
 	public Map<String, Object> deleteList(@RequestBody List<HotelCategories> hotelCategories) {

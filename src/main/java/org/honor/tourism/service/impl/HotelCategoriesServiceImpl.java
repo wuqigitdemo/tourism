@@ -31,4 +31,9 @@ public class HotelCategoriesServiceImpl extends CrudServiceImpl<HotelCategories>
 		hotelCategoriesRepository.delete(hotelCategories);
 		return EasyuiResult.result(true);
 	}
+
+	@Override
+	public List<HotelCategories> findAll() {
+		return hotelCategoriesRepository.findAll();
+	}
 }
