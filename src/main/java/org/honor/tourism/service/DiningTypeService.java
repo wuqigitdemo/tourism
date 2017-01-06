@@ -1,5 +1,7 @@
 package org.honor.tourism.service;
 
+import java.util.List;
+
 import org.honor.tourism.entity.DiningType;
 
 /**
@@ -8,5 +10,7 @@ import org.honor.tourism.entity.DiningType;
  *
  */
 public interface DiningTypeService extends CrudService<DiningType> {
+	
+	public List<DiningType> findAll();
 
 }

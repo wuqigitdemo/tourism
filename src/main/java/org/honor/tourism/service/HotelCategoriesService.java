@@ -14,4 +14,6 @@ import org.honor.tourism.entity.HotelCategories;
 public interface HotelCategoriesService extends CrudService<HotelCategories> {
 
 	public Map<String, Object> delete(List<HotelCategories> hotelCategories);
+	
+	public List<HotelCategories> findAll();
 }
