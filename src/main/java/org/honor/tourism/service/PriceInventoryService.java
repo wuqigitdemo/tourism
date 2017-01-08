@@ -1,8 +1,8 @@
 package org.honor.tourism.service;
 
-import java.util.Map;
-
+import java.util.List;
 import org.honor.tourism.entity.PriceInventory;
+import org.honor.tourism.entity.SelfSupportRoute;
 
 /**
  * 作者:修罗大人
@@ -13,5 +13,18 @@ import org.honor.tourism.entity.PriceInventory;
 
 public interface PriceInventoryService extends CrudService<PriceInventory>{
 
-	public Map<String, Object> savePriceInventory(PriceInventory priceInventory,String routeId);
+	/**
+	 * 保存库存
+	 * @param priceInventorys
+	 * @param routeId
+	 * @return
+	 */
+	public SelfSupportRoute savePriceInventory(List<PriceInventory> priceInventorys,String routeId);
+	
+	/**
+	 * 查询单条库存详情
+	 * @param priceInventoryId
+	 * @return
+	 */
+	public PriceInventory findOne(String priceInventoryId);
 }

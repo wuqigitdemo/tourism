@@ -3,6 +3,7 @@ package org.honor.tourism.controller;
 import java.util.List;
 import java.util.Map;
 
+import org.honor.tourism.entity.PriceInventory;
 import org.honor.tourism.entity.SelfSupportRoute;
 import org.honor.tourism.service.CrudService;
 import org.honor.tourism.service.SelfSupportRouteService;
@@ -27,9 +28,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * 自营线路Controller
  */
 public class SelfSupportRouteController extends CrudController<SelfSupportRoute> {
-	
-	@Autowired
-	private SelfSupportRouteService service;
 
 	@Autowired
 	public SelfSupportRouteService selfSupportRouteService;
@@ -56,5 +54,19 @@ public class SelfSupportRouteController extends CrudController<SelfSupportRoute>
 		List<SelfSupportRoute> rows = pageList.getContent();
 		long total = pageList.getTotalElements();
 		return EasyuiResult.result(rows, total);
+	}
+	
+	/**
+	 * 查询线路全部价格库存(带分页)
+	 * @param page
+	 * @param routeId
+	 * @return
+	 */
+	@RequestMapping(value = "findPriceInventorysWithRouteId",method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> findPriceInventorysWithRouteId(EasyuiPage page,String routeId) {
+		List<PriceInventory> priceInventories = selfSupportRouteService.findPriceInventorysWithRouteId(page,routeId);
+		Long total = (long)selfSupportRouteService.priceInventorieCount(routeId);
+		return EasyuiResult.result(priceInventories, total);
 	}
 }

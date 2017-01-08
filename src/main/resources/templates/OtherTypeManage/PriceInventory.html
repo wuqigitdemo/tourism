@@ -31,7 +31,7 @@
 	src="/js/fullcalendar/fullcalendar.min.js"></script>
 
 </head>
-<body>
+<body id="PriceInventory">
 	<div class="glg">
 		<form class="table table-bordered table2 glg_tab" style=""
 			id="myform" name="myform" method="POST"
@@ -326,7 +326,6 @@
 										<td colspan="3">
 											<input name="withTheIndustryInventoryPerson" value=""
 												id="withTheIndustryInventoryPerson" type="text" />人
-											<font style="color: red">*</font>
 										</td>
 									</tr>
 									<tr>
@@ -398,326 +397,330 @@
 			</table>
 		</form>
 	</div>
-</body>
 
-<script type="text/javascript">
-/*<![CDATA[*/   //这句坚决不能删
-
-    //提交
-    function saveForm()
-	{
-		var inventoryDateList = [];
-		
-		//遍历时间
-		selectedDates.forEach(function (value,index,array){
-			
-			var date = new Date(value);
-			var dateStr = date.getFullYear()+"-"+date.getMonth()+"-"+date.getDate();
-			var dateJSON = {};
-			dateJSON.inventoryDate = dateStr;
-			dateJSON.adultPrice = $("#adultPrice").val();
-			dateJSON.discountPrice = $("#discountPrice").val();
-			dateJSON.childrenPrice = $("#childrenPrice").val();
-			dateJSON.childrenDiscountPrice = $("#childrenDiscountPrice").val();
-			dateJSON.inventoryPerson = $("#inventoryPerson").val();
-			
-			inventoryDateList.push(dateJSON);
-		});
-		
-		//组装提交的数据
-		var priceInventory = {};
-		
-		if(inventoryDateList.length > 0)
+	<script th:inline="javascript">
+	/*<![CDATA[*/   //这句坚决不能删
+	           
+	    //提交
+	    function saveForm()
 		{
-			priceInventory.inventoryDateList = inventoryDateList;
-		}
-
-		var a = $("#submitTable :input");
-
-		$.each(a,function(index,obj,array){
-				var id = $(obj).attr("id");
-				var value = $(obj).val();
-				
-				if (value != null && value != "")
-				{
-					priceInventory[id] = value;
-				}
+	    	//必填验证
+		    if(selectedDates != null && selectedDates.length <= 0)
+			{
+				alert("请选择库存日期");
+				return;
+			}else if ($("#registrationTimeLimitPlaceholder").val() == "") {
+				alert("登记占位时限不能为空");
+				return;
+			}else if ($("#reservedPosition").val() == ""){
+				alert("保留位置不能为空");
+				return;
 			}
-		);
+	    	
+			//组装提交的数据
+			var priceInventoryList = [];
+			
+			//遍历时间
+			selectedDates.forEach(function (value,index,array){
+				//单条库存
+				var priceInventory = {};
+				var date = new Date(value);
+				var dateStr = date.getFullYear()+"-"+date.getMonth()+"-"+date.getDate();
+				
+				priceInventory.inventoryDate = dateStr;
 		
-		//提交
-		$.ajax({  
-			   type: "POST",  
-			   url: "/PriceInventory/savePriceInventory?routeId=402882a65949d34b015949d360560000",  
-			   data: JSON.stringify(priceInventory),//将对象序列化成JSON字符串  
-			   dataType:"json",  
-			   contentType : 'application/json;charset=utf-8', //设置请求头信息  
-			   success: function(data){
-				  	if(data.success)
-					{
-				  		alert(data.msg);
-					}else{
-				      	alert(data.errorMsg);
-					}
-			   }
-		});
-	}
-	
-	//电商平台儿童界定标准
-	function childrenDefineStandardRadio(value)
-	{
-		if(value == '0')
-		{
-			//年龄
-			$("#childrenDefineStandard").val("AGE");
-		}else{
-			//身高
-			$("#childrenDefineStandard").val("HEIGHT");
-		}
-	}
-	
-	//同业儿童界定标准
-	function withTheIndustryChildrenDefineStandardRadio(value)
-	{
-		if(value == '0')
-		{
-			//年龄
-			$("#withTheIndustryChildrenDefineStandard").val("AGE");
-		}else{
-			//身高
-			$("#withTheIndustryChildrenDefineStandard").val("HEIGHT");
-		}
-	}
-	
-	//总价和单价切换
-	function clearTotalOrPrice(_this){
-		var inputName = _this.name;
-
-		var suffixName = inputName.substring(inputName.length-5, inputName.length);
-		var preName = inputName.substring(0,inputName.length-5);
-		if(suffixName=="Price"){
-			//清空total
-			document.getElementsByName(preName+"Total")[0].value="";
-		}
-		if(suffixName=="Total"){
-			//清空price
-			document.getElementsByName(preName+"Price")[0].value="";
-		}
-	}
-	
-    /*日历控件开始*/   
-           
-    //存放选中的日期
-    var selectedDates = [];
-	
-	//加载fullcarlendar
-	$(document).ready(function() {
-		$('#calendar').fullCalendar({
-			firstDay:1,
-			weekMode:'liquid', //不固定周数，高度随周数变化
-			header: {
-		        left: '',
-		        center: 'title',
-		        right: 'today,prev,next'
-		    },
-			titleFormat : {
-				month : "yyyy MMMM",
-				week : "MMM d[ yyyy]{ '&#8212;'[ MMM] d yyyy}",
-				day : "dddd, MMM d, yyyy"
-			},
-			events: function(start,end,timezone, callback) {
-				
-				$(":input[name='choose']").each(function (index,value,array)
-				{
-					value.setAttribute("selected","true");
-				});
-				
-				//所有日期的input
-				var dates = $(":input[name='chooseDate']");
-				for (var i = 0;i < dates.length;i++)
-				{
-					var element = dates[i];
-					selectedDates.forEach(function (value,index,array){
-						if (element.value == value) {
-							element.checked = true;
+				var a = $("#submitTable :input");
+		
+				$.each(a,function(index,obj,array){
+						var id = $(obj).attr("id");
+						var value = $(obj).val();
+						
+						if (value != null && value != "")
+						{
+							priceInventory[id] = value;
 						}
-					}); 
-				}
-			}
-		});
-	});
-
-	//时间复选框单击
-	function dateClick(e) {
-		var date = new Date(e.value);
-		//日期往后加一天
-		var dateTemp = new Date(date);
-		dateTemp.setDate(dateTemp.getDate() + 1);
-
-		if (dateTemp < new Date()) {
-			e.checked = false;
-			alert('已过期');
-		} else {
-			//遍历是否存在，不存在就放入数组，存在就从数组移除
-			selectedDatesPushWithDate(date);
-		}
-	}
-	
-	/* 整月选择
-	 * 
-	 */
-	function chooseTheMonth(btn) 
-	{
-		//自定义selected属性标示选中和取消
-		var isSelected = btn.getAttribute("selected");
-		
-		if (isSelected == "true") {
-			btn.setAttribute("selected","false");
-		}else{
-			btn.setAttribute("selected","true");
+					}
+				);
+				
+				priceInventoryList.push(priceInventory);
+			});
+			
+			var priceInventoryValid = {};
+			priceInventoryValid.priceInventorys = priceInventoryList;
+			
+			//提交
+			$.ajax({  
+				   type: "POST",  
+				   url: "/PriceInventory/savePriceInventory?routeId=402882a65949d34b015949d360560000",  
+				   data: JSON.stringify(priceInventoryValid),//将对象序列化成JSON字符串  
+				   dataType:"json",  
+				   contentType : 'application/json;charset=utf-8', //设置请求头信息  
+				   success: function(data){
+					  	if(data.success)
+						{
+					  		alert(data.msg);
+						}else{
+					      	alert(data.errorMsg);
+						}
+				   }
+			});
 		}
 		
-		//所有日期的input
-		var dates = $(":input[name='chooseDate']");
-		
-		var month = new Date(dates[10].value).getMonth();
-		
-		for (var i = 0; i < dates.length; i++) {
-			var element = dates[i];
-			var date = new Date(element.value);
-			var dateTemp = new Date(date);
-			dateTemp.setDate(dateTemp.getDate()+1);
-			if (date.getMonth() == month && dateTemp >= new Date())
-			{
-				element.checked = (isSelected == "true" ? true : false);
-				//遍历是否存在，不存在就放入数组，存在就从数组移除
-				selectedDatesPushWithDate(date,isSelected);
-			}
-		}
-	}
-	 
-	//批量选择
-	/**
-	 * @param week:第几周
-	 * @param weekDay:星期几
-	 */
-	function chooseWeek(btn,week,weekDay)
-	{
-		//自定义selected属性标示选中和取消
-		var isSelected = btn.getAttribute("selected");
-		
-		if (isSelected == "true") {
-			btn.setAttribute("selected","false");
-		}else{
-			btn.setAttribute("selected","true");
-		}
-		
-		//所有日期的input
-		var dates = $(":input[name='chooseDate']");
-		
-		for (var i = 0;i < dates.length;i++)
+		//电商平台儿童界定标准
+		function childrenDefineStandardRadio(value)
 		{
-			var element = dates[i];
-	 		var date = new Date(element.value);
-	 		
-	 		if (weekDay != null)
+			if(value == '0')
 			{
-				if (date.getDay() == weekDay)
-				{
-					var dateTemp = new Date(date);
-					dateTemp.setDate(dateTemp.getDate() + 1);
+				//年龄
+				$("#childrenDefineStandard").val("AGE");
+			}else{
+				//身高
+				$("#childrenDefineStandard").val("HEIGHT");
+			}
+		}
+		
+		//同业儿童界定标准
+		function withTheIndustryChildrenDefineStandardRadio(value)
+		{
+			if(value == '0')
+			{
+				//年龄
+				$("#withTheIndustryChildrenDefineStandard").val("AGE");
+			}else{
+				//身高
+				$("#withTheIndustryChildrenDefineStandard").val("HEIGHT");
+			}
+		}
+		
+		//总价和单价切换
+		function clearTotalOrPrice(_this){
+			var inputName = _this.name;
+	
+			var suffixName = inputName.substring(inputName.length-5, inputName.length);
+			var preName = inputName.substring(0,inputName.length-5);
+			if(suffixName=="Price"){
+				//清空total
+				document.getElementsByName(preName+"Total")[0].value="";
+			}
+			if(suffixName=="Total"){
+				//清空price
+				document.getElementsByName(preName+"Price")[0].value="";
+			}
+		}
+		
+	    /*日历控件开始*/   
+	           
+	    //存放选中的日期
+	    var selectedDates = [];
+		
+		//加载fullcarlendar
+		$(document).ready(function() {
+			$('#calendar').fullCalendar({
+				firstDay:1,
+				weekMode:'liquid', //不固定周数，高度随周数变化
+				header: {
+			        left: '',
+			        center: 'title',
+			        right: 'today,prev,next'
+			    },
+				titleFormat : {
+					month : "yyyy MMMM",
+					week : "MMM d[ yyyy]{ '&#8212;'[ MMM] d yyyy}",
+					day : "dddd, MMM d, yyyy"
+				},
+				events: function(start,end,timezone, callback) {
 					
-					if (dateTemp >= new Date())
+					$(":input[name='choose']").each(function (index,value,array)
 					{
-						element.checked = (isSelected == "true" ? true : false);
-						//遍历是否存在，不存在就放入数组，存在就从数组移除
-						selectedDatesPushWithDate(date,isSelected) 
+						value.setAttribute("selected","true");
+					});
+					
+					//所有日期的input
+					var dates = $(":input[name='chooseDate']");
+					for (var i = 0;i < dates.length;i++)
+					{
+						var element = dates[i];
+						selectedDates.forEach(function (value,index,array){
+							if (element.value == value) {
+								element.checked = true;
+							}
+						}); 
 					}
 				}
+			});
+		});
+	
+		//时间复选框单击
+		function dateClick(e) {
+			var date = new Date(e.value);
+			//日期往后加一天
+			var dateTemp = new Date(date);
+			dateTemp.setDate(dateTemp.getDate() + 1);
+	
+			if (dateTemp < new Date()) {
+				e.checked = false;
+				alert('已过期');
+			} else {
+				//遍历是否存在，不存在就放入数组，存在就从数组移除
+				selectedDatesPushWithDate(date);
+			}
+		}
+		
+		/* 整月选择
+		 * 
+		 */
+		function chooseTheMonth(btn) 
+		{
+			//自定义selected属性标示选中和取消
+			var isSelected = btn.getAttribute("selected");
+			
+			if (isSelected == "true") {
+				btn.setAttribute("selected","false");
 			}else{
-				//当前月视图的年份和月份
-				var year = new Date(dates[10].value).getFullYear();
-				var month = new Date(dates[10].value).getMonth();
-
-				//年份小于今年
-				if (year < (new Date()).getFullYear())
+				btn.setAttribute("selected","true");
+			}
+			
+			//所有日期的input
+			var dates = $(":input[name='chooseDate']");
+			
+			var month = new Date(dates[10].value).getMonth();
+			
+			for (var i = 0; i < dates.length; i++) {
+				var element = dates[i];
+				var date = new Date(element.value);
+				var dateTemp = new Date(date);
+				dateTemp.setDate(dateTemp.getDate()+1);
+				if (date.getMonth() == month && dateTemp >= new Date())
 				{
-					alert("已过期");
-					return;
-				}else if (year > (new Date()).getFullYear()) {
-					
-				}else if (month <= (new Date()).getMonth()){//今年
-
-					//判读如果选择的周数小于今天的周数提示过期
-					if (week < currentWeekWithDate(new Date())) {
+					element.checked = (isSelected == "true" ? true : false);
+					//遍历是否存在，不存在就放入数组，存在就从数组移除
+					selectedDatesPushWithDate(date,isSelected);
+				}
+			}
+		}
+		 
+		//批量选择
+		/**
+		 * @param week:第几周
+		 * @param weekDay:星期几
+		 */
+		function chooseWeek(btn,week,weekDay)
+		{
+			//自定义selected属性标示选中和取消
+			var isSelected = btn.getAttribute("selected");
+			
+			if (isSelected == "true") {
+				btn.setAttribute("selected","false");
+			}else{
+				btn.setAttribute("selected","true");
+			}
+			
+			//所有日期的input
+			var dates = $(":input[name='chooseDate']");
+			
+			for (var i = 0;i < dates.length;i++)
+			{
+				var element = dates[i];
+		 		var date = new Date(element.value);
+		 		
+		 		if (weekDay != null)
+				{
+					if (date.getDay() == weekDay)
+					{
+						var dateTemp = new Date(date);
+						dateTemp.setDate(dateTemp.getDate() + 1);
+						
+						if (dateTemp >= new Date())
+						{
+							element.checked = (isSelected == "true" ? true : false);
+							//遍历是否存在，不存在就放入数组，存在就从数组移除
+							selectedDatesPushWithDate(date,isSelected) 
+						}
+					}
+				}else{
+					//当前月视图的年份和月份
+					var year = new Date(dates[10].value).getFullYear();
+					var month = new Date(dates[10].value).getMonth();
+	
+					//年份小于今年
+					if (year < (new Date()).getFullYear())
+					{
 						alert("已过期");
 						return;
+					}else if (year > (new Date()).getFullYear()) {
+						
+					}else if (month <= (new Date()).getMonth()){//今年
+	
+						//判读如果选择的周数小于今天的周数提示过期
+						if (week < currentWeekWithDate(new Date())) {
+							alert("已过期");
+							return;
+						}
 					}
-				}
-				
-				//获取遍历的日期是本月第几周
-				var currentWeekDay = currentWeekWithDate(date);
-				if (week == currentWeekDay)
-				{
-					var dateTemp = new Date(date);
-					dateTemp.setDate(date.getDate() + 1);
 					
-					if (date >= new Date())
+					//获取遍历的日期是本月第几周
+					var currentWeekDay = currentWeekWithDate(date);
+					if (week == currentWeekDay)
 					{
-						element.checked = (isSelected == "true" ? true : false);
-						//遍历是否存在，不存在就放入数组，存在就从数组移除
-						selectedDatesPushWithDate(date,isSelected) 
+						var dateTemp = new Date(date);
+						dateTemp.setDate(date.getDate() + 1);
+						
+						if (date >= new Date())
+						{
+							element.checked = (isSelected == "true" ? true : false);
+							//遍历是否存在，不存在就放入数组，存在就从数组移除
+							selectedDatesPushWithDate(date,isSelected) 
+						}
 					}
 				}
 			}
 		}
-	}
-	
-	//获取日期是当前月的第几周（一周的第一天是周一）
-	function currentWeekWithDate(date) {
-		//周剩余天数
-		var residueDys = date.getDay() > 0 ? (7 - date.getDay()) : 0;
-		//第几周
-		return Math.ceil((date.getDate() + residueDys) / 7);
-	}
-	
-	//遍历是否存在，不存在就放入数组，存在就从数组移除
-	function selectedDatesPushWithDate(date,isSelected) 
-	{
-		var isExist = false;
-		var dateIndex; //如果存在，保存索引，方便删除
-		selectedDates.forEach(function(value,index,array)
-		{
-			var date1 = new Date(value);
-			if (date > date1 || date < date1)
-			{	
-				
-			}else{
-				isExist = true;
-				dateIndex = index;
-			}
-		});
 		
-		if (!isExist && isSelected != "false") {
-			selectedDates.push(date);
-		}else if (isExist && isSelected == "false")
-		{ //删除
-			selectedDates.splice(dateIndex,1);
+		//获取日期是当前月的第几周（一周的第一天是周一）
+		function currentWeekWithDate(date) {
+			//周剩余天数
+			var residueDys = date.getDay() > 0 ? (7 - date.getDay()) : 0;
+			//第几周
+			return Math.ceil((date.getDate() + residueDys) / 7);
 		}
-	}
+		
+		//遍历是否存在，不存在就放入数组，存在就从数组移除
+		function selectedDatesPushWithDate(date,isSelected) 
+		{
+			var isExist = false;
+			var dateIndex; //如果存在，保存索引，方便删除
+			selectedDates.forEach(function(value,index,array)
+			{
+				var date1 = new Date(value);
+				if (date > date1 || date < date1)
+				{	
+					
+				}else{
+					isExist = true;
+					dateIndex = index;
+				}
+			});
+			
+			if (!isExist && isSelected != "false") {
+				selectedDates.push(date);
+			}else if (isExist && isSelected == "false")
+			{ //删除
+				selectedDates.splice(dateIndex,1);
+			}
+		}
+		
+		/*日历控件结束*/
 	
-	/*日历控件结束*/
-
-	//测试使用的输出数组方法
-	function arrayPrint(arr) {
-		var arrStr = "";
-		arr.forEach(function(value,index,array) {
-			arrStr = arrStr + "\r\n" + value;
-		});
-		alert("array:"+arrStr);
-	}
-	
-/*]]>*/    //这句坚决不能删
-</script>
-
+		//测试使用的输出数组方法
+		function arrayPrint(arr) {
+			var arrStr = "";
+			arr.forEach(function(value,index,array) {
+				arrStr = arrStr + "\r\n" + value;
+			});
+			alert("array:"+arrStr);
+		}
+		
+	/*]]>*/    //这句坚决不能删
+	</script>
+</body>
 </html>

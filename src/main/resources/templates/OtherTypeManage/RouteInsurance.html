@@ -21,7 +21,6 @@
 
 	<div id="toolbar">
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="javascript:$('#dlgNewRouteIM').dialog('open');">新增</a>
-        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyRouteIM()">删除</a>
     </div>
 
 	<div id="dlgNewRouteIM" class="easyui-dialog" closed="true"
@@ -101,17 +100,17 @@
 			{
 				field : 'insuranceName',
 				title : '保险名称',
-				width : 100
+				width : 80
 			},
 			{
 				field : 'insuranceInstructions',
 				title : '保险说明',
-				width : 80
+				width : 140
 			},
 			{
 				field : 'operation',
 				title : '操作',
-				width : 100,
+				width : 80,
 				formatter : function(value, row, index) {
 					return "<a href=\"javascript:details(\'"+row.id+"\');\">查看 </a><a href=\"javascript:destroyRouteIM(\'"+row.id+"\');\">删除 </a>";
 				}

@@ -35,9 +35,11 @@
 				<li>easyui is very easy but powerful.</li>
 			</ul>
 		</div>
-		<div title="价格/库存" style="padding:10px">
-			<iframe src="/OtherTypeManage/PriceInventory" style="width: 100%;height: 100%" frameborder="0"></iframe>
+		<div title="价格/库存" style="padding:10px" th:if="${#lists.isEmpty(selfSupportRoute)}">
+ 			<iframe src="/OtherTypeManage/PriceInventory" style="width: 100%;height: 100%" frameborder="0"></iframe>
 		</div>
+	
+		<div title="价格/库存" style="width: 100%;height: 100%" th:if="${not #lists.isEmpty(selfSupportRoute)}" th:include="/OtherTypeManage/PriceInventoryUpdate :: #PriceInventoryUpdate"></div>
 		
 		<div title="其他信息" style="width: 100%;height: 100%" th:include="/OtherTypeManage/OtherInfo :: #OtherInfo"></div>
 

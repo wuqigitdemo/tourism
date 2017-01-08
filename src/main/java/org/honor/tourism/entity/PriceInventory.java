@@ -43,7 +43,7 @@ public class PriceInventory {
 	private Integer reservedPosition;
 	/** 单房差 */
 	@Min(value = 0, message = "单房差必须大于0")
-	private Double SingleRoomIsPoor;
+	private Double singleRoomIsPoor;
 	/** 签证补价 */
 	@Min(value = 0, message = "签证补价必须大于0")
 	private Double aPremiumVisa;
@@ -131,6 +131,7 @@ public class PriceInventory {
 	/** 库存日期 */
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@NotNull(message = "库存日期不能为空")
 	private Date inventoryDate;
 	/** 成人售价 */
 	@Min(value = 0, message = "成人售价必须大于0")
@@ -176,12 +177,16 @@ public class PriceInventory {
 		this.reservedPosition = reservedPosition;
 	}
 
-	public Double getSingleRoomIsPoor() {
-		return SingleRoomIsPoor;
+	
+
+	public Double getSingleRoomIsPoor()
+	{
+		return singleRoomIsPoor;
 	}
 
-	public void setSingleRoomIsPoor(Double singleRoomIsPoor) {
-		SingleRoomIsPoor = singleRoomIsPoor;
+	public void setSingleRoomIsPoor(Double singleRoomIsPoor)
+	{
+		this.singleRoomIsPoor = singleRoomIsPoor;
 	}
 
 	public Double getaPremiumVisa() {

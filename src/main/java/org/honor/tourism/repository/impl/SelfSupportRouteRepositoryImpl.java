@@ -8,6 +8,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.honor.tourism.entity.PriceInventory;
 import org.honor.tourism.entity.SelfSupportRoute;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -49,5 +50,4 @@ public class SelfSupportRouteRepositoryImpl {
 		Page<SelfSupportRoute> page = new PageImpl<SelfSupportRoute>(tq.getResultList(), pageable, total);
 		return page;
 	}
-
 }

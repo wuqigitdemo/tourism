@@ -5,10 +5,9 @@ import java.util.Map;
 
 import javax.transaction.Transactional;
 
-import org.honor.tourism.entity.InventoryDate;
 import org.honor.tourism.entity.PriceInventory;
 import org.honor.tourism.entity.SelfSupportRoute;
-import org.honor.tourism.repository.InventoryDateRepository;
+import org.honor.tourism.repository.PriceInventoryRepository;
 import org.honor.tourism.repository.SelfSupportRouteRepository;
 import org.honor.tourism.service.PriceInventoryService;
 import org.honor.tourism.util.EasyuiResult;
@@ -25,35 +24,43 @@ import org.springframework.stereotype.Service;
 @Service
 public class PriceInventoryServiceImpl extends CrudServiceImpl<PriceInventory> implements PriceInventoryService{
 
-	@Autowired
-	private InventoryDateRepository inventoryDateRepository;
 	
 	@Autowired
 	private SelfSupportRouteRepository selfSupportRouteRepository;
+	
+	@Autowired
+	private PriceInventoryRepository priceInventoryRepository;
 	
 	@Autowired
 	public PriceInventoryServiceImpl(JpaRepository<PriceInventory, String> repository) {
 		super(repository);
 	}
 
+	/**
+	 * 保存库存
+	 * @param priceInventorys
+	 * @param routeId
+	 * @return
+	 */
 	@Transactional
-	public Map<String, Object> savePriceInventory(PriceInventory priceInventory,String routeId)
+	public SelfSupportRoute savePriceInventory(List<PriceInventory> priceInventorys,String routeId)
 	{
-		List<InventoryDate> inventoryDates = priceInventory.getInventoryDateList();
-		
-		//保存日期
-		for (InventoryDate inventoryDate : inventoryDates) {
-			inventoryDateRepository.save(inventoryDate);
-		}
-
-		//保存库存
-		super.save(priceInventory);
-		
 		//将库存保存到线路
 		SelfSupportRoute selfSupportRoute = selfSupportRouteRepository.getOne(routeId);
-		selfSupportRoute.setPriceInventory(priceInventory);
+		selfSupportRoute.setPriceInventory(priceInventorys);
 		selfSupportRouteRepository.save(selfSupportRoute);
 		
-		return EasyuiResult.result(true, "操作成功");
+		return selfSupportRoute;
+	}
+
+	/**
+	 * 查询单条库存详情
+	 * @param priceInventoryId
+	 * @return
+	 */
+	@Override
+	public PriceInventory findOne(String priceInventoryId)
+	{
+		return priceInventoryRepository.findOne(priceInventoryId);
 	}
 }
