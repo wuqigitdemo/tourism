@@ -1,16 +1,12 @@
 package org.honor.tourism.service.impl;
 
 import java.util.List;
-import java.util.Map;
-
 import javax.transaction.Transactional;
-
 import org.honor.tourism.entity.PriceInventory;
 import org.honor.tourism.entity.SelfSupportRoute;
 import org.honor.tourism.repository.PriceInventoryRepository;
 import org.honor.tourism.repository.SelfSupportRouteRepository;
 import org.honor.tourism.service.PriceInventoryService;
-import org.honor.tourism.util.EasyuiResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
@@ -62,5 +58,46 @@ public class PriceInventoryServiceImpl extends CrudServiceImpl<PriceInventory> i
 	public PriceInventory findOne(String priceInventoryId)
 	{
 		return priceInventoryRepository.findOne(priceInventoryId);
+	}
+
+	/**
+	 * 删除库存
+	 * @param priceInventorys
+	 * @param routeId
+	 */
+	@Override
+	public void deletePriceInventorys(List<PriceInventory> priceInventorys, String routeId)
+	{
+		SelfSupportRoute selfSupportRoute = selfSupportRouteRepository.getOne(routeId);
+		
+		List<PriceInventory> priceInventoriesTemp = selfSupportRoute.getPriceInventory();
+		
+//		for (PriceInventory priceInventoryTemp : priceInventoriesTemp) {
+//			for (PriceInventory priceInventory : priceInventorys) {
+//				if (priceInventoryTemp.getId().equals(priceInventory.getId())) {
+//					//将库存从线路库存数组中移除
+//					priceInventoriesTemp.remove(priceInventoryTemp);
+//					break;
+//				}
+//			}
+//		}
+		
+		for (int i = 0; i < priceInventoriesTemp.size(); i++) 
+		{
+			PriceInventory priceInventoryTemp = priceInventoriesTemp.get(i);
+			for (int j = 0; j < priceInventorys.size(); j++) 
+			{
+				PriceInventory priceInventory = priceInventorys.get(j);
+				if (priceInventoryTemp.getId().equals(priceInventory.getId())) {
+					//将库存从线路库存数组中移除
+					priceInventoriesTemp.remove(priceInventoryTemp);
+					i--;
+					break;
+				}
+			}
+		}
+		
+		//将删除后的数组保存
+		selfSupportRouteRepository.save(selfSupportRoute);
 	}
 }

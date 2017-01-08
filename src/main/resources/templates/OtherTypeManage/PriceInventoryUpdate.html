@@ -29,15 +29,13 @@
 </head>
 <body id="PriceInventoryUpdate">
 
-	<table id="priceInventoryUpdateDg" class="easyui-datagrid" style="width:100%;height:300px"
+	<table id="priceInventoryUpdateDg" class="easyui-datagrid" style="width:100%;height:380px"
             toolbar="#priceInventoryUpdateToolbar" pagination="true"
-            rownumbers="true" fitColumns="true" singleSelect="true">
+            rownumbers="true" fitColumns="true">
     </table> 
       
     <div id="priceInventoryUpdateToolbar">
-        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newType()">新增</a>
-        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editType()">修改</a>
-        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyType()">删除</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deletePriceInventory()">删除</a>
     </div>
 
 	<!-- 修改分配 -->
@@ -54,11 +52,14 @@
 		</tbody>
 	</table>
 
-<script th:inline="javascript">
+<script type="text/javascript" th:inline="javascript">
 /*<![CDATA[*/   //这句坚决不能删
          
     var routeId = [[${not #lists.isEmpty(selfSupportRoute)}?${selfSupportRoute.id}]];
+    //查询全部库存url
     var url = "/SelfSupportRoute/findPriceInventorysWithRouteId?routeId="+routeId;
+    //删除功能url
+    var urlDelete = "/PriceInventory/priceInventoryDelete?routeId="+routeId;
     //价格库存
     var priceInventoryTemp = {};
 	//线路价格库存
@@ -66,8 +67,8 @@
 	{
 		method:'POST',
 		url:url,
-		//data:[[(${not #lists.isEmpty(selfSupportRoute)} and ${not #lists.isEmpty(selfSupportRoute.insuranceManagementList)})?${selfSupportRoute.insuranceManagementList}]],
 		columns : [[
+		{field:'undefined',checkbox:true},
 		{
 			field : '报名截止日期',
 			title : '报名截止日期',
@@ -91,7 +92,7 @@
 			title : '操作',
 			width : 80,
 			formatter : function(value, row, index) {
-				return "<a href=\"javascript:priceInventoryDetails(\'"+row.id+"\');\">查看 </a><a href=\"javascript:destroyRouteIM(\'"+row.id+"\');\">删除 </a>";
+				return "<a href=\"javascript:priceInventoryDetails(\'"+row.id+"\');\">查看 </a>";
 			}
 		}]]
 	})           
@@ -464,6 +465,38 @@
 			//身高
 			$("#withTheIndustryChildrenDefineStandard").val("HEIGHT");
 		}
+	}
+	
+	//删除价格库存
+	function deletePriceInventory()
+	{
+		var selectedRows = $('#priceInventoryUpdateDg').datagrid('getSelections');
+		
+		var deletePriceInventorys = [];
+		selectedRows.forEach(function(value,index,array)
+		{
+			deletePriceInventorys.push(value);
+		});
+		
+		var jsonStr = JSON.stringify(deletePriceInventorys);
+
+		//提交
+		$.ajax({  
+			   type: "POST",  
+			   url: urlDelete,  
+			   data: jsonStr,//将对象序列化成JSON字符串  
+			   dataType:"json",  
+			   contentType : 'application/json;charset=utf-8', //设置请求头信息  
+			   success: function(data){
+				  	if(data.success)
+					{
+				  		alert(data.msg);
+				  		$('#priceInventoryUpdateDg').datagrid('reload');
+					}else{
+				      	alert(data.errorMsg);
+					}
+			   }
+		});
 	}
 	
 /*]]>*/    //这句坚决不能删

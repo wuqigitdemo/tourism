@@ -27,4 +27,11 @@ public interface PriceInventoryService extends CrudService<PriceInventory>{
 	 * @return
 	 */
 	public PriceInventory findOne(String priceInventoryId);
+	
+	/**
+	 * 删除库存
+	 * @param priceInventorys
+	 * @param routeId
+	 */
+	public void deletePriceInventorys(List<PriceInventory> priceInventorys,String routeId);
 }

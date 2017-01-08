@@ -1,4 +1,5 @@
 package org.honor.tourism.controller;
+import java.util.List;
 import java.util.Map;
 
 import javax.validation.Valid;
@@ -86,6 +87,28 @@ public class PriceInventoryController extends CrudController<PriceInventory>
 		try {
 			//修改价格库存
 			priceInventoryService.save(priceInventory);
+		} catch (Exception e) {
+			System.out.println("修改价格库存:");
+			e.printStackTrace();
+			return EasyuiResult.result(false,"操作失败");
+		}
+		
+		return EasyuiResult.result(true,"操作成功");
+	}
+	
+	/**
+	 * 价格库存删除
+	 * @param priceInventorys
+	 * @param result
+	 * @return
+	 */
+	@RequestMapping(value = "priceInventoryDelete",method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> priceInventoryDelete(@RequestBody List<PriceInventory> priceInventorys,String routeId) {
+		
+		try {
+			//删除价格库存
+			priceInventoryService.deletePriceInventorys(priceInventorys, routeId);
 		} catch (Exception e) {
 			System.out.println("修改价格库存:");
 			e.printStackTrace();
