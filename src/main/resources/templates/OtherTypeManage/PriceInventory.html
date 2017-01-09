@@ -34,7 +34,7 @@
 <body id="PriceInventory">
 	<div class="glg">
 		<form class="table table-bordered table2 glg_tab" style=""
-			id="myform" name="myform" method="POST"
+			id="xlmyform" name="myform" method="POST"
 			enctype="application/json;charset=utf-8"
 			action="/PriceInventory/savePriceInventory">
 			
@@ -381,7 +381,7 @@
 									<tr class="beijingq">
 										<td colspan="6">
 											<div class="btn btn-success btn2 anan">
-												<span onclick="saveForm();" id="span3">添加产品</span>
+												<span onclick="saveFormPI();" id="span3">添加产品</span>
 											</div>
 											<div class="btn btn-info btn2 anan">
 												<span onclick="backList();">返回列表</span>
@@ -402,7 +402,7 @@
 	/*<![CDATA[*/   //这句坚决不能删
 	           
 	    //提交
-	    function saveForm()
+	    function saveFormPI()
 		{
 	    	//必填验证
 		    if(selectedDates != null && selectedDates.length <= 0)
@@ -516,7 +516,7 @@
 	    var selectedDates = [];
 		
 		//加载fullcarlendar
-		$(document).ready(function() {
+		//$(document).ready(function() {
 			$('#calendar').fullCalendar({
 				firstDay:1,
 				weekMode:'liquid', //不固定周数，高度随周数变化
@@ -550,7 +550,7 @@
 					}
 				}
 			});
-		});
+		//});
 	
 		//时间复选框单击
 		function dateClick(e) {

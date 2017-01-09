@@ -52,6 +52,7 @@ public class PriceInventoryController extends CrudController<PriceInventory>
 		try {
 			priceInventoryService.savePriceInventory(priceInventoryValid.getPriceInventorys(),routeId);
 		} catch (Exception e) {
+			e.printStackTrace();
 			return EasyuiResult.result(true, "操作失败");
 		}
 		
