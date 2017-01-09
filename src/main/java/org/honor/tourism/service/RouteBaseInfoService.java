@@ -1,6 +1,7 @@
 package org.honor.tourism.service;
 
 import org.honor.tourism.entity.RouteBaseInfo;
+import org.honor.tourism.entity.SelfSupportRoute;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -13,8 +14,9 @@ public interface RouteBaseInfoService {
 	
 	public Long count();
 	
-	public RouteBaseInfo save(RouteBaseInfo routeBaseInfo);
+	public SelfSupportRoute save(RouteBaseInfo routeBaseInfo);
 	
 	public void delete(String id);
+	
 
 }

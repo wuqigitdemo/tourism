@@ -12,6 +12,7 @@ import org.honor.tourism.entity.SelfSupportRoute;
 import org.honor.tourism.entity.TourismTheme;
 import org.honor.tourism.entity.Traffic;
 import org.honor.tourism.entity.VisaNationals;
+import org.honor.tourism.repository.SelfSupportRouteRepository;
 import org.honor.tourism.service.RouteBaseInfoService;
 import org.honor.tourism.service.RouteTypeService;
 import org.honor.tourism.service.TourismThemeService;
@@ -59,6 +60,9 @@ public class RouteBaseInfoController {
 	
 	@Autowired 
 	private FileUpload fileUpload;
+	
+	@Autowired
+	private SelfSupportRouteRepository selfSupportRouteRepository;
 	/**
 	 * 获取自营线路信息
 	 * @param page
@@ -84,12 +88,12 @@ public class RouteBaseInfoController {
 		if (result.hasErrors()) {//数据交验
 			return EasyuiResult.result(result);
         }
-		RouteBaseInfo returnRouteBaseInfo = service.save(routeBaseInfo);
-		
-		if (returnRouteBaseInfo == null) {
+		//RouteBaseInfo returnRouteBaseInfo = service.save(routeBaseInfo);
+		SelfSupportRoute returnSelfSupportRoute = service.save(routeBaseInfo);
+		if (returnSelfSupportRoute == null) {
 			EasyuiResult.result(false, "添加失败");
 		}
-		return EasyuiResult.result(true,returnRouteBaseInfo.getId().toString());
+		return EasyuiResult.result(true,returnSelfSupportRoute.getId().toString());
 	}
 	
 	/**

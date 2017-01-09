@@ -43,7 +43,7 @@
 		<tr>
 			<td style="font-size: 16px; text-align: center;">线路名称：</td>
 			<td colspan="4" style="text-align: left;">
-			<input id="routeName" name="routeName" th:value="${selfSupportRoute.id}" style="width:100%;" class="easyui-validatebox tb" data-options="required:true,validType:['charts','length[2,25]']"/>
+			<input id="routeName" name="routeName" th:value="${selfSupportRoute.routeBaseInfo.routeName}" style="width:100%;" class="easyui-validatebox tb" data-options="required:true,validType:['charts','length[2,25]']"/>
 			</td>
 		</tr>
 		<tr>
@@ -79,9 +79,9 @@
 		</tr>
 		<tr>
 			<td style="font-size: 16px; text-align: center;">出发地：</td>
-			<td ><input name="outPlace" class="easyui-validatebox tb" data-options="required:true,validType:['charts','length[2,25]']" value="" type="text" style="width:100%;"></input></td>
+			<td ><input name="outPlace" class="easyui-validatebox tb" data-options="required:true,validType:['charts','length[2,25]']" th:value="${selfSupportRoute.routeBaseInfo.outPlace}" type="text" style="width:100%;"></input></td>
 			<td style="font-size: 16px; text-align: center;">浏览地：</td>
-			<td><input name="destination" class="easyui-validatebox tb" data-options="required:true,validType:['charts','length[2,25]']" value="" type="text" style="width:100%;"></input></td>
+			<td><input name="destination" class="easyui-validatebox tb" data-options="required:true,validType:['charts','length[2,25]']" th:value="${selfSupportRoute.routeBaseInfo.destination}" type="text" style="width:100%;"></input></td>
 		</tr>
 		<tr>
 			<td style="font-size: 16px; text-align: center;">签证国家：</td>
@@ -100,12 +100,11 @@
 			</td>
 			<td style="font-size: 16px; text-align: center;">电商页面排序：</td>
 			<td>
-				<input type="text" name="pageOrder" class="easyui-numberbox"  data-options="required:true,min:0" value="" placeholder="请输入数字"></input>
+				<input type="text" name="pageOrder" class="easyui-numberbox"  data-options="required:true,min:0" th:value="${selfSupportRoute.routeBaseInfo.pageOrder}" placeholder="请输入数字"></input>
 			</td>
 		</tr>
 		<tr>
 		<td colspan="6" class="liTit">
-		<input type="hidden" id="categoryids" name="categoryids"/>
 		<div style="font-size: 16px;width:45%;color: blue;font-weight: bold;padding-left: 30px">产品类别</div>
 		</td>
 		</tr>
@@ -186,35 +185,35 @@
 		
 		<tr>
 			<td style="font-size: 16px; text-align: center;">起价说明：</td>
-			<td colspan="4" style="text-align: left;"><textarea name="startPriceExplain" class="easyui-validatebox tb" data-options="required:true,validType:['charts','length[2,25]']" value="" style="width:100%;"/></td>
+			<td colspan="4" style="text-align: left;"><textarea name="startPriceExplain" class="easyui-validatebox tb" data-options="required:true,validType:['charts','length[2,25]']" th:value="${selfSupportRoute.routeBaseInfo.pageOrder}" style="width:100%;"/></td>
 		</tr>
 		<tr>
 			<td style="font-size: 16px; text-align: center;">推荐理由：</td>
-			<td colspan="4" style="text-align: left;"><textarea name="recommendedReason" class="easyui-validatebox tb" data-options="required:true,validType:['charts','length[2,25]']" value="" style="width:100%;"/></td>
+			<td colspan="4" style="text-align: left;"><textarea name="recommendedReason" class="easyui-validatebox tb" data-options="required:true,validType:['charts','length[2,25]']" th:value="${selfSupportRoute.routeBaseInfo.pageOrder}" style="width:100%;"/></td>
 		</tr>
 		<tr>
 			<td style="font-size: 16px; text-align: center;">重要提示：</td>
-			<td colspan="4" style="text-align: left;"><textarea name="importanceHint" class="easyui-validatebox tb" data-options="required:true,validType:['charts','length[2,25]']" value="" style="width:100%;"/></td>
+			<td colspan="4" style="text-align: left;"><textarea name="importanceHint" class="easyui-validatebox tb" data-options="required:true,validType:['charts','length[2,25]']" th:value="${selfSupportRoute.routeBaseInfo.pageOrder}" style="width:100%;"/></td>
 		</tr>
 		<tr>
 			<td style="font-size: 16px; text-align: center;">保险赠送情况说明：</td>
-			<td colspan="4" style="text-align: left;"><textarea name="insuranceGiveExplain" class="easyui-validatebox tb" data-options="required:true,validType:['charts','length[2,25]']" value="" style="width:100%;"/></td>
+			<td colspan="4" style="text-align: left;"><textarea name="insuranceGiveExplain" class="easyui-validatebox tb" data-options="required:true,validType:['charts','length[2,25]']" th:value="${selfSupportRoute.routeBaseInfo.pageOrder}" style="width:100%;"/></td>
 		</tr>
 		<tr>
 			<td style="font-size: 16px; text-align: center;">限制报名期限：</td>
-			<td colspan="4" style="text-align: left;"><input name="limitedRegistrationDeadline" class="easyui-numberbox"  data-options="required:true,min:0" value="" style="width:100%;"/></td>
+			<td colspan="4" style="text-align: left;"><input name="limitedRegistrationDeadline" class="easyui-numberbox"  data-options="required:true,min:0" th:value="${selfSupportRoute.routeBaseInfo.pageOrder}" style="width:100%;"/></td>
 		</tr>
 		<tr>
 			<td style="font-size: 16px; text-align: center;">限制付款天数：</td>
-			<td colspan="4" style="text-align: left;"><input name="restrictedPaymentDays" class="easyui-numberbox"  data-options="required:true,min:0" value="" style="width:100%;"/></td>
+			<td colspan="4" style="text-align: left;"><input name="restrictedPaymentDays" class="easyui-numberbox"  data-options="required:true,min:0" th:value="${selfSupportRoute.routeBaseInfo.pageOrder}"" style="width:100%;"/></td>
 		</tr>
 		<tr>
 			<td style="font-size: 16px; text-align: center;">限制付款小时：</td>
-			<td colspan="4" style="text-align: left;"><input name="limitedPaymentHours" class="easyui-numberbox"  data-options="required:true,min:0" value="" style="width:100%;"/></td>
+			<td colspan="4" style="text-align: left;"><input name="limitedPaymentHours" class="easyui-numberbox"  data-options="required:true,min:0" th:value="${selfSupportRoute.routeBaseInfo.pageOrder}" style="width:100%;"/></td>
 		</tr>
 		<tr>
 			<td style="font-size: 16px; text-align: center;">付款方式：</td>
-			<td colspan="4" style="text-align: left;"><input name="paymentMethod" class="easyui-validatebox tb" data-options="required:true,validType:['charts','length[2,25]']" value="" style="width:100%;"/></td>
+			<td colspan="4" style="text-align: left;"><input name="paymentMethod" class="easyui-validatebox tb" data-options="required:true,validType:['charts','length[2,25]']" th:value="${selfSupportRoute.routeBaseInfo.pageOrder}" style="width:100%;"/></td>
 		</tr>
 		<tr>
 			<td style="font-size: 16px; text-align: center;"></td>
