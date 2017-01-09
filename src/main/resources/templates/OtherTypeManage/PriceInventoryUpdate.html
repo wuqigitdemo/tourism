@@ -51,7 +51,7 @@
 			
 		</tbody>
 	</table>
-
+	
 <script type="text/javascript" th:inline="javascript">
 /*<![CDATA[*/   //这句坚决不能删
          
@@ -60,6 +60,8 @@
     var url = "/SelfSupportRoute/findPriceInventorysWithRouteId?routeId="+routeId;
     //删除功能url
     var urlDelete = "/PriceInventory/priceInventoryDelete?routeId="+routeId;
+    //限制报名期限
+    var limitedRegistrationDeadline = [[${not #lists.isEmpty(selfSupportRoute)}?${selfSupportRoute.routeBaseInfo.limitedRegistrationDeadline}]]
     //价格库存
     var priceInventoryTemp = {};
 	//线路价格库存
@@ -72,7 +74,14 @@
 		{
 			field : '报名截止日期',
 			title : '报名截止日期',
-			width : 80
+			width : 80,
+			formatter : function(value, row, index) {
+				var inventoryDate = new Date(row.inventoryDate);
+				inventoryDate.setDate(inventoryDate.getDate() - limitedRegistrationDeadline);
+				
+				var dateStr = inventoryDate.getFullYear()+"-"+(inventoryDate.getMonth()+1)+"-"+inventoryDate.getDate();
+				return dateStr;
+			}
 		},
 		{
 			field : 'inventoryDate',
@@ -84,7 +93,9 @@
 			title : '电商-同业-价格',
 			width : 140,
 			formatter : function(value, row, index) {
-				return row.adultPrice + "" + row.withTheIndustryAdultPrice;
+				
+				return (row.adultPrice == null ? '0' : row.adultPrice) + "-" 
+				+ (row.withTheIndustryAdultPrice == null ? '0' : row.withTheIndustryAdultPrice);
 			}
 		},
 		{
@@ -138,6 +149,8 @@
 				'</tr>';
 				channelsHTML += subChannelStr;
 				$("#showProchannelDetialStr").html(channelsHTML);
+
+				window.location.hash = "#showProductDetialStr";
 			}
 		});
 	}
@@ -168,9 +181,15 @@
 				var name = $(obj).attr("name");
 				var value = $(obj).val();
 				
-				if (value != null && value != "")
+				if (name != null && name !=　"")
 				{
-					priceInventoryTemp[name] = value;
+					if(value != null && value != "")
+					{
+						priceInventoryTemp[name] = value;
+					}else {
+						//因为展示时将为空的属性值转换成了""，所以提交时还得转换回来
+						priceInventoryTemp[name] = null;
+					}
 				}
 			}
 		);
@@ -186,6 +205,8 @@
 				  	if(data.success)
 					{
 				  		alert(data.msg);
+				  		$('#priceInventoryUpdateDg').datagrid('reload');
+				  		window.location.hash = "#showProductDetialStr";
 					}else{
 				      	alert(data.errorMsg);
 					}
@@ -208,7 +229,15 @@
 		content +=
 			"<tr>"+
 			"<td>报名截止日期</td>"+
-			"<td colspan='2'>"+"</td>"+
+			"<td colspan='2'>";
+		
+			var inventoryDate = new Date(obj.inventoryDate);
+			inventoryDate.setDate(inventoryDate.getDate() - limitedRegistrationDeadline);
+			var dateStr = inventoryDate.getFullYear()+"-"+(inventoryDate.getMonth()+1)+"-"+inventoryDate.getDate();
+			
+		content += dateStr;
+			
+		content += "</td>"+
 			"<td>出发日期</td>"+
 			"<td colspan='2'><input name='inventoryDate' value='"+obj.inventoryDate+"' type='text'>元</td></td>"+
 		"</tr>"+
@@ -370,14 +399,17 @@
 		"<tr>"+
 		"<td>儿童界定标准</td>"+
 		"<td colspan='5'>";
-			firstStr +="<input type='text' onblur='setDefinitionTo3(this);' value='"+obj.childrenDefineStandardValue+"' name='childrenDefineStandardValue' id='childrendefinition_id_3'/>";
+			firstStr +="<input type='text' value='"+obj.childrenDefineStandardValue+"' name='childrenDefineStandardValue' id='childrendefinition_id_3'/>";
 			firstStr +="<input id='childrenDefineStandard' name='childrenDefineStandard' type='hidden'/>";
 			if("AGE"==obj.childrenDefineStandard){
 				firstStr +="<input name='childrenDefineStandard_Radio' checked='checked' onclick='childrenDefineStandardRadio(\"0\");' type='radio' />年龄(周岁)&nbsp;";
 				firstStr +="<input name='childrenDefineStandard_Radio' onclick='childrenDefineStandardRadio(\"1\");' type='radio' />身高(厘米)";
+			}else if("HEIGHT"==obj.childrenDefineStandard){
+				firstStr +="<input name='childrenDefineStandard_Radio' onclick='childrenDefineStandardRadio(\"0\");' type='radio' />年龄(周岁)&nbsp;";
+				firstStr +="<input name='childrenDefineStandard_Radio' checked='checked' checked='checked' onclick='childrenDefineStandardRadio(\"1\");' type='radio' />身高(厘米)";
 			}else{
 				firstStr +="<input name='childrenDefineStandard_Radio' onclick='childrenDefineStandardRadio(\"0\");' type='radio' />年龄(周岁)&nbsp;";
-				firstStr +="<input name='childrenDefineStandard_Radio' checked='checked' onclick='childrenDefineStandardRadio(\"1\");' type='radio' />身高(厘米)";
+				firstStr +="<input name='childrenDefineStandard_Radio' onclick='childrenDefineStandardRadio(\"1\");' type='radio' />身高(厘米)";
 			}
 			firstStr +="</td>"+
 		"</tr>"+
@@ -416,14 +448,17 @@
 		"<tr>"+
 			"<td>儿童界定标准</td>"+
 			"<td colspan='5'>";
-			sceondStr +="<input type='text' onblur='setDefinitionTo3(this);' value='"+obj.withTheIndustryChildrenDefineStandardValue+"' name='withTheIndustryChildrenDefineStandardValue' id='childrendefinition_id_3'/>";
+			sceondStr +="<input type='text' value='"+obj.withTheIndustryChildrenDefineStandardValue+"' name='withTheIndustryChildrenDefineStandardValue' id='childrendefinition_id_3'/>";
 			sceondStr +="<input id='withTheIndustryChildrenDefineStandard' name='withTheIndustryChildrenDefineStandard' type='hidden'/>";
 		if("AGE"==obj.withTheIndustryChildrenDefineStandard){
 			sceondStr +="<input name='withTheIndustryChildrenDefineStandard_Radio' checked='checked' onclick='withTheIndustryChildrenDefineStandardRadio(\"0\");' type='radio' />年龄(周岁)&nbsp;";
 			sceondStr +="<input name='withTheIndustryChildrenDefineStandard_Radio' onclick='withTheIndustryChildrenDefineStandardRadio(\"1\");' type='radio' />身高(厘米)";
+		}else if ("HEIGHT"==obj.withTheIndustryChildrenDefineStandard) {
+			sceondStr +="<input name='withTheIndustryChildrenDefineStandard_Radio' onclick='withTheIndustryChildrenDefineStandardRadio(\"0\");' type='radio' />年龄(周岁)&nbsp;";
+			sceondStr +="<input name='withTheIndustryChildrenDefineStandard_Radio' checked='checked' onclick='withTheIndustryChildrenDefineStandardRadio(\"1\");' type='radio' />身高(厘米)";
 		}else{
-			sceondStr +="<input name='childrenDefineStandard_Radio' onclick='childrenDefineStandardRadio(\"0\");' type='radio' />年龄(周岁)&nbsp;";
-			sceondStr +="<input name='childrenDefineStandard_Radio' checked='checked' onclick='childrenDefineStandardRadio(\"1\");' type='radio' />身高(厘米)";
+			sceondStr +="<input name='withTheIndustryChildrenDefineStandard_Radio' onclick='withTheIndustryChildrenDefineStandardRadio(\"0\");' type='radio' />年龄(周岁)&nbsp;";
+			sceondStr +="<input name='withTheIndustryChildrenDefineStandard_Radio' onclick='withTheIndustryChildrenDefineStandardRadio(\"1\");' type='radio' />身高(厘米)";
 		}
 		sceondStr +="</td>"+
 		"</tr>"+
@@ -492,6 +527,7 @@
 					{
 				  		alert(data.msg);
 				  		$('#priceInventoryUpdateDg').datagrid('reload');
+				  		window.location.hash = "#priceInventoryUpdateDg";
 					}else{
 				      	alert(data.errorMsg);
 					}
