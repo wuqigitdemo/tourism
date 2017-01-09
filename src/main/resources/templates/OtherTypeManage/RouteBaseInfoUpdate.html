@@ -4,7 +4,7 @@
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
 <meta charset="UTF-8" />
-<title>自营线路基本信息管理</title>
+<title>自营线路基本信息修改</title>
 <link rel="stylesheet" type="text/css" href="/easyui/themes/default/easyui.css" />
 <link rel="stylesheet" type="text/css" href="/easyui/themes/icon.css" />
 <link rel="stylesheet" type="text/css" href="/easyui/demo/demo.css" />    
@@ -35,14 +35,15 @@
 </style>
 
 </head>
-<body>
+<body id="RouteBaseInfoUpdate">
 <form class="easyui-panel" id="myform" name="myform" method="post">
 <table class="table table-bordered table2 glg_tab" >
+
 	<tbody>
 		<tr>
 			<td style="font-size: 16px; text-align: center;">线路名称：</td>
 			<td colspan="4" style="text-align: left;">
-			<input id="routeName" name="routeName" value="" style="width:100%;" class="easyui-validatebox tb" data-options="required:true,validType:['charts','length[2,25]']"/>
+			<input id="routeName" name="routeName" th:value="${selfSupportRoute.id}" style="width:100%;" class="easyui-validatebox tb" data-options="required:true,validType:['charts','length[2,25]']"/>
 			</td>
 		</tr>
 		<tr>
@@ -104,7 +105,8 @@
 		</tr>
 		<tr>
 		<td colspan="6" class="liTit">
-		<div id="cp" style="font-size: 16px;width:45%;color: blue;font-weight: bold;padding-left: 30px">产品类别</div>
+		<input type="hidden" id="categoryids" name="categoryids"/>
+		<div style="font-size: 16px;width:45%;color: blue;font-weight: bold;padding-left: 30px">产品类别</div>
 		</td>
 		</tr>
 		
@@ -226,7 +228,7 @@
 </form>	
 
  	<div id="dlg" class="easyui-dialog" style="width:500px"
-            closed="true" buttons="#dlg-buttons" data-options="modal: true">
+            closed="true" buttons="#dlg-buttons">
         <form id="fm" novalidate="" style="margin:0;padding:20px 50px">
         <!--<div style="margin-bottom:10px">
             	<table id="cs" name="cs" class="table" border="1px" cellspacing="1" style="width: 400px;">
@@ -239,17 +241,17 @@
         </form> 
     </div>
  	<div id="dlg2" class="easyui-dialog" style="width:500px"
-            closed="true" buttons="#dlg-buttons2" data-options="modal: true">
+            closed="true" buttons="#dlg-buttons2">
         <form id="fm2" novalidate="" style="margin:0;padding:20px 50px">
         </form>
     </div>
  	<div id="dlg3" class="easyui-dialog" style="width:500px"
-            closed="true" buttons="#dlg-buttons3" data-options="modal: true">
+            closed="true" buttons="#dlg-buttons3">
         <form id="fm3" novalidate="" style="margin:0;padding:20px 50px">
         </form>
     </div>
  	<div id="dlg4" class="easyui-dialog" style="width:500px"
-            closed="true" buttons="#dlg-buttons4" data-options="modal: true">
+            closed="true" buttons="#dlg-buttons4">
         <form id="fm4" novalidate="" style="margin:0;padding:20px 50px">
         </form>
     </div>
@@ -270,9 +272,9 @@
         <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="getInfo4()" style="width:90px">提交</a>
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg4').dialog('close')" style="width:90px">取消</a>
     </div>
-	<script type="text/javascript">
+	<script type="text/javascript" th:inline="javascript">
 	/*<![CDATA[*/
-	           
+	
     $('#goTraffic').combobox({    
     	valueField: 'id',    
         textField: 'trafficType',    
@@ -580,18 +582,12 @@
                             msg: result.errorMsg
                         });
                     } else {
-                    	var values = result.msg;
-                    	var input = document.createElement('input');
-                    	document.getElementById('cp').appendChild(input);
-                    	input.setAttribute('type', 'hidden');
-                    	input.setAttribute('id', 'rId');
-                    	input.setAttribute('value', values);
+                    	location.reload(); 
+                    	$('#myform').form('clear');
                     }
                 }
             });
         }
-        
-        
         /*]]>*/
     </script>
    </body>

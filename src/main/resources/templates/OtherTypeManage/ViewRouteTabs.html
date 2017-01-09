@@ -1,10 +1,14 @@
 <!DOCTYPE html>
+<!--  
+ * 作者:修罗大人
+ * 时间:Jan 9, 2017 2:47:54 PM
+ -->
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
 <meta charset="UTF-8" />
-<title>签证国家管理</title>
+<title>线路信息查看</title>
 <link rel="stylesheet" type="text/css" href="/easyui/themes/default/easyui.css" />
 <link rel="stylesheet" type="text/css" href="/easyui/themes/icon.css" />
 <link rel="stylesheet" type="text/css" href="/easyui/demo/demo.css" />    
@@ -20,13 +24,11 @@
 
 </head>
 <body>
+<body>
 	<div id="tt" class="easyui-tabs" style="width:100%;height:100%" overflow="hidden">
-		<div title="基础信息" style="padding:10px" th:if="${#lists.isEmpty(selfSupportRoute)}">
+		<div title="基础信息" style="padding:10px" >
 			<iframe src="/OtherTypeManage/RouteBaseInfo" id="myiframe" style="width:100%;height: 450px " frameborder="no" border="0" scrolling="yes"></iframe>
 		</div>
-		
-		<div title="基础信息" style="width: 100%;height: 100%" th:if="${not #lists.isEmpty(selfSupportRoute)}" th:include="/OtherTypeManage/RouteBaseInfoUpdate :: #RouteBaseInfoUpdate"></div>
-		
 		<div title="行程信息" style="padding:10px">
 			<p style="font-size:14px">jQuery EasyUI framework helps you build your web pages easily.</p>
 			<ul>
@@ -38,16 +40,14 @@
 				<li>easyui is very easy but powerful.</li>
 			</ul>
 		</div>
-		<div title="价格/库存" style="padding:10px" th:if="${#lists.isEmpty(selfSupportRoute)}">
- 			<iframe src="/OtherTypeManage/PriceInventory" style="width: 100%;height: 100%" frameborder="0"></iframe>
-		</div>
 	
-		<div title="价格/库存" style="width: 100%;height: 100%" th:if="${not #lists.isEmpty(selfSupportRoute)}" th:include="/OtherTypeManage/PriceInventoryUpdate :: #PriceInventoryUpdate"></div>
+		<div title="价格/库存" style="width: 100%;height: 100%" th:include="/OtherTypeManage/PriceInventoryView :: #PriceInventoryView"></div>
 		
-		<div title="其他信息" style="width: 100%;height: 100%" th:include="/OtherTypeManage/OtherInfo :: #OtherInfo"></div>
+		<div title="其他信息" style="width: 100%;height: 100%" th:include="/OtherTypeManage/OtherInfoView :: #OtherInfoView"></div>
 
-		<div title="保险" style="width: 100%;height: 100%" th:include="/OtherTypeManage/RouteInsurance :: #RouteInsurance"></div> 
+		<div title="保险" style="width: 100%;height: 100%" th:include="/OtherTypeManage/RouteInsuranceView :: #RouteInsuranceView"></div> 
 		
 	</div>
+</body>
 </body>
 </html>

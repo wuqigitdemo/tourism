@@ -26,8 +26,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -71,7 +73,7 @@ public class RouteBaseInfoController {
 		Long total = service.count();
 		return EasyuiResult.result(rows, total);
 	}
-
+	
 	/**
 	 * 新增和修改自营线路信息
 	 * @return
@@ -83,10 +85,11 @@ public class RouteBaseInfoController {
 			return EasyuiResult.result(result);
         }
 		RouteBaseInfo returnRouteBaseInfo = service.save(routeBaseInfo);
+		
 		if (returnRouteBaseInfo == null) {
 			EasyuiResult.result(false, "添加失败");
 		}
-		return EasyuiResult.result(true);
+		return EasyuiResult.result(true,returnRouteBaseInfo.getId().toString());
 	}
 	
 	/**

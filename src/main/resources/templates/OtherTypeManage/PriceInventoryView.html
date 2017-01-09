@@ -27,16 +27,12 @@
 	src="/js/fullcalendar/fullcalendar.min.js"></script>
 
 </head>
-<body id="PriceInventoryUpdate">
+<body id="PriceInventoryView">
 
 	<table id="priceInventoryUpdateDg" class="easyui-datagrid" style="width:100%;height:380px"
             toolbar="#priceInventoryUpdateToolbar" pagination="true"
             rownumbers="true" fitColumns="true">
     </table> 
-      
-    <div id="priceInventoryUpdateToolbar">
-        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deletePriceInventory()">删除</a>
-    </div>
 
 	<!-- 修改分配 -->
 	<table id="routePriceInventoryUpdate1" class="table table-bordered table2">
@@ -70,7 +66,6 @@
 		method:'POST',
 		url:url,
 		columns : [[
-		{field:'undefined',checkbox:true},
 		{
 			field : '报名截止日期',
 			title : '报名截止日期',
@@ -125,29 +120,14 @@
 				//将对象属性值的null替换成""
 				priceInventoryTemp = displayProp(data);;
 				
-				$("#showProductDetialStr").empty();
 				//产品
-				var productHTML =  arrangeProduct(priceInventoryTemp);
-				var content = productHTML;
-				var subStr = '<tr class="beijingq">'+
-									'<td colspan="6">'+
-									'<div class="btn btn-success btn2 anan"><span onclick="routePriceInventoryUpdate(\'routePriceInventoryUpdate1\');">修改分配</span></div>'+
-								'</td>'+
-							'</tr>';
-				content = content + subStr;	
-
+				$("#showProductDetialStr").empty();
+				var content =  arrangeProduct(priceInventoryTemp);
 				$("#showProductDetialStr").html(content);
 				
 				//渠道
-				var channelsHTML = arrangeChannels(priceInventoryTemp);
-				
 				$("#showProchannelDetialStr").empty();
-				var subChannelStr = '<tr class="beijingq">'+
-					'<td colspan="6">'+
-						'<div class="btn btn-success btn2 anan"><span onclick="routePriceInventoryUpdate(\'routePriceInventoryUpdate2\');">修改渠道</span></div>'+
-					'</td>'+
-				'</tr>';
-				channelsHTML += subChannelStr;
+				var channelsHTML = arrangeChannels(priceInventoryTemp);
 				$("#showProchannelDetialStr").html(channelsHTML);
 
 				window.location.hash = "#showProductDetialStr";
@@ -239,19 +219,19 @@
 			
 		content += "</td>"+
 			"<td>出发日期</td>"+
-			"<td colspan='2'><input name='inventoryDate' value='"+obj.inventoryDate+"' type='text'>元</td></td>"+
+			"<td colspan='2'><input readonly='readonly' name='inventoryDate' value='"+obj.inventoryDate+"' type='text'>元</td></td>"+
 		"</tr>"+
 			"<tr>"+
 			"<td>登记占位时限：</td>"+
-			"<td colspan='2' style='text-align: left;'><input type='text' placeholder='' name='registrationTimeLimitPlaceholder' value='"+obj.registrationTimeLimitPlaceholder+"' style='width:151px;'>(单位：小时)</td>"+
+			"<td colspan='2' style='text-align: left;'><input readonly='readonly' type='text' placeholder='' name='registrationTimeLimitPlaceholder' value='"+obj.registrationTimeLimitPlaceholder+"' style='width:151px;'>(单位：小时)</td>"+
 			"<td>保留位置：</td>"+
-			"<td colspan='2' style='text-align: left;'><input id='holdtimeStr' type='text' placeholder='' name='reservedPosition' value='"+obj.reservedPosition+"' style='width:151px;'>(单位：小时)<font style='color:red'>*</font></td>"+
+			"<td colspan='2' style='text-align: left;'><input readonly='readonly' id='holdtimeStr' type='text' placeholder='' name='reservedPosition' value='"+obj.reservedPosition+"' style='width:151px;'>(单位：小时)<font style='color:red'>*</font></td>"+
 		"</tr>"+
 		"<tr>"+
 			"<td>单房差</td>"+
-			"<td colspan='2'><input name='singleRoomIsPoor' value='"+obj.singleRoomIsPoor+"' type='text'>元</td>"+
+			"<td colspan='2'><input readonly='readonly' name='singleRoomIsPoor' value='"+obj.singleRoomIsPoor+"' type='text'>元</td>"+
 			"<td>签证补价</td>"+
-			"<td colspan='2'><input name='aPremiumVisa' value='"+obj.aPremiumVisa+"' type='text'>元</td>"+
+			"<td colspan='2'><input readonly='readonly' name='aPremiumVisa' value='"+obj.aPremiumVisa+"' type='text'>元</td>"+
 		"</tr>"+
 		"<tr>"+
 			"<td>车队中心</td>";
@@ -267,7 +247,7 @@
 				fleetStr = "总价";
 				fleetname = "fleetCenterAllocationTotalPrice";
 			}
-			content +="<td colspan='2'><input name='"+fleetname+"' value='"+fleet+"' type='text'>元("+fleetStr+")</td>"+
+			content +="<td colspan='2'><input readonly='readonly' name='"+fleetname+"' value='"+fleet+"' type='text'>元("+fleetStr+")</td>"+
 			"<td>交通中心</td>";
 			var traffic = "";
 			var trafficStr = "";
@@ -281,7 +261,7 @@
 				trafficStr = "总价";
 				trafficname = "trafficCenterAllocationTotalPrice";
 			}
-			content+="<td colspan='2'><input name='"+trafficname+"' value='"+traffic+"' type='text' >元("+trafficStr+")</td>"+
+			content+="<td colspan='2'><input readonly='readonly' name='"+trafficname+"' value='"+traffic+"' type='text' >元("+trafficStr+")</td>"+
 		"</tr>"+
 		"<tr>"+
 			"<td>餐饮中心</td>";
@@ -297,7 +277,7 @@
 				diningStr = "总价";
 				diningname = "cateringCenterAllocationTotalPrice";
 			}
-			content+="<td colspan='2'><input name='"+diningname+"' value='"+dining+"' type='text' >元("+diningStr+")</td>"+
+			content+="<td colspan='2'><input readonly='readonly' name='"+diningname+"' value='"+dining+"' type='text' >元("+diningStr+")</td>"+
 			"<td>景区中心</td>";
 			var tourist = "";
 			var touristStr = "";
@@ -311,7 +291,7 @@
 				touristStr = "总价";
 				touristname = "scenicSpotCenterAllocationTotalPrice";
 			}
-			content+="<td colspan='2'><input name='"+touristname+"' value='"+tourist+"' type='text' >元("+touristStr+")</td>"+
+			content+="<td colspan='2'><input readonly='readonly' name='"+touristname+"' value='"+tourist+"' type='text' >元("+touristStr+")</td>"+
 		"</tr>"+
 		"<tr>"+
 			"<td>住房中心</td>";
@@ -327,7 +307,7 @@
 				housingStr = "总价";
 				housingname = "housingSpotCenterAllocationTotalPrice";
 			}
-			content+="<td colspan='2'><input name='"+housingname+"' value='"+housing+"' type='text' >元("+housingStr+")</td>"+
+			content+="<td colspan='2'><input readonly='readonly' name='"+housingname+"' value='"+housing+"' type='text' >元("+housingStr+")</td>"+
 			"<td>导游中心</td>";
 			var tour = "";
 			var tourStr = "";
@@ -341,7 +321,7 @@
 				tourStr = "总价";
 				tourname = "tourGuideSpotCenterAllocationTotalPrice";
 			}
-			content+="<td colspan='2'><input name='"+tourname+"'  value='"+tour+"' type='text' >元("+tourStr+")</td>"+
+			content+="<td colspan='2'><input readonly='readonly' name='"+tourname+"'  value='"+tour+"' type='text' >元("+tourStr+")</td>"+
 		"</tr>"+
 		"<tr>"+
 			"<td>签证中心</td>";
@@ -357,7 +337,7 @@
 				vacStr = "总价";
 				vacname = "visaCenterAllocationTotalPrice";
 			}
-			content+="<td colspan='2'><input name='"+vacname+"' value='"+vac+"' type='text' >元("+vacStr+")</td>"+
+			content+="<td colspan='2'><input readonly='readonly' name='"+vacname+"' value='"+vac+"' type='text' >元("+vacStr+")</td>"+
 			"<td colspan='3'></td>"+
 		"</tr>";
 		return content;
@@ -380,36 +360,36 @@
 		"<tr>"+
 			"<td>成人售价</td>"+
 			"<td>"+
-			"<input name='adultPrice' onblur='setPriceValueTo3(this);'  value='"+obj.adultPrice+"' type='text'>元</td>"+
+			"<input readonly='readonly' name='adultPrice' onblur='setPriceValueTo3(this);'  value='"+obj.adultPrice+"' type='text'>元</td>"+
 			"<td>折扣价</td>"+
-			"<td><input name='discountPrice' onblur='setDisPriceValueTo3(this);' value='"+obj.discountPrice+"' type='text'>元</td>"+
+			"<td><input readonly='readonly' name='discountPrice' onblur='setDisPriceValueTo3(this);' value='"+obj.discountPrice+"' type='text'>元</td>"+
 			"<td>库存</td>"+
-			"<td><input name='inventoryPerson' onblur='setCountValueTo3(this);' value='"+obj.inventoryPerson+"' type='text'>人<font style='color:red'>*</font></td>"+
+			"<td><input readonly='readonly' name='inventoryPerson' onblur='setCountValueTo3(this);' value='"+obj.inventoryPerson+"' type='text'>人<font style='color:red'>*</font></td>"+
 		"</tr>"+
 		"<tr>"+
 			"<td>儿童售价</td>"+
 			"<td >"+
-				"<input name='childrenPrice' onblur='setChildpriceTo3(this);' value='"+obj.childrenPrice+"' type='text' >元</td>"+
+				"<input readonly='readonly' name='childrenPrice' onblur='setChildpriceTo3(this);' value='"+obj.childrenPrice+"' type='text' >元</td>"+
 			"<td>儿童折扣价</td>"+
 			"<td >"+
-				"<input name='childrenDiscountPrice' onblur='setDiscountchildpriceTo3(this);' value='"+obj.childrenDiscountPrice+"' type='text' >元</td>"+
+				"<input readonly='readonly' name='childrenDiscountPrice' onblur='setDiscountchildpriceTo3(this);' value='"+obj.childrenDiscountPrice+"' type='text' >元</td>"+
 			"<td>占床价</td>"+
-			"<td ><input name='priceOfBed' onblur='setBedpriceTo3(this);' value='"+obj.priceOfBed+"'  type='text'>元</td>"+
+			"<td ><input readonly='readonly' name='priceOfBed' onblur='setBedpriceTo3(this);' value='"+obj.priceOfBed+"'  type='text'>元</td>"+
 		"</tr>"+
 		"<tr>"+
 		"<td>儿童界定标准</td>"+
 		"<td colspan='5'>";
-			firstStr +="<input type='text' value='"+obj.childrenDefineStandardValue+"' name='childrenDefineStandardValue' id='childrendefinition_id_3'/>";
-			firstStr +="<input id='childrenDefineStandard' name='childrenDefineStandard' type='hidden'/>";
+			firstStr +="<input readonly='readonly' type='text' value='"+obj.childrenDefineStandardValue+"' name='childrenDefineStandardValue' id='childrendefinition_id_3'/>";
+			firstStr +="<input readonly='readonly' id='childrenDefineStandard' name='childrenDefineStandard' type='hidden'/>";
 			if("AGE"==obj.childrenDefineStandard){
-				firstStr +="<input name='childrenDefineStandard_Radio' checked='checked' onclick='childrenDefineStandardRadio(\"0\");' type='radio' />年龄(周岁)&nbsp;";
-				firstStr +="<input name='childrenDefineStandard_Radio' onclick='childrenDefineStandardRadio(\"1\");' type='radio' />身高(厘米)";
+				firstStr +="<input disabled='disabled' name='childrenDefineStandard_Radio' checked='checked' onclick='childrenDefineStandardRadio(\"0\");' type='radio' />年龄(周岁)&nbsp;";
+				firstStr +="<input disabled='disabled' name='childrenDefineStandard_Radio' onclick='childrenDefineStandardRadio(\"1\");' type='radio' />身高(厘米)";
 			}else if("HEIGHT"==obj.childrenDefineStandard){
-				firstStr +="<input name='childrenDefineStandard_Radio' onclick='childrenDefineStandardRadio(\"0\");' type='radio' />年龄(周岁)&nbsp;";
-				firstStr +="<input name='childrenDefineStandard_Radio' checked='checked' checked='checked' onclick='childrenDefineStandardRadio(\"1\");' type='radio' />身高(厘米)";
+				firstStr +="<input disabled='disabled' name='childrenDefineStandard_Radio' onclick='childrenDefineStandardRadio(\"0\");' type='radio' />年龄(周岁)&nbsp;";
+				firstStr +="<input disabled='disabled' name='childrenDefineStandard_Radio' checked='checked' checked='checked' onclick='childrenDefineStandardRadio(\"1\");' type='radio' />身高(厘米)";
 			}else{
-				firstStr +="<input name='childrenDefineStandard_Radio' onclick='childrenDefineStandardRadio(\"0\");' type='radio' />年龄(周岁)&nbsp;";
-				firstStr +="<input name='childrenDefineStandard_Radio' onclick='childrenDefineStandardRadio(\"1\");' type='radio' />身高(厘米)";
+				firstStr +="<input disabled='disabled' name='childrenDefineStandard_Radio' onclick='childrenDefineStandardRadio(\"0\");' type='radio' />年龄(周岁)&nbsp;";
+				firstStr +="<input disabled='disabled' name='childrenDefineStandard_Radio' onclick='childrenDefineStandardRadio(\"1\");' type='radio' />身高(厘米)";
 			}
 			firstStr +="</td>"+
 		"</tr>"+
@@ -429,36 +409,36 @@
 		"<tr>"+
 			"<td>成人售价</td>"+
 			"<td>"+
-			"<input name='withTheIndustryAdultPrice'  value='"+obj.withTheIndustryAdultPrice+"' type='text'>元</td>"+
+			"<input readonly='readonly' name='withTheIndustryAdultPrice'  value='"+obj.withTheIndustryAdultPrice+"' type='text'>元</td>"+
 			"<td>折扣价</td>"+
-			"<td><input name='withTheIndustryDiscountPrice'  value='"+obj.withTheIndustryDiscountPrice+"' type='text'>元</td>"+
+			"<td><input readonly='readonly' name='withTheIndustryDiscountPrice'  value='"+obj.withTheIndustryDiscountPrice+"' type='text'>元</td>"+
 			"<td>库存</td>"+
-			"<td><input name='withTheIndustryInventoryPerson'  value='"+obj.withTheIndustryInventoryPerson+"' type='text'>人<font style='color:red'>*</font></td>"+
+			"<td><input readonly='readonly' name='withTheIndustryInventoryPerson'  value='"+obj.withTheIndustryInventoryPerson+"' type='text'>人<font style='color:red'>*</font></td>"+
 		"</tr>"+
 		"<tr>"+
 			"<td>儿童售价</td>"+
 			"<td >"+
-				"<input name='withTheIndustryChildrenPrice'  value='"+obj.withTheIndustryChildrenPrice+"' type='text' >元</td>"+
+				"<input readonly='readonly' name='withTheIndustryChildrenPrice'  value='"+obj.withTheIndustryChildrenPrice+"' type='text' >元</td>"+
 			"<td>儿童折扣价</td>"+
 			"<td >"+
-				"<input name='withTheIndustryChildrenDiscountPrice'  value='"+obj.withTheIndustryChildrenDiscountPrice+"' type='text' >元</td>"+
+				"<input readonly='readonly' name='withTheIndustryChildrenDiscountPrice'  value='"+obj.withTheIndustryChildrenDiscountPrice+"' type='text' >元</td>"+
 			"<td>占床价</td>"+
-			"<td ><input name='withTheIndustryPriceOfBed'  value='"+obj.withTheIndustryPriceOfBed+"'  type='text'>元</td>"+
+			"<td ><input readonly='readonly' name='withTheIndustryPriceOfBed'  value='"+obj.withTheIndustryPriceOfBed+"'  type='text'>元</td>"+
 		"</tr>"+
 		"<tr>"+
 			"<td>儿童界定标准</td>"+
 			"<td colspan='5'>";
-			sceondStr +="<input type='text' value='"+obj.withTheIndustryChildrenDefineStandardValue+"' name='withTheIndustryChildrenDefineStandardValue' id='childrendefinition_id_3'/>";
-			sceondStr +="<input id='withTheIndustryChildrenDefineStandard' name='withTheIndustryChildrenDefineStandard' type='hidden'/>";
+			sceondStr +="<input readonly='readonly' type='text' value='"+obj.withTheIndustryChildrenDefineStandardValue+"' name='withTheIndustryChildrenDefineStandardValue' id='childrendefinition_id_3'/>";
+			sceondStr +="<input readonly='readonly' id='withTheIndustryChildrenDefineStandard' name='withTheIndustryChildrenDefineStandard' type='hidden'/>";
 		if("AGE"==obj.withTheIndustryChildrenDefineStandard){
-			sceondStr +="<input name='withTheIndustryChildrenDefineStandard_Radio' checked='checked' onclick='withTheIndustryChildrenDefineStandardRadio(\"0\");' type='radio' />年龄(周岁)&nbsp;";
-			sceondStr +="<input name='withTheIndustryChildrenDefineStandard_Radio' onclick='withTheIndustryChildrenDefineStandardRadio(\"1\");' type='radio' />身高(厘米)";
+			sceondStr +="<input disabled='disabled' name='withTheIndustryChildrenDefineStandard_Radio' checked='checked' onclick='withTheIndustryChildrenDefineStandardRadio(\"0\");' type='radio' />年龄(周岁)&nbsp;";
+			sceondStr +="<input disabled='disabled' name='withTheIndustryChildrenDefineStandard_Radio' onclick='withTheIndustryChildrenDefineStandardRadio(\"1\");' type='radio' />身高(厘米)";
 		}else if ("HEIGHT"==obj.withTheIndustryChildrenDefineStandard) {
-			sceondStr +="<input name='withTheIndustryChildrenDefineStandard_Radio' onclick='withTheIndustryChildrenDefineStandardRadio(\"0\");' type='radio' />年龄(周岁)&nbsp;";
-			sceondStr +="<input name='withTheIndustryChildrenDefineStandard_Radio' checked='checked' onclick='withTheIndustryChildrenDefineStandardRadio(\"1\");' type='radio' />身高(厘米)";
+			sceondStr +="<input disabled='disabled' name='withTheIndustryChildrenDefineStandard_Radio' onclick='withTheIndustryChildrenDefineStandardRadio(\"0\");' type='radio' />年龄(周岁)&nbsp;";
+			sceondStr +="<input disabled='disabled' name='withTheIndustryChildrenDefineStandard_Radio' checked='checked' onclick='withTheIndustryChildrenDefineStandardRadio(\"1\");' type='radio' />身高(厘米)";
 		}else{
-			sceondStr +="<input name='withTheIndustryChildrenDefineStandard_Radio' onclick='withTheIndustryChildrenDefineStandardRadio(\"0\");' type='radio' />年龄(周岁)&nbsp;";
-			sceondStr +="<input name='withTheIndustryChildrenDefineStandard_Radio' onclick='withTheIndustryChildrenDefineStandardRadio(\"1\");' type='radio' />身高(厘米)";
+			sceondStr +="<input disabled='disabled' name='withTheIndustryChildrenDefineStandard_Radio' onclick='withTheIndustryChildrenDefineStandardRadio(\"0\");' type='radio' />年龄(周岁)&nbsp;";
+			sceondStr +="<input disabled='disabled' name='withTheIndustryChildrenDefineStandard_Radio' onclick='withTheIndustryChildrenDefineStandardRadio(\"1\");' type='radio' />身高(厘米)";
 		}
 		sceondStr +="</td>"+
 		"</tr>"+
@@ -500,39 +480,6 @@
 			//身高
 			$("#withTheIndustryChildrenDefineStandard").val("HEIGHT");
 		}
-	}
-	
-	//删除价格库存
-	function deletePriceInventory()
-	{
-		var selectedRows = $('#priceInventoryUpdateDg').datagrid('getSelections');
-		
-		var deletePriceInventorys = [];
-		selectedRows.forEach(function(value,index,array)
-		{
-			deletePriceInventorys.push(value);
-		});
-		
-		var jsonStr = JSON.stringify(deletePriceInventorys);
-
-		//提交
-		$.ajax({  
-			   type: "POST",  
-			   url: urlDelete,  
-			   data: jsonStr,//将对象序列化成JSON字符串  
-			   dataType:"json",  
-			   contentType : 'application/json;charset=utf-8', //设置请求头信息  
-			   success: function(data){
-				  	if(data.success)
-					{
-				  		alert(data.msg);
-				  		$('#priceInventoryUpdateDg').datagrid('reload');
-				  		window.location.hash = "#priceInventoryUpdateDg";
-					}else{
-				      	alert(data.errorMsg);
-					}
-			   }
-		});
 	}
 	
 /*]]>*/    //这句坚决不能删

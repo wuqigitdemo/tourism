@@ -37,6 +37,12 @@ public class SelfSupportRouteController extends CrudController<SelfSupportRoute>
 		super(service);
 	}
 
+	/**
+	 * 修改线路信息页面
+	 * @param model
+	 * @param routeId
+	 * @return
+	 */
 	@RequestMapping(value = "/routeUpdateHtml",method = RequestMethod.POST)
 	public String routeUpdateHtml (ModelMap model, String routeId) {
 		
@@ -44,6 +50,21 @@ public class SelfSupportRouteController extends CrudController<SelfSupportRoute>
 		
 		model.addAttribute("selfSupportRoute", selfSupportRoute);
 		return "/OtherTypeManage/Tabs";
+	}
+	
+	/**
+	 * 查看线路信息页面
+	 * @param model
+	 * @param routeId
+	 * @return
+	 */
+	@RequestMapping(value = "/routeViewHtml",method = RequestMethod.POST)
+	public String routeViewHtml (ModelMap model, String routeId) {
+		
+		SelfSupportRoute selfSupportRoute = selfSupportRouteService.findRouteWithId(routeId);
+		
+		model.addAttribute("selfSupportRoute", selfSupportRoute);
+		return "/OtherTypeManage/ViewRouteTabs";
 	}
 	
 	@RequestMapping("/findByPar")

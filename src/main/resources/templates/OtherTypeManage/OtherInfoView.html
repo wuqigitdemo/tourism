@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<meta charset="UTF-8" />
+<title>其他信息</title>
+<link rel="stylesheet" type="text/css"
+	href="/easyui/themes/default/easyui.css" />
+<link rel="stylesheet" type="text/css" href="/easyui/themes/icon.css" />
+<link rel="stylesheet" type="text/css" href="/easyui/demo/demo.css" />
+<link rel="stylesheet" type="text/css" href="/easyui/themes/color.css" />
+<script type="text/javascript" src="/easyui/jquery.min.js"></script>
+<script type="text/javascript" src="/easyui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="/easyui/locale/easyui-lang-zh_CN.js"></script>
+
+<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="/css/common.css" />
+<link rel="stylesheet" type="text/css" href="/css/page.css" />
+<link rel="stylesheet" type="text/css" href="/css/reset.css" />
+</head>
+<body id="OtherInfoView">
+	<form class="table table-bordered table2 glg_tab" style="" id="myform"
+		name="myform" method="post" onsubmit="return false;"
+		action="/SelfSupportRouteOtherInfo/saveOtherInfo">
+		<table class="table table-bordered table2 glg_tab">
+			<input name="routeId" th:if="${not #lists.isEmpty(selfSupportRoute)}" th:value="${selfSupportRoute.id}" type="hidden" />
+			<input name="id" th:if="${not #lists.isEmpty(selfSupportRoute)} and ${not #lists.isEmpty(selfSupportRoute.selfSupportRouteOtherInfo)}" 
+					th:value="${selfSupportRoute.selfSupportRouteOtherInfo.id}" type="hidden" />
+			<tbody>
+				<tr>
+					<td>
+						<table class="table table-bordered table2">
+							<tbody>
+								<tr>
+									<td style="width: 160px;">购物店：</td>
+									<td colspan="5" style="text-align: left;">
+										<textarea readonly='readonly' name="shop" rows="3" cols="70" 
+											th:text="(${not #lists.isEmpty(selfSupportRoute)} and ${not #lists.isEmpty(selfSupportRoute.selfSupportRouteOtherInfo)})?${selfSupportRoute.selfSupportRouteOtherInfo.shop}">
+										</textarea>
+									</td>
+								</tr>
+								<tr>
+									<td>特殊限制：</td>
+									<td colspan="5" style="text-align: left;">
+										<textarea readonly='readonly' name="specialRestrictions" rows="3" cols="70" 
+											th:text="(${not #lists.isEmpty(selfSupportRoute)} and ${not #lists.isEmpty(selfSupportRoute.selfSupportRouteOtherInfo)})?${selfSupportRoute.selfSupportRouteOtherInfo.specialRestrictions}">
+										</textarea>
+									</td>
+								</tr>
+								<tr>
+									<td>预订须知：</td>
+									<td colspan="5" style="text-align: left;">
+										<textarea readonly='readonly' name="reservationInform" cols="70" 
+											th:text="(${not #lists.isEmpty(selfSupportRoute)} and ${not #lists.isEmpty(selfSupportRoute.selfSupportRouteOtherInfo)})?${selfSupportRoute.selfSupportRouteOtherInfo.reservationInform}">
+										</textarea>
+									</td>
+								</tr>
+								<tr>
+									<td>自费项目备注：</td>
+									<td colspan="5" style="text-align: left;">
+										<textarea readonly='readonly' name="selfPayItemRemark" rows="3" cols="70" 
+											th:text="(${not #lists.isEmpty(selfSupportRoute)} and ${not #lists.isEmpty(selfSupportRoute.selfSupportRouteOtherInfo)})?${selfSupportRoute.selfSupportRouteOtherInfo.selfPayItemRemark}">
+										</textarea>
+									</td>
+								</tr>
+								<tr>
+									<td>自费项目推荐：</td>
+									<td colspan="5" style="text-align: left;">
+										<textarea readonly='readonly' name="selfPayItemRecommend" rows="3" cols="70"
+											th:text="(${not #lists.isEmpty(selfSupportRoute)} and ${not #lists.isEmpty(selfSupportRoute.selfSupportRouteOtherInfo)})?${selfSupportRoute.selfSupportRouteOtherInfo.selfPayItemRecommend}">
+										</textarea>
+									</td>
+								</tr>
+								<tr>
+									<td>费用包含：</td>
+									<td colspan="5" style="text-align: left;">
+										<textarea readonly='readonly' name="costCover" rows="3" cols="70" 
+											th:text="(${not #lists.isEmpty(selfSupportRoute)} and ${not #lists.isEmpty(selfSupportRoute.selfSupportRouteOtherInfo)})?${selfSupportRoute.selfSupportRouteOtherInfo.costCover}">
+										</textarea>
+									</td>
+								</tr>
+								<tr>
+									<td>费用不包含：</td>
+									<td colspan="5" style="text-align: left;">
+										<textarea readonly='readonly' name="costNoCover" rows="3" cols="70" 
+											th:text="(${not #lists.isEmpty(selfSupportRoute)} and ${not #lists.isEmpty(selfSupportRoute.selfSupportRouteOtherInfo)})?${selfSupportRoute.selfSupportRouteOtherInfo.costNoCover}">
+										</textarea>
+									</td>
+								</tr>
+								<tr>
+									<td>退款说明：</td>
+									<td colspan="5" style="text-align: left;">
+										<textarea readonly='readonly' name="refundInstruction" rows="3" cols="70" 
+											th:text="(${not #lists.isEmpty(selfSupportRoute)} and ${not #lists.isEmpty(selfSupportRoute.selfSupportRouteOtherInfo)})?${selfSupportRoute.selfSupportRouteOtherInfo.refundInstruction}">
+										</textarea>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</form>
+</body>
+</html>
