@@ -19,6 +19,7 @@ import org.honor.tourism.service.TrafficWayService;
 import org.honor.tourism.service.VisaNationalsService;
 import org.honor.tourism.util.EasyuiPage;
 import org.honor.tourism.util.EasyuiResult;
+import org.honor.tourism.util.FileUpload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -27,7 +28,9 @@ import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 自营线路信息Controller
@@ -52,6 +55,8 @@ public class RouteBaseInfoController {
 	@Autowired 
 	private TourismThemeService tourismThemeService;
 	
+	@Autowired 
+	private FileUpload fileUpload;
 	/**
 	 * 获取自营线路信息
 	 * @param page
@@ -147,6 +152,21 @@ public class RouteBaseInfoController {
 		Page<TourismTheme> tourismTheme = tourismThemeService.findAll(pageable);
 		List<TourismTheme> rows = tourismTheme.getContent();
 		return rows;
+	}
+	
+	/**
+	 * 图片上传1
+	 * @param page
+	 * @return
+	 */
+	@RequestMapping("/fileUpload")
+	@ResponseBody
+	public String fileUpload(@RequestParam("fileUpload") MultipartFile file) {
+		String imageName = fileUpload.uploadFile(file);
+		if (imageName!= null) {
+			return imageName;
+		}
+		return "false";
 	}
 	
 }
