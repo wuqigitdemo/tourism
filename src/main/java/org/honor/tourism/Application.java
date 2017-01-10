@@ -10,9 +10,8 @@ import org.springframework.stereotype.Controller;
 @EnableAutoConfiguration
 @SpringBootApplication
 public class Application {
-
+//主入口
 	public static void main(String[] args) throws Exception {
 		SpringApplication.run(Application.class, args);
 	}
-
 }
