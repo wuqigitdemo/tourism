@@ -166,12 +166,12 @@ form td{
    				}
    			}
 		},
-		{field:'routeTripList',title:'天数',width:50,
+		{field:'priceInventory',title:'天数',width:50,
    			formatter: function(value,row,index){
-   				if (row.routeTripList != null) {
-   					return row.routeTripList.length;
+   				if (row.priceInventory != null) {
+   					return row.priceInventory.length + "天";
    				} else {
-   	   				return 0;
+   	   				return "0天";
    				}
    			}
 		},
