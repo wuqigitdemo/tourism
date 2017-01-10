@@ -35,4 +35,10 @@ public interface SelfSupportRouteService extends CrudService<SelfSupportRoute> {
 	public Integer priceInventorieCount(String routeId);
 	
 	public Page<SelfSupportRoute> findByRouteBaseInfoRouteNameOrRouteBaseInfoOutPlaceOrRouteBaseInfoDestinationOrRouteBaseInfoRouteTypeListTypeName(String routeName, String outPlace, String destination, String typeName, Integer startDays, Integer endDays, Pageable pageable);
+
+	/**
+	 * 删除多个自营线路
+	 * @param ids
+	 */
+	public void delete(List<SelfSupportRoute> ids);
 }
