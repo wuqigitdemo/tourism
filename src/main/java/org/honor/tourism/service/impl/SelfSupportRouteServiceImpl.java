@@ -90,4 +90,9 @@ public class SelfSupportRouteServiceImpl extends CrudServiceImpl<SelfSupportRout
 		
 		return priceInventorie.size();
 	}
+	
+	public void delete(List<SelfSupportRoute> ids) {
+		selfSupportRouteRepository.delete(ids);
+	}
+	
 }

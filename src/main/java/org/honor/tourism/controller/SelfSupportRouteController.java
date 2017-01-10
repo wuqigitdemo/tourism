@@ -15,6 +15,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -90,4 +91,17 @@ public class SelfSupportRouteController extends CrudController<SelfSupportRoute>
 		Long total = (long)selfSupportRouteService.priceInventorieCount(routeId);
 		return EasyuiResult.result(priceInventories, total);
 	}
+	
+	/**
+	 * 多个删除多个
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping("/deletes")
+	@ResponseBody
+	public Map<String, Object> delete(@RequestBody List<SelfSupportRoute> ids) {
+		selfSupportRouteService.delete(ids);
+		return EasyuiResult.result(true);
+	}
+	
 }
