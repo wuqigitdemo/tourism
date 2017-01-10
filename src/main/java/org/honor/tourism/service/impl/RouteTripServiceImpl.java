@@ -1,7 +1,9 @@
 package org.honor.tourism.service.impl;
 
+
 import java.util.List;
 
+import org.honor.tourism.entity.RouteDay;
 import org.honor.tourism.entity.RouteTrip;
 import org.honor.tourism.entity.SelfSupportRoute;
 import org.honor.tourism.repository.SelfSupportRouteRepository;
@@ -20,11 +22,13 @@ public class RouteTripServiceImpl implements RouteTripService {
 	private SelfSupportRouteRepository selfSupportRouteRepository;
 
 	@Override
-	public void saveRouteTrip(List<RouteTrip> routeTrips, String routeId) {
-
+	public void saveRouteTrip(RouteTrip routeTrip, RouteDay routeDay, String routeId) {
+		
+		//将日程信息添加到行程当中
+		routeTrip.getRouteDayList().add(routeDay);
 		// 将库存保存到线路
 		SelfSupportRoute selfSupportRoute = selfSupportRouteRepository.findOne(routeId);
-		selfSupportRoute.setRouteTripList(routeTrips);
+		selfSupportRoute.getRouteTripList().add(routeTrip);
 		selfSupportRouteRepository.save(selfSupportRoute);
 	}
 }
