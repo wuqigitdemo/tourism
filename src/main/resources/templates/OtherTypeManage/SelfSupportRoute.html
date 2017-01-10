@@ -166,12 +166,12 @@ form td{
    				}
    			}
 		},
-		{field:'priceInventory',title:'天数',width:50,
+		{field:'routeTripList',title:'天数',width:50,
    			formatter: function(value,row,index){
-   				if (row.priceInventory != null) {
-   					return row.priceInventory.length + "天";
+   				if (row.routeTripList != null) {
+   					return row.routeTripList.length + "天";
    				} else {
-   	   				return "0天";
+   	   				return "0天"; 
    				}
    			}
 		},
@@ -264,6 +264,36 @@ form td{
 	    document.body.removeChild(form1);
 	}
    	
+   	function destroyRoute(){
+        var row = $('#dg').datagrid('getSelections');
+        var rowIDS = [];
+       	row.forEach(function(value, index, array) {
+			var rowID = {id:value.id};
+			rowIDS.push(rowID);
+       	});
+        if (row){
+            $.messager.confirm('Confirm','确定删除吗？',function(r){
+                if (r){
+                	$.ajax({
+                        url: "/SelfSupportRoute/deletes",
+                        type: "POST",
+                        contentType : 'application/json;charset=utf-8', //设置请求头信息
+                        dataType:"json",
+                        data: JSON.stringify(rowIDS),            //将Json对象序列化成Json字符串
+                        success: function(data){
+                        	$('#dg').datagrid('reload');
+                        },
+                        error: function(res){
+                        	$.messager.show({    // show error message
+                                title: 'Error',
+                                msg: result.errorMsg
+                            });
+                        }
+                    });
+                }
+            });
+        }
+    }
 /*]]>*/    //这句坚决不能删
 </script>
 </html>
