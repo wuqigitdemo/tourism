@@ -24,7 +24,7 @@
 		name="otherInfoForm" method="post" onsubmit="return false;"
 		action="/SelfSupportRouteOtherInfo/saveOtherInfo">
 		<table class="table table-bordered table2 glg_tab">
-			<input id="routeId" name="routeId" th:if="${not #lists.isEmpty(selfSupportRoute)}" th:value="${selfSupportRoute.id}" type="hidden" />
+			<input id="routeIdOtherInfo" name="routeId" th:value="${not #lists.isEmpty(selfSupportRoute)}?${selfSupportRoute.id}" type="hidden" />
 			<input name="id" th:if="${not #lists.isEmpty(selfSupportRoute)} and ${not #lists.isEmpty(selfSupportRoute.selfSupportRouteOtherInfo)}" 
 					th:value="${selfSupportRoute.selfSupportRouteOtherInfo.id}" type="hidden" />
 			<tbody>
@@ -121,9 +121,9 @@
 	{
 		var routeId = $("#rId").val();
 		
-		if($("#routeId").val() == null)
+		if($("#routeIdOtherInfo").val() == null || $("#routeIdOtherInfo").val() == "")
 		{
-			$("#routeId").val(routeId);
+			$("#routeIdOtherInfo").val(routeId);
 		}
 
 		$('#otherInfoForm').form('submit',{
