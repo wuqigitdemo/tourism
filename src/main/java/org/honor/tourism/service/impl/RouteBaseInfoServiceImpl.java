@@ -6,6 +6,7 @@ import org.honor.tourism.repository.RouteBaseInfoRepository;
 import org.honor.tourism.repository.RouteTypeRepository;
 import org.honor.tourism.repository.SelfSupportRouteRepository;
 import org.honor.tourism.service.RouteBaseInfoService;
+import org.honor.tourism.service.SelfSupportRouteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,9 +33,10 @@ public class RouteBaseInfoServiceImpl implements RouteBaseInfoService {
 
 	@Override
 	public SelfSupportRoute save(RouteBaseInfo routeBaseInfo) {
-		SelfSupportRoute selfSupportRoute = new SelfSupportRoute();
-		selfSupportRoute.setRouteBaseInfo(routeBaseInfo);
-		return selfSupportRouteRepository.save(selfSupportRoute);
+		
+			SelfSupportRoute selfSupportRoute = new SelfSupportRoute();
+			selfSupportRoute.setRouteBaseInfo(routeBaseInfo);
+			return selfSupportRouteRepository.save(selfSupportRoute);
 	}
 
 	@Override
