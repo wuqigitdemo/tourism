@@ -147,8 +147,8 @@ form td{
    	nowrap:false,
    	columns:[[
 		{field:'undefined',checkbox:true},
-		{field:'numbering',title:'线路编号',width:200},
-		{field:'routeName',title:'线路名称',width:100,
+		{field:'numbering',title:'线路编号',width:100},
+		{field:'routeName',title:'线路名称',width:150,
    			formatter: function(value,row,index){
    				if (row.routeBaseInfo != null){
    					return row.routeBaseInfo.routeName;
@@ -172,6 +172,15 @@ form td{
    					return row.routeTripList.length + "天";
    				} else {
    	   				return "0天"; 
+   				}
+   			}
+		},
+		{field:'businessType',title:'经营类型',width:50,
+   			formatter: function(value,row,index){
+   				if (row.businessType == 'SELF_EMPLOYED') {
+   					return "自营";
+   				} else {
+   	   				return "供应商"; 
    				}
    			}
 		},
