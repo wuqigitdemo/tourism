@@ -14,7 +14,7 @@
 <script type="text/javascript" src="/easyui/locale/easyui-lang-zh_CN.js"></script>
 </head>
 <body id="RouteInsurance">
-    <table id="dg" class="easyui-datagrid" style="width:100%;height:95%;"
+    <table id="dgRouteInsurance" class="easyui-datagrid" style="width:100%;height:95%;"
             toolbar="#toolbar" pagination="true"
             rownumbers="true" fitColumns="true" singleSelect="true">
     </table>
@@ -35,7 +35,7 @@
     
 	</div>
 
-	<div id="dlg" class="easyui-dialog" closed="true"
+	<div id="dlgRouteIM" class="easyui-dialog" closed="true"
 		data-options="
     			width:500,  
                	cache: false,       
@@ -74,7 +74,7 @@
 			<a href="javascript:void(0)" class="easyui-linkbutton c6"
 				iconCls="icon-ok" onclick="addInsurance()" style="width: 90px">添加</a> 
 			<a href="javascript:void(0)" class="easyui-linkbutton"
-				iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')"
+				iconCls="icon-cancel" onclick="javascript:$('#dlgRouteIM').dialog('close')"
 				style="width: 90px">取消</a>
 		</div>
 	</div>
@@ -83,15 +83,9 @@
 	/*<![CDATA[*/   //这句坚决不能删
 
 	    var routeId = [[${not #lists.isEmpty(selfSupportRoute)}?${selfSupportRoute.id}]];
-
-		//新增
-		if (routeId == null)
-		{
-			routeId = $("#rId").val();
-		}
 	
 		//线路已有的保险
-		$('#dg').datagrid(
+		$('#dgRouteInsurance').datagrid(
 		{
 			method:'GET',
 			url:"/SelfSupportRouteInsuranceManagement/findList?routeId="+routeId,
@@ -151,6 +145,11 @@
 				id = $("#insuranceId").val();
 			}
 	
+			if (routeId == null || routeId == "")
+			{
+				routeId = $("#rId").val();
+			}
+			
 			$.ajax({  
 	            url: '/SelfSupportRouteInsuranceManagement/addInsuranceManagement',  
 	            dataType: 'json', 
@@ -158,7 +157,8 @@
 	            success: function (data) {
 	            	if(data.success){
 	            		alert(data.msg);
-	            		$('#dg').datagrid('reload');
+	            		var newurl = "/SelfSupportRouteInsuranceManagement/findList?routeId="+routeId;
+	            		$('#dgRouteInsurance').datagrid('reload',newurl);
 	            	}else{
 	            		alert(data.errorMsg);
 	            	}
@@ -176,7 +176,7 @@
 	            success: function (data) {
 	            	if(data.success){
 	            		alert(data.msg);
-	            		$('#dg').datagrid('reload');
+	            		$('#dgRouteInsurance').datagrid('reload');
 	            	}else{
 	            		alert(data.errorMsg);
 	            	}
@@ -195,7 +195,7 @@
 	            success: function (data) {
 	            	//单条保险详情
 	            	var im = data.rows[0];
-	            	$('#dlg').dialog({
+	            	$('#dlgRouteIM').dialog({
 	        			title : '详情',
 	        			closed : false,
 	        			onOpen : function() {
