@@ -1,7 +1,8 @@
 package org.honor.tourism.service;
 
-import java.util.List;
 
+
+import org.honor.tourism.entity.RouteDay;
 import org.honor.tourism.entity.RouteTrip;
 
 /**
@@ -10,6 +11,6 @@ import org.honor.tourism.entity.RouteTrip;
  */
 public interface RouteTripService  {
 	
-	public void saveRouteTrip(List<RouteTrip> routeTrips, String routeId);
+	public void saveRouteTrip(RouteTrip routeTrip,RouteDay routeDay, String routeId);
 	
 }
