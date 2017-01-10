@@ -28,8 +28,7 @@ form td{
     <table id="tt" class="easyui-datagrid" style="width:100%;height:440px"
             toolbar="#toolbar" pagination="true" remoteSort="false" singleSelect="true" 
           		nowrap="false" fitColumns="true"  >
-    </table> 
-    
+    </table>
       
     <div id="toolbar">
         <div>
@@ -113,9 +112,8 @@ form td{
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')" style="width:90px">取消</a>
     </div>
     </div>
-    
     <script type="text/javascript">
-    
+    /*<![CDATA[*/
     $('#tt').datagrid({
 		url:'/OtherTypeManage/datagrid_data',
 		columns:[[
@@ -144,23 +142,25 @@ form td{
 		view: detailview,
 		detailFormatter: function(rowIndex, rowData){
 			
-			alert(rowIndex);
-	
-			return  '<table id="dg11" class="easyui-datagrid" style="width:100%;height:auto" toolbar="#toolbar"  singleSelect="true">' +
-							'</table>';
+			var htmlStr = "";
+			htmlStr += "<table id=\""+rowIndex+"\" style=\"height:440px\" class='easyui-datagrid' data-options=\"url:'\/OtherTypeManage\/datagrid_data'\">";
+			htmlStr += "<thead><tr>";
+			htmlStr += "<th data-options=\"field:'itemid',width:100\">编码</th>";  
+			htmlStr += "</tr></thead></table>";  
+			
+			return htmlStr;
+		},
+		onExpandRow:function(index,row)
+		{
+	    	$('#'+index).datagrid({
+	        	columns:[[
+	        				{field:'itemid',title:'行程标题',width:50,align:'center'}
+	        			]]
+	        });
 		}
 	});
     
     
-    $('#dg11').datagrid({
-		url:'/OtherTypeManage/datagrid_data',
-		columns:[[
-			{field:'itemid',title:'行程标题',width:50,align:'center'},
-			{field:'productid',title:'行程详细',width:50,align:'center'},
-			{field:'listprice',title:'早餐',width:50,align:'center'},
-			{field:'unitcost',title:'午餐',width:50,align:'center'}
-		]]
-	});
     
 	/*  	
         var url;
@@ -233,6 +233,7 @@ form td{
             }
         }
       */  
+      /*]]>*/
     </script>
 </body>
 </html>
