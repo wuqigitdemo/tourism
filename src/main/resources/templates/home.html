@@ -93,16 +93,21 @@
 				addPanel(node.text, node.id);
 			}
 		});
-		var index = 0;
-		var tab = $('#tt').tabs('getSelected');
-		if (tab) {
-			index = $('#tt').tabs('getTabIndex', tab);
-		}
 		function addPanel(title, url) {
+			
 			if (url != null) {
-				index++;
+				//如果存在选项卡，选中并刷新
 				if($('#tt').tabs('exists',title)){
 					$('#tt').tabs("select",title);
+					var tab = $('#tt').tabs('getSelected');
+					
+					$('#tt').tabs('update', {
+						tab: tab,
+						options: {
+							content : '<div title="Iframe" data-options="closable:true" style="overflow: hidden; width: 100%;height: 100%;"> <iframe scrolling="yes" frameborder="0" src="'+url+'" style="width: 100%; height: 100%;"></iframe> </div>'
+						}
+					});
+					
 				}else{
 					$('#tt').tabs('add', {
 						title : title,
