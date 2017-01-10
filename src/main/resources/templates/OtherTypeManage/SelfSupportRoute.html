@@ -147,8 +147,8 @@ form td{
    	nowrap:false,
    	columns:[[
 		{field:'undefined',checkbox:true},
-		{field:'numbering',title:'线路编号',width:200},
-		{field:'routeName',title:'线路名称',width:100,
+		{field:'numbering',title:'线路编号',width:100},
+		{field:'routeName',title:'线路名称',width:150,
    			formatter: function(value,row,index){
    				if (row.routeBaseInfo != null){
    					return row.routeBaseInfo.routeName;
@@ -169,9 +169,18 @@ form td{
 		{field:'routeTripList',title:'天数',width:50,
    			formatter: function(value,row,index){
    				if (row.routeTripList != null) {
-   					return row.routeTripList.length;
+   					return row.routeTripList.length + "天";
    				} else {
-   	   				return 0;
+   	   				return "0天"; 
+   				}
+   			}
+		},
+		{field:'businessType',title:'经营类型',width:50,
+   			formatter: function(value,row,index){
+   				if (row.businessType == 'SELF_EMPLOYED') {
+   					return "自营";
+   				} else {
+   	   				return "供应商"; 
    				}
    			}
 		},
@@ -263,8 +272,8 @@ form td{
 	    // 删除该 form  
 	    document.body.removeChild(form1);
 	}
-   	
-    function destroyRoute(){
+
+   	function destroyRoute(){
         var row = $('#dg').datagrid('getSelections');
         var rowIDS = [];
        	row.forEach(function(value, index, array) {
@@ -294,7 +303,7 @@ form td{
             });
         }
     }
-   	
+
 /*]]>*/    //这句坚决不能删
 </script>
 </html>
