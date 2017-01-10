@@ -22,7 +22,7 @@ public class SelfSupportRouteRepositoryImpl {
 	public Page<SelfSupportRoute> findByRouteBaseInfoRouteNameOrRouteBaseInfoOutPlaceOrRouteBaseInfoDestinationOrRouteBaseInfoRouteTypeListTypeName(
 			String routeName, String outPlace, String destination, String typeName, Integer startDays, Integer endDays, Pageable pageable) {
 		StringBuffer jpql = new StringBuffer();
-		jpql.append("from SelfSupportRoute ssr where 1=1");// and size(ssr.routeTripList) > 1
+		jpql.append("from SelfSupportRoute ssr where 1=1");
 		if (routeName != null && !"".equals(routeName)) {
 			jpql.append("and ssr.routeBaseInfo.routeName like :routeName");
 		}
