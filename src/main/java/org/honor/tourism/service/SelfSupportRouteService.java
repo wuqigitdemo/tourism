@@ -34,5 +34,5 @@ public interface SelfSupportRouteService extends CrudService<SelfSupportRoute> {
 	 */
 	public Integer priceInventorieCount(String routeId);
 	
-	public Page<SelfSupportRoute> findByRouteBaseInfoRouteNameOrRouteBaseInfoOutPlaceOrRouteBaseInfoDestinationOrRouteBaseInfoRouteTypeListTypeName(String routeName, String outPlace, String destination, String typeName, Pageable pageable);
+	public Page<SelfSupportRoute> findByRouteBaseInfoRouteNameOrRouteBaseInfoOutPlaceOrRouteBaseInfoDestinationOrRouteBaseInfoRouteTypeListTypeName(String routeName, String outPlace, String destination, String typeName, Integer startDays, Integer endDays, Pageable pageable);
 }

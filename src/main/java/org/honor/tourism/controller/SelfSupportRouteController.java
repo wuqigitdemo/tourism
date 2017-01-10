@@ -69,9 +69,9 @@ public class SelfSupportRouteController extends CrudController<SelfSupportRoute>
 	
 	@RequestMapping("/findByPar")
 	@ResponseBody
-	public Map<String, Object> findByPar(String routeName, String outPlace, String destination, String typeName, EasyuiPage page) {
+	public Map<String, Object> findByPar(String routeName, String outPlace, String destination, String typeName, Integer startDays, Integer endDays, EasyuiPage page) {
 		Pageable pageable = new PageRequest(page.getPage(), page.getRows());
-		Page<SelfSupportRoute> pageList =  selfSupportRouteService.findByRouteBaseInfoRouteNameOrRouteBaseInfoOutPlaceOrRouteBaseInfoDestinationOrRouteBaseInfoRouteTypeListTypeName(routeName, outPlace, destination, typeName, pageable);
+		Page<SelfSupportRoute> pageList =  selfSupportRouteService.findByRouteBaseInfoRouteNameOrRouteBaseInfoOutPlaceOrRouteBaseInfoDestinationOrRouteBaseInfoRouteTypeListTypeName(routeName, outPlace, destination, typeName, startDays, endDays, pageable);
 		List<SelfSupportRoute> rows = pageList.getContent();
 		long total = pageList.getTotalElements();
 		return EasyuiResult.result(rows, total);

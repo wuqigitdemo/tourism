@@ -45,8 +45,8 @@ public class SelfSupportRouteServiceImpl extends CrudServiceImpl<SelfSupportRout
 	
 	@Override
 	public Page<SelfSupportRoute> findByRouteBaseInfoRouteNameOrRouteBaseInfoOutPlaceOrRouteBaseInfoDestinationOrRouteBaseInfoRouteTypeListTypeName(
-			String routeName, String outPlace, String destination, String typeName, Pageable pageable) {
-		return selfSupportRouteRepository.findByRouteBaseInfoRouteNameOrRouteBaseInfoOutPlaceOrRouteBaseInfoDestinationOrRouteBaseInfoRouteTypeListTypeName(routeName, outPlace, destination, typeName, pageable);
+			String routeName, String outPlace, String destination, String typeName, Integer startDays, Integer endDays, Pageable pageable) {
+		return selfSupportRouteRepository.findByRouteBaseInfoRouteNameOrRouteBaseInfoOutPlaceOrRouteBaseInfoDestinationOrRouteBaseInfoRouteTypeListTypeName(routeName, outPlace, destination, typeName, startDays, endDays, pageable);
 	}
 
 	/**

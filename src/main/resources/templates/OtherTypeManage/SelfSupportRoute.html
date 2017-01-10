@@ -46,7 +46,7 @@ form td{
 		        		</td>
 		                <td width="100"><font style="letter-spacing: 2em;">天</font>数：</td>
 		                <td colspan="2" style="text-align: left;">
-		                	<input name="fromDays" id="fromDays" value="" datatype="n1-10" size="3" type="text" />天 - <input name="endDays" id="endDays" value="" datatype="n1-10" size="3" type="text" />天
+		                	<input name="fromDays" id="startDays" value="" datatype="n1-10" size="3" type="text" />天 - <input name="endDays" id="endDays" value="" datatype="n1-10" size="3" type="text" />天
 		                </td>
 		        	</tr>
 		        	<tr>
@@ -71,7 +71,6 @@ form td{
     	
         <div>
         	<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="javascript:location.href='/OtherTypeManage/Tabs';">新增</a>
-	        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editRoute()">修改</a>
 	        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyRoute()">删除</a>
 	        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-search" plain="true" onclick="searchRoute()">查询</a>
         </div>
@@ -169,14 +168,18 @@ form td{
 		},
 		{field:'routeTripList',title:'天数',width:50,
    			formatter: function(value,row,index){
-   				return value.length+'天';
+   				if (row.routeTripList != null) {
+   					return row.routeTripList.length;
+   				} else {
+   	   				return 0;
+   				}
    			}
 		},
 		{field:'createDate',title:'创建时间',width:100},
 		{field:'updateDate',title:'最后更新时间',width:100},
 		{field:'operation',title:'操作',width:100,align:'center',
    			formatter: function(value,row,index){
-   				return "<a href=\"javascript:viewRoute('"+row.id+"');\">查看</a> <a href=\"javascript:updateRoute('"+row.id+"');\">修改</a> <a href=\"\">添加产<br />品</a> <a href=\"\">项目</a> <a href=\"\">预览</a>";
+   				return "<a href=\"javascript:viewRoute('"+row.id+"');\">查看</a> <a href=\"javascript:updateRoute('"+row.id+"');\">修改</a>";
    			}
 		}
        ]]
@@ -190,7 +193,9 @@ form td{
     			routeName: $("#routeName").val(),
     			outPlace: $("#outPlace").val(),
     			destination: $("#destination").val(),
-    			typeName: $("#typeName").val()
+    			typeName: $("#typeName").val(),
+    			startDays:$("#startDays").val(),
+    			endDays:$("#endDays").val()
     		}
     	});
     }

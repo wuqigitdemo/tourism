@@ -20,34 +20,83 @@ public class SelfSupportRouteRepositoryImpl {
 	private EntityManager em;
 
 	public Page<SelfSupportRoute> findByRouteBaseInfoRouteNameOrRouteBaseInfoOutPlaceOrRouteBaseInfoDestinationOrRouteBaseInfoRouteTypeListTypeName(
-			String routeName, String outPlace, String destination, String typeName, Pageable pageable) {
-		CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
-		CriteriaQuery<SelfSupportRoute> criteriaQuery = criteriaBuilder.createQuery(SelfSupportRoute.class);
-		Root<SelfSupportRoute> root = criteriaQuery.from(SelfSupportRoute.class);
-		criteriaQuery.select(root);
-		Predicate restrictions = criteriaBuilder.conjunction();
+			String routeName, String outPlace, String destination, String typeName, Integer startDays, Integer endDays, Pageable pageable) {
+		StringBuffer jpql = new StringBuffer();
+		jpql.append("from SelfSupportRoute ssr where 1=1");// and size(ssr.routeTripList) > 1
 		if (routeName != null && !"".equals(routeName)) {
-			restrictions = criteriaBuilder.and(restrictions,
-					criteriaBuilder.like(root.get("routeBaseInfo").get("routeName"), "%"+routeName+"%"));
+			jpql.append("and ssr.routeBaseInfo.routeName like :routeName");
 		}
 		if (outPlace != null && !"".equals(outPlace)) {
-			restrictions = criteriaBuilder.and(restrictions,
-					criteriaBuilder.like(root.get("routeBaseInfo").get("outPlace"), "%"+outPlace+"%"));
+			jpql.append("and ssr.routeBaseInfo.outPlace like :outPlace");
 		}
 		if (destination != null && !"".equals(destination)) {
-			restrictions = criteriaBuilder.and(restrictions,
-					criteriaBuilder.like(root.get("routeBaseInfo").get("destination"), "%"+destination+"%"));
+			jpql.append("and ssr.routeBaseInfo.destination like :destination");
 		}
 		if (typeName != null && !"".equals(typeName)) {
-			restrictions = criteriaBuilder.and(restrictions,
-					criteriaBuilder.like(root.get("routeBaseInfo").get("routeTypeList").get("typeName"), "%"+typeName+"%"));
+			jpql.append("and ssr.routeBaseInfo.routeTypeList.typeName like :typeName");
 		}
-		criteriaQuery.where(restrictions);
-		TypedQuery<SelfSupportRoute> tq = em.createQuery(criteriaQuery);
+		if (startDays != null) {
+			jpql.append("and size(ssr.routeTripList) >= :startDays");
+		}
+		if (endDays != null) {
+			jpql.append("and size(ssr.routeTripList) <= :endDays");
+		}
+		TypedQuery<SelfSupportRoute> tq = em.createQuery(jpql.toString(), SelfSupportRoute.class);
+		if (routeName != null && !"".equals(routeName)) {
+			tq.setParameter("routeName", "%" + routeName + "%");
+		}
+		if (outPlace != null && !"".equals(outPlace)) {
+			tq.setParameter("outPlace", "%" + outPlace + "%");
+		}
+		if (destination != null && !"".equals(destination)) {
+			tq.setParameter("destination", "%" + destination + "%");
+		}
+		if (typeName != null && !"".equals(typeName)) {
+			tq.setParameter("typeName", "%" + typeName + "%");
+		}
+		if (startDays != null) {
+			tq.setParameter("startDays", startDays);
+		}
+		if (endDays != null) {
+			tq.setParameter("endDays", endDays);
+		}
 		long total = tq.getResultList().size();
 		tq.setFirstResult(pageable.getPageNumber() * pageable.getPageSize());
 		tq.setMaxResults(pageable.getPageSize());
 		Page<SelfSupportRoute> page = new PageImpl<SelfSupportRoute>(tq.getResultList(), pageable, total);
 		return page;
 	}
+	
+//	public Page<SelfSupportRoute> findByRouteBaseInfoRouteNameOrRouteBaseInfoOutPlaceOrRouteBaseInfoDestinationOrRouteBaseInfoRouteTypeListTypeName(
+//			String routeName, String outPlace, String destination, String typeName, Pageable pageable) {
+//		CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+//		CriteriaQuery<SelfSupportRoute> criteriaQuery = criteriaBuilder.createQuery(SelfSupportRoute.class);
+//		Root<SelfSupportRoute> root = criteriaQuery.from(SelfSupportRoute.class);
+//		criteriaQuery.select(root);
+//		Predicate restrictions = criteriaBuilder.conjunction();
+//		if (routeName != null && !"".equals(routeName)) {
+//			restrictions = criteriaBuilder.and(restrictions,
+//					criteriaBuilder.like(root.get("routeBaseInfo").get("routeName"), "%"+routeName+"%"));
+//		}
+//		if (outPlace != null && !"".equals(outPlace)) {
+//			restrictions = criteriaBuilder.and(restrictions,
+//					criteriaBuilder.like(root.get("routeBaseInfo").get("outPlace"), "%"+outPlace+"%"));
+//		}
+//		if (destination != null && !"".equals(destination)) {
+//			restrictions = criteriaBuilder.and(restrictions,
+//					criteriaBuilder.like(root.get("routeBaseInfo").get("destination"), "%"+destination+"%"));
+//		}
+//		if (typeName != null && !"".equals(typeName)) {
+//			restrictions = criteriaBuilder.and(restrictions,
+//					criteriaBuilder.like(root.get("routeBaseInfo").get("routeTypeList").get("typeName"), "%"+typeName+"%"));
+//		}
+//		criteriaQuery.where(restrictions);
+//		TypedQuery<SelfSupportRoute> tq = em.createQuery(criteriaQuery);
+//		long total = tq.getResultList().size();
+//		tq.setFirstResult(pageable.getPageNumber() * pageable.getPageSize());
+//		tq.setMaxResults(pageable.getPageSize());
+//		Page<SelfSupportRoute> page = new PageImpl<SelfSupportRoute>(tq.getResultList(), pageable, total);
+//		return page;
+//	}
+	
 }

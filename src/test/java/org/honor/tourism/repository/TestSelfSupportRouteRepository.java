@@ -1,11 +1,13 @@
 package org.honor.tourism.repository;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.*;
 import org.honor.tourism.Application;
 import org.honor.tourism.entity.RouteBaseInfo;
+import org.honor.tourism.entity.RouteTrip;
 import org.honor.tourism.entity.SelfSupportRoute;
 import org.honor.tourism.service.RouteBaseInfoService;
 import org.junit.Test;
@@ -30,14 +32,23 @@ public class TestSelfSupportRouteRepository {
 	
 //	@Test
 	public void testSave() {
+		List<RouteTrip> routeTripList = new ArrayList<>();
+		RouteTrip routeTrip = new RouteTrip();
+		routeTrip.setTripTitle("测试行程123");
+		RouteTrip routeTrip2 = new RouteTrip();
+		routeTrip2.setTripTitle("测试行程456");
+		routeTripList.add(routeTrip);
+		routeTripList.add(routeTrip2);
+		
 		RouteBaseInfo routeBaseInfo = new RouteBaseInfo();
-		routeBaseInfo.setRouteName("测试基础名称3");
+		routeBaseInfo.setRouteName("行程信息测试");
 		routeBaseInfo.setOutPlace("哈尔滨2");
 //		routeBaseInfoService.save(routeBaseInfo);
 		SelfSupportRoute selfSupportRoute = new SelfSupportRoute();
 		selfSupportRoute.setCreateDate(new Date());
 		selfSupportRoute.setUpdateDate(new Date());
 		selfSupportRoute.setRouteBaseInfo(routeBaseInfo);
+		selfSupportRoute.setRouteTripList(routeTripList);
 		SelfSupportRoute selfSupportRouteReturn = repository.save(selfSupportRoute);
 		assertNotNull(selfSupportRouteReturn);
 	}
@@ -45,11 +56,11 @@ public class TestSelfSupportRouteRepository {
 	@Test
 	public void testFindByRouteBaseInfoRouteName() {
 		Pageable pageable = new PageRequest(0, 5);
-		Page<SelfSupportRoute> page = repository.findByRouteBaseInfoRouteNameOrRouteBaseInfoOutPlaceOrRouteBaseInfoDestinationOrRouteBaseInfoRouteTypeListTypeName("", "","", "", pageable);
+		Page<SelfSupportRoute> page = repository.findByRouteBaseInfoRouteNameOrRouteBaseInfoOutPlaceOrRouteBaseInfoDestinationOrRouteBaseInfoRouteTypeListTypeName(null, null,null, null, 0, 100, pageable);
 		List<SelfSupportRoute> list = page.getContent();
 		System.out.println("总数2：" + page.getTotalElements());
 		for (SelfSupportRoute selfSupportRoute : list) {
-			System.out.println(selfSupportRoute.getRouteBaseInfo().getRouteName());
+			System.out.println("行程大小：" + selfSupportRoute.getRouteBaseInfo().getRouteName());
 		}
 	}
 	
