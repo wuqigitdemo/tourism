@@ -7,7 +7,7 @@ var detailview = $.extend({}, $.fn.datagrid.defaults.view, {
 				return;
 			}
 		}
-		
+		 
 		var rows = state.data.rows;
 		var fields = $(target).datagrid('getColumnFields', frozen);
 		var table = [];
