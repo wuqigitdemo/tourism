@@ -31,18 +31,18 @@ form td{
       
     <div id="toolbar">
     	<div>
-	    	<form id="dataForm" action="">
+	    	<form id="dataForm" action="/SelfSupportRoute/findByPar">
 				<table style="width:100%;">
 		        	<tr>
 		        		<td width="100">线路名称：</td>
 		        		<td colspan="4" style="text-align: left;">
-		        			<input name="routeBaseInfo.routeName" id="routeName" style="width: 80%;" type="text" />
+		        			<input name="routeName" id="routeName" style="width: 80%;" type="text" />
 		        		</td>
 		        	</tr>
 		        	<tr>
 		        		<td width="100"><font style="letter-spacing: 0.5em;">出</font><font style="letter-spacing: 0.5em;">发</font>地：</td>
 		        		<td colspan="2" style="text-align: left;width:40%;">
-		        			<input name="routeBaseInfo.outplace" id="outPlace" value="" type="text" />
+		        			<input name="outPlace" id="outPlace" value="" type="text" />
 		        		</td>
 		                <td width="100"><font style="letter-spacing: 2em;">天</font>数：</td>
 		                <td colspan="2" style="text-align: left;">
@@ -52,7 +52,7 @@ form td{
 		        	<tr>
 		        		<td width="100">游览地：</td>
 		        		<td colspan="4" style="text-align: left;">
-		        			<input name="routeBaseInfo.destination" id="destination" style="width: 80%;" type="text" />
+		        			<input name="destination" id="destination" style="width: 80%;" type="text" />
 		        		</td>
 		        	</tr>
 		        	<tr>
@@ -144,7 +144,7 @@ form td{
        });
  	
    	$('#dg').datagrid({
-   	url:'/SelfSupportRoute/findAll',
+   	url:'/SelfSupportRoute/findByPar',
    	nowrap:false,
    	columns:[[
 		{field:'undefined',checkbox:true},
@@ -185,7 +185,14 @@ form td{
    	//查询
     function searchRoute()
     {
-    	$('#dataForm').submit();
+    	$('#dg').datagrid({
+    		queryParams: {
+    			routeName: $("#routeName").val(),
+    			outPlace: $("#outPlace").val(),
+    			destination: $("#destination").val(),
+    			typeName: $("#typeName").val()
+    		}
+    	});
     }
    
    	//查看线路信息

@@ -28,19 +28,19 @@ public class SelfSupportRouteRepositoryImpl {
 		Predicate restrictions = criteriaBuilder.conjunction();
 		if (routeName != null && !"".equals(routeName)) {
 			restrictions = criteriaBuilder.and(restrictions,
-					criteriaBuilder.equal(root.get("routeBaseInfo").get("routeName"), routeName));
+					criteriaBuilder.like(root.get("routeBaseInfo").get("routeName"), "%"+routeName+"%"));
 		}
 		if (outPlace != null && !"".equals(outPlace)) {
 			restrictions = criteriaBuilder.and(restrictions,
-					criteriaBuilder.equal(root.get("routeBaseInfo").get("outPlace"), outPlace));
+					criteriaBuilder.like(root.get("routeBaseInfo").get("outPlace"), "%"+outPlace+"%"));
 		}
 		if (destination != null && !"".equals(destination)) {
 			restrictions = criteriaBuilder.and(restrictions,
-					criteriaBuilder.equal(root.get("routeBaseInfo").get("destination"), destination));
+					criteriaBuilder.like(root.get("routeBaseInfo").get("destination"), "%"+destination+"%"));
 		}
 		if (typeName != null && !"".equals(typeName)) {
 			restrictions = criteriaBuilder.and(restrictions,
-					criteriaBuilder.equal(root.get("routeBaseInfo").get("routeTypeList").get("typeName"), typeName));
+					criteriaBuilder.like(root.get("routeBaseInfo").get("routeTypeList").get("typeName"), "%"+typeName+"%"));
 		}
 		criteriaQuery.where(restrictions);
 		TypedQuery<SelfSupportRoute> tq = em.createQuery(criteriaQuery);
