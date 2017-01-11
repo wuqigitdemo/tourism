@@ -16,6 +16,8 @@ public interface RouteBaseInfoService {
 	
 	public SelfSupportRoute save(RouteBaseInfo routeBaseInfo);
 	
+	public RouteBaseInfo update(RouteBaseInfo routeBaseInfo);
+	
 	public void delete(String id);
 	
 

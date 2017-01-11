@@ -44,4 +44,9 @@ public class RouteBaseInfoServiceImpl implements RouteBaseInfoService {
 		repository.delete(id);
 	}
 
+	@Override
+	public RouteBaseInfo update(RouteBaseInfo routeBaseInfo) {
+		return repository.save(routeBaseInfo);
+	}
+
 }

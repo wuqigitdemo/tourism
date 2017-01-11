@@ -78,6 +78,25 @@ public class RouteBaseInfoController {
 		return EasyuiResult.result(rows, total);
 	}
 	
+	
+	
+	/**
+	 * 编辑
+	 * @return
+	 */
+	@RequestMapping("/update")
+	@ResponseBody
+	public Map<String, Object> update(@Valid RouteBaseInfo routeBaseInfo, BindingResult result) {
+		if (result.hasErrors()) {//数据交验
+			return EasyuiResult.result(result);
+		}
+		RouteBaseInfo returnRouteBaseInfo = service.update(routeBaseInfo);
+		if (returnRouteBaseInfo == null) {
+			EasyuiResult.result(false, "保存失败");
+		}
+		return EasyuiResult.result(true);
+	}
+	
 	/**
 	 * 新增和修改自营线路信息
 	 * @return
@@ -162,7 +181,7 @@ public class RouteBaseInfoController {
 	}
 	
 	/**
-	 * 图片上传1
+	 * 图片上传
 	 * @param page
 	 * @return
 	 */

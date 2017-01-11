@@ -22,15 +22,15 @@ public class MyWebAppConfigurer extends WebMvcConfigurerAdapter {
 		registry.addViewController("/welcome").setViewName("welcome");
 		registry.addViewController("/OtherTypeManage/TourismTheme").setViewName("OtherTypeManage/TourismTheme");
 		registry.addViewController("/OtherTypeManage/TrafficWayManage").setViewName("OtherTypeManage/TrafficWayManage");
-		registry.addViewController("/OtherTypeManage/RouteType").setViewName("OtherTypeManage/RouteType");
-		registry.addViewController("/OtherTypeManage/RouteCategory").setViewName("OtherTypeManage/RouteCategory");
-		registry.addViewController("/OtherTypeManage/InsuranceManagement").setViewName("OtherTypeManage/InsuranceManagement");
+		registry.addViewController("/ProductBusinessManage/RouteManage/RouteType").setViewName("ProductBusinessManage/RouteManage/RouteType");
+		registry.addViewController("/ProductBusinessManage/RouteManage/RouteCategory").setViewName("ProductBusinessManage/RouteManage/RouteCategory");
+		registry.addViewController("/ProductBusinessManage/RouteManage/InsuranceManagement").setViewName("ProductBusinessManage/RouteManage/InsuranceManagement");
 		registry.addViewController("/OtherTypeManage/InsuranceType").setViewName("OtherTypeManage/InsuranceType");
 		registry.addViewController("/ProductBusinessManage/RouteManage/SelfSupportRoute").setViewName("/ProductBusinessManage/RouteManage/SelfSupportRoute");
 		registry.addViewController("/OtherTypeManage/SelfSupportRouteOtherInfo").setViewName("OtherTypeManage/SelfSupportRouteOtherInfo");
 		registry.addViewController("/OtherTypeManage/VisaNationalsManage").setViewName("OtherTypeManage/VisaNationalsManage");
 		registry.addViewController("/OtherTypeManage/HotelCategoriesManage").setViewName("OtherTypeManage/HotelCategoriesManage");
-		registry.addViewController("/OtherTypeManage/RouteBaseInfo").setViewName("OtherTypeManage/RouteBaseInfo");
+		registry.addViewController("/ProductBusinessManage/RouteManage/RouteBaseInfo").setViewName("ProductBusinessManage/RouteManage/RouteBaseInfo");
 		registry.addViewController("/ProductBusinessManage/RouteManage/SelfSupportRouteAdd").setViewName("/ProductBusinessManage/RouteManage/SelfSupportRouteAdd");
 		registry.addViewController("/ProductBusinessManage/RouteManage/SelfSupportRouteUpdate").setViewName("/ProductBusinessManage/RouteManage/SelfSupportRouteUpdate");
 		registry.addViewController("/OtherTypeManage/DiningType").setViewName("OtherTypeManage/DiningType");
@@ -40,10 +40,10 @@ public class MyWebAppConfigurer extends WebMvcConfigurerAdapter {
 		registry.addViewController("/ProductBusinessManage/RouteManage/OtherInfo").setViewName("ProductBusinessManage/RouteManage/OtherInfo");
 		registry.addViewController("/ProductBusinessManage/RouteManage/RouteInsurance").setViewName("ProductBusinessManage/RouteManage/RouteInsurance");
 		registry.addViewController("/ProductBusinessManage/RouteManage/PriceInventoryUpdate").setViewName("ProductBusinessManage/RouteManage/PriceInventoryUpdate");
-		registry.addViewController("/OtherTypeManage/RouteBaseInfoUpdate").setViewName("OtherTypeManage/RouteBaseInfoUpdate");
+		registry.addViewController("/ProductBusinessManage/RouteManage/RouteBaseInfoUpdate").setViewName("ProductBusinessManage/RouteManage/RouteBaseInfoUpdate");
 		registry.addViewController("/ProductBusinessManage/RouteManage/PriceInventoryView").setViewName("ProductBusinessManage/RouteManage/PriceInventoryView");
 		registry.addViewController("/ProductBusinessManage/RouteManage/OtherInfoView").setViewName("ProductBusinessManage/RouteManage/OtherInfoView");
-		registry.addViewController("/OtherTypeManage/RouteBaseInfoView").setViewName("OtherTypeManage/RouteBaseInfoView");
+		registry.addViewController("/ProductBusinessManage/RouteManage/RouteBaseInfoView").setViewName("ProductBusinessManage/RouteManage/RouteBaseInfoView");
 		registry.addViewController("/OtherTypeManage/datagrid_data").setViewName("OtherTypeManage/datagrid_data");
 	}
 
