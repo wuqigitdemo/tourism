@@ -72,16 +72,6 @@ public class PriceInventoryServiceImpl extends CrudServiceImpl<PriceInventory> i
 		
 		List<PriceInventory> priceInventoriesTemp = selfSupportRoute.getPriceInventory();
 		
-//		for (PriceInventory priceInventoryTemp : priceInventoriesTemp) {
-//			for (PriceInventory priceInventory : priceInventorys) {
-//				if (priceInventoryTemp.getId().equals(priceInventory.getId())) {
-//					//将库存从线路库存数组中移除
-//					priceInventoriesTemp.remove(priceInventoryTemp);
-//					break;
-//				}
-//			}
-//		}
-		
 		for (int i = 0; i < priceInventoriesTemp.size(); i++) 
 		{
 			PriceInventory priceInventoryTemp = priceInventoriesTemp.get(i);
