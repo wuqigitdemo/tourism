@@ -560,6 +560,11 @@
         	$('#myform').form('submit',{
                 url: '/RouteBaseInfo/save',
                 onSubmit: function(){
+                	//启用选项卡
+                	enableTab(1);
+                	enableTab(2);
+                	enableTab(3);
+                	enableTab(4);
                 	fileUpload1();
                 	fileUpload2();
                     return $(this).form('validate');
@@ -584,7 +589,13 @@
             });
         }
         
-        
+        $(function(){
+	        //四个选项卡禁用
+	        disableTab(1);
+	        disableTab(2);
+	        disableTab(3);
+	        disableTab(4);
+        });
         /*]]>*/
     </script>
    </body>
