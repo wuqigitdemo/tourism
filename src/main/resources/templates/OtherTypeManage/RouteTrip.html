@@ -143,9 +143,12 @@ form td{
 		detailFormatter: function(rowIndex, rowData){
 			
 			var htmlStr = "";
-			htmlStr += "<table id=\""+rowIndex+"\" style=\"height:440px\" class='easyui-datagrid' data-options=\"url:'\/OtherTypeManage\/datagrid_data'\">";
+			htmlStr += "<table id=\""+rowIndex+"\" style=\"width:100%;height:auto\" class='easyui-datagrid' data-options=\"url:'\/OtherTypeManage\/datagrid_data'\">";
 			htmlStr += "<thead><tr>";
-			htmlStr += "<th data-options=\"field:'itemid',width:100\">编码</th>";  
+			htmlStr += "<th data-options=\"field:'itemid',width:100\">选择时间</th>";  
+			htmlStr += "<th data-options=\"field:'productid',width:100\">日程简单说明</th>";
+			htmlStr += "<th data-options=\"field:'listprice',width:100\">日程详细说明</th>";
+			htmlStr += "<th data-options=\"field:'attr11',width:100\">日程图片</th>";
 			htmlStr += "</tr></thead></table>";  
 			
 			return htmlStr;
@@ -154,7 +157,14 @@ form td{
 		{
 	    	$('#'+index).datagrid({
 	        	columns:[[
-	        				{field:'itemid',title:'行程标题',width:50,align:'center'}
+	        				{field:'itemid',title:'行程标题',width:250,align:'center'},
+	        				{field:'productid',title:'日程简单说明',width:250,align:'center'},
+	        				{field:'listprice',title:'日程详细说明',width:300,align:'center'},
+	        				{field:'attr11',title:'日程图片',width:250,align:'center',
+	        					formatter: function(value,row,index){
+	        	    				return '<a href="javascript:newRouteDay();">日程图片详情</a>';
+	        	    			}
+	        				}
 	        			]]
 	        });
 		}
@@ -162,7 +172,7 @@ form td{
     
     
     
-	/*  	
+
         var url;
         function newRouteTrip(){
             $('#dlg').dialog('open').dialog('center').dialog('setTitle','新增行程');
@@ -232,7 +242,6 @@ form td{
                 });
             }
         }
-      */  
       /*]]>*/
     </script>
 </body>
