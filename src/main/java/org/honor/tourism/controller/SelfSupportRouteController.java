@@ -50,7 +50,7 @@ public class SelfSupportRouteController extends CrudController<SelfSupportRoute>
 		SelfSupportRoute selfSupportRoute = selfSupportRouteService.findRouteWithId(routeId);
 		
 		model.addAttribute("selfSupportRoute", selfSupportRoute);
-		return "/OtherTypeManage/Tabs";
+		return "/ProductBusinessManage/RouteManage/SelfSupportRouteUpdate";
 	}
 	
 	/**
@@ -65,7 +65,7 @@ public class SelfSupportRouteController extends CrudController<SelfSupportRoute>
 		SelfSupportRoute selfSupportRoute = selfSupportRouteService.findRouteWithId(routeId);
 		
 		model.addAttribute("selfSupportRoute", selfSupportRoute);
-		return "/OtherTypeManage/ViewRouteTabs";
+		return "/ProductBusinessManage/RouteManage/SelfSupportRouteView";
 	}
 	
 	@RequestMapping("/findByPar")
