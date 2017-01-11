@@ -37,12 +37,12 @@ public class MyWebAppConfigurer extends WebMvcConfigurerAdapter {
 		registry.addViewController("/OtherTypeManage/RouteTrip").setViewName("OtherTypeManage/RouteTrip");
 		registry.addViewController("/OtherTypeManage/PriceInventory").setViewName("OtherTypeManage/PriceInventory");
 		registry.addViewController("/OtherTypeManage/FileUpload").setViewName("OtherTypeManage/FileUpload");
-		registry.addViewController("/OtherTypeManage/OtherInfo").setViewName("OtherTypeManage/OtherInfo");
-		registry.addViewController("/OtherTypeManage/RouteInsurance").setViewName("OtherTypeManage/RouteInsurance");
-		registry.addViewController("/OtherTypeManage/PriceInventoryUpdate").setViewName("OtherTypeManage/PriceInventoryUpdate");
+		registry.addViewController("/ProductBusinessManage/RouteManage/OtherInfo").setViewName("ProductBusinessManage/RouteManage/OtherInfo");
+		registry.addViewController("/ProductBusinessManage/RouteManage/RouteInsurance").setViewName("ProductBusinessManage/RouteManage/RouteInsurance");
+		registry.addViewController("/ProductBusinessManage/RouteManage/PriceInventoryUpdate").setViewName("ProductBusinessManage/RouteManage/PriceInventoryUpdate");
 		registry.addViewController("/OtherTypeManage/RouteBaseInfoUpdate").setViewName("OtherTypeManage/RouteBaseInfoUpdate");
-		registry.addViewController("/OtherTypeManage/PriceInventoryView").setViewName("OtherTypeManage/PriceInventoryView");
-		registry.addViewController("/OtherTypeManage/OtherInfoView").setViewName("OtherTypeManage/OtherInfoView");
+		registry.addViewController("/ProductBusinessManage/RouteManage/PriceInventoryView").setViewName("ProductBusinessManage/RouteManage/PriceInventoryView");
+		registry.addViewController("/ProductBusinessManage/RouteManage/OtherInfoView").setViewName("ProductBusinessManage/RouteManage/OtherInfoView");
 		registry.addViewController("/OtherTypeManage/RouteBaseInfoView").setViewName("OtherTypeManage/RouteBaseInfoView");
 		registry.addViewController("/OtherTypeManage/datagrid_data").setViewName("OtherTypeManage/datagrid_data");
 	}
