@@ -24,22 +24,22 @@ public class SelfSupportRouteRepositoryImpl {
 		StringBuffer jpql = new StringBuffer();
 		jpql.append("from SelfSupportRoute ssr where 1=1");
 		if (routeName != null && !"".equals(routeName)) {
-			jpql.append("and ssr.routeBaseInfo.routeName like :routeName");
+			jpql.append(" and ssr.routeBaseInfo.routeName like :routeName");
 		}
 		if (outPlace != null && !"".equals(outPlace)) {
-			jpql.append("and ssr.routeBaseInfo.outPlace like :outPlace");
+			jpql.append(" and ssr.routeBaseInfo.outPlace like :outPlace");
 		}
 		if (destination != null && !"".equals(destination)) {
-			jpql.append("and ssr.routeBaseInfo.destination like :destination");
+			jpql.append(" and ssr.routeBaseInfo.destination like :destination");
 		}
 		if (typeName != null && !"".equals(typeName)) {
-			jpql.append("and ssr.routeBaseInfo.routeTypeList.typeName like :typeName");
+			jpql.append(" and ssr.routeBaseInfo.routeTypeList.typeName like :typeName");
 		}
 		if (startDays != null) {
-			jpql.append("and size(ssr.routeTripList) >= :startDays");
+			jpql.append(" and size(ssr.routeTripList) >= :startDays");
 		}
 		if (endDays != null) {
-			jpql.append("and size(ssr.routeTripList) <= :endDays");
+			jpql.append(" and size(ssr.routeTripList) <= :endDays");
 		}
 		TypedQuery<SelfSupportRoute> tq = em.createQuery(jpql.toString(), SelfSupportRoute.class);
 		if (routeName != null && !"".equals(routeName)) {
