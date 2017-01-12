@@ -42,6 +42,7 @@ public class SelfSupportRoute {
 	@JoinColumn(name="selfSupportRouteId")
 	private List<RouteTrip> routeTripList;
 	@OneToMany(cascade = { CascadeType.ALL })
+	@JoinColumn(name="selfSupportRouteId")
 	private List<PriceInventory> priceInventory;
 	@OneToOne(cascade = { CascadeType.ALL })
 	private SelfSupportRouteOtherInfo selfSupportRouteOtherInfo;

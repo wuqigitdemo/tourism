@@ -7,6 +7,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -41,6 +42,7 @@ public class RouteDay {
 	private String detailednessExplain;
 	/** 日程图片 */
 	@OneToMany(cascade={CascadeType.ALL})
+	@JoinColumn(name="routeDayId")
 	private List<ImageAddress> routeDayImageAddress;
 
 	public String getId() {

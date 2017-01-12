@@ -28,7 +28,7 @@ public class TestSelfSupportRouteRepository {
 	@Autowired
 	private SelfSupportRouteRepository repository;
 	@Autowired
-	private RouteBaseInfoService routeBaseInfoService;
+	private RouteTripRepository routeTripRepository;
 	
    @Test
 	public void testSave() {
@@ -81,6 +81,7 @@ public class TestSelfSupportRouteRepository {
 	@Test
 	public void testDelete1() {
 		String id = "402882a6599073f70159907406440003";
+		routeTripRepository.delete(id);
 	}
 	
 }
