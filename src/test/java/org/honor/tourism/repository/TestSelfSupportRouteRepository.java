@@ -30,7 +30,7 @@ public class TestSelfSupportRouteRepository {
 	@Autowired
 	private RouteBaseInfoService routeBaseInfoService;
 	
-//	@Test
+   @Test
 	public void testSave() {
 		List<RouteTrip> routeTripList = new ArrayList<>();
 		RouteTrip routeTrip = new RouteTrip();
@@ -53,7 +53,7 @@ public class TestSelfSupportRouteRepository {
 		assertNotNull(selfSupportRouteReturn);
 	}
 	
-	@Test
+	//@Test
 	public void testFindByRouteBaseInfoRouteName() {
 		Pageable pageable = new PageRequest(0, 5);
 		Page<SelfSupportRoute> page = repository.findByRouteBaseInfoRouteNameOrRouteBaseInfoOutPlaceOrRouteBaseInfoDestinationOrRouteBaseInfoRouteTypeListTypeName(null, null,null, null, 0, 100, pageable);
