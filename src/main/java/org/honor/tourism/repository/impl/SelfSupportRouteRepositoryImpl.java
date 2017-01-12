@@ -1,7 +1,14 @@
 package org.honor.tourism.repository.impl;
 
+import static org.junit.Assert.assertNotNull;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -9,6 +16,8 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.honor.tourism.entity.PriceInventory;
+import org.honor.tourism.entity.RouteBaseInfo;
+import org.honor.tourism.entity.RouteTrip;
 import org.honor.tourism.entity.SelfSupportRoute;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -97,6 +106,17 @@ public class SelfSupportRouteRepositoryImpl {
 //		tq.setMaxResults(pageable.getPageSize());
 //		Page<SelfSupportRoute> page = new PageImpl<SelfSupportRoute>(tq.getResultList(), pageable, total);
 //		return page;
+//	}
+	
+//	public void deletBy(String id) {
+//		Query query = em.createQuery("delete from SelfSupportRoute ssr where ssr.id = :id", SelfSupportRoute.class);
+//		query.setParameter("id", id);
+//		query.executeUpdate();
+////		SelfSupportRoute selfSupportRoute = em.find(SelfSupportRoute.class, id);
+////		em.remove(selfSupportRoute);
+////		System.out.println("shanchu**(((" + selfSupportRoute.getCreateDate());
+////		em.flush();
+////		em.refresh(selfSupportRoute);
 //	}
 	
 }

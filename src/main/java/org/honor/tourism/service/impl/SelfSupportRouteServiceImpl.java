@@ -14,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 /**
@@ -93,6 +94,12 @@ public class SelfSupportRouteServiceImpl extends CrudServiceImpl<SelfSupportRout
 	
 	public void delete(List<SelfSupportRoute> ids) {
 		selfSupportRouteRepository.delete(ids);
+	}
+	
+	@Transactional
+	public Long deleteByRouteBaseInfoRouteName(String routeName) {
+		selfSupportRouteRepository.deleteBy("abcddddd", routeName);
+		return  1l;
 	}
 	
 }
