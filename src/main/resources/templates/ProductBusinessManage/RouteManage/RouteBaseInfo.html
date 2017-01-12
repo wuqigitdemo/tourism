@@ -42,7 +42,7 @@
 		<tr>
 			<td style="font-size: 16px; text-align: center;">线路名称：</td>
 			<td colspan="4" style="text-align: left;">
-			<input id="routeName" name="routeName" value="" style="width:100%;" class="easyui-validatebox tb" data-options="required:true,validType:['charts','length[2,25]']"/>
+			<input id="routeName" name="routeName" value="" style="width:50%;" class="easyui-validatebox tb" data-options="required:true,validType:['charts','length[2,25]']"/>
 			</td>
 		</tr>
 		<tr>
@@ -144,18 +144,7 @@
 			 </div>
 			</td>
 		</tr>
-		<tr>
-			<td style="font-size: 16px; text-align: center;">旅游主题:</td>
-			<td>
-			<a  class="easyui-linkbutton" plain="true" onclick="tourismTheme()">选择主题</a>
-			</td>
-			<td>
-			<div>
-			<input type="hidden" id="tourismTheme" name="tourismTheme" value="" ></input>	
-			<input type="text" id="tourismTheme1" name="tourismTheme1" value="" readonly="value" class="easyui-validatebox tb" data-options="required:true"></input>	
-			</div> 
-			</td>
-		</tr>
+		
 		
 		<tr>
 			<td style="font-size: 16px; text-align: center;">线路列表简图：<br/>建议尺寸-宽1500*高200</td>
@@ -179,6 +168,19 @@
             	</div>
         </form>
         		<input type="hidden" id="routeDiagram" name="routeDiagram" value="" ></input>
+			</td>
+		</tr>
+		
+		<tr>
+			<td style="font-size: 16px; text-align: center;">旅游主题:</td>
+			<td>
+			<a  class="easyui-linkbutton" plain="true" onclick="tourismTheme()">选择主题</a>
+			</td>
+			<td>
+			<div>
+			<input type="hidden" id="tourismTheme" name="tourismTheme" value="" ></input>	
+			<input type="text" id="tourismTheme1" name="tourismTheme1" value="" readonly="value" class="easyui-validatebox tb" data-options="required:true"></input>	
+			</div> 
 			</td>
 		</tr>
 		
@@ -396,6 +398,7 @@
 		}
 		function getInfo4(){
 			check_val = [];
+			check_name = [];
 			 $.ajax({  
 	            	type: "POST", 
 	            	url: '/RouteBaseInfo/selectTourismTheme',  
@@ -404,14 +407,19 @@
 		            success: function (data) {
 	        	        	　　 for(var i=0;i<data.length;i++){
 	        	        		obj = document.getElementsByName(data[i].themeName);
-		        	     		   for (var j = 0; j < obj.length; j++) {
+		        	     		    for (var j in obj) {
 		        	     			 if (obj[j].checked) {
-		        	     				check_val.push(obj[j]);
-									}  
+		        	     				check_val.push(obj[j].id);
+									}
+		        	     		}
+		        	     			for (var h in obj) {
+		        	     				if (obj[h].checked) {
+			        	     			check_name.push(obj[h].value);
+										}  
 								} 	
 	        	        	  }
-	        	     		 $("#tourismTheme").val(check_val[0].id);
-	        	     		 $("#tourismTheme1").val(check_val[0].value);
+	        	     		 $("#tourismTheme").val(check_val);
+	        	     		 $("#tourismTheme1").val(check_name);
 		           		 }
 		        		});
 		  					 $('#dlg4').dialog('close');
@@ -560,6 +568,11 @@
         	$('#myform').form('submit',{
                 url: '/RouteBaseInfo/save',
                 onSubmit: function(){
+                	//启用选项卡
+                	enableTab(1);
+                	enableTab(2);
+                	enableTab(3);
+                	enableTab(4);
                 	fileUpload1();
                 	fileUpload2();
                     return $(this).form('validate');
@@ -584,7 +597,13 @@
             });
         }
         
-        
+        $(function(){
+	        //四个选项卡禁用
+	        disableTab(1);
+	        disableTab(2);
+	        disableTab(3);
+	        disableTab(4);
+        });
         /*]]>*/
     </script>
    </body>
