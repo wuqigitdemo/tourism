@@ -81,6 +81,7 @@ public class PriceInventoryServiceImpl extends CrudServiceImpl<PriceInventory> i
 				if (priceInventoryTemp.getId().equals(priceInventory.getId())) {
 					//将库存从线路库存数组中移除
 					priceInventoriesTemp.remove(priceInventoryTemp);
+					priceInventoryRepository.delete(priceInventoryTemp);
 					i--;
 					break;
 				}
