@@ -30,7 +30,7 @@ public class TestSelfSupportRouteRepository {
 	@Autowired
 	private RouteBaseInfoService routeBaseInfoService;
 	
-//	@Test
+   @Test
 	public void testSave() {
 		List<RouteTrip> routeTripList = new ArrayList<>();
 		RouteTrip routeTrip = new RouteTrip();
@@ -53,7 +53,7 @@ public class TestSelfSupportRouteRepository {
 		assertNotNull(selfSupportRouteReturn);
 	}
 	
-	@Test
+	//@Test
 	public void testFindByRouteBaseInfoRouteName() {
 		Pageable pageable = new PageRequest(0, 5);
 		Page<SelfSupportRoute> page = repository.findByRouteBaseInfoRouteNameOrRouteBaseInfoOutPlaceOrRouteBaseInfoDestinationOrRouteBaseInfoRouteTypeListTypeName(null, null,null, null, 0, 100, pageable);
@@ -62,6 +62,25 @@ public class TestSelfSupportRouteRepository {
 		for (SelfSupportRoute selfSupportRoute : list) {
 			System.out.println("行程大小：" + selfSupportRoute.getRouteBaseInfo().getRouteName());
 		}
+	}
+	
+	@Test
+	public void testDelete() {
+		SelfSupportRoute selfSupportRoute = repository.findOne("402882a6599073f70159907406200000");
+		if(selfSupportRoute != null) {
+			List<RouteTrip> list = selfSupportRoute.getRouteTripList();
+			for (RouteTrip routeTrip : list) {
+				System.out.println("xingcheng:" + routeTrip.getId());
+				System.out.println("xingcheng:" + routeTrip.getTripTitle());
+			}
+		}
+		System.out.println("执行");
+		
+	}
+	
+	@Test
+	public void testDelete1() {
+		String id = "402882a6599073f70159907406440003";
 	}
 	
 }

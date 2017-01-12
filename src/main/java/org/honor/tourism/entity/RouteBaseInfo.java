@@ -52,8 +52,8 @@ public class RouteBaseInfo {
 	private String listRouteDiagram;
 	/** 路线简图 */
 	private String routeDiagram;
-	@ManyToOne
-	private TourismTheme tourismTheme;
+	@ManyToMany
+	private List<TourismTheme> tourismTheme;
 	/** 起价说明 */
 	@Length(min = 0, max = 100, message = "起价说明需要1-100位字符")
 	private String startPriceExplain;
@@ -75,6 +75,7 @@ public class RouteBaseInfo {
 	/** 付款方式 */
 	@Length(min = 0, max = 100, message = "付款方式需要1-100位字符")
 	private String paymentMethod;
+
 	public Integer getRestrictedPaymentDays() {
 		return restrictedPaymentDays;
 	}
@@ -179,11 +180,11 @@ public class RouteBaseInfo {
 		this.routeDiagram = routeDiagram;
 	}
 
-	public TourismTheme getTourismTheme() {
+	public List<TourismTheme> getTourismTheme() {
 		return tourismTheme;
 	}
 
-	public void setTourismTheme(TourismTheme tourismTheme) {
+	public void setTourismTheme(List<TourismTheme> tourismTheme) {
 		this.tourismTheme = tourismTheme;
 	}
 

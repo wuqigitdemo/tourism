@@ -5,8 +5,10 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -36,7 +38,8 @@ public class SelfSupportRoute {
 	private BusinessType businessType;
 	@OneToOne(cascade = { CascadeType.ALL })
 	private RouteBaseInfo routeBaseInfo;
-	@OneToMany(cascade = { CascadeType.ALL })
+	@OneToMany(cascade = { CascadeType.ALL }, fetch=FetchType.EAGER)
+	@JoinColumn(name="selfSupportRouteId")
 	private List<RouteTrip> routeTripList;
 	@OneToMany(cascade = { CascadeType.ALL })
 	private List<PriceInventory> priceInventory;

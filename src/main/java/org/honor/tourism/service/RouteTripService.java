@@ -2,8 +2,9 @@ package org.honor.tourism.service;
 
 
 
-import org.honor.tourism.entity.RouteDay;
 import org.honor.tourism.entity.RouteTrip;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 /**
  * 
@@ -11,6 +12,12 @@ import org.honor.tourism.entity.RouteTrip;
  */
 public interface RouteTripService  {
 	
-	public void saveRouteTrip(RouteTrip routeTrip,RouteDay routeDay, String routeId);
+	public Page<RouteTrip> findAll(Pageable pageable);
+	
+	public Long count();
+	
+	public RouteTrip saveRouteTrip(RouteTrip routeTrip, String routeId);
+	
+	public void delete(String id);
 	
 }
