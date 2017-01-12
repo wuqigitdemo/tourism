@@ -1,14 +1,14 @@
 package org.honor.tourism.service.impl;
 
 
-import java.util.List;
-
-import org.honor.tourism.entity.RouteDay;
 import org.honor.tourism.entity.RouteTrip;
 import org.honor.tourism.entity.SelfSupportRoute;
+import org.honor.tourism.repository.RouteTripRepository;
 import org.honor.tourism.repository.SelfSupportRouteRepository;
 import org.honor.tourism.service.RouteTripService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 /**
@@ -20,15 +20,30 @@ public class RouteTripServiceImpl implements RouteTripService {
 
 	@Autowired
 	private SelfSupportRouteRepository selfSupportRouteRepository;
+	
+	@Autowired
+	private RouteTripRepository  routeTripRepository;
 
 	@Override
-	public void saveRouteTrip(RouteTrip routeTrip, RouteDay routeDay, String routeId) {
+	public RouteTrip saveRouteTrip(RouteTrip routeTrip,  String routeId) {
 		
-		//将日程信息添加到行程当中
-		routeTrip.getRouteDayList().add(routeDay);
-		// 将库存保存到线路
 		SelfSupportRoute selfSupportRoute = selfSupportRouteRepository.findOne(routeId);
 		selfSupportRoute.getRouteTripList().add(routeTrip);
-		selfSupportRouteRepository.save(selfSupportRoute);
+		return routeTripRepository.save(routeTrip);
+	}
+
+	@Override
+	public Page<RouteTrip> findAll(Pageable pageable) {
+		return routeTripRepository.findAll(pageable);
+	}
+
+	@Override
+	public Long count() {
+		return routeTripRepository.count();
+	}
+	
+	@Override
+	public void delete(String id) {
+		routeTripRepository.delete(id);
 	}
 }

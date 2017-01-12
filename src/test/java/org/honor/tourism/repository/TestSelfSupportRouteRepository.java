@@ -53,7 +53,11 @@ public class TestSelfSupportRouteRepository {
 		assertNotNull(selfSupportRouteReturn);
 	}
 	
+<<<<<<< HEAD
 //	@Test
+=======
+	//@Test
+>>>>>>> branch 'master' of https://github.com/wuqigitdemo/tourism.git
 	public void testFindByRouteBaseInfoRouteName() {
 		Pageable pageable = new PageRequest(0, 5);
 		Page<SelfSupportRoute> page = repository.findByRouteBaseInfoRouteNameOrRouteBaseInfoOutPlaceOrRouteBaseInfoDestinationOrRouteBaseInfoRouteTypeListTypeName(null, null,null, null, 0, 100, pageable);
