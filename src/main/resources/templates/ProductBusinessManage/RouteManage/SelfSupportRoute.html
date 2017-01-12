@@ -158,7 +158,6 @@ form td{
     {
     	var typeName = $('#typeName').combobox('getText');
     	typeName = typeName == '--请选择--' ? null : typeName;
-    	alert(typeName);
     	$('#dg').datagrid({
     		queryParams: {
     			routeName: $("#routeName").val(),
