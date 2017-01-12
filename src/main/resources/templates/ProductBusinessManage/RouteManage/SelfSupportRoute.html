@@ -76,47 +76,6 @@ form td{
         </div>
     </div>
 
-    <div id="dlg" class="easyui-dialog" closed="true" data-options="
-    			width:350,
-               	height:220,   
-               	cache: false,       
-               	modal: true,
-               	buttons:'#dlg-buttons'">
-        <form id="fm" method="post" novalidate="" style="margin:0;padding:20px 50px">
-            <div style="margin-bottom:10px">
-				<table>
-	            	<tr>
-	            		<td>
-	            			<label for="typeName" class="label-center">线路类别:</label>
-	            		</td>
-	            		<td>
-	            			<input name="typeName" class="easyui-validatebox tb" data-options="required:true,validType:['charts','length[1,30]']"/>
-	            		</td>
-	            	</tr>
-	            	<tr>
-	            		<td>
-	            			<label class="label-center">线路类型:</label>
-	            		</td>
-	            		<td>
-	            			<input id="routeCategory" class="easyui-validatebox" data-options="validType:'selected'" style="width:100%" name="routeCategory" />
-	            		</td>
-	            	</tr>
-	            	<tr>
-	            		<td>
-	            			<label class="label-center">上级类别:</label>
-	            		</td>
-	            		<td>
-	            			<input id="parentId" style="width:100%" name="parentRouteType"/>
-	            		</td>
-	            	</tr>
-	            </table>
-            </div>
-        </form>
-    <div id="dlg-buttons">
-        <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="saveType()" style="width:90px">提交</a>
-        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')" style="width:90px">取消</a>
-    </div>
-    </div>
 </body>
 <script type="text/javascript">
 /*<![CDATA[*/   //这句坚决不能删
@@ -129,7 +88,7 @@ form td{
                    'id': '-1',  
                    'typeName': '--请选择--'  
                });//向json数组开头添加自定义数据  
-               $('#routeType').combobox({ 
+               $('#typeName').combobox({ 
                	data: jsonstr,  
        	    	valueField: 'id',    
        	        textField: 'typeName',
@@ -197,12 +156,15 @@ form td{
    	//查询
     function searchRoute()
     {
+    	var typeName = $('#typeName').combobox('getText');
+    	typeName = typeName == '--请选择--' ? null : typeName;
+    	alert(typeName);
     	$('#dg').datagrid({
     		queryParams: {
     			routeName: $("#routeName").val(),
     			outPlace: $("#outPlace").val(),
     			destination: $("#destination").val(),
-    			typeName: $("#typeName").val(),
+    			typeName: typeName,
     			startDays:$("#startDays").val(),
     			endDays:$("#endDays").val()
     		}
