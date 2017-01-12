@@ -66,37 +66,4 @@ public class SelfSupportRouteRepositoryImpl {
 		Page<SelfSupportRoute> page = new PageImpl<SelfSupportRoute>(tq.getResultList(), pageable, total);
 		return page;
 	}
-	
-//	public Page<SelfSupportRoute> findByRouteBaseInfoRouteNameOrRouteBaseInfoOutPlaceOrRouteBaseInfoDestinationOrRouteBaseInfoRouteTypeListTypeName(
-//			String routeName, String outPlace, String destination, String typeName, Pageable pageable) {
-//		CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
-//		CriteriaQuery<SelfSupportRoute> criteriaQuery = criteriaBuilder.createQuery(SelfSupportRoute.class);
-//		Root<SelfSupportRoute> root = criteriaQuery.from(SelfSupportRoute.class);
-//		criteriaQuery.select(root);
-//		Predicate restrictions = criteriaBuilder.conjunction();
-//		if (routeName != null && !"".equals(routeName)) {
-//			restrictions = criteriaBuilder.and(restrictions,
-//					criteriaBuilder.like(root.get("routeBaseInfo").get("routeName"), "%"+routeName+"%"));
-//		}
-//		if (outPlace != null && !"".equals(outPlace)) {
-//			restrictions = criteriaBuilder.and(restrictions,
-//					criteriaBuilder.like(root.get("routeBaseInfo").get("outPlace"), "%"+outPlace+"%"));
-//		}
-//		if (destination != null && !"".equals(destination)) {
-//			restrictions = criteriaBuilder.and(restrictions,
-//					criteriaBuilder.like(root.get("routeBaseInfo").get("destination"), "%"+destination+"%"));
-//		}
-//		if (typeName != null && !"".equals(typeName)) {
-//			restrictions = criteriaBuilder.and(restrictions,
-//					criteriaBuilder.like(root.get("routeBaseInfo").get("routeTypeList").get("typeName"), "%"+typeName+"%"));
-//		}
-//		criteriaQuery.where(restrictions);
-//		TypedQuery<SelfSupportRoute> tq = em.createQuery(criteriaQuery);
-//		long total = tq.getResultList().size();
-//		tq.setFirstResult(pageable.getPageNumber() * pageable.getPageSize());
-//		tq.setMaxResults(pageable.getPageSize());
-//		Page<SelfSupportRoute> page = new PageImpl<SelfSupportRoute>(tq.getResultList(), pageable, total);
-//		return page;
-//	}
-	
 }
