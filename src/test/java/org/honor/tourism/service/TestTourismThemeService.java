@@ -38,7 +38,7 @@ public class TestTourismThemeService {
 		;
 	}
 
-//	@Test
+	@Test
 	public void saveEm() {
 		TourismTheme tt = new TourismTheme();
 		tt.setThemeName("主题em");
@@ -55,7 +55,7 @@ public class TestTourismThemeService {
 		service.updateEm("主题888", "4028b4815992c647015992c65a930000");
 	}
 
-	@Test
+//	@Test
 	public void findEm() {
 		TourismTheme tourismTheme = service.findEm("4028b4815992c647015992c65a930000");
 		System.out.println(tourismTheme.getThemeName());
