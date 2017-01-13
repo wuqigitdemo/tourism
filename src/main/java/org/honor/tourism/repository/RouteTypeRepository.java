@@ -1,5 +1,7 @@
 package org.honor.tourism.repository;
 
+import java.util.List;
+
 import org.honor.tourism.entity.RouteType;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -10,4 +12,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface RouteTypeRepository extends JpaRepository<RouteType, String> {
 
+	public List<RouteType> findByRouteCategoryId(String routeCategoryId);
+	
 }
