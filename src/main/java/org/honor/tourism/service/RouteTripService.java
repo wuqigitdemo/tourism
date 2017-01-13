@@ -18,6 +18,8 @@ public interface RouteTripService  {
 	
 	public RouteTrip saveRouteTrip(RouteTrip routeTrip, String routeId);
 	
+	public RouteTrip save(RouteTrip routeTrip);
+	
 	public void delete(String id);
 	
 }
