@@ -6,6 +6,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -35,6 +36,7 @@ public class RouteTrip {
 	@Length(min = 1, max = 50, message = "行程详细需要1-50位字符")
 	private String tripDetail;
 	@OneToMany(cascade={CascadeType.ALL})
+	@JoinColumn(name="routeTripId")
 	private List<RouteDay> routeDayList;
 	/** 早餐 */
 	@ManyToOne
@@ -47,12 +49,14 @@ public class RouteTrip {
 	private DiningType dinner;
 	/** 餐饮图片 */
 	@OneToMany(cascade={CascadeType.ALL})
+	@JoinColumn(name="routeTripId")
 	private List<ImageAddress> foodPictures;
 	/** 酒店分类 */
 	@ManyToOne
 	private HotelCategories hotelCategories;
 	/** 酒店图片 */
 	@OneToMany(cascade={CascadeType.ALL})
+	@JoinColumn(name="routeTripId")
 	private List<ImageAddress> hotelPicture;
 
 	public String getId() {

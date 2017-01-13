@@ -104,4 +104,17 @@ public class SelfSupportRouteController extends CrudController<SelfSupportRoute>
 		return EasyuiResult.result(true);
 	}
 	
+	
+	/**
+	 * 删除测试
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping("/deleteTest")
+	@ResponseBody
+	public Map<String, Object> deleteTest(@RequestBody String routeName) {
+		selfSupportRouteService.deleteByRouteBaseInfoRouteName(routeName);
+		return EasyuiResult.result(true);
+	}
+	
 }

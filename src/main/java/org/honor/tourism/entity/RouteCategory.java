@@ -5,6 +5,7 @@ import java.util.*;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -26,9 +27,6 @@ public class RouteCategory {
 	/** 类别名称 */
 	@Length(min = 1, max = 30, message = "线路类别名称需要1-30位字符")
 	private String categoryName;
-	/** 产品类型 */
-	@OneToMany
-	private List<RouteType> routeTypeList;
 
 	public String getId() {
 		return id;
@@ -44,14 +42,6 @@ public class RouteCategory {
 
 	public void setCategoryName(String categoryName) {
 		this.categoryName = categoryName;
-	}
-
-	public List<RouteType> getRouteTypeList() {
-		return routeTypeList;
-	}
-
-	public void setRouteTypeList(List<RouteType> routeTypeList) {
-		this.routeTypeList = routeTypeList;
 	}
 
 }
