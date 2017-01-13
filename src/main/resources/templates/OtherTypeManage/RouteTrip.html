@@ -184,6 +184,7 @@ form td{
 		},
 		onExpandRow:function(index,row)
 		{
+			var routeId = row.id;
 	    	$('#'+row.id).datagrid({
 	    		singleSelect:true, 
 	        	columns:[[
@@ -197,7 +198,7 @@ form td{
 	        				},
 	        				{field:'attr111111',title:'日程图片',width:150,align:'center',
 	        					formatter: function(value,row,index){
-	        	    				 return '<a href="javascript:editRouteDay(\''+row.id+'\');">修改'+index+'</a>&nbsp&nbsp&nbsp&nbsp<a href="javascript:destroyRouteDay();">删除</a>';
+	        	    				 return '<a href="javascript:editRouteDay(\''+routeId+'\');">修改</a>&nbsp&nbsp&nbsp&nbsp<a href="javascript:destroyRouteDay();">删除</a>';
 	        	    			}
 	        				}
 	        			]]
@@ -344,7 +345,6 @@ form td{
         
         function editRouteTrip(){
             var row = $('#dg').datagrid('getSelected');
-            alert(row);
             if (row){
                 $('#fm').form('load',row);
                 $('#dlg').dialog({    
@@ -360,10 +360,7 @@ form td{
         }
         
         function editRouteDay(id){
-            //var row = $('#'+id).datagrid('getChecked');
-            var row = $('#dg').datagrid('getChecked');
-            //var row = $('#dg').datagrid('getSelected');
-            alert(row);
+            var row = $('#'+id).datagrid('getSelected');
             if (row){
                 $('#fm1').form('load',row);
                 
