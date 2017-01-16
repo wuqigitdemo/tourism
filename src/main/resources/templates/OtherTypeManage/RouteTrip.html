@@ -33,8 +33,8 @@ form td{
     <div id="toolbar">
         <div>
         	<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newRouteTrip()">新增行程</a>
-	        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editRoute()">修改</a>
-	        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyRoute()">删除</a>
+	        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editRouteTrip()">修改</a>
+	        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyRouteTrip()">删除</a>
         </div>
     </div>
 
@@ -42,9 +42,9 @@ form td{
             closed="true" buttons="#dlg-buttons">
         <form id="fm" enctype="multipart/form-data" method="post" novalidate="" style="margin:0;padding:20px 50px">
             <div style="margin-bottom:10px">
-				 <label for="shop" class="label-top">行程标题:</label><input name="tripTitle" class="easyui-validatebox textbox" data-options="required:true,validType:'length[1,50]'"  style="width:100%"/>
-				 <label for="shop" class="label-top">行程详细:</label><textarea name="tripDetail" class="easyui-validatebox textbox" data-options="required:true,validType:'length[1,50]'"  style="width:100%"></textarea>
-                 <label for="specialRestrictions" class="label-top">早餐:</label><input class="easyui-combobox" name="breakfast" id="breakfast"
+				 <label for="tripTitle" class="label-top">行程标题:</label><input name="tripTitle" class="easyui-validatebox textbox" data-options="required:true,validType:'length[1,50]'"  style="width:100%"/>
+				 <label for="tripDetail" class="label-top">行程详细:</label><textarea name="tripDetail" class="easyui-validatebox textbox" data-options="required:true,validType:'length[1,50]'"  style="width:100%"></textarea>
+                 <label for="breakfast" class="label-top">早餐:</label><input class="easyui-combobox" name="breakfast" id="breakfast"
 										data-options="
 								url: '/DiningType/selectAll', 
 								method:'get',
@@ -52,7 +52,7 @@ form td{
 								textField:'typeName',
 								prompt:'请选择',
 								panelHeight:'auto'" />
-                 <label for="reservationInform" class="label-top">中餐:</label><input class="easyui-combobox" name="lunch" id="lunch"
+                 <label for="lunch" class="label-top">中餐:</label><input class="easyui-combobox" name="lunch" id="lunch"
 										data-options="
 								url: '/DiningType/selectAll', 
 								method:'get',
@@ -60,7 +60,7 @@ form td{
 								textField:'typeName',
 								prompt:'请选择',
 								panelHeight:'auto'" />
-				<label for="reservationInform" class="label-top">晚餐:</label><input class="easyui-combobox" name="dinner" id="dinner"
+				<label for="dinner" class="label-top">晚餐:</label><input class="easyui-combobox" name="dinner" id="dinner"
 										data-options="
 								url: '/DiningType/selectAll', 
 								method:'get',
@@ -71,7 +71,7 @@ form td{
                    <label for="selfPayItemRemark" class="label-top">行程餐图片上传:</label><input
 										class="easyui-filebox" name="foodPictures---"
 										data-options="prompt:'Choose a file...'" style="width:100%" />  
-                <label for="selfPayItemRecommend" class="label-top">酒店类型:</label><input class="easyui-combobox" name="hotelCategories" id="hotelCategories"
+                <label for="hotelCategories" class="label-top">酒店类型:</label><input class="easyui-combobox" name="hotelCategories" id="hotelCategories"
 										data-options="
 								url: '/HotelCategories/selectAll', 
 								method:'get',
@@ -99,16 +99,16 @@ form td{
 				 <label for="shop" class="label-top">选择时间:</label><input
 										class="easyui-datetimebox" name="selectionTime"
 										data-options="prompt:'请选择日期...'" style="width: 100%" />
-				 <label for="shop" class="label-top">日程简单说明:</label><input name="shop" class="easyui-validatebox textbox" data-options="required:true,validType:'length[1,50]'"  style="width:100%"/>
-				 <label for="shop" class="label-top">日程详细说明:</label><textarea name="shop" class="easyui-validatebox textbox" data-options="required:true,validType:'length[1,50]'"  style="width:100%"></textarea>
+				 <label for="shop" class="label-top">日程简单说明:</label><input name="simplenessExplain" class="easyui-validatebox textbox" data-options="required:true,validType:'length[1,50]'"  style="width:100%"/>
+				 <label for="shop" class="label-top">日程详细说明:</label><textarea name="detailednessExplain" class="easyui-validatebox textbox" data-options="required:true,validType:'length[1,50]'"  style="width:100%"></textarea>
 										
                  <label for="selfPayItemRemark" class="label-top">行程餐图片上传:</label><input
-										class="easyui-filebox" name="foodPictures"
+										class="easyui-filebox" name="routeDayImageAddress"
 										data-options="prompt:'Choose a file...'" style="width:100%" />
             </div>
         </form>
     <div id="dlg-buttons1">
-        <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="saveType()" style="width:90px">提交</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="saveRouteDay()" style="width:90px">提交</a>
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg1').dialog('close')" style="width:90px">取消</a>
     </div>
     </div>
@@ -169,7 +169,7 @@ form td{
     				return '<a href="">酒店图片详情</a>';
     			}
 			},
-			{field:'status11',title:'操作',width:50,align:'center',
+			{field:'wuyiyi',title:'操作',width:50,align:'center',
 				formatter: function(value,row,index){
     				return '<a href="javascript:newRouteDay();">添加日程</a>';
     			}
@@ -177,29 +177,28 @@ form td{
 		]],
 		view: detailview,
 		detailFormatter: function(rowIndex, rowData){
-			
 			var htmlStr = "";
-			htmlStr += "<table id=\""+rowIndex+"\" style=\"width:100%;height:400px\" class='easyui-datagrid' data-options=\"url:'\/OtherTypeManage\/datagrid_data'\">";
-			htmlStr += "<thead><tr>";
-			htmlStr += "<th data-options=\"field:'itemid',width:100\">选择时间</th>";  
-			htmlStr += "<th data-options=\"field:'productid',width:100\">日程简单说明</th>";
-			htmlStr += "<th data-options=\"field:'listprice',width:100\">日程详细说明</th>";
-			htmlStr += "<th data-options=\"field:'attr11',width:100\">日程图片</th>";
-			htmlStr += "</tr></thead></table>";  
-			
+			htmlStr += "<table id=\""+rowData.id+"\" style=\"width:100%;height:auto\" class='easyui-datagrid' data-options=\"url:'\/RouteDay\/selectedAll?routeTripId="+rowData.id+"'\">";
+			htmlStr += "</table>";  
 			return htmlStr;
 		},
 		onExpandRow:function(index,row)
 		{
-	    	$('#'+index).datagrid({
+			var routeId = row.id;
+	    	$('#'+row.id).datagrid({
 	    		singleSelect:true, 
 	        	columns:[[
-	        				{field:'itemid',title:'行程标题',width:250,align:'center'},
-	        				{field:'productid',title:'日程简单说明',width:250,align:'center'},
-	        				{field:'listprice',title:'日程详细说明',width:300,align:'center'},
-	        				{field:'attr11',title:'日程图片',width:250,align:'center',
+	        				{field:'selectionTime',title:'选择时间',width:150,align:'center'},
+	        				{field:'simplenessExplain',title:'日程简单说明',width:250,align:'center'},
+	        				{field:'detailednessExplain',title:'日程详细说明',width:300,align:'center'},
+	        				{field:'attr11',title:'日程图片',width:200,align:'center',
 	        					formatter: function(value,row,index){
-	        	    				return '<a href="javascript:newRouteDay();">日程图片详情</a>';
+	        	    				return '<a href="">日程图片详情'+index+'</a>';
+	        	    			}
+	        				},
+	        				{field:'attr111111',title:'日程图片',width:150,align:'center',
+	        					formatter: function(value,row,index){
+	        	    				 return '<a href="javascript:editRouteDay(\''+routeId+'\');">修改</a>&nbsp&nbsp&nbsp&nbsp<a href="javascript:destroyRouteDay();">删除</a>';
 	        	    			}
 	        				}
 	        			]]
@@ -330,24 +329,24 @@ form td{
 
         var url;
         function newRouteTrip(){
-            //$('#dlg').dialog('open').dialog('center').dialog('setTitle','新增行程');
+            $('#dlg').dialog('open').dialog('center').dialog('setTitle','新增行程');
             $('#fm').form('clear');
-            $('#dlg').dialog({    
-                title: '新增行程', 
-                closed: false,
-                onOpen:function(){
-             	  	getComboboxData();
-                }
-             });
-            url = '/RouteTrip/save?routeId='+'402882ad598c6da201598c6db55e0002';
+            url = '/RouteTrip/save?routeId='+'402882ad598c613501598c614cfd0000';
+        }
+        
+        function newRouteDay(){
+        	var row = $('#dg').datagrid('getSelected');//id获取正确
+            $('#dlg1').dialog('open').dialog('center').dialog('setTitle','新增日程');
+            $('#fm1').form('clear');
+            url = '/RouteDay/save?routeTripId='+row.id;
         }
         
         
-        function editRoute(){
+        
+        function editRouteTrip(){
             var row = $('#dg').datagrid('getSelected');
             if (row){
                 $('#fm').form('load',row);
-                
                 $('#dlg').dialog({    
                     title: '修改', 
                     closed: false,
@@ -356,7 +355,24 @@ form td{
                     }
                  });
                 
-                url ='/RouteTrip/save?id='+row.id;
+                url ='/RouteTrip/saveRouteTrip?id='+row.id;
+            }
+        }
+        
+        function editRouteDay(id){
+            var row = $('#'+id).datagrid('getSelected');
+            if (row){
+                $('#fm1').form('load',row);
+                
+                $('#dlg1').dialog({    
+                    title: '修改', 
+                    closed: false,
+                    onOpen:function(){
+                 	  	getComboboxData(row);
+                    }
+                 });
+                
+                url ='/RouteDay/saveRouteDay?id='+row.id;
             }
         }
         
@@ -380,9 +396,49 @@ form td{
                 }
             });
         }
-        function destroyRoute(){
+        
+        function saveRouteDay(){
+            $('#fm1').form('submit',{
+                url: url,
+                onSubmit: function(){
+                    return $(this).form('validate');
+                },
+                success: function(resultJSON){
+                	var result = JSON.parse(resultJSON);
+                    if (result.errorMsg){
+                        $.messager.show({
+                            title: 'Error',
+                            msg: result.errorMsg
+                        });
+                    } else {
+                        $('#dlg1').dialog('close');        // close the dialog
+                        $('#dg').datagrid('reload');    // reload the user data
+                    }
+                }
+            });
+        }
+        function destroyRouteTrip(){
             var row = $('#dg').datagrid('getSelected');
-            alert(row.id);
+            if (row){
+                $.messager.confirm('Confirm','Are you sure you want to destroy this user?',function(r){
+                    if (r){
+                        $.post('/RouteTrip/delete',{id:row.id},function(result){
+                            if (result.success){
+                                $('#dg').datagrid('reload');    // reload the user data
+                            } else {
+                                $.messager.show({    // show error message
+                                    title: 'Error',
+                                    msg: result.errorMsg
+                                });
+                            }
+                        },'json');
+                    }
+                });
+            }
+        }
+        
+        function destroyRouteDay(){
+            var row = $('#dg').datagrid('getSelected');
             if (row){
                 $.messager.confirm('Confirm','Are you sure you want to destroy this user?',function(r){
                     if (r){

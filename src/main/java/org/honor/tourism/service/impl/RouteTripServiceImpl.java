@@ -46,4 +46,9 @@ public class RouteTripServiceImpl implements RouteTripService {
 	public void delete(String id) {
 		routeTripRepository.delete(id);
 	}
+
+	@Override
+	public RouteTrip save(RouteTrip routeTrip) {
+		return routeTripRepository.save(routeTrip);
+	}
 }
