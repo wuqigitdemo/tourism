@@ -12,6 +12,7 @@ import org.honor.tourism.util.FileUpload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -66,7 +67,7 @@ public class RouteDayController {
 	 */
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> saveRouteDay(@Valid RouteDay routeDay, BindingResult result,
+	public Map<String, Object> saveRouteDay(@Valid @RequestBody RouteDay routeDay, BindingResult result,
 			String routeTripId) {
 		if (result.hasErrors()) {// 数据交验
 			return EasyuiResult.result(result);
@@ -86,7 +87,7 @@ public class RouteDayController {
 	 */
 	@RequestMapping("/saveRouteDay")
 	@ResponseBody
-	public Map<String, Object> save(@Valid RouteDay routeDay, BindingResult result) {
+	public Map<String, Object> save(@Valid @RequestBody RouteDay routeDay, BindingResult result) {
 		if (result.hasErrors()) {//数据交验
 			return EasyuiResult.result(result);
       }

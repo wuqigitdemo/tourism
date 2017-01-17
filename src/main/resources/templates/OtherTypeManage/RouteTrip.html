@@ -40,7 +40,11 @@ form td{
 
    <div id="dlg" class="easyui-dialog" style="width:400px"
             closed="true" buttons="#dlg-buttons">
-        <form id="fm" enctype="multipart/form-data" method="post" novalidate="" style="margin:0;padding:20px 50px">
+        <form id="fm" enctype="multipart/form-data" method="post" novalidate="" style="margin:0;padding:0px 50px">
+        
+        	<input type="hidden" id="foodPictures" name="foodPictures" value="" ></input> 
+        	<input type="hidden" id="hotelPicture" name="hotelPicture" value="" ></input>  
+        	
             <div style="margin-bottom:10px">
 				 <label for="tripTitle" class="label-top">行程标题:</label><input name="tripTitle" class="easyui-validatebox textbox" data-options="required:true,validType:'length[1,50]'"  style="width:100%"/>
 				 <label for="tripDetail" class="label-top">行程详细:</label><textarea name="tripDetail" class="easyui-validatebox textbox" data-options="required:true,validType:'length[1,50]'"  style="width:100%"></textarea>
@@ -68,9 +72,7 @@ form td{
 								textField:'typeName',
 								prompt:'请选择',
 								panelHeight:'auto'" />
-                   <label for="selfPayItemRemark" class="label-top">行程餐图片上传:</label><input
-										class="easyui-filebox" name="foodPictures---"
-										data-options="prompt:'Choose a file...'" style="width:100%" />  
+										
                 <label for="hotelCategories" class="label-top">酒店类型:</label><input class="easyui-combobox" name="hotelCategories" id="hotelCategories"
 										data-options="
 								url: '/HotelCategories/selectAll', 
@@ -79,38 +81,59 @@ form td{
 								textField:'categoriesName',
 								prompt:'请选择',
 								panelHeight:'auto'" />
-               <label for="costCover" class="label-top">行程酒店图片上传:</label><input
-										class="easyui-filebox" name="hotelPicture----"
-										data-options="prompt:'Choose a file...'" style="width: 100%" /> 
             </div>
         </form>
+        
+         <form id="form1" action="/RouteTrip/fileUpload"  enctype="multipart/form-data" method="post"  style="margin:0;padding:0px 50px">
+         <label for="foodPictures" class="label-top">行程餐图片上传:</label><input
+										class="easyui-filebox" name="uploadFile"
+										data-options="prompt:'Choose a file...', accept:'image/jpeg'" style="width:100%" />
+         </form>
+         
+         <form id="form2" action="/RouteTrip/fileUpload"  enctype="multipart/form-data" method="post"  style="margin:0;padding:10px 50px">
+                       <label for="costCover" class="label-top">行程酒店图片上传:</label><input
+										class="easyui-filebox" name="uploadFile"
+										data-options="prompt:'Choose a file...'" style="width: 100%" /> 
+         </form>
+         
     <div id="dlg-buttons">
         <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="saveRouteTrip()" style="width:90px">提交</a>
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')" style="width:90px">取消</a>
     </div>
     </div>
     
-    
-    
      <div id="dlg1" class="easyui-dialog" style="width:400px"
             closed="true" buttons="#dlg-buttons1">
-        <form id="fm1" method="post" novalidate="" style="margin:0;padding:20px 50px">
+        <form id="fm1" method="post" novalidate="" style="margin:0;padding:0px 50px">
+        <input type="hidden" id="routeDayImageAddress" name="routeDayImageAddress" value="" ></input>
             <div style="margin-bottom:10px">
 				 <label for="shop" class="label-top">选择时间:</label><input
 										class="easyui-datetimebox" name="selectionTime"
 										data-options="prompt:'请选择日期...'" style="width: 100%" />
 				 <label for="shop" class="label-top">日程简单说明:</label><input name="simplenessExplain" class="easyui-validatebox textbox" data-options="required:true,validType:'length[1,50]'"  style="width:100%"/>
-				 <label for="shop" class="label-top">日程详细说明:</label><textarea name="detailednessExplain" class="easyui-validatebox textbox" data-options="required:true,validType:'length[1,50]'"  style="width:100%"></textarea>
-										
-                 <label for="selfPayItemRemark" class="label-top">行程餐图片上传:</label><input
-										class="easyui-filebox" name="routeDayImageAddress"
-										data-options="prompt:'Choose a file...'" style="width:100%" />
+				 <label for="shop" class="label-top">日程详细说明:</label><textarea name="detailednessExplain" class="easyui-validatebox textbox" data-options="required:true,validType:'length[1,50]'"  style="width:100%"></textarea>			
             </div>
         </form>
+         <form id="form3" action="/RouteDay/fileUpload" method="post" novalidate="" style="margin:0;padding:0px 50px">
+                 <label for="selfPayItemRemark" class="label-top">日程图片:</label><input
+										class="easyui-filebox" name="uploadFile"
+										data-options="prompt:'Choose a file...'" style="width:100%" />
+         </form>
     <div id="dlg-buttons1">
         <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="saveRouteDay()" style="width:90px">提交</a>
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg1').dialog('close')" style="width:90px">取消</a>
     </div>
+    </div>
+    
+    <div id="dlg2" class="easyui-dialog" style="width:400px"
+            closed="true" buttons="#dlg-buttons2">
+        <form id="fm2" method="post" novalidate="" style="margin:0;padding:20px 50px">
+            <div style="margin-bottom:10px">
+				 
+										
+										
+            </div>
+        </form>
     </div>
     
     
@@ -151,7 +174,7 @@ form td{
 			
 			{field:'foodPictures',title:'餐饮图片',width:50,align:'center',
 				formatter: function(value,row,index){
-    				return '<a href="">餐饮图片详情</a>';
+    				return '<a href="javascript:foodimagedetails()">餐饮图片详情</a>';
     			}
 			},
 			{field:'hotelCategories',title:'酒店类型',width:50,align:'center',
@@ -166,7 +189,7 @@ form td{
 			
 			{field:'hotelPicture',title:'酒店图片',width:50,align:'center',
 				formatter: function(value,row,index){
-    				return '<a href="">酒店图片详情</a>';
+    				return '<a href="javascript:hotelimagedetails()">酒店图片详情</a>';
     			}
 			},
 			{field:'wuyiyi',title:'操作',width:50,align:'center',
@@ -205,6 +228,67 @@ form td{
 	        });
 		}
 	});
+    
+    
+    function fileUpload1() {
+    	var formData = new FormData($( "#form1" )[0]);
+        $.ajax({
+             url: '/RouteTrip/fileUpload' ,  
+             type: 'POST',  
+             data: formData,  
+             async: false,  
+             cache: false,  
+             contentType: false,  
+             processData: false,  
+             success: function (returndata) {  
+            	 $("#foodPictures").val(returndata);
+             },  
+             error: function (returndata) {  
+                 alert("错误!");  
+             }  
+        });  
+    }          
+
+ function fileUpload2() {
+    	var formData = new FormData($( "#form2" )[0]);  
+        $.ajax({
+             url: '/RouteTrip/fileUpload',  
+             type: 'POST',  
+             data: formData,  
+             async: false,  
+             cache: false,  
+             contentType: false,  
+             processData: false,  
+             success: function (returndata) {  
+            	 $("#hotelPicture").val(returndata);
+             },  
+             error: function (returndata) {  
+                 alert("错误!");  
+             }  
+        });  
+    } 
+ 
+ function fileUpload3() {
+ 	var formData = new FormData($( "#form3" )[0]);  
+     $.ajax({
+          url: '/RouteDay/fileUpload',  
+          type: 'POST',  
+          data: formData,  
+          async: false,  
+          cache: false,  
+          contentType: false,  
+          processData: false,  
+          success: function (returndata) {  
+         	 $("#routeDayImageAddress").val(returndata);
+          },  
+          error: function (returndata) {  
+              alert("错误!");  
+          }  
+     });  
+ } 
+ 
+ 
+    
     
   //获取下拉列表框数据
   	function getComboboxData(row)
@@ -326,6 +410,9 @@ form td{
 	  
   	}
     
+  
+  
+  
 
         var url;
         function newRouteTrip(){
@@ -340,8 +427,6 @@ form td{
             $('#fm1').form('clear');
             url = '/RouteDay/save?routeTripId='+row.id;
         }
-        
-        
         
         function editRouteTrip(){
             var row = $('#dg').datagrid('getSelected');
@@ -377,22 +462,23 @@ form td{
         }
         
         function saveRouteTrip(){
-            $('#fm').form('submit',{
+        	fileUpload1();
+        	fileUpload2();
+        	$.ajax({
                 url: url,
-                onSubmit: function(){
-                    return $(this).form('validate');
+                type: "POST",
+                contentType : 'application/json;charset=utf-8', //设置请求头信息
+                dataType:"json",
+                data: JSON.stringify(rowIDS),            //将Json对象序列化成Json字符串
+                success: function(data){
+                	$('#dlg').dialog('close'); 
+                	$('#dg').datagrid('reload');
                 },
-                success: function(resultJSON){
-                	var result = JSON.parse(resultJSON);
-                    if (result.errorMsg){
-                        $.messager.show({
-                            title: 'Error',
-                            msg: result.errorMsg
-                        });
-                    } else {
-                        $('#dlg').dialog('close');        // close the dialog
-                        $('#dg').datagrid('reload');    // reload the user data
-                    }
+                error: function(res){
+                	$.messager.show({    // show error message
+                        title: 'Error',
+                        msg: result.errorMsg
+                    });
                 }
             });
         }
@@ -401,6 +487,7 @@ form td{
             $('#fm1').form('submit',{
                 url: url,
                 onSubmit: function(){
+                	fileUpload3();
                     return $(this).form('validate');
                 },
                 success: function(resultJSON){
@@ -456,6 +543,21 @@ form td{
                 });
             }
         }
+        
+        function foodimagedetails(){
+        	var row = $('#dg').datagrid('getSelected');//id获取正确
+            $('#dlg2').dialog('open').dialog('center').dialog('setTitle','图片详情');
+            $('#fm2').form('clear');
+            url = '/RouteDay/';
+        }
+        
+            function hotelimagedetails(){
+        	var row = $('#dg').datagrid('getSelected');//id获取正确
+            $('#dlg2').dialog('open').dialog('center').dialog('setTitle','图片详情');
+            $('#fm2').form('clear');
+            url = '/RouteDay/';
+        }
+        
       /*]]>*/
     </script>
 </body>
