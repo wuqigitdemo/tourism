@@ -24,7 +24,6 @@ import org.springframework.transaction.annotation.Transactional;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)
 @WebAppConfiguration
-@Transactional
 public class TestSelfSupportRouteRepository {
 
 	@Autowired
@@ -32,7 +31,7 @@ public class TestSelfSupportRouteRepository {
 	@Autowired
 	private RouteTripRepository routeTripRepository;
 	
-//   @Test
+   @Test
 	public void testSave() {
 		List<RouteTrip> routeTripList = new ArrayList<>();
 		RouteTrip routeTrip = new RouteTrip();
@@ -80,7 +79,7 @@ public class TestSelfSupportRouteRepository {
 		
 	}
 	
-	@Test
+//	@Test
 	public void testDelete1() {
 		String id = "4028b481599210330159921046f60000";
 		 repository.deleteBy("4028b481599213fe015992140ecc0000", "abc");

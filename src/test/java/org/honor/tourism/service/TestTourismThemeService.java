@@ -19,7 +19,7 @@ public class TestTourismThemeService {
 	@Autowired
 	private TourismThemeService service;
 
-	// @Test
+	 @Test
 	public void testSave() throws Exception {
 		TourismTheme tt = new TourismTheme();
 		tt.setThemeName("主题1");
@@ -38,7 +38,7 @@ public class TestTourismThemeService {
 		;
 	}
 
-	@Test
+//	@Test
 	public void saveEm() {
 		TourismTheme tt = new TourismTheme();
 		tt.setThemeName("主题em");
