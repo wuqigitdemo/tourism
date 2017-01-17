@@ -28,11 +28,6 @@ public class TestSelfSupportRouteService {
 	private SelfSupportRouteService service;
 	private RouteBaseInfoService routeBaseInfoService;
 	
-//	@Test
-	public void delete() {
-		service.deleteByRouteBaseInfoRouteName("4028b481599213fe015992140ecc0000");
-	}
-	
     @Test
 	public void testSave() {
 //		List<RouteTrip> routeTripList = new ArrayList<>();

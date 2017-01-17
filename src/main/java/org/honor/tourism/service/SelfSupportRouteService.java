@@ -42,6 +42,4 @@ public interface SelfSupportRouteService extends CrudService<SelfSupportRoute> {
 	 */
 	public void delete(List<SelfSupportRoute> ids);
 	
-	public Long deleteByRouteBaseInfoRouteName(String routeName);
-	
 }

@@ -95,11 +95,5 @@ public class SelfSupportRouteServiceImpl extends CrudServiceImpl<SelfSupportRout
 	public void delete(List<SelfSupportRoute> ids) {
 		selfSupportRouteRepository.delete(ids);
 	}
-	
-	@Transactional
-	public Long deleteByRouteBaseInfoRouteName(String routeName) {
-		selfSupportRouteRepository.deleteBy("abcddddd", routeName);
-		return  1l;
-	}
-	
+
 }

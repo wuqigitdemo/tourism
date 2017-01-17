@@ -79,10 +79,5 @@ public class TestSelfSupportRouteRepository {
 		
 	}
 	
-//	@Test
-	public void testDelete1() {
-		String id = "4028b481599210330159921046f60000";
-		 repository.deleteBy("4028b481599213fe015992140ecc0000", "abc");
-	}
 	
 }
