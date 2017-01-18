@@ -411,9 +411,10 @@ form td{
 
         var url;
         function newRouteTrip(){
+        	var rId=$("#rId").val();
             $('#dlg').dialog('open').dialog('center').dialog('setTitle','新增行程');
             $('#fm').form('clear');
-            url = '/RouteTrip/save?routeId='+'402882bc59ab46e60159ab46f8030000';
+            url = '/RouteTrip/save?routeId='+rId;
         }
         
         function newRouteDay(tripId){
