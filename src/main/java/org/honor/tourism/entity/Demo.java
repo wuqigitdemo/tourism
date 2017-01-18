@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -30,9 +31,8 @@ public class Demo {
 	private String id;
 	@Length(min = 1, max = 30, message = "demoName1-30位字符")
 	private String demoName;
-	@OneToMany(cascade = { CascadeType.ALL }, fetch=FetchType.EAGER)
-	@JoinColumn(name="demoId")
-	private List<DemoChildren> demoChildrenList;
+	@OneToOne(cascade = { CascadeType.ALL }, fetch=FetchType.EAGER)
+	private DemoChildren demoChildren;
 
 	public String getId() {
 		return id;
@@ -50,12 +50,12 @@ public class Demo {
 		this.demoName = demoName;
 	}
 
-	public List<DemoChildren> getDemoChildrenList() {
-		return demoChildrenList;
+	public DemoChildren getDemoChildren() {
+		return demoChildren;
 	}
 
-	public void setDemoChildrenList(List<DemoChildren> demoChildrenList) {
-		this.demoChildrenList = demoChildrenList;
+	public void setDemoChildren(DemoChildren demoChildren) {
+		this.demoChildren = demoChildren;
 	}
-
+	
 }
