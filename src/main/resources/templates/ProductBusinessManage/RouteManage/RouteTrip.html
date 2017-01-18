@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<meta charset="UTF-8" />
+<title>自营线路管理</title>
+<link rel="stylesheet" type="text/css" href="/easyui/themes/default/easyui.css" />
+<link rel="stylesheet" type="text/css" href="/easyui/themes/icon.css" />
+<link rel="stylesheet" type="text/css" href="/easyui/demo/demo.css" />    
+<link rel="stylesheet" type="text/css" href="/easyui/themes/color.css"/>
+<script type="text/javascript" src="/easyui/jquery.min.js"></script>
+<script type="text/javascript" src="/easyui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="/easyui/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="/easyui/datagrid-detailview.js"></script>
+
+<style>
+
+form td{
+	text-align: left;
+}
+.datagrid-cell{line-height:30px}
+
+</style>
+
+</head>
+<body>
+    <table id="dg" class="easyui-datagrid" style="width:100%;height:440px"
+            toolbar="#toolbar" pagination="true" remoteSort="false" singleSelect="true" 
+          		nowrap="false" fitColumns="true"  >
+    </table>
+      
+    <div id="toolbar">
+        <div>
+        	<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newRouteTrip()">新增行程</a>
+	        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editRouteTrip()">修改</a>
+	        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyRouteTrip()">删除</a>
+        </div>
+    </div>
+
+   <div id="dlg" class="easyui-dialog" style="width:400px"
+            closed="true" buttons="#dlg-buttons">
+        <form id="fm" enctype="multipart/form-data" method="post" novalidate="" style="margin:0;padding:0px 50px">
+        
+        	<input type="hidden" id="foodPictures" name="foodPictures" value="" ></input> 
+        	<input type="hidden" id="hotelPicture" name="hotelPicture" value="" ></input>  
+        	<input type="hidden" id="tripId" name="tripId"  value="" ></input>
+        	
+            <div style="margin-bottom:10px">
+				 <label for="tripTitle" class="label-top">行程标题:</label><input id="tripTitle" name="tripTitle" class="easyui-validatebox textbox" data-options="required:true,validType:'length[1,50]'"  style="width:100%"/>
+				 <label for="tripDetail" class="label-top">行程详细:</label><textarea id="tripDetail"  name="tripDetail" class="easyui-validatebox textbox" data-options="required:true,validType:'length[1,50]'"  style="width:100%"></textarea>
+                 <label for="breakfast" class="label-top">早餐:</label><input class="easyui-combobox" name="breakfast" id="breakfast"
+										data-options="
+								url: '/DiningType/selectAll', 
+								method:'get',
+								valueField:'id',
+								textField:'typeName',
+								prompt:'请选择',
+								panelHeight:'auto'" />
+                 <label for="lunch" class="label-top">中餐:</label><input class="easyui-combobox" name="lunch" id="lunch"
+										data-options="
+								url: '/DiningType/selectAll', 
+								method:'get',
+								valueField:'id',
+								textField:'typeName',
+								prompt:'请选择',
+								panelHeight:'auto'" />
+				<label for="dinner" class="label-top">晚餐:</label><input class="easyui-combobox" name="dinner" id="dinner"
+										data-options="
+								url: '/DiningType/selectAll', 
+								method:'get',
+								valueField:'id',
+								textField:'typeName',
+								prompt:'请选择',
+								panelHeight:'auto'" />
+										
+                <label for="hotelCategories" class="label-top">酒店类型:</label><input class="easyui-combobox" name="hotelCategories" id="hotelCategories"
+										data-options="
+								url: '/HotelCategories/selectAll', 
+								method:'get',
+								valueField:'id',
+								textField:'categoriesName',
+								prompt:'请选择',
+								panelHeight:'auto'" />
+            </div>
+        </form>
+        
+         <form id="form1" action="/RouteTrip/fileUpload"  enctype="multipart/form-data" method="post"  style="margin:0;padding:0px 50px">
+         <label for="foodPictures" class="label-top">行程餐图片上传:</label><input
+										class="easyui-filebox"  name="uploadFile"
+										data-options="prompt:'Choose a file...', accept:'image/jpeg'" style="width:100%" />
+         </form>
+         
+         <form id="form2" action="/RouteTrip/fileUpload"  enctype="multipart/form-data" method="post"  style="margin:0;padding:10px 50px">
+                       <label for="costCover" class="label-top">行程酒店图片上传:</label><input
+										class="easyui-filebox"  name="uploadFile"
+										data-options="prompt:'Choose a file...'" style="width: 100%" /> 
+         </form>
+         
+    <div id="dlg-buttons">
+        <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="saveRouteTrip()" style="width:90px">提交</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')" style="width:90px">取消</a>
+    </div>
+    </div>
+    
+     <div id="dlg1" class="easyui-dialog" style="width:400px"
+            closed="true" buttons="#dlg-buttons1">
+        <form id="fm1" method="post" novalidate="" style="margin:0;padding:0px 50px">
+        <input type="hidden" id="routeDayImageAddress" name="routeDayImageAddress" value="" ></input>
+        <input type="hidden" id="dayId" name="dayId"  value="" ></input>
+            <div style="margin-bottom:10px">
+				 <label for="shop" class="label-top">选择时间:</label><input
+										class="easyui-datetimebox" id="selectionTime" name="selectionTime"
+										data-options="prompt:'请选择日期...'" style="width: 100%" />
+				 <label for="shop" class="label-top">日程简单说明:</label><input id="simplenessExplain" name="simplenessExplain" class="easyui-validatebox textbox" data-options="required:true,validType:'length[1,50]'"  style="width:100%"/>
+				 <label for="shop" class="label-top">日程详细说明:</label><textarea id="detailednessExplain" name="detailednessExplain" class="easyui-validatebox textbox" data-options="required:true,validType:'length[1,50]'"  style="width:100%"></textarea>			
+            </div>
+        </form>
+         <form id="form3" action="/RouteDay/fileUpload" method="post" novalidate="" style="margin:0;padding:0px 50px">
+                 <label for="selfPayItemRemark" class="label-top">日程图片:</label><input
+										class="easyui-filebox" name="uploadFile"
+										data-options="prompt:'Choose a file...'" style="width:100%" />
+         </form>
+    <div id="dlg-buttons1">
+        <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="saveRouteDay()" style="width:90px">提交</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg1').dialog('close')" style="width:90px">取消</a>
+    </div>
+    </div>
+    
+    <div id="dlg2" class="easyui-dialog" style="width:700px;height:400px"
+            closed="true" buttons="#dlg-buttons2">
+    </div>
+    
+    
+    <script type="text/javascript">
+    /*<![CDATA[*/
+    $('#dg').datagrid({
+		url:'/RouteTrip/findAll',
+		columns:[[
+			{field:'tripTitle',title:'行程标题',width:50,align:'center'},
+			{field:'tripDetail',title:'行程详细',width:50,align:'center'},
+			{field:'breakfast',title:'早餐',width:50,align:'center',
+				formatter: function(value,row,index){
+	   				if (row.breakfast != null){
+	   					return row.breakfast.typeName;
+	   				} else {
+	   					return "";
+	   				}
+	   			}
+			},
+			{field:'lunch',title:'午餐',width:50,align:'center',
+				formatter: function(value,row,index){
+	   				if (row.lunch != null){
+	   					return row.lunch.typeName;
+	   				} else {
+	   					return "";
+	   				}
+	   			}
+			},
+			{field:'dinner',title:'晚餐',width:50,align:'center',
+				formatter: function(value,row,index){
+	   				if (row.dinner != null){
+	   					return row.dinner.typeName;
+	   				} else {
+	   					return "";
+	   				}
+	   			}
+			},
+			
+			{field:'foodPictures',title:'餐饮图片',width:50,align:'center',
+				formatter: function(value,row,index){
+    				return '<a href="javascript:foodimagedetails()">餐饮图片详情</a>';
+    			}
+			},
+			{field:'hotelCategories',title:'酒店类型',width:50,align:'center',
+				formatter: function(value,row,index){
+	   				if (row.hotelCategories != null){
+	   					return row.hotelCategories.categoriesName;
+	   				} else {
+	   					return "";
+	   				}
+	   			}
+			},
+			
+			{field:'hotelPicture',title:'酒店图片',width:50,align:'center',
+				formatter: function(value,row,index){
+    				return '<a href="javascript:hotelimagedetails()">酒店图片详情</a>';
+    			}
+			},
+			{field:'wuyiyi',title:'操作',width:50,align:'center',
+				formatter: function(value,row,index){
+    				return '<a href="javascript:newRouteDay(\''+row.id+'\');">添加日程</a>';
+    			}
+			}
+		]],
+		view: detailview,
+		detailFormatter: function(rowIndex, rowData){
+			var htmlStr = "";
+			htmlStr += "<table id=\""+rowData.id+"\" style=\"width:100%;height:auto\" class='easyui-datagrid' data-options=\"url:'\/RouteDay\/selectedAll?routeTripId="+rowData.id+"'\">";
+			htmlStr += "</table>";  
+			return htmlStr;
+		},
+		onExpandRow:function(index,row)
+		{
+			var routeId = row.id;
+	    	$('#'+row.id).datagrid({
+	    		singleSelect:true, 
+	        	columns:[[
+	        				{field:'selectionTime',title:'选择时间',width:150,align:'center'},
+	        				{field:'simplenessExplain',title:'日程简单说明',width:250,align:'center'},
+	        				{field:'detailednessExplain',title:'日程详细说明',width:300,align:'center'},
+	        				{field:'attr11',title:'日程图片',width:200,align:'center',
+	        					formatter: function(value,row,index){
+	        	    				return '<a href="javascript:routeDayImage(\''+routeId+'\')">日程图片详情</a>';
+	        	    			}
+	        				},
+	        				{field:'attr111111',title:'操作',width:150,align:'center',
+	        					formatter: function(value,row,index){
+	        	    				 return '<a href="javascript:editRouteDay(\''+routeId+'\');">修改</a>&nbsp&nbsp&nbsp&nbsp<a href="javascript:destroyRouteDay(\''+routeId+'\');">删除</a>';
+	        	    			}
+	        				}
+	        			]]
+	        });
+		}
+	});
+    
+    
+    function fileUpload1() {
+    	var formData = new FormData($( "#form1" )[0]);
+        $.ajax({
+             url: '/RouteTrip/fileUpload' ,  
+             type: 'POST',  
+             data: formData,  
+             async: false,  
+             cache: false,  
+             contentType: false,  
+             processData: false,  
+             success: function (returndata) {  
+            	 $("#foodPictures").val(returndata);
+             },  
+             error: function (returndata) {  
+                 alert("错误!");  
+             }  
+        });  
+    }          
+
+ function fileUpload2() {
+    	var formData = new FormData($( "#form2" )[0]);  
+        $.ajax({
+             url: '/RouteTrip/fileUpload',  
+             type: 'POST',  
+             data: formData,  
+             async: false,  
+             cache: false,  
+             contentType: false,  
+             processData: false,  
+             success: function (returndata) {  
+            	 $("#hotelPicture").val(returndata);
+             },  
+             error: function (returndata) {  
+                 alert("错误!");  
+             }  
+        });  
+    } 
+ 
+ function fileUpload3() {
+ 	var formData = new FormData($( "#form3" )[0]);  
+     $.ajax({
+          url: '/RouteDay/fileUpload',  
+          type: 'POST',  
+          data: formData,  
+          async: false,  
+          cache: false,  
+          contentType: false,  
+          processData: false,  
+          success: function (returndata) {  
+         	 $("#routeDayImageAddress").val(returndata);
+          },  
+          error: function (returndata) {  
+              alert("错误!");  
+          }  
+     });  
+ } 
+ 
+ 
+    
+    
+  //获取下拉列表框数据
+  	function getComboboxData(row)
+  	{
+	  	//早餐
+	    $.ajax({  
+            url: '/DiningType/selectAll',  
+            dataType: 'json',  
+            success: function (jsonstr) {  
+               
+                $('#breakfast').combobox({   
+                	data:jsonstr,
+        	    	valueField: 'id',    
+        	        textField: 'typeName',  
+        	        editable:false,
+        	        onLoadSuccess: function(){
+        		  		if(row != undefined){
+            	        	if(row.breakfast.typeName != null){
+                        		$(this).combobox('select',row.breakfast.id);
+                            }else{
+                            	var Data = $(this).combobox('getData');
+                          	  	$(this).combobox('select',Data[0].id);
+                            }
+        	        	}else{
+                        	var Data = $(this).combobox('getData');
+                      	  	$(this).combobox('select',Data[0].id);
+                        }
+        		  	} 
+        	    });
+            }  
+        });
+	  	
+	  	
+	  	//中餐
+	    $.ajax({  
+            url: '/DiningType/selectAll',  
+            dataType: 'json',  
+            success: function (jsonstr) {  
+     
+                $('#lunch').combobox({   
+                	data:jsonstr,
+        	    	valueField: 'id',    
+        	        textField: 'typeName',  
+        	        editable:false,
+        	        onLoadSuccess: function(){
+        	        	
+        		  		if(row != undefined){
+            	        	if(row.lunch.typeName != null){
+                        		$(this).combobox('select',row.lunch.id);
+                            }else{
+                            	var Data = $(this).combobox('getData');
+                          	  	$(this).combobox('select',Data[0].id);
+                            }
+        	        	}else{
+                        	var Data = $(this).combobox('getData');
+                      	  	$(this).combobox('select',Data[0].id);
+                        }
+        		  	} 
+        	    });
+            }  
+        });
+	  	
+	  //晚餐
+	    $.ajax({  
+            url: '/DiningType/selectAll',  
+            dataType: 'json',  
+            success: function (jsonstr) {  
+           
+                $('#dinner').combobox({   
+                	data:jsonstr,
+        	    	valueField: 'id',    
+        	        textField: 'typeName',  
+        	        editable:false,
+        	        onLoadSuccess: function(){
+        	        	
+        		  		if(row != undefined){
+            	        	if(row.dinner.typeName != null){
+                        		$(this).combobox('select',row.dinner.id);
+                            }else{
+                            	var Data = $(this).combobox('getData');
+                          	  	$(this).combobox('select',Data[0].id);
+                            }
+        	        	}else{
+                        	var Data = $(this).combobox('getData');
+                      	  	$(this).combobox('select',Data[0].id);
+                        }
+        		  	} 
+        	    });
+            }  
+        });
+	  
+	    //晚餐
+	    $.ajax({  
+            url: '/HotelCategories/selectAll',  
+            dataType: 'json',  
+            success: function (jsonstr) {  
+                $('#hotelCategories').combobox({   
+                	data:jsonstr,
+        	    	valueField: 'id',    
+        	        textField: 'categoriesName',  
+        	        editable:false,
+        	        onLoadSuccess: function(){
+        	        	
+        		  		if(row != undefined){
+            	        	if(row.hotelCategories.categoriesName != null){
+                        		$(this).combobox('select',row.hotelCategories.id);
+                            }else{
+                            	var Data = $(this).combobox('getData');
+                          	  	$(this).combobox('select',Data[0].id);
+                            }
+        	        	}else{
+                        	var Data = $(this).combobox('getData');
+                      	  	$(this).combobox('select',Data[0].id);
+                        }
+        		  	} 
+        	    });
+            }  
+        });
+	  
+  	}
+    
+  
+  
+  
+
+        var url;
+        function newRouteTrip(){
+        	var rId=$("#rId").val();
+            $('#dlg').dialog('open').dialog('center').dialog('setTitle','新增行程');
+            $('#fm').form('clear');
+            url = '/RouteTrip/save?routeId='+rId;
+        }
+        
+        function newRouteDay(tripId){
+        	var row = $('#dg').datagrid('getSelected');//id获取正确
+            $('#dlg1').dialog('open').dialog('center').dialog('setTitle','新增日程');
+            $('#fm1').form('clear');
+            url = '/RouteDay/save?routeTripId='+row.id;
+        	//$('a').attr('onclick','saveRouteDay(\''+tripId+'\')');
+        }
+        
+        function editRouteTrip(){
+            var row = $('#dg').datagrid('getSelected');
+            if (row){
+                $('#fm').form('load',row);
+                $('#dlg').dialog({    
+                    title: '修改', 
+                    closed: false,
+                    onOpen:function(){
+                 	  	getComboboxData(row);
+                    }
+                 });
+                
+                url ='/RouteTrip/saveRouteTrip?id='+row.id;
+                document.getElementById("tripId").value=row.id;
+            }
+        }
+        
+        function editRouteDay(id){
+            var row = $('#'+id).datagrid('getSelected');
+            if (row){
+                $('#fm1').form('load',row);
+                
+                $('#dlg1').dialog({    
+                    title: '修改', 
+                    closed: false,
+                    onOpen:function(){
+                 	  	getComboboxData(row);
+                    }
+                 });
+                url ='/RouteDay/saveRouteDay?id='+row.id;
+                document.getElementById("dayId").value=row.id;
+            }
+        }
+        
+        function saveRouteTrip(){
+        	fileUpload1();
+        	fileUpload2();
+        	var tmp=$("#tripId").val();
+    		if(tmp==""){
+				tmp=null;
+			}
+        	var obj={
+        			id:tmp,
+        			tripTitle:$("#tripTitle").val(),
+        			tripDetail:$("#tripDetail").val(),
+        			breakfast:{id:$("#breakfast").combobox("getValue")},
+        			lunch:{id:$("#lunch").combobox("getValue")},
+        			dinner:{id:$("#dinner").combobox("getValue")},
+        			hotelCategories:{id:$("#hotelCategories").combobox("getValue")},
+        			foodPictures:[{imageAddress:$("#foodPictures").val()}],
+        			hotelPicture:[{imageAddress:$("#hotelPicture").val()}]
+        	};
+        	$.ajax({
+                url: url,
+                type: "POST",
+                contentType : 'application/json;charset=utf-8', //设置请求头信息
+                dataType:"json",
+                data: JSON.stringify(obj),            //将Json对象序列化成Json字符串
+                success: function(data){
+                	$('#dlg').dialog('close'); 
+                	$('#dg').datagrid('reload');
+                },
+                error: function(res){
+                	$.messager.show({    // show error message
+                        title: 'Error',
+                        msg: result.errorMsg
+                    });
+                }
+            });
+        }
+        
+        function saveRouteDay(){
+        	fileUpload3();
+        	var tmp=$("#dayId").val();
+    		if(tmp==""){
+				tmp=null;
+			}
+        	var obj={
+        			id:tmp,
+        			routeDayImageAddress:[{imageAddress:$("#routeDayImageAddress").val()}],
+        			selectionTime:$("#selectionTime").combobox("getValue"),
+        			simplenessExplain:$("#simplenessExplain").val(),
+        			detailednessExplain:$("#detailednessExplain").val()
+        	};
+        	$.ajax({
+                url: url,
+                type: "POST",
+                contentType : 'application/json;charset=utf-8', //设置请求头信息
+                dataType:"json",
+                data: JSON.stringify(obj),            //将Json对象序列化成Json字符串
+                success: function(data){
+                	$('#dlg1').dialog('close'); 
+                	$('#dg').datagrid('reload');
+                },
+                error: function(res){
+                	$.messager.show({    // show error message
+                        title: 'Error',
+                        msg: result.errorMsg
+                    });
+                }
+            });
+        }
+        function destroyRouteTrip(){
+            var row = $('#dg').datagrid('getSelected');
+            if (row){
+                $.messager.confirm('Confirm','Are you sure you want to destroy this user?',function(r){
+                    if (r){
+                        $.post('/RouteTrip/delete',{id:row.id},function(result){
+                            if (result.success){
+                                $('#dg').datagrid('reload');    // reload the user data
+                            } else {
+                                $.messager.show({    // show error message
+                                    title: 'Error',
+                                    msg: result.errorMsg
+                                });
+                            }
+                        },'json');
+                    }
+                });
+            }
+        }
+        
+        function destroyRouteDay(id){
+            var row = $('#'+id).datagrid('getSelected');
+            if (row){
+                $.messager.confirm('Confirm','Are you sure you want to destroy this user?',function(r){
+                    if (r){
+                        $.post('/RouteDay/delete',{id:row.id},function(result){
+                            if (result.success){
+                                $('#dg').datagrid('reload');    // reload the user data
+                            } else {
+                                $.messager.show({    // show error message
+                                    title: 'Error',
+                                    msg: result.errorMsg
+                                });
+                            }
+                        },'json');
+                    }
+                });
+            }
+        }
+        
+        function foodimagedetails(){
+        	var row = $('#dg').datagrid('getSelected');//id获取正确
+            $('#dlg2').dialog('open').dialog('center').dialog('setTitle','图片详情');
+            var foodPicturesList = row.foodPictures;
+            for (var i = 0; i < foodPicturesList.length; i++) {
+            	var foodPictures = foodPicturesList[i];
+                $("#dlg2").append(" <img  src=\"/files/"+foodPictures.imageAddress+"\"/>");
+			}
+            //$.parser.parse('#dlg2');
+        }
+        
+            function hotelimagedetails(){
+        	var row = $('#dg').datagrid('getSelected');//id获取正确
+            $('#dlg2').dialog('open').dialog('center').dialog('setTitle','图片详情');
+            var hotelPictureList = row.hotelPicture;
+            for (var i = 0; i < hotelPictureList.length; i++) {
+            	var hotelPictures = hotelPictureList[i];
+                $("#dlg2").append(" <img  src=\"/files/"+hotelPictures.imageAddress+"\"/>");
+			}
+          //$.parser.parse('#dlg2');
+        }
+            
+            function routeDayImage(id){
+            	var row = $('#'+id).datagrid('getSelected');//id获取正确
+                $('#dlg2').dialog('open').dialog('center').dialog('setTitle','图片详情');
+                var routeDayImageList = row.routeDayImageAddress;
+                for (var i = 0; i < routeDayImageList.length; i++) {
+                	var routeDayImages = routeDayImageList[i];
+                    $("#dlg2").append(" <img  src=\"/files/"+routeDayImages.imageAddress+"\"/>");
+    			}
+              //$.parser.parse('#dlg2');
+            }
+        
+      /*]]>*/
+    </script>
+</body>
+</html>

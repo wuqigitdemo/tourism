@@ -72,6 +72,8 @@
 		</tr>	
 		<tr>
 			<td style="font-size: 16px; text-align: center;">线路列表简图：<br/>建议尺寸-宽1500*高200</td>
+			
+			
 			<td >
 			
         <form id="form0" action="/RouteBaseInfo/fileUpload" enctype="multipart/form-data" method="post" novalidate="" style="margin:0;padding:20px 50px">
@@ -472,16 +474,16 @@
         	$('#myform').form('submit',{
                 url: '/RouteBaseInfo/save',
                 onSubmit: function(){
-                	//启用选项卡
-                	enableTab(1);
-                	enableTab(2);
-                	enableTab(3);
-                	enableTab(4);
                 	fileUpload1();
                 	fileUpload2();
                     return $(this).form('validate');
                 },
                 success: function(resultJSON){
+                	//启用选项卡
+                	enableTab(1);
+                	enableTab(2);
+                	enableTab(3);
+                	enableTab(4);
                 	var result = JSON.parse(resultJSON);
                     if (result.errorMsg){
                         $.messager.show({

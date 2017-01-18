@@ -21,7 +21,7 @@ public class TestTourismThemeRepository {
 	@Autowired
 	private TourismThemeRepository repository;
 	
-//    @Test
+    @Test
     public void testSave() throws Exception {
     	TourismTheme tt = new TourismTheme();
     	tt.setThemeName("Repository主题3");
@@ -29,9 +29,4 @@ public class TestTourismThemeRepository {
     	assertTrue(returnTT.getThemeName().equals("Repository主题1"));
     }
     
-    @Test
-    public void update() {
-    	repository.update("主题", "4028b4815992c5fa015992c60b0c0000");
-    }
-
 }

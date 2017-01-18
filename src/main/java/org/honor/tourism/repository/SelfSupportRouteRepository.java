@@ -12,10 +12,4 @@ public interface SelfSupportRouteRepository extends JpaRepository<SelfSupportRou
 	
 	public Page<SelfSupportRoute> findByRouteBaseInfoRouteNameOrRouteBaseInfoOutPlaceOrRouteBaseInfoDestinationOrRouteBaseInfoRouteTypeListTypeName(String routeName, String outPlace, String destination, String typeName, Integer startDays, Integer endDays, Pageable pageable);
 	
-	public SelfSupportRoute findByRouteBaseInfoRouteName(String routeName);
-	 
-	@Modifying(clearAutomatically = true)
-	@Query(value = "update SelfSupportRoute s set s.numbering = ?1 where s.id = ?2")
-	public int deleteBy(String routeName, String bh);
-	
 }
