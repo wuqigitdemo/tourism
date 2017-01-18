@@ -110,7 +110,7 @@ public class RouteBaseInfoController {
 			return EasyuiResult.result(result);
         }
 		//RouteBaseInfo returnRouteBaseInfo = service.save(routeBaseInfo);
-		System.out.println("11====="+routeBaseInfo.getTourismTheme());
+		System.out.println("11====="+routeBaseInfo.getListRouteDiagram());
 		SelfSupportRoute returnSelfSupportRoute = service.save(routeBaseInfo);
 		if (returnSelfSupportRoute == null) {
 			EasyuiResult.result(false, "添加失败");
