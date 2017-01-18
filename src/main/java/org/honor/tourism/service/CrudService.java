@@ -19,4 +19,6 @@ public interface CrudService<T> {
 	
 	public void delete(String id);
 	
+	public T findById(String id);
+	
 }

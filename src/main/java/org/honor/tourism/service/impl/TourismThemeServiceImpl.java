@@ -15,38 +15,5 @@ public class TourismThemeServiceImpl extends CrudServiceImpl<TourismTheme> imple
 	public TourismThemeServiceImpl(JpaRepository<TourismTheme, String> repository) {
 		super(repository);
 	}
-	@Autowired
-	private TourismThemeRepository repository;
-	
-	@Transactional
-	public int update(String themeName, String id) {
-		return repository.update(themeName, id);
-	}
-
-	@Transactional
-	public void delete1(String themeName) {
-		repository.delete1(themeName);
-	}
-	
-	@Transactional
-	public void saveEm(TourismTheme tourismTheme) {
-		repository.saveEm(tourismTheme);
-	}
-	
-	@Transactional
-	public void deleteEm(String id) {
-		repository.deleteEm(id);
-	}
-	
-	@Transactional
-	public void updateEm(String themeName, String id) {
-		repository.updateEm(themeName, id);
-	}
-	
-	@Transactional
-	public TourismTheme findEm(String id) {
-		return repository.findEm(id);
-	}
-
 	
 }

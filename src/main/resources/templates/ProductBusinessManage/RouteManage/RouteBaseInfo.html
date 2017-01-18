@@ -564,16 +564,16 @@
         	$('#myform').form('submit',{
                 url: '/RouteBaseInfo/save',
                 onSubmit: function(){
-                	//启用选项卡
-                	enableTab(1);
-                	enableTab(2);
-                	enableTab(3);
-                	enableTab(4);
                 	fileUpload1();
                 	fileUpload2();
                     return $(this).form('validate');
                 },
                 success: function(resultJSON){
+                	//启用选项卡
+                	enableTab(1);
+                	enableTab(2);
+                	enableTab(3);
+                	enableTab(4);
                 	var result = JSON.parse(resultJSON);
                     if (result.errorMsg){
                         $.messager.show({
