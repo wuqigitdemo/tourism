@@ -189,8 +189,9 @@
 	
 	var findRouteBaseInfo = [[${selfSupportRoute.routeBaseInfo.routeTypeList}]];
 	$.each(findRouteBaseInfo, function(id, name) {  
-	});  
-    $.ajax({  
+	});
+	
+	 $.ajax({  
 	        url: '/RouteCategory/findRouteCategory',  
 	        dataType: 'json',  
 	        success: function (data) {
@@ -426,51 +427,49 @@
 		            }  
 		        });
 	        }
-       
-        function saveUser(){
-        	$('#myform').form('submit',{
-                url: '/RouteBaseInfo/update',
-                onSubmit: function(){
-                	enableTab(1);
-                	enableTab(2);
-                	enableTab(3);
-                	enableTab(4);
-                	fileUpload1();
-                	fileUpload2();
-                if ($("#f1").filebox('getValue') != "") {
-                		fileUpload1();
+    
+     function saveUser(){
+     	$('#myform').form('submit',{
+             url: '/RouteBaseInfo/update',
+             onSubmit: function(){
+             	/* enableTab(1);
+             	enableTab(2);
+             	enableTab(3);
+             	enableTab(4); */
+             if ($("#f1").filebox('getValue') != "") {
+             		fileUpload1();
 				}
-                if ($("#f2").filebox('getValue') != "") {
-                    	fileUpload2();
+             if ($("#f2").filebox('getValue') != "") {
+                 	fileUpload2();
 				}
-                    	return $(this).form('validate');
-                },
-                success: function(resultJSON){
-                	var result = JSON.parse(resultJSON);
-                    if (result.errorMsg){
-                        $.messager.show({
-                            title: 'Error',
-                            msg: result.errorMsg
-                        });
-                    } else {
-                    	var values = result.msg;
-                    	var input = document.createElement('input');
-                    	document.body.appendChild(input);
-                    	input.setAttribute('type', 'hidden');
-                    	input.setAttribute('id', 'rId');
-                    	input.setAttribute('value', values);
-                    	$('#myform').form('clear');
-                    }
-                }
-            });
-        }
-        $(function(){
+                 	return $(this).form('validate');
+             },
+             success: function(resultJSON){
+             	var result = JSON.parse(resultJSON);
+                 if (result.errorMsg){
+                     $.messager.show({
+                         title: 'Error',
+                         msg: result.errorMsg
+                     });
+                 } else {
+                 	var values = result.msg;
+                 	var input = document.createElement('input');
+                 	document.body.appendChild(input);
+                 	input.setAttribute('type', 'hidden');
+                 	input.setAttribute('id', 'rId');
+                 	input.setAttribute('value', values);
+                 	$('#myform').form('clear');
+                 }
+             }
+         });
+     }
+    /*  $(function(){
 	        //四个选项卡禁用
 	        disableTab(1);
 	        disableTab(2);
 	        disableTab(3);
 	        disableTab(4);
-        });
+     }); */
         /*]]>*/
     </script>
    </body>
