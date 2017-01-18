@@ -4,8 +4,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.honor.tourism.entity.PriceInventory;
+import org.honor.tourism.entity.RouteType;
 import org.honor.tourism.entity.SelfSupportRoute;
 import org.honor.tourism.service.CrudService;
+import org.honor.tourism.service.RouteTypeService;
 import org.honor.tourism.service.SelfSupportRouteService;
 import org.honor.tourism.util.EasyuiPage;
 import org.honor.tourism.util.EasyuiResult;
@@ -32,6 +34,9 @@ public class SelfSupportRouteController extends CrudController<SelfSupportRoute>
 
 	@Autowired
 	public SelfSupportRouteService selfSupportRouteService;
+	
+	@Autowired
+	public RouteTypeService routeTypeService;
 	
 	@Autowired
 	public SelfSupportRouteController(CrudService<SelfSupportRoute> service) {
@@ -63,7 +68,6 @@ public class SelfSupportRouteController extends CrudController<SelfSupportRoute>
 	public String routeViewHtml (ModelMap model, String routeId) {
 		
 		SelfSupportRoute selfSupportRoute = selfSupportRouteService.findRouteWithId(routeId);
-		
 		model.addAttribute("selfSupportRoute", selfSupportRoute);
 		return "/ProductBusinessManage/RouteManage/SelfSupportRouteView";
 	}

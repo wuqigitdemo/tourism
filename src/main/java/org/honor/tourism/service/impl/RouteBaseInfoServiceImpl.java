@@ -49,4 +49,9 @@ public class RouteBaseInfoServiceImpl implements RouteBaseInfoService {
 		return repository.save(routeBaseInfo);
 	}
 
+	@Override
+	public RouteBaseInfo findOne(String id) {
+		return repository.findOne(id);
+	}
+
 }

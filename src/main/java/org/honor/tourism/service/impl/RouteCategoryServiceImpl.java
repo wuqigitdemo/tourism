@@ -1,5 +1,7 @@
 package org.honor.tourism.service.impl;
 
+import java.util.List;
+
 import org.honor.tourism.entity.RouteCategory;
 import org.honor.tourism.repository.RouteCategoryRepository;
 import org.honor.tourism.service.RouteCategoryService;
@@ -37,6 +39,11 @@ public class RouteCategoryServiceImpl implements RouteCategoryService {
 	@Override
 	public void delete(String id) {
 		repository.delete(id);
+	}
+
+	@Override
+	public List<RouteCategory> findAll() {
+		return repository.findAll();
 	}
 
 }

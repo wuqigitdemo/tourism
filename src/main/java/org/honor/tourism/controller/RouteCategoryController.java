@@ -63,6 +63,17 @@ public class RouteCategoryController {
 	}
 	
 	/**
+	 * 获取线路类型
+	 * @return
+	 */
+	@RequestMapping("/findRouteCategory")
+	@ResponseBody
+	public List<RouteCategory> findRouteCategory() {
+		List<RouteCategory> routeCategory =  service.findAll();
+		return routeCategory;
+	}
+	
+	/**
 	 * 删除线路类别
 	 * @param id
 	 * @return

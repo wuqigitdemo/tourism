@@ -29,6 +29,7 @@ import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -63,6 +64,7 @@ public class RouteBaseInfoController {
 	
 	@Autowired
 	private SelfSupportRouteRepository selfSupportRouteRepository;
+	
 	/**
 	 * 获取自营线路信息
 	 * @param page
@@ -103,11 +105,12 @@ public class RouteBaseInfoController {
 	 */
 	@RequestMapping("/save")
 	@ResponseBody
-	public Map<String, Object> save(@Valid RouteBaseInfo routeBaseInfo, BindingResult result) {
+	public Map<String, Object> save(@Valid @RequestBody RouteBaseInfo routeBaseInfo, BindingResult result) {
 		if (result.hasErrors()) {//数据交验
 			return EasyuiResult.result(result);
         }
 		//RouteBaseInfo returnRouteBaseInfo = service.save(routeBaseInfo);
+		System.out.println("11====="+routeBaseInfo.getTourismTheme());
 		SelfSupportRoute returnSelfSupportRoute = service.save(routeBaseInfo);
 		if (returnSelfSupportRoute == null) {
 			EasyuiResult.result(false, "添加失败");
@@ -193,6 +196,18 @@ public class RouteBaseInfoController {
 			return imageName;
 		}
 		return "false";
+	}
+	
+	/**
+	 * 根据id查询基础信息
+	 * @param page
+	 * @return
+	 */
+	@RequestMapping("/findOne")
+	@ResponseBody
+	public RouteBaseInfo findOne(String id){
+		RouteBaseInfo routeBaseInfo =  service.findOne(id);
+		return routeBaseInfo;
 	}
 	
 }

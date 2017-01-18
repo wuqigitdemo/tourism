@@ -64,6 +64,19 @@ public class RouteTypeController {
 	}
 	
 	/**
+	 * 根据Id获取线路类别
+	 * @param page
+	 * @return
+	 */
+	@RequestMapping("/selectRouteType")
+	@ResponseBody
+	public List<RouteType> selectRouteType(String routeCategoryId) {
+		List<RouteType> routeType =  service.findByRouteCategoryId(routeCategoryId);
+		return routeType;
+	}
+	
+	
+	/**
 	 * 获取线路类型
 	 * @param page
 	 * @return

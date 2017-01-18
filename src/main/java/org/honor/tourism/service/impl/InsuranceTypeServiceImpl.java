@@ -1,5 +1,7 @@
 package org.honor.tourism.service.impl;
 
+import java.util.List;
+
 import org.honor.tourism.entity.InsuranceType;
 import org.honor.tourism.repository.InsuranceTypeRepository;
 import org.honor.tourism.service.InsuranceTypeService;
@@ -32,6 +34,11 @@ public class InsuranceTypeServiceImpl implements InsuranceTypeService {
 	@Override
 	public void delete(String id) {
 		repository.delete(id);
+	}
+
+	@Override
+	public List<InsuranceType> findAll() {
+		return repository.findAll();
 	}
 
 }

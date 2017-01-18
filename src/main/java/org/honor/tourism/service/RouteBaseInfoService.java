@@ -1,6 +1,7 @@
 package org.honor.tourism.service;
 
 import org.honor.tourism.entity.RouteBaseInfo;
+import org.honor.tourism.entity.RouteType;
 import org.honor.tourism.entity.SelfSupportRoute;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,5 +21,6 @@ public interface RouteBaseInfoService {
 	
 	public void delete(String id);
 	
+	public RouteBaseInfo findOne(String id);
 
 }

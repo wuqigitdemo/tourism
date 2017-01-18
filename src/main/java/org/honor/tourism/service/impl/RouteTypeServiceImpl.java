@@ -47,4 +47,9 @@ public class RouteTypeServiceImpl implements RouteTypeService {
 	public RouteType getOne(String id){
 		return repository.getOne(id);
 	}
+
+	@Override
+	public List<RouteType> findByRouteCategoryId(String routeCategoryId) {
+		return repository.findByRouteCategoryId(routeCategoryId);
+	}
 }

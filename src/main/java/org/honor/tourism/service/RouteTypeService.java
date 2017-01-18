@@ -24,4 +24,6 @@ public interface RouteTypeService {
 	public List<RouteType> findAll();
 	
 	public RouteType getOne(String id);
+	
+	public List<RouteType> findByRouteCategoryId(String routeCategoryId);
 }

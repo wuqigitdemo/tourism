@@ -12,22 +12,13 @@
 <script type="text/javascript" src="/easyui/jquery.min.js"></script>
 <script type="text/javascript" src="/easyui/jquery.easyui.min.js"></script>
 <script type="text/javascript" src="/easyui/locale/easyui-lang-zh_CN.js"></script>
-
-<link rel="stylesheet" type="text/css"
-	href="/css/bootstrap.min.css" />
-<link rel="stylesheet" type="text/css"
-	href="/css/common.css" />
-<link rel="stylesheet" type="text/css"
-	href="/css/page.css" />
-<link rel="stylesheet" type="text/css"
-	href="/css/reset.css" />
-	
-<link rel="stylesheet" type="text/css"
-	href="/css/fullcalendar/fullcalendar.css" />
-<link rel="stylesheet" type="text/css"
-	href="/css/fullcalendar/fullcalendar.print.css" />
-<script type="text/javascript"
-	src="/js/fullcalendar/fullcalendar.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="/css/common.css" />
+<link rel="stylesheet" type="text/css" href="/css/page.css" />
+<link rel="stylesheet" type="text/css" href="/css/reset.css" />
+<link rel="stylesheet" type="text/css" href="/css/fullcalendar/fullcalendar.css" />
+<link rel="stylesheet" type="text/css" href="/css/fullcalendar/fullcalendar.print.css" />
+<script type="text/javascript" src="/js/fullcalendar/fullcalendar.min.js"></script>
 
 <style type="text/css">
 .td{border:1px #0066ff solid;}
@@ -37,7 +28,7 @@
 </head>
 <body id="RouteBaseInfo">
 <form class="easyui-panel" id="myform" name="myform" method="post">
-<table class="table table-bordered table2 glg_tab" >
+<table id="table" class="table table-bordered table2 glg_tab" >
 	<tbody>
 		<tr>
 			<td style="font-size: 16px; text-align: center;">线路名称：</td>
@@ -48,31 +39,10 @@
 		<tr>
 			<td style="font-size: 16px; text-align: center;">去程交通：</td>
 			<td>
-				<!-- <input class="easyui-combobox" 
-						name="goTraffic"
-						data-options="
-					url: '/RouteBaseInfo/selectGoWay', 
-					method:'get',
-					valueField:'id',
-					textField:'trafficType',
-					value:'请选择',
-					panelHeight:'auto'">
-				</input> -->
 				<input id="goTraffic" class="easyui-validatebox" data-options="validType:'selected'" style="width:180px" name="goTraffic" />
 			</td>
 			<td style="font-size: 16px; text-align: center;">回程交通：</td>
 			<td>
-				<!-- <input class="easyui-combobox" 
-						name="returnTraffic"
-						data-options="
-					required:true,	
-					url: '/RouteBaseInfo/selectGoWay',
-					method:'get',
-					valueField:'id',
-					textField:'trafficType',
-					value:'请选择',
-					panelHeight:'auto'">
-				</input> -->
 				<input id="returnTraffic" class="easyui-validatebox" data-options="validType:'selected'" style="width:180px" name="returnTraffic" />
 			</td>
 		</tr>
@@ -85,16 +55,6 @@
 		<tr>
 			<td style="font-size: 16px; text-align: center;">签证国家：</td>
 			<td >
-				<!-- <input class="easyui-combobox" 
-						name="visaNationals"
-						data-options="
-					url: '/RouteBaseInfo/selectCountry', 
-					method:'get',
-					valueField:'id',
-					textField:'country',
-					value:'请选择',
-					panelHeight:'auto'">
-				</input> -->
 				<input id="visaNationals" class="easyui-validatebox" data-options="validType:'selected'" style="width:180px" name="visaNationals" />
 			</td>
 			<td style="font-size: 16px; text-align: center;">电商页面排序：</td>
@@ -107,45 +67,9 @@
 		<div id="cp" style="font-size: 16px;width:45%;color: blue;font-weight: bold;padding-left: 30px">产品类别</div>
 		</td>
 		</tr>
-		
-		<tr>
-			<td style="font-size: 16px; text-align: center;">原创路线:</td>
-			<td >
-			<a  class="easyui-linkbutton" plain="true" onclick="originalRoute()">选择路线</a>
-			</td>
-			<td>
-			 <div>
-			 	<input type="hidden" id="routeTypeList" name="routeTypeList" value="" ></input>
-			 	<input type="text" id="originalRoute" name="originalRoute" value="" readonly="value" class="easyui-validatebox tb" data-options="required:true"></input>
-			 </div>
-			</td>
+		<tr id="line">
+
 		</tr>	
-		<tr>
-			<td style="font-size: 16px; text-align: center;">龙江1+1:</td>
-			<td>
-			<a  class="easyui-linkbutton" plain="true" onclick="longJiang()">选择路线</a>
-			</td>
-			<td>
-			<div>
-			 	<input type="hidden" id="routeTypeList" name="routeTypeList" value="" ></input>
-			 	<input type="text" id="longJiang" name="longJiang" value="" readonly="value" class="easyui-validatebox tb" data-options="required:true"></input>  	
-			</div>
-			</td>
-		</tr>	
-		<tr>
-			<td style="font-size: 16px; text-align: center;">出境游:</td>
-			<td>
-			<a  class="easyui-linkbutton" plain="true" onclick="outboundTravel()">选择路线</a>
-			</td>
-			<td>
-			 <div>
-			 	 <input type="hidden" id="routeTypeList" name="routeTypeList" value="" ></input>
-			 	<input type="text" id="outboundTravel" name="outboundTravel" value="" readonly="value" class="easyui-validatebox tb" data-options="required:true"></input> 	
-			 </div>
-			</td>
-		</tr>
-		
-		
 		<tr>
 			<td style="font-size: 16px; text-align: center;">线路列表简图：<br/>建议尺寸-宽1500*高200</td>
 			<td >
@@ -186,35 +110,35 @@
 		
 		<tr>
 			<td style="font-size: 16px; text-align: center;">起价说明：</td>
-			<td colspan="4" style="text-align: left;"><textarea name="startPriceExplain" class="easyui-validatebox tb" data-options="required:true,validType:['charts','length[2,25]']" value="" style="width:100%;"/></td>
+			<td colspan="4" style="text-align: left;"><textarea id="startPriceExplain" name="startPriceExplain" class="easyui-validatebox tb" data-options="required:true,validType:['charts','length[2,25]']" value="" style="width:100%;"/></td>
 		</tr>
 		<tr>
 			<td style="font-size: 16px; text-align: center;">推荐理由：</td>
-			<td colspan="4" style="text-align: left;"><textarea name="recommendedReason" class="easyui-validatebox tb" data-options="required:true,validType:['charts','length[2,25]']" value="" style="width:100%;"/></td>
+			<td colspan="4" style="text-align: left;"><textarea id="recommendedReason" name="recommendedReason" class="easyui-validatebox tb" data-options="required:true,validType:['charts','length[2,25]']" value="" style="width:100%;"/></td>
 		</tr>
 		<tr>
 			<td style="font-size: 16px; text-align: center;">重要提示：</td>
-			<td colspan="4" style="text-align: left;"><textarea name="importanceHint" class="easyui-validatebox tb" data-options="required:true,validType:['charts','length[2,25]']" value="" style="width:100%;"/></td>
+			<td colspan="4" style="text-align: left;"><textarea id="importanceHint" name="importanceHint" class="easyui-validatebox tb" data-options="required:true,validType:['charts','length[2,25]']" value="" style="width:100%;"/></td>
 		</tr>
 		<tr>
 			<td style="font-size: 16px; text-align: center;">保险赠送情况说明：</td>
-			<td colspan="4" style="text-align: left;"><textarea name="insuranceGiveExplain" class="easyui-validatebox tb" data-options="required:true,validType:['charts','length[2,25]']" value="" style="width:100%;"/></td>
+			<td colspan="4" style="text-align: left;"><textarea id="insuranceGiveExplain" name="insuranceGiveExplain" class="easyui-validatebox tb" data-options="required:true,validType:['charts','length[2,25]']" value="" style="width:100%;"/></td>
 		</tr>
 		<tr>
 			<td style="font-size: 16px; text-align: center;">限制报名期限：</td>
-			<td colspan="4" style="text-align: left;"><input name="limitedRegistrationDeadline" class="easyui-numberbox"  data-options="required:true,min:0" value="" style="width:100%;"/></td>
+			<td colspan="4" style="text-align: left;"><input id="limitedRegistrationDeadline" name="limitedRegistrationDeadline" class="easyui-numberbox"  data-options="required:true,min:0" value="" style="width:100%;"/></td>
 		</tr>
 		<tr>
 			<td style="font-size: 16px; text-align: center;">限制付款天数：</td>
-			<td colspan="4" style="text-align: left;"><input name="restrictedPaymentDays" class="easyui-numberbox"  data-options="required:true,min:0" value="" style="width:100%;"/></td>
+			<td colspan="4" style="text-align: left;"><input id="restrictedPaymentDays" name="restrictedPaymentDays" class="easyui-numberbox"  data-options="required:true,min:0" value="" style="width:100%;"/></td>
 		</tr>
 		<tr>
 			<td style="font-size: 16px; text-align: center;">限制付款小时：</td>
-			<td colspan="4" style="text-align: left;"><input name="limitedPaymentHours" class="easyui-numberbox"  data-options="required:true,min:0" value="" style="width:100%;"/></td>
+			<td colspan="4" style="text-align: left;"><input id="limitedPaymentHours" name="limitedPaymentHours" class="easyui-numberbox"  data-options="required:true,min:0" value="" style="width:100%;"/></td>
 		</tr>
 		<tr>
 			<td style="font-size: 16px; text-align: center;">付款方式：</td>
-			<td colspan="4" style="text-align: left;"><input name="paymentMethod" class="easyui-validatebox tb" data-options="required:true,validType:['charts','length[2,25]']" value="" style="width:100%;"/></td>
+			<td colspan="4" style="text-align: left;"><input id="paymentMethod" name="paymentMethod" class="easyui-validatebox tb" data-options="required:true,validType:['charts','length[2,25]']" value="" style="width:100%;"/></td>
 		</tr>
 		<tr>
 			<td style="font-size: 16px; text-align: center;"></td>
@@ -226,39 +150,19 @@
 	</tbody>
 </table>
 </form>	
-
- 	<div id="dlg" class="easyui-dialog" style="width:500px"
+	<div id="dlg" class="easyui-dialog" style="width:500px"
             closed="true" buttons="#dlg-buttons" data-options="modal: true">
         <form id="fm" novalidate="" style="margin:0;padding:20px 50px">
         </form> 
-    </div>
- 	<div id="dlg2" class="easyui-dialog" style="width:500px"
-            closed="true" buttons="#dlg-buttons2" data-options="modal: true">
-        <form id="fm2" novalidate="" style="margin:0;padding:20px 50px">
-        </form>
-    </div>
- 	<div id="dlg3" class="easyui-dialog" style="width:500px"
-            closed="true" buttons="#dlg-buttons3" data-options="modal: true">
-        <form id="fm3" novalidate="" style="margin:0;padding:20px 50px">
-        </form>
     </div>
  	<div id="dlg4" class="easyui-dialog" style="width:500px"
             closed="true" buttons="#dlg-buttons4" data-options="modal: true">
         <form id="fm4" novalidate="" style="margin:0;padding:20px 50px">
         </form>
     </div>
-            
     <div id="dlg-buttons">
-        <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok"  onclick="getInfo()" style="width:90px">提交</a>
+        <a id="info1" href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" style="width:90px">提交</a>
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')" style="width:90px">取消</a>
-    </div>
-    <div id="dlg-buttons2">
-        <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="getInfo2()" style="width:90px">提交</a>
-        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg2').dialog('close')" style="width:90px">取消</a>
-    </div>
-    <div id="dlg-buttons3">
-        <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="getInfo3()" style="width:90px">提交</a>
-        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg3').dialog('close')" style="width:90px">取消</a>
     </div>
     <div id="dlg-buttons4">
         <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="getInfo4()" style="width:90px">提交</a>
@@ -267,6 +171,151 @@
 	<script type="text/javascript">
 	/*<![CDATA[*/
 	           
+	 $.ajax({  
+        url: '/RouteCategory/findRouteCategory',  
+        dataType: 'json',  
+        success: function (data) {
+        	for (var i = 0; i < data.length; i++) {
+        	$('#line').after("<tr id='"+i+"'></tr>");
+        	$('#'+i).append("<td><input type=\"text\" value='"+data[i].categoryName+"'></input></td>"+
+        	"<td><a class=\"easyui-linkbutton\" plain=\"true\" onclick=\"originalRoute('"+data[i].id+"')\">选择路线</a></td>"+
+        	"<td><div>"+
+		 	"<input type=\"text\" id=\"routeTypeList\" name=\"routeTypeList\" value=\"\" ></input><input type=\"text\" id='originalRoute"+data[i].id+"' name='originalRoute"+data[i].id+"' value=\"\" readonly=\"value\" class=\"easyui-validatebox tb\" data-options=\"required:true\"></input>"+
+		    "</div></td>");
+        	}
+        }  
+    });          
+	 
+	 var d = [];
+	    var t = $('#fm').serializeArray();
+	    $.each(t, function() {
+	      d[this.id] = this.name;
+	    });
+	 alert(d);   
+	 var lineSelection = [];
+	 
+	 
+	 function getInfo(routeCategoryId){
+		var check_val= [];
+		var check_name= [];
+      	//var obj = $("input[name='tourismTheme']:checked");
+      	obj = document.getElementsByName(routeCategoryId);
+    		for (var j in obj) {
+    			 if (obj[j].checked == true ) {
+    				check_val.push(obj[j].name);
+    				}
+    		}
+    			for (var h in obj) {
+    				if (obj[h].checked == true) {
+     			    check_name.push(obj[h].value);
+     			    }  
+    		}
+  	     $("#routeTypeList").val(check_val);
+    	 $("#originalRoute"+routeCategoryId).val(check_name);
+		 $('#dlg').dialog('close');
+		}
+	 
+	 function getInfo4(){
+			var check_val= [];
+			var check_name= [];
+	    var obj = $("input[name='tourismTheme']:checked");
+	    //obj = document.getElementsByName("tourismTheme")
+	    for (var j in obj) {
+	    if (obj[j].checked == true ) {
+				check_val.push(obj[j].id);
+				}
+			}
+			for (var h in obj) {
+				if (obj[h].checked == true) {
+			check_name.push(obj[h].value);
+			}  
+				} 
+	     	 $("#tourismTheme").val(check_val);
+			 $("#tourismTheme1").val(check_name);
+			 $('#dlg4').dialog('close');
+		}
+	
+	function originalRoute(routeCategoryId){
+        $('#dlg').dialog('open').dialog('center').dialog('setTitle','选择路线');
+        $('#fm').form('clear');
+        $.ajax({  
+        	type: "POST", 
+        	url: '/RouteType/selectRouteType?routeCategoryId='+routeCategoryId,  
+            dataType: 'json',
+            contentType : 'application/json;charset=utf-8', //设置请求头信息
+            success: function (data) {
+            	$('#info1').attr('onclick','getInfo("'+routeCategoryId+'")');
+            	printCheckbox(data,null);
+           		 }
+        });
+        
+    }
+	
+	function printCheckbox(data, parentId) {
+		var ids = document.getElementById('a');
+		if (ids!= null) {
+		ids.parentNode.removeChild(ids);
+		}
+		var div = document.createElement("div");
+		div.id="a";document.getElementById('fm').appendChild(div);
+	    var ul=document.createElement("ul");
+	    div.appendChild(ul);
+	   
+	    printCheckbox1(data, parentId,ul);
+ 		/* checkbox.appendChild(ul); */
+	    
+	}
+	
+	function printCheckbox1(data, parentId,ul) {
+		for (var int = 0; int < data.length; int++) {
+			if(data[int].parentRouteType == parentId) {
+				var parId = data[int].id;
+				/***/
+			    var checkbox=document.createElement("checkbox");
+			        // 加入复选框
+			        checkbox.setAttribute("type","checkbox");
+			        checkbox.setAttribute("name", data[int].routeCategory.id);
+			        checkbox.setAttribute("value", data[int].typeName);
+			        var li=document.createElement("li");
+			        li.appendChild(checkbox);       
+			        li.appendChild(document.createTextNode(data[int].typeName+":"));
+			        ul.appendChild(li);
+				 	/***/
+				 var zj = getCheckboxValue(data, parId);
+				 printCheckbox1(zj, parId,ul);
+			}
+			if(data[int].parentRouteType != null && data[int].parentRouteType.id == parentId) {
+				var parId = data[int].id;
+				/***/
+			    var checkbox=document.createElement("input");
+			        // 加入复选框
+			        checkbox.setAttribute("type","checkbox");
+			        checkbox.setAttribute("id",data[int].id);
+			        checkbox.setAttribute("name", data[int].routeCategory.id);
+			        checkbox.setAttribute("value", data[int].typeName);
+			        var li=document.createElement("li");
+			        li.appendChild(checkbox);       
+			        li.appendChild(document.createTextNode(data[int].typeName));
+			        ul.appendChild(li);
+				 	/***/
+				 var zj = getCheckboxValue(data, parId);
+				 printCheckbox1(zj, parId,ul);
+			}
+		}
+	}
+	
+	function getCheckboxValue(data, parId) {
+		var checkboxList = new Array();
+		for (var i = 0; i < data.length; i++) {
+			if (data[i].parentRouteType != null) {
+				if(data[i].parentRouteType.id == parId) {
+					checkboxList.push(data[i]);
+				}
+			}
+		}
+		return checkboxList;
+	}
+	
     $('#goTraffic').combobox({    
     	valueField: 'id',    
         textField: 'trafficType',    
@@ -332,203 +381,8 @@
 		             }  
 		        });  
 	        } 
-	           
-		 function getInfo(){
-			 check_val = [];
-			 $.ajax({  
-	            	type: "POST", 
-	            	url: '/RouteBaseInfo/selectRouteTypeList',  
-		            dataType: 'json',
-		            contentType : 'application/json;charset=utf-8', //设置请求头信息
-		            success: function (data) {
-	        	        	　　 for(var i=0;i<data.length;i++){
-	        	        		obj = document.getElementsByName(data[i].typeName);
-	        	     		    	for(k in obj){
-	        	     		        if(obj[k].checked)
-	        	     		            check_val.push(obj[k]);
-	        	     		   	 }
-	        	        	  }
-	        	     		    	$("#routeTypeList").val(check_val[0].id);
-	        	     		    	$("#originalRoute").val(check_val[0].value);
-		           		 }
-		        		});
-		  							$('#dlg').dialog('close');
-		} 
-		function getInfo2(){
-			check_val = [];
-			 $.ajax({  
-	            	type: "POST", 
-	            	url: '/RouteBaseInfo/selectRouteTypeList',  
-		            dataType: 'json',
-		            contentType : 'application/json;charset=utf-8', //设置请求头信息
-		            success: function (data) {
-	        	        	　　 for(var i=0;i<data.length;i++){
-	        	        		obj = document.getElementsByName(data[i].typeName);
-	        	     		    	for(k in obj){
-	        	     		        if(obj[k].checked)
-	        	     		            check_val.push(obj[k]);
-	        	     		   	 }
-	        	        	  }
-	        	        	 $("#routeTypeList").val(check_val[0].id);
-     	     		    	 $("#longJiang").val(check_val[0].value);
-		           		 }
-		        		});
-		  							$('#dlg2').dialog('close');
-		}
-		function getInfo3(){
-			check_val = [];
-			 $.ajax({  
-	            	type: "POST", 
-	            	url: '/RouteBaseInfo/selectRouteTypeList',  
-		            dataType: 'json',
-		            contentType : 'application/json;charset=utf-8', //设置请求头信息
-		            success: function (data) {
-	        	        	　　 for(var i=0;i<data.length;i++){
-	        	        		obj = document.getElementsByName(data[i].typeName);
-	        	     		    	for(k in obj){
-	        	     		        if(obj[k].checked)
-	        	     		            check_val.push(obj[k]);
-	        	     		   	 }
-	        	        	  }
-	        	        	 $("#routeTypeList").val(check_val[0].id);
-     	     		    	 $("#outboundTravel").val(check_val[0].value);
-		           		 }
-		        		});
-		  							$('#dlg3').dialog('close');
-		}
-		function getInfo4(){
-			check_val = [];
-			check_name = [];
-			 $.ajax({  
-	            	type: "POST", 
-	            	url: '/RouteBaseInfo/selectTourismTheme',  
-		            dataType: 'json',
-		            contentType : 'application/json;charset=utf-8', //设置请求头信息
-		            success: function (data) {
-	        	        	　　 for(var i=0;i<data.length;i++){
-	        	        		obj = document.getElementsByName(data[i].themeName);
-		        	     		    for (var j in obj) {
-		        	     			 if (obj[j].checked) {
-		        	     				check_val.push(obj[j].id);
-									}
-		        	     		}
-		        	     			for (var h in obj) {
-		        	     				if (obj[h].checked) {
-			        	     			check_name.push(obj[h].value);
-										}  
-								} 	
-	        	        	  }
-	        	     		 $("#tourismTheme").val(check_val);
-	        	     		 $("#tourismTheme1").val(check_name);
-		           		 }
-		        		});
-		  					 $('#dlg4').dialog('close');
-		}
-		
-        var url;
-        function originalRoute(){
-            $('#dlg').dialog('open').dialog('center').dialog('setTitle','原创路线');
-            $('#fm').form('clear');
-            $.ajax({  
-            	type: "POST", 
-            	url: '/RouteBaseInfo/selectRouteTypeList',  
-	            dataType: 'json',
-	            contentType : 'application/json;charset=utf-8', //设置请求头信息
-	            success: function (data) {
-	            			var ids = document.getElementById('1');
-	            			if (ids!= null) {
-	            			ids.parentNode.removeChild(ids);
-							}
-	            			var div = document.createElement("div");
-	            			div.id="1";
-	                		document.getElementById('fm').appendChild(div);
-        	        	    var ul=document.createElement("ul");
-        	        	    div.appendChild(ul);
-        	        	　　 for(var i=0;i<data.length;i++){
-        	        	    var checkbox=document.createElement("input");
-        	        	        // 加入复选框
-        	        	        checkbox.setAttribute("type","checkbox");
-        	        	        checkbox.setAttribute("id",data[i].id);
-        	        	        checkbox.setAttribute("name", data[i].typeName);
-        	        	        checkbox.setAttribute("value", data[i].typeName);
-        	        	        var li=document.createElement("li");
-        	        	        li.appendChild(checkbox);       
-        	        	        li.appendChild(document.createTextNode(data[i].typeName));
-        	        	        ul.appendChild(li);
-        	        	    }
-        	        	 		checkbox.appendChild(ul); 
-            					getInfo();
-	           		 }
-	        });
-        }
-        function longJiang(){
-            $('#dlg2').dialog('open').dialog('center').dialog('setTitle','龙江1+1');
-            $('#fm2').form('clear');
-            $.ajax({  
-            	type: "POST", 
-            	url: '/RouteBaseInfo/selectRouteTypeList',  
-	            dataType: 'json',
-	            contentType : 'application/json;charset=utf-8', //设置请求头信息
-	            success: function (data) {
-	            			var ids = document.getElementById('1');
-	            			if (ids!= null) {
-	            			ids.parentNode.removeChild(ids);
-							}
-	            			var div = document.createElement("div");
-	            			div.id="1";
-	                		document.getElementById('fm2').appendChild(div);
-        	        	    var ul=document.createElement("ul");
-        	        	    div.appendChild(ul);
-        	        	　　 for(var i=0;i<data.length;i++){
-        	        	    var checkbox=document.createElement("input");
-        	        	        // 加入复选框
-        	        	        checkbox.setAttribute("type","checkbox");
-        	        	        checkbox.setAttribute("id",data[i].id);
-        	        	        checkbox.setAttribute("name", data[i].typeName);
-        	        	        checkbox.setAttribute("value", data[i].typeName);
-        	        	        var li=document.createElement("li");
-        	        	        li.appendChild(checkbox);       
-        	        	        li.appendChild(document.createTextNode(data[i].typeName));
-        	        	        ul.appendChild(li);
-        	        	    }
-        	        	 		checkbox.appendChild(ul); 
-	            }  
-	        });
-        }
-        function outboundTravel(){
-            $('#dlg3').dialog('open').dialog('center').dialog('setTitle','出境游');
-            $('#fm3').form('clear');
-            $.ajax({  
-            	type: "POST", 
-            	url: '/RouteBaseInfo/selectRouteTypeList',  
-	            dataType: 'json',
-	            contentType : 'application/json;charset=utf-8', //设置请求头信息
-	            success: function (data) {
-	            			var ids = document.getElementById('1');
-	            			if (ids!= null) {
-	            			ids.parentNode.removeChild(ids);
-							}
-	            			var div = document.createElement("div");
-	            			div.id="1";
-	                		document.getElementById('fm3').appendChild(div);
-        	        	    var ul=document.createElement("ul");
-        	        	    div.appendChild(ul);
-        	        	　　 for(var i=0;i<data.length;i++){
-        	        	    var checkbox=document.createElement("input");
-        	        	        // 加入复选框
-        	        	        checkbox.setAttribute("type","checkbox");
-        	        	        checkbox.setAttribute("id",data[i].id);
-        	        	        checkbox.setAttribute("name", data[i].typeName);
-        	        	        checkbox.setAttribute("value", data[i].typeName);
-        	        	        var li=document.createElement("li");
-        	        	        li.appendChild(checkbox);       
-        	        	        li.appendChild(document.createTextNode(data[i].typeName));
-        	        	        ul.appendChild(li);
-        	        	    }
-        	        	 		checkbox.appendChild(ul); 
-	            }  
-	        });
-        }
+       
+		var url;
         function tourismTheme(){
         	$('#dlg4').dialog('open').dialog('center').dialog('setTitle','主题旅游');
             $('#fm4').form('clear');
@@ -538,12 +392,12 @@
 	            dataType: 'json',
 	            contentType : 'application/json;charset=utf-8', //设置请求头信息
 	            success: function (data) {
-	            			var ids = document.getElementById('1');
+	            			var ids = document.getElementById('v');
 	            			if (ids!= null) {
 	            			ids.parentNode.removeChild(ids);
 							}
 	            			var div = document.createElement("div");
-	            			div.id="1";
+	            			div.id="v";
 	                		document.getElementById('fm4').appendChild(div);
         	        	    var ul=document.createElement("ul");
         	        	    div.appendChild(ul);
@@ -552,19 +406,46 @@
         	        	        // 加入复选框
         	        	        checkbox.setAttribute("type","checkbox");
         	        	        checkbox.setAttribute("id",data[i].id);
-        	        	        checkbox.setAttribute("name", data[i].themeName);
+        	        	        checkbox.setAttribute("name", "tourismTheme");
         	        	        checkbox.setAttribute("value", data[i].themeName);
         	        	        var li=document.createElement("li");
         	        	        li.appendChild(checkbox);       
         	        	        li.appendChild(document.createTextNode(data[i].themeName));
         	        	        ul.appendChild(li);
         	        	    }
-        	        	 		checkbox.appendChild(ul); 
 	            }  
 	        });
         }
        
+        
         function saveUser(){
+        	var obj={
+            		routeName:$("#routeName").val(),
+            		goTraffic:{id:$("#goTraffic").combobox("getValue")},
+            		returnTraffic:{id:$("#returnTraffic").combobox("getValue")},
+            		outPlace:$("#outPlace").val(),
+            		destination:$("#destination").val(),
+            		visaNationals:{id:$("#visaNationals").combobox("getValue")},
+            		pageOrder:$("#pageOrder").val(),
+    			 	routeTypeList:lineSelection,
+            		listRouteDiagram:[{imageAddress:$("#listRouteDiagram").val()}],
+            		routeDiagram:[{imageAddress:$("#routeDiagram").val()}],
+            		tourismTheme:[{id:$("#tourismTheme").val()}],
+            		startPriceExplain:$("#startPriceExplain").val(),
+            		recommendedReason:$("#recommendedReason").val(),
+            		importanceHint:$("#importanceHint").val(),
+            		insuranceGiveExplain:$("#insuranceGiveExplain").val(),
+            		limitedRegistrationDeadline:$("#limitedRegistrationDeadline").val(),
+            		restrictedPaymentDays:$("#restrictedPaymentDays").val(),
+            		limitedPaymentHours:$("#limitedPaymentHours").val(),
+            		paymentMethod:$("#paymentMethod").val()
+    	        	};
+        	
+        	//alert(JSON.stringify(obj));
+        	 alert(d);
+     	    
+        }
+        /* function saveUser(){
         	$('#myform').form('submit',{
                 url: '/RouteBaseInfo/save',
                 onSubmit: function(){
@@ -595,7 +476,7 @@
                     }
                 }
             });
-        }
+        } */
         
         $(function(){
 	        //四个选项卡禁用

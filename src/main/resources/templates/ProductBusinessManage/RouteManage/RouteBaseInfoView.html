@@ -67,53 +67,42 @@
 		<div style="font-size: 16px;width:45%;color: blue;font-weight: bold;padding-left: 30px">产品类别</div>
 		</td>
 		</tr>
-		<tr>
+		<tr id="line">
+		</tr>
+		<!-- <tr>
 			<td style="font-size: 16px; text-align: center;">原创路线:</td>
 			<td>
 			 <div>
 			 	<input type="text" id="originalRoute" name="originalRoute" th:value="${selfSupportRoute.routeBaseInfo.routeTypeList[0].typeName}" readonly="value"></input>
 			 </div>
 			</td>
-		</tr>	
-		<tr>
-			<td style="font-size: 16px; text-align: center;">龙江1+1:</td>
-			<td>
-			<div>
-			 	<input type="text" id="longJiang" name="longJiang" th:value="${selfSupportRoute.routeBaseInfo.routeTypeList[0].typeName}" readonly="value"  ></input>  	
-			</div>
-			</td>
-		</tr>	
-		<tr>
-			<td style="font-size: 16px; text-align: center;">出境游:</td>
-			<td>
-			 <div>
-			 	<input type="text" id="outboundTravel" name="outboundTravel"  th:value="${selfSupportRoute.routeBaseInfo.routeTypeList[0].typeName}" readonly="value" ></input> 	
-			 </div>
-			</td>
-		</tr>
-		<tr>
-			<td style="font-size: 16px; text-align: center;">旅游主题:</td>
-			<td>
-			<div>
-			<input type="text" id="tourismTheme1" name="tourismTheme1" th:value="${selfSupportRoute.routeBaseInfo.tourismTheme.themeName}" readonly="value" ></input>	
-			</div> 
-			</td>
-		</tr>
-		
+		</tr>-->
 		<tr>
 			<td style="font-size: 16px; text-align: center;">线路列表简图：<br/>建议尺寸-宽1500*高200</td>
 			<td >
             	<div>
-           		<img id="img1" th:src="@{'/files/'+${selfSupportRoute.routeBaseInfo.listRouteDiagram}}"/>
+           		<img id="img1" th:src="@{'/files/'+${selfSupportRoute.routeBaseInfo.listRouteDiagram}}" height="150px" width="200px"/>
             	</div>
 			</td>
 			<td style="font-size: 16px; text-align: center;">路线简图：<br/>建议尺寸-宽1500*高200</td>
 			<td >
             	<div>
-           		<img id="img2" th:src="@{'/files/'+${selfSupportRoute.routeBaseInfo.routeDiagram}}"/>
+           		<img id="img2" th:src="@{'/files/'+${selfSupportRoute.routeBaseInfo.routeDiagram}}" height="150px" width="200px"/>
             	</div>
 			</td>
 		</tr>
+		
+		<tr>
+			<td style="font-size: 16px; text-align: center;">旅游主题:</td>
+			<td>
+			<div>
+			<div th:each="tourismThemes:${selfSupportRoute.routeBaseInfo.tourismTheme}"> 
+			<lable th:inline="text">[[${tourismThemes.themeName}]]</lable>
+			</div>
+			</div> 
+			</td>
+		</tr>
+		
 		<tr>
 			<td style="font-size: 16px; text-align: center;">起价说明：</td>
 			<td colspan="4" style="text-align: left;">
@@ -160,6 +149,28 @@
 </form>	
 	<script type="text/javascript" th:inline="javascript">
 	/*<![CDATA[*/
+	           
+	 var findRouteBaseInfo = [[${selfSupportRoute.routeBaseInfo.routeTypeList}]];
+	 //alert(findRouteBaseInfo[0].typeName);
+	 alert(JSON.stringify(findRouteBaseInfo));
+	 var str="";	
+	 $.ajax({  
+        url: '/RouteCategory/findRouteCategory',  
+        dataType: 'json',  
+        success: function (data) {
+        	for (var i = 0; i < data.length; i++) {
+        	/* $('#line').after("<tr id='"+i+"'></tr>");
+        	$('#'+i).append("<td><input type=\"text\" value='"+data[i].categoryName+"'/></td>"+
+        	"<td><div><input type=\"text\" id='"+data[i].id+"' name='"+data[i].id+"' value='"+findRouteBaseInfo[i].typeName+"'></input></div></td>");
+        	*/
+             str+= "<tr id='"+i+"'><td><input type=\"text\" value='"+data[i].categoryName+"'/></td>"+
+             "<td><div><input type=\"text\" id='"+data[i].id+"' name='"+data[i].id+"' value='"+findRouteBaseInfo[0].typeName+"'></input>"+
+             "</div></td></tr>"
+        	 }
+        	$('#line').after(str);
+        }  
+    });                 
+	           
 	 $('#goTraffic').combobox({    
     	valueField: 'id',    
         textField: 'trafficType',    

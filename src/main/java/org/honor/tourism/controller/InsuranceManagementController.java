@@ -34,7 +34,7 @@ public class InsuranceManagementController {
 	private InsuranceManagementService service;
 	
 	@Autowired 
-	private InsuranceTypeService service2;
+	private InsuranceTypeService insuranceTypeService;
 	
 
 	/**
@@ -78,10 +78,8 @@ public class InsuranceManagementController {
 	@RequestMapping("/selectType")
 	@ResponseBody
 	public List<InsuranceType> selectType() {
-		Pageable pageable = new PageRequest(0, 100000);
-		Page<InsuranceType> insuranceType =  service2.findAll(pageable);
-		List<InsuranceType> rows = insuranceType.getContent();
-		return rows;
+		List<InsuranceType> insuranceType =  insuranceTypeService.findAll();
+		return insuranceType;
 	}
 	
 	/**
