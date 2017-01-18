@@ -44,10 +44,11 @@ form td{
         
         	<input type="hidden" id="foodPictures" name="foodPictures" value="" ></input> 
         	<input type="hidden" id="hotelPicture" name="hotelPicture" value="" ></input>  
+        	<input type="hidden" id="tripId" name="tripId"  value="" ></input>
         	
             <div style="margin-bottom:10px">
-				 <label for="tripTitle" class="label-top">行程标题:</label><input name="tripTitle" class="easyui-validatebox textbox" data-options="required:true,validType:'length[1,50]'"  style="width:100%"/>
-				 <label for="tripDetail" class="label-top">行程详细:</label><textarea name="tripDetail" class="easyui-validatebox textbox" data-options="required:true,validType:'length[1,50]'"  style="width:100%"></textarea>
+				 <label for="tripTitle" class="label-top">行程标题:</label><input id="tripTitle" name="tripTitle" class="easyui-validatebox textbox" data-options="required:true,validType:'length[1,50]'"  style="width:100%"/>
+				 <label for="tripDetail" class="label-top">行程详细:</label><textarea id="tripDetail"  name="tripDetail" class="easyui-validatebox textbox" data-options="required:true,validType:'length[1,50]'"  style="width:100%"></textarea>
                  <label for="breakfast" class="label-top">早餐:</label><input class="easyui-combobox" name="breakfast" id="breakfast"
 										data-options="
 								url: '/DiningType/selectAll', 
@@ -86,13 +87,13 @@ form td{
         
          <form id="form1" action="/RouteTrip/fileUpload"  enctype="multipart/form-data" method="post"  style="margin:0;padding:0px 50px">
          <label for="foodPictures" class="label-top">行程餐图片上传:</label><input
-										class="easyui-filebox" name="uploadFile"
+										class="easyui-filebox"  name="uploadFile"
 										data-options="prompt:'Choose a file...', accept:'image/jpeg'" style="width:100%" />
          </form>
          
          <form id="form2" action="/RouteTrip/fileUpload"  enctype="multipart/form-data" method="post"  style="margin:0;padding:10px 50px">
                        <label for="costCover" class="label-top">行程酒店图片上传:</label><input
-										class="easyui-filebox" name="uploadFile"
+										class="easyui-filebox"  name="uploadFile"
 										data-options="prompt:'Choose a file...'" style="width: 100%" /> 
          </form>
          
@@ -106,12 +107,13 @@ form td{
             closed="true" buttons="#dlg-buttons1">
         <form id="fm1" method="post" novalidate="" style="margin:0;padding:0px 50px">
         <input type="hidden" id="routeDayImageAddress" name="routeDayImageAddress" value="" ></input>
+        <input type="hidden" id="dayId" name="dayId"  value="" ></input>
             <div style="margin-bottom:10px">
 				 <label for="shop" class="label-top">选择时间:</label><input
-										class="easyui-datetimebox" name="selectionTime"
+										class="easyui-datetimebox" id="selectionTime" name="selectionTime"
 										data-options="prompt:'请选择日期...'" style="width: 100%" />
-				 <label for="shop" class="label-top">日程简单说明:</label><input name="simplenessExplain" class="easyui-validatebox textbox" data-options="required:true,validType:'length[1,50]'"  style="width:100%"/>
-				 <label for="shop" class="label-top">日程详细说明:</label><textarea name="detailednessExplain" class="easyui-validatebox textbox" data-options="required:true,validType:'length[1,50]'"  style="width:100%"></textarea>			
+				 <label for="shop" class="label-top">日程简单说明:</label><input id="simplenessExplain" name="simplenessExplain" class="easyui-validatebox textbox" data-options="required:true,validType:'length[1,50]'"  style="width:100%"/>
+				 <label for="shop" class="label-top">日程详细说明:</label><textarea id="detailednessExplain" name="detailednessExplain" class="easyui-validatebox textbox" data-options="required:true,validType:'length[1,50]'"  style="width:100%"></textarea>			
             </div>
         </form>
          <form id="form3" action="/RouteDay/fileUpload" method="post" novalidate="" style="margin:0;padding:0px 50px">
@@ -125,15 +127,8 @@ form td{
     </div>
     </div>
     
-    <div id="dlg2" class="easyui-dialog" style="width:400px"
+    <div id="dlg2" class="easyui-dialog" style="width:700px;height:400px"
             closed="true" buttons="#dlg-buttons2">
-        <form id="fm2" method="post" novalidate="" style="margin:0;padding:20px 50px">
-            <div style="margin-bottom:10px">
-				 
-										
-										
-            </div>
-        </form>
     </div>
     
     
@@ -194,7 +189,7 @@ form td{
 			},
 			{field:'wuyiyi',title:'操作',width:50,align:'center',
 				formatter: function(value,row,index){
-    				return '<a href="javascript:newRouteDay();">添加日程</a>';
+    				return '<a href="javascript:newRouteDay(\''+row.id+'\');">添加日程</a>';
     			}
 			}
 		]],
@@ -216,12 +211,12 @@ form td{
 	        				{field:'detailednessExplain',title:'日程详细说明',width:300,align:'center'},
 	        				{field:'attr11',title:'日程图片',width:200,align:'center',
 	        					formatter: function(value,row,index){
-	        	    				return '<a href="">日程图片详情'+index+'</a>';
+	        	    				return '<a href="javascript:routeDayImage(\''+routeId+'\')">日程图片详情</a>';
 	        	    			}
 	        				},
-	        				{field:'attr111111',title:'日程图片',width:150,align:'center',
+	        				{field:'attr111111',title:'操作',width:150,align:'center',
 	        					formatter: function(value,row,index){
-	        	    				 return '<a href="javascript:editRouteDay(\''+routeId+'\');">修改</a>&nbsp&nbsp&nbsp&nbsp<a href="javascript:destroyRouteDay();">删除</a>';
+	        	    				 return '<a href="javascript:editRouteDay(\''+routeId+'\');">修改</a>&nbsp&nbsp&nbsp&nbsp<a href="javascript:destroyRouteDay(\''+routeId+'\');">删除</a>';
 	        	    			}
 	        				}
 	        			]]
@@ -418,14 +413,15 @@ form td{
         function newRouteTrip(){
             $('#dlg').dialog('open').dialog('center').dialog('setTitle','新增行程');
             $('#fm').form('clear');
-            url = '/RouteTrip/save?routeId='+'402882ad598c613501598c614cfd0000';
+            url = '/RouteTrip/save?routeId='+'402882bc59ab46e60159ab46f8030000';
         }
         
-        function newRouteDay(){
+        function newRouteDay(tripId){
         	var row = $('#dg').datagrid('getSelected');//id获取正确
             $('#dlg1').dialog('open').dialog('center').dialog('setTitle','新增日程');
             $('#fm1').form('clear');
             url = '/RouteDay/save?routeTripId='+row.id;
+        	//$('a').attr('onclick','saveRouteDay(\''+tripId+'\')');
         }
         
         function editRouteTrip(){
@@ -441,6 +437,7 @@ form td{
                  });
                 
                 url ='/RouteTrip/saveRouteTrip?id='+row.id;
+                document.getElementById("tripId").value=row.id;
             }
         }
         
@@ -456,20 +453,35 @@ form td{
                  	  	getComboboxData(row);
                     }
                  });
-                
                 url ='/RouteDay/saveRouteDay?id='+row.id;
+                document.getElementById("dayId").value=row.id;
             }
         }
         
         function saveRouteTrip(){
         	fileUpload1();
         	fileUpload2();
+        	var tmp=$("#tripId").val();
+    		if(tmp==""){
+				tmp=null;
+			}
+        	var obj={
+        			id:tmp,
+        			tripTitle:$("#tripTitle").val(),
+        			tripDetail:$("#tripDetail").val(),
+        			breakfast:{id:$("#breakfast").combobox("getValue")},
+        			lunch:{id:$("#lunch").combobox("getValue")},
+        			dinner:{id:$("#dinner").combobox("getValue")},
+        			hotelCategories:{id:$("#hotelCategories").combobox("getValue")},
+        			foodPictures:[{imageAddress:$("#foodPictures").val()}],
+        			hotelPicture:[{imageAddress:$("#hotelPicture").val()}]
+        	};
         	$.ajax({
                 url: url,
                 type: "POST",
                 contentType : 'application/json;charset=utf-8', //设置请求头信息
                 dataType:"json",
-                data: JSON.stringify(rowIDS),            //将Json对象序列化成Json字符串
+                data: JSON.stringify(obj),            //将Json对象序列化成Json字符串
                 success: function(data){
                 	$('#dlg').dialog('close'); 
                 	$('#dg').datagrid('reload');
@@ -484,23 +496,33 @@ form td{
         }
         
         function saveRouteDay(){
-            $('#fm1').form('submit',{
+        	fileUpload3();
+        	var tmp=$("#dayId").val();
+    		if(tmp==""){
+				tmp=null;
+			}
+        	var obj={
+        			id:tmp,
+        			routeDayImageAddress:[{imageAddress:$("#routeDayImageAddress").val()}],
+        			selectionTime:$("#selectionTime").combobox("getValue"),
+        			simplenessExplain:$("#simplenessExplain").val(),
+        			detailednessExplain:$("#detailednessExplain").val()
+        	};
+        	$.ajax({
                 url: url,
-                onSubmit: function(){
-                	fileUpload3();
-                    return $(this).form('validate');
+                type: "POST",
+                contentType : 'application/json;charset=utf-8', //设置请求头信息
+                dataType:"json",
+                data: JSON.stringify(obj),            //将Json对象序列化成Json字符串
+                success: function(data){
+                	$('#dlg1').dialog('close'); 
+                	$('#dg').datagrid('reload');
                 },
-                success: function(resultJSON){
-                	var result = JSON.parse(resultJSON);
-                    if (result.errorMsg){
-                        $.messager.show({
-                            title: 'Error',
-                            msg: result.errorMsg
-                        });
-                    } else {
-                        $('#dlg1').dialog('close');        // close the dialog
-                        $('#dg').datagrid('reload');    // reload the user data
-                    }
+                error: function(res){
+                	$.messager.show({    // show error message
+                        title: 'Error',
+                        msg: result.errorMsg
+                    });
                 }
             });
         }
@@ -524,12 +546,12 @@ form td{
             }
         }
         
-        function destroyRouteDay(){
-            var row = $('#dg').datagrid('getSelected');
+        function destroyRouteDay(id){
+            var row = $('#'+id).datagrid('getSelected');
             if (row){
                 $.messager.confirm('Confirm','Are you sure you want to destroy this user?',function(r){
                     if (r){
-                        $.post('/RouteTrip/delete',{id:row.id},function(result){
+                        $.post('/RouteDay/delete',{id:row.id},function(result){
                             if (result.success){
                                 $('#dg').datagrid('reload');    // reload the user data
                             } else {
@@ -547,16 +569,35 @@ form td{
         function foodimagedetails(){
         	var row = $('#dg').datagrid('getSelected');//id获取正确
             $('#dlg2').dialog('open').dialog('center').dialog('setTitle','图片详情');
-            $('#fm2').form('clear');
-            url = '/RouteDay/';
+            var foodPicturesList = row.foodPictures;
+            for (var i = 0; i < foodPicturesList.length; i++) {
+            	var foodPictures = foodPicturesList[i];
+                $("#dlg2").append(" <img  src=\"/files/"+foodPictures.imageAddress+"\"/>");
+			}
+            //$.parser.parse('#dlg2');
         }
         
             function hotelimagedetails(){
         	var row = $('#dg').datagrid('getSelected');//id获取正确
             $('#dlg2').dialog('open').dialog('center').dialog('setTitle','图片详情');
-            $('#fm2').form('clear');
-            url = '/RouteDay/';
+            var hotelPictureList = row.hotelPicture;
+            for (var i = 0; i < hotelPictureList.length; i++) {
+            	var hotelPictures = hotelPictureList[i];
+                $("#dlg2").append(" <img  src=\"/files/"+hotelPictures.imageAddress+"\"/>");
+			}
+          //$.parser.parse('#dlg2');
         }
+            
+            function routeDayImage(id){
+            	var row = $('#'+id).datagrid('getSelected');//id获取正确
+                $('#dlg2').dialog('open').dialog('center').dialog('setTitle','图片详情');
+                var routeDayImageList = row.routeDayImageAddress;
+                for (var i = 0; i < routeDayImageList.length; i++) {
+                	var routeDayImages = routeDayImageList[i];
+                    $("#dlg2").append(" <img  src=\"/files/"+routeDayImages.imageAddress+"\"/>");
+    			}
+              //$.parser.parse('#dlg2');
+            }
         
       /*]]>*/
     </script>
