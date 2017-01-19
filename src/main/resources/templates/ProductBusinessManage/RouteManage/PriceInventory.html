@@ -32,6 +32,13 @@
 
 </head>
 <body id="PriceInventory">
+	<div id="PriceInventorytt" class="easyui-tabs">
+		<div title="基本信息"></div>
+		<div title="行程信息"></div>
+		<div title="价格/库存"></div>
+		<div title="其他信息"></div>
+		<div title="保险"></div>
+	</div>
 	<div class="glg">
 		<form class="table table-bordered table2 glg_tab" style=""
 			id="xlmyform" name="myform" method="POST"
@@ -400,7 +407,33 @@
 
 	<script th:inline="javascript">
 	/*<![CDATA[*/   //这句坚决不能删
-	           
+	     
+		var routeId = [[${not #lists.isEmpty(selfSupportRoute)}?${selfSupportRoute.id}]];
+		$('#PriceInventorytt').tabs({
+		    border:false,
+		    selected:2,
+		    onSelect:function(title){
+			    	switch (title) 
+			    	{
+					case "基本信息":
+						location.href = "/ProductBusinessManage/RouteManage/RouteBaseInfo?routeId="+routeId;
+						break;
+					case "行程信息":
+						location.href = "/SelfSupportRoute/routeOtherInfoAddHtml?routeId="+routeId;
+						break;
+					case "其他信息":
+						location.href = "/SelfSupportRoute/routeOtherInfoAddHtml?routeId="+routeId;
+						break;
+					case "保险":
+						location.href = "/SelfSupportRoute/routeRouteInsuranceAddHtml?routeId="+routeId;
+						break;
+						
+					default:
+						break;
+				}
+		    }
+		});
+		
 	    //提交
 	    function saveFormPI()
 		{
@@ -448,7 +481,8 @@
 			var priceInventoryValid = {};
 			priceInventoryValid.priceInventorys = priceInventoryList;
 			
-			var routeId = $("#rId").val();
+			//var routeId = $("#rId").val();
+			var routeId = [[${not #lists.isEmpty(selfSupportRoute)}?${selfSupportRoute.id}]];
 			var url = "/PriceInventory/savePriceInventory?routeId="+routeId;
 			//提交
 			$.ajax({  

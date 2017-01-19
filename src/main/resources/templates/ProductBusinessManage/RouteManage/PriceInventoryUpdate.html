@@ -28,7 +28,13 @@
 
 </head>
 <body id="PriceInventoryUpdate">
-
+	<div id="PriceInventorytt" class="easyui-tabs">
+		<div title="基本信息"></div>
+		<div title="行程信息"></div>
+		<div title="价格/库存"></div>
+		<div title="其他信息"></div>
+		<div title="保险"></div>
+	</div>
 	<table id="priceInventoryUpdateDg" class="easyui-datagrid" style="width:100%;height:380px"
             toolbar="#priceInventoryUpdateToolbar" pagination="true"
             rownumbers="true" fitColumns="true">
@@ -64,6 +70,32 @@
     var limitedRegistrationDeadline = [[${not #lists.isEmpty(selfSupportRoute)}?${selfSupportRoute.routeBaseInfo.limitedRegistrationDeadline}]]
     //价格库存
     var priceInventoryTemp = {};
+    
+	$('#PriceInventorytt').tabs({
+	    border:false,
+	    selected:2,
+	    onSelect:function(title){
+		    	switch (title) 
+		    	{
+				case "基本信息":
+					location.href = "/ProductBusinessManage/RouteManage/RouteBaseInfo?routeId="+routeId;
+					break;
+				case "行程信息":
+					location.href = "/SelfSupportRoute/routeOtherInfoAddHtml?routeId="+routeId;
+					break;
+				case "其他信息":
+					location.href = "/SelfSupportRoute/routeOtherInfoUpdateHtml?routeId="+routeId;
+					break;
+				case "保险":
+					location.href = "/SelfSupportRoute/routeRouteInsuranceUpdateHtml?routeId="+routeId;
+					break;
+					
+				default:
+					break;
+			}
+	    }
+	});    
+    
 	//线路价格库存
 	$('#priceInventoryUpdateDg').datagrid(
 	{
@@ -172,6 +204,23 @@
 	    return retObj;
 	}
 	
+	//将对象属性值的""替换成null
+	function playProp(obj){   
+		var retObj = {};
+	          
+	    for(var name in obj){       
+	       	var value = obj[name];
+	       	if(value != null && value != "")
+			{
+				retObj[name] = value;
+			}else{
+				retObj[name] = null;
+			}
+	    }  
+	    
+	    return retObj;
+	}
+	
 	//价格库存修改
 	function routePriceInventoryUpdate(tableId)
 	{
@@ -180,19 +229,12 @@
 		$.each(a,function(index,obj,array){
 				var name = $(obj).attr("name");
 				var value = $(obj).val();
-				
-				if (name != null && name !=　"")
-				{
-					if(value != null && value != "")
-					{
-						priceInventoryTemp[name] = value;
-					}else {
-						//因为展示时将为空的属性值转换成了""，所以提交时还得转换回来
-						priceInventoryTemp[name] = null;
-					}
-				}
+				priceInventoryTemp[name] = value;
 			}
 		);
+		
+		//将对象的“”转换为null
+		priceInventoryTemp =playProp(priceInventoryTemp);
 		
 		//提交
 		$.ajax({  
