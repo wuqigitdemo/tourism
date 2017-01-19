@@ -24,7 +24,20 @@ form td{
 </style>
 
 </head>
-<body>
+<body id="rid">
+		 <div id="addTt" class="easyui-tabs" style="width:100%;height50px" overflow="hidden">
+				
+				<div title="基础信息" style="width: 100%;height: 100%"></div>
+				
+				<div title="行程信息" style="width: 100%;height: 100%"></div>
+				
+				<div title="价格/库存" style="width: 100%;height: 100%"></div>
+				
+				<div title="其他信息" style="width: 100%;height: 100%"></div>
+		
+				<div title="保险" style="width: 100%;height: 100%"></div> 
+				
+			</div>
     <table id="dg" class="easyui-datagrid" style="width:100%;height:440px"
             toolbar="#toolbar" pagination="true" remoteSort="false" singleSelect="true" 
           		nowrap="false" fitColumns="true"  >
@@ -40,7 +53,7 @@ form td{
 
    <div id="dlg" class="easyui-dialog" style="width:400px"
             closed="true" buttons="#dlg-buttons">
-        <form id="fm" enctype="multipart/form-data" method="post" novalidate="" style="margin:0;padding:0px 50px">
+        <form id="fm" enctype="multipart/form-data" method="post" style="margin:0;padding:0px 50px">
         
         	<input type="hidden" id="foodPictures" name="foodPictures" value="" ></input> 
         	<input type="hidden" id="hotelPicture" name="hotelPicture" value="" ></input>  
@@ -131,11 +144,20 @@ form td{
             closed="true" buttons="#dlg-buttons2">
     </div>
     
-    
-    <script type="text/javascript">
+    <script th:inline="javascript">
     /*<![CDATA[*/
+               
+     $('#addTt').tabs({
+    border:false,
+    onSelect:function(title){
+        if (title == "行程信息") {
+        	location.href = "/ProductBusinessManage/RouteManage/RouteTrip";
+        }
+    }
+});
+               
     $('#dg').datagrid({
-		url:'/RouteTrip/findAll',
+		url:'/RouteTrip/findAll?routeId='+[[${selfSupportId}]],
 		columns:[[
 			{field:'tripTitle',title:'行程标题',width:50,align:'center'},
 			{field:'tripDetail',title:'行程详细',width:50,align:'center'},
@@ -407,14 +429,13 @@ form td{
     
   
   
-  
 
         var url;
         function newRouteTrip(){
         	var rId=$("#rId").val();
             $('#dlg').dialog('open').dialog('center').dialog('setTitle','新增行程');
             $('#fm').form('clear');
-            url = '/RouteTrip/save?routeId='+rId;
+            url = '/RouteTrip/save?routeId='+[[${selfSupportId}]];          
         }
         
         function newRouteDay(tripId){
@@ -463,9 +484,17 @@ form td{
         	fileUpload1();
         	fileUpload2();
         	var tmp=$("#tripId").val();
+        	var foodPictures=[{imageAddress:$("#foodPictures").val()}];
+        	var hotelPicture=[{imageAddress:$("#hotelPicture").val()}];
     		if(tmp==""){
 				tmp=null;
 			}
+    		if(foodPictures=="false"){
+    			foodPictures=null;
+    		}
+    		if(hotelPicture=="false"){
+    			hotelPicture=null;
+    		}
         	var obj={
         			id:tmp,
         			tripTitle:$("#tripTitle").val(),
@@ -474,8 +503,8 @@ form td{
         			lunch:{id:$("#lunch").combobox("getValue")},
         			dinner:{id:$("#dinner").combobox("getValue")},
         			hotelCategories:{id:$("#hotelCategories").combobox("getValue")},
-        			foodPictures:[{imageAddress:$("#foodPictures").val()}],
-        			hotelPicture:[{imageAddress:$("#hotelPicture").val()}]
+        			foodPictures:foodPictures,
+        			hotelPicture:hotelPicture
         	};
         	$.ajax({
                 url: url,
@@ -499,12 +528,16 @@ form td{
         function saveRouteDay(){
         	fileUpload3();
         	var tmp=$("#dayId").val();
+        	var routeDayImageAddress=[{imageAddress:$("#routeDayImageAddress").val()}];
     		if(tmp==""){
 				tmp=null;
 			}
+    		if(routeDayImageAddress=="false"){
+    			routeDayImageAddress=null
+    		}
         	var obj={
         			id:tmp,
-        			routeDayImageAddress:[{imageAddress:$("#routeDayImageAddress").val()}],
+        			routeDayImageAddress:routeDayImageAddress,
         			selectionTime:$("#selectionTime").combobox("getValue"),
         			simplenessExplain:$("#simplenessExplain").val(),
         			detailednessExplain:$("#detailednessExplain").val()

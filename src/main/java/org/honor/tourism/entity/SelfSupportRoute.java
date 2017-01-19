@@ -38,7 +38,7 @@ public class SelfSupportRoute {
 	private BusinessType businessType;
 	@OneToOne(cascade = { CascadeType.ALL })
 	private RouteBaseInfo routeBaseInfo;
-	@OneToMany(mappedBy = "selfSupportRoute", cascade = { CascadeType.ALL }, fetch=FetchType.EAGER)
+	@OneToMany(mappedBy = "selfSupportRoute", cascade = { CascadeType.ALL })
 	private List<RouteTrip> routeTripList;
 	@OneToMany(cascade = { CascadeType.ALL })
 	@JoinColumn(name="selfSupportRouteId")

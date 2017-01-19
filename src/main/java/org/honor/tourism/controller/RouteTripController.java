@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  *
@@ -45,11 +46,14 @@ public class RouteTripController {
 		 */
 		@RequestMapping("/findAll")
 		@ResponseBody
-		public Map<String, Object> findAll(EasyuiPage page) {
+		public Map<String, Object> findAll(EasyuiPage page,String routeId) {
 			Pageable pageable = new PageRequest(page.getPage(), page.getRows());
-			Page<RouteTrip>  routeTrips=  service.findAll(pageable);
+			Page<RouteTrip>  routeTrips=  service.findAll(pageable,routeId);
 			List<RouteTrip> rows = routeTrips.getContent();
-			Long total = service.count();
+			for (RouteTrip routeTrip : rows) {
+				routeTrip.setSelfSupportRoute(null);
+			}
+			Long total = routeTrips.getTotalElements();
 			return EasyuiResult.result(rows, total);
 		}
 	 
@@ -114,5 +118,13 @@ public class RouteTripController {
 		}
 		return "false";
 	}
+	
+	@RequestMapping(value ="/RouteTripForword", method = RequestMethod.GET)  
+	public ModelAndView routeTripForword(String id) throws Exception {    
+	    ModelAndView model=new ModelAndView();
+	    model.setViewName("ProductBusinessManage/RouteManage/RouteTrip");
+	    model.addObject("selfSupportId", id);
+	    return model;
+	}  
 	
 }

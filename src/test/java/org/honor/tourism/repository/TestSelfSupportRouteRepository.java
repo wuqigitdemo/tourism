@@ -31,6 +31,7 @@ public class TestSelfSupportRouteRepository {
 	@Autowired
 	private RouteTripRepository routeTripRepository;
 	
+	@Test
 	public void testSave() {
 		List<RouteTrip> routeTripList = new ArrayList<>();
 		RouteTrip routeTrip = new RouteTrip();

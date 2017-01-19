@@ -58,7 +58,7 @@ public class RouteTrip {
 	@OneToMany(cascade={CascadeType.ALL})
 	@JoinColumn(name="routeTripId")
 	private List<ImageAddress> hotelPicture;
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.PERSIST)
 	private SelfSupportRoute selfSupportRoute;
 
 	public String getId() {

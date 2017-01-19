@@ -12,7 +12,7 @@ import org.springframework.data.domain.Pageable;
  */
 public interface RouteTripService  {
 	
-	public Page<RouteTrip> findAll(Pageable pageable);
+	public Page<RouteTrip> findAll(Pageable pageable,String id);
 	
 	public Long count();
 	

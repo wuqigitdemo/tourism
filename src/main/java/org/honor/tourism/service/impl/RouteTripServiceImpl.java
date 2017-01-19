@@ -26,15 +26,14 @@ public class RouteTripServiceImpl implements RouteTripService {
 
 	@Override
 	public RouteTrip saveRouteTrip(RouteTrip routeTrip,  String routeId) {
-		
 		SelfSupportRoute selfSupportRoute = selfSupportRouteRepository.findOne(routeId);
-		selfSupportRoute.getRouteTripList().add(routeTrip);
+		routeTrip.setSelfSupportRoute(selfSupportRoute);
 		return routeTripRepository.save(routeTrip);
 	}
 
 	@Override
-	public Page<RouteTrip> findAll(Pageable pageable) {
-		return routeTripRepository.findAll(pageable);
+	public Page<RouteTrip> findAll(Pageable pageable,String id) {
+		return routeTripRepository.findBySelfSupportRouteId(pageable, id);
 	}
 
 	@Override
