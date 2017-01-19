@@ -58,6 +58,8 @@ public class RouteTrip {
 	@OneToMany(cascade={CascadeType.ALL})
 	@JoinColumn(name="routeTripId")
 	private List<ImageAddress> hotelPicture;
+	@ManyToOne
+	private SelfSupportRoute selfSupportRoute;
 
 	public String getId() {
 		return id;
@@ -137,6 +139,14 @@ public class RouteTrip {
 
 	public void setHotelPicture(List<ImageAddress> hotelPicture) {
 		this.hotelPicture = hotelPicture;
+	}
+
+	public SelfSupportRoute getSelfSupportRoute() {
+		return selfSupportRoute;
+	}
+
+	public void setSelfSupportRoute(SelfSupportRoute selfSupportRoute) {
+		this.selfSupportRoute = selfSupportRoute;
 	}
 
 }
