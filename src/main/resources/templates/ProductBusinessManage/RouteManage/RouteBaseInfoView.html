@@ -150,7 +150,7 @@
 	<script type="text/javascript" th:inline="javascript">
 	/*<![CDATA[*/
 	           
-	 var findRouteBaseInfo = [[${selfSupportRoute.routeBaseInfo.routeTypeList}]];
+	 var routeTypeListSelection = [[${selfSupportRoute.routeBaseInfo.routeTypeList}]];
 	 //alert(findRouteBaseInfo[0].typeName);
 	 var str="";	
 	 $.ajax({  
@@ -158,16 +158,19 @@
         dataType: 'json',  
         success: function (data) {
         	for (var i = 0; i < data.length; i++) {
-        	/* $('#line').after("<tr id='"+i+"'></tr>");
-        	$('#'+i).append("<td><input type=\"text\" value='"+data[i].categoryName+"'/></td>"+
-        	"<td><div><input type=\"text\" id='"+data[i].id+"' name='"+data[i].id+"' value='"+findRouteBaseInfo[i].typeName+"'></input></div></td>");
-        	*/
-             str+= "<tr id='"+i+"'><td><input type=\"text\" value='"+data[i].categoryName+"'/></td>"+
-             "<td><div><input type=\"text\" id='"+data[i].id+"' name='"+data[i].id+"' value='"+findRouteBaseInfo[i].typeName+"'></input>"+
-             "</div></td></tr>"
-        	 }
-        	$('#line').after(str);
-        }  
+	        	$('#line').after("<tr id='"+i+"'></tr>");
+	        	$('#'+i).append("<td><input type=\"text\" value='"+data[i].categoryName+"'></input></td>"+
+	        	"<td><div id='"+'a'+i+"'><input type=\"hidden\" id=\"routeTypeList\" name=\"routeTypeList\" value='"+routeTypeListSelection[i].id+"' ></input>");
+			 	/*"<input type=\"text\" id='originalRoute"+data[i].id+"' name='originalRoute"+data[i].id+"' value='"+routeTypeListSelection[i].typeName+"' readonly=\"value\" class=\"easyui-validatebox tb\" data-options=\"required:true\"></input></div></td>");
+	        	 */
+	        	for (var qq = 0; qq < routeTypeListSelection.length; qq++) {
+	        		if (data[i].id == routeTypeListSelection[qq].routeCategory.id) {
+	        		$('#'+'a'+i).after("<input type=\"text\" id='originalRoute"+data[i].id+"' name='originalRoute"+data[i].id+"' value='"+routeTypeListSelection[qq].typeName+"' readonly=\"value\" class=\"easyui-validatebox tb\" data-options=\"required:true\"></input>");
+					}
+	   		    }
+	        	$('#'+'a'+i).append("</div></td>");
+	       }
+	    }  
     });                 
 	           
 	 $('#goTraffic').combobox({    
