@@ -42,34 +42,140 @@ public class SelfSupportRouteController extends CrudController<SelfSupportRoute>
 	public SelfSupportRouteController(CrudService<SelfSupportRoute> service) {
 		super(service);
 	}
-
+	
 	/**
-	 * 修改线路信息页面
+	 * 添加线路价格库存页面
 	 * @param model
 	 * @param routeId
 	 * @return
 	 */
-	@RequestMapping(value = "/routeUpdateHtml",method = RequestMethod.POST)
-	public String routeUpdateHtml (ModelMap model, String routeId) {
+	@RequestMapping(value = "/routePriceInventoryAddHtml",method = RequestMethod.GET)
+	public String routePriceInventoryAddHtml (ModelMap model, String routeId) {
 		
 		SelfSupportRoute selfSupportRoute = selfSupportRouteService.findRouteWithId(routeId);
 		
 		model.addAttribute("selfSupportRoute", selfSupportRoute);
-		return "/ProductBusinessManage/RouteManage/SelfSupportRouteUpdate";
+		return "/ProductBusinessManage/RouteManage/PriceInventory";
 	}
 	
 	/**
-	 * 查看线路信息页面
+	 * 修改线路价格库存页面
 	 * @param model
 	 * @param routeId
 	 * @return
 	 */
-	@RequestMapping(value = "/routeViewHtml",method = RequestMethod.POST)
-	public String routeViewHtml (ModelMap model, String routeId) {
+	@RequestMapping(value = "/routePriceInventoryUpdateHtml",method = RequestMethod.GET)
+	public String routePriceInventoryUpdateHtml (ModelMap model, String routeId) {
 		
 		SelfSupportRoute selfSupportRoute = selfSupportRouteService.findRouteWithId(routeId);
+		
 		model.addAttribute("selfSupportRoute", selfSupportRoute);
-		return "/ProductBusinessManage/RouteManage/SelfSupportRouteView";
+		return "/ProductBusinessManage/RouteManage/PriceInventoryUpdate";
+	}
+	
+	/**
+	 * 查看线路价格库存页面
+	 * @param model
+	 * @param routeId
+	 * @return
+	 */
+	@RequestMapping(value = "/routePriceInventoryViewHtml",method = RequestMethod.GET)
+	public String routePriceInventoryViewHtml (ModelMap model, String routeId) {
+		
+		SelfSupportRoute selfSupportRoute = selfSupportRouteService.findRouteWithId(routeId);
+		
+		model.addAttribute("selfSupportRoute", selfSupportRoute);
+		return "/ProductBusinessManage/RouteManage/PriceInventoryView";
+	}
+	
+	/**
+	 * 添加线路其他信息页面
+	 * @param model
+	 * @param routeId
+	 * @return
+	 */
+	@RequestMapping(value = "/routeOtherInfoAddHtml",method = RequestMethod.GET)
+	public String routeOtherInfoAddHtml (ModelMap model, String routeId) {
+		
+		SelfSupportRoute selfSupportRoute = selfSupportRouteService.findRouteWithId(routeId);
+		
+		model.addAttribute("selfSupportRoute", selfSupportRoute);
+		return "/ProductBusinessManage/RouteManage/OtherInfo";
+	}
+	
+	/**
+	 * 修改线路其他信息页面
+	 * @param model
+	 * @param routeId
+	 * @return
+	 */
+	@RequestMapping(value = "/routeOtherInfoUpdateHtml",method = RequestMethod.GET)
+	public String routeOtherInfoUpdateHtml (ModelMap model, String routeId) {
+		
+		SelfSupportRoute selfSupportRoute = selfSupportRouteService.findRouteWithId(routeId);
+		
+		model.addAttribute("selfSupportRoute", selfSupportRoute);
+		return "/ProductBusinessManage/RouteManage/OtherInfoUpdate";
+	}
+	
+	/**
+	 * 查看线路其他信息页面
+	 * @param model
+	 * @param routeId
+	 * @return
+	 */
+	@RequestMapping(value = "/routeOtherInfoViewHtml",method = RequestMethod.GET)
+	public String routeOtherInfoViewHtml (ModelMap model, String routeId) {
+		
+		SelfSupportRoute selfSupportRoute = selfSupportRouteService.findRouteWithId(routeId);
+		
+		model.addAttribute("selfSupportRoute", selfSupportRoute);
+		return "/ProductBusinessManage/RouteManage/OtherInfoView";
+	}
+	
+	/**
+	 * 添加线路保险页面
+	 * @param model
+	 * @param routeId
+	 * @return
+	 */
+	@RequestMapping(value = "/routeRouteInsuranceAddHtml",method = RequestMethod.GET)
+	public String routeRouteInsuranceAddHtml (ModelMap model, String routeId) {
+		
+		SelfSupportRoute selfSupportRoute = selfSupportRouteService.findRouteWithId(routeId);
+		
+		model.addAttribute("selfSupportRoute", selfSupportRoute);
+		return "/ProductBusinessManage/RouteManage/RouteInsurance";
+	}
+	
+	/**
+	 * 修改线路保险页面
+	 * @param model
+	 * @param routeId
+	 * @return
+	 */
+	@RequestMapping(value = "/routeRouteInsuranceUpdateHtml",method = RequestMethod.GET)
+	public String routeRouteInsuranceUpdateHtml (ModelMap model, String routeId) {
+		
+		SelfSupportRoute selfSupportRoute = selfSupportRouteService.findRouteWithId(routeId);
+		
+		model.addAttribute("selfSupportRoute", selfSupportRoute);
+		return "/ProductBusinessManage/RouteManage/RouteInsuranceUpdate";
+	}
+	
+	/**
+	 * 查看线路保险页面
+	 * @param model
+	 * @param routeId
+	 * @return
+	 */
+	@RequestMapping(value = "/routeRouteInsuranceViewHtml",method = RequestMethod.GET)
+	public String routeRouteInsuranceViewHtml (ModelMap model, String routeId) {
+		
+		SelfSupportRoute selfSupportRoute = selfSupportRouteService.findRouteWithId(routeId);
+		
+		model.addAttribute("selfSupportRoute", selfSupportRoute);
+		return "/ProductBusinessManage/RouteManage/RouteInsuranceView";
 	}
 	
 	@RequestMapping("/findByPar")

@@ -20,6 +20,13 @@
 <link rel="stylesheet" type="text/css" href="/css/reset.css" />
 </head>
 <body id="OtherInfoView">
+	<div id="OtherInfott" class="easyui-tabs">
+		<div title="基本信息"></div>
+		<div title="行程信息"></div>
+		<div title="价格/库存"></div>
+		<div title="其他信息"></div>
+		<div title="保险"></div>
+	</div>
 	<form class="table table-bordered table2 glg_tab" style="" id="myform"
 		name="myform" method="post" onsubmit="return false;"
 		action="/SelfSupportRouteOtherInfo/saveOtherInfo">
@@ -104,4 +111,35 @@
 		</table>
 	</form>
 </body>
+
+<script type="text/javascript" th:inline="javascript">
+/*<![CDATA[*/   //这句坚决不能删
+var routeId = [[${not #lists.isEmpty(selfSupportRoute)}?${selfSupportRoute.id}]];
+$('#OtherInfott').tabs({
+    border:false,
+    selected:3,
+    onSelect:function(title){
+	    	switch (title) 
+	    	{
+			case "基本信息":
+				location.href = "/ProductBusinessManage/RouteManage/RouteBaseInfo?routeId="+routeId;
+				break;
+			case "行程信息":
+				location.href = "/SelfSupportRoute/routeOtherInfoAddHtml?routeId="+routeId;
+				break;
+			case "价格/库存":
+				location.href = "/SelfSupportRoute/routePriceInventoryViewHtml?routeId="+routeId;
+				break;
+			case "保险":
+				location.href = "/SelfSupportRoute/routeRouteInsuranceViewHtml?routeId="+routeId;
+				break;
+				
+			default:
+				break;
+		}
+    }
+});
+/*]]>*/    //这句坚决不能删
+</script>
+
 </html>

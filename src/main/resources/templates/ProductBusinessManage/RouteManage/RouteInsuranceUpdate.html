@@ -12,11 +12,11 @@
 <script type="text/javascript" src="/easyui/jquery.min.js"></script>
 <script type="text/javascript" src="/easyui/jquery.easyui.min.js"></script>
 <script type="text/javascript" src="/easyui/locale/easyui-lang-zh_CN.js"></script>
-
 <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
 <link rel="stylesheet" type="text/css" href="/css/common.css" />
 <link rel="stylesheet" type="text/css" href="/css/page.css" />
 <link rel="stylesheet" type="text/css" href="/css/reset.css" />
+
 </head>
 <body id="RouteInsurance">
 	<div id="RouteInsurancett" class="easyui-tabs">
@@ -109,10 +109,10 @@
 	    				location.href = "/SelfSupportRoute/routeOtherInfoAddHtml?routeId="+routeId;
 	    				break;
 	    			case "价格/库存":
-	    				location.href = "/SelfSupportRoute/routePriceInventoryAddHtml?routeId="+routeId;
+	    				location.href = "/SelfSupportRoute/routePriceInventoryUpdateHtml?routeId="+routeId;
 	    				break;
 	    			case "其他信息":
-	    				location.href = "/SelfSupportRoute/routeOtherInfoAddHtml?routeId="+routeId;
+	    				location.href = "/SelfSupportRoute/routeOtherInfoUpdateHtml?routeId="+routeId;
 	    				break;
 	    				
 	    			default:
@@ -120,6 +120,7 @@
 	    		}
 	        }
 	    });
+	
 		//线路已有的保险
 		$('#dgRouteInsurance').datagrid(
 		{
