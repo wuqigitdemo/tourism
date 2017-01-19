@@ -1,0 +1,138 @@
+<div id="Add">
+	<div id="tablesAlltt" class="easyui-tabs">
+		<div title="基本信息"></div>
+		<div title="行程信息"></div>
+		<div title="价格/库存"></div>
+		<div title="其他信息"></div>
+		<div title="保险"></div>
+	</div>
+	
+	<script th:inline="javascript">
+	/*<![CDATA[*/   //这句坚决不能删
+		
+		var routeId = [[${not #lists.isEmpty(selfSupportRoute)}?${selfSupportRoute.id}]];
+		$('#tablesAlltt').tabs({
+		    border:false,
+		    selected:selectedIndex,
+		    onSelect:function(title){
+		    		if (title != currentTitle) {
+				    	switch (title) 
+				    	{
+						case "基本信息":
+							location.href = "/ProductBusinessManage/RouteManage/RouteBaseInfo?routeId="+routeId;
+							break;
+						case "行程信息":
+							location.href = "/SelfSupportRoute/routeOtherInfoAddHtml?routeId="+routeId;
+							break;
+						case "价格/库存":
+							location.href = "/SelfSupportRoute/routePriceInventoryAddHtml?routeId="+routeId;
+							break;
+						case "其他信息":
+							location.href = "/SelfSupportRoute/routeOtherInfoAddHtml?routeId="+routeId;
+							break;
+						case "保险":
+							location.href = "/SelfSupportRoute/routeRouteInsuranceAddHtml?routeId="+routeId;
+							break;
+							
+						default:
+							break;
+					}
+				}
+		    }
+		});
+	/*]]>*/    //这句坚决不能删
+	</script>
+</div>
+
+
+<div id="Update">
+	<div id="tablesAlltt" class="easyui-tabs">
+		<div title="基本信息"></div>
+		<div title="行程信息"></div>
+		<div title="价格/库存"></div>
+		<div title="其他信息"></div>
+		<div title="保险"></div>
+	</div>
+	
+	<script th:inline="javascript">
+	/*<![CDATA[*/   //这句坚决不能删
+		
+		var routeId = [[${not #lists.isEmpty(selfSupportRoute)}?${selfSupportRoute.id}]];
+		$('#tablesAlltt').tabs({
+		    border:false,
+		    selected:selectedIndex,
+		    onSelect:function(title){
+		    		if (title != currentTitle) {
+				    	switch (title) 
+				    	{
+						case "基本信息":
+							location.href = "/ProductBusinessManage/RouteManage/RouteBaseInfo?routeId="+routeId;
+							break;
+						case "行程信息":
+							location.href = "/SelfSupportRoute/routeOtherInfoUpdateHtml?routeId="+routeId;
+							break;
+						case "价格/库存":
+							location.href = "/SelfSupportRoute/routePriceInventoryUpdateHtml?routeId="+routeId;
+							break;
+						case "其他信息":
+							location.href = "/SelfSupportRoute/routeOtherInfoUpdateHtml?routeId="+routeId;
+							break;
+						case "保险":
+							location.href = "/SelfSupportRoute/routeRouteInsuranceUpdateHtml?routeId="+routeId;
+							break;
+							
+						default:
+							break;
+					}
+				}
+		    }
+		});
+	/*]]>*/    //这句坚决不能删
+	</script>
+</div>
+
+<div id="View">
+	<div id="tablesAlltt" class="easyui-tabs">
+		<div title="基本信息"></div>
+		<div title="行程信息"></div>
+		<div title="价格/库存"></div>
+		<div title="其他信息"></div>
+		<div title="保险"></div>
+	</div>
+	
+	<script th:inline="javascript">
+	/*<![CDATA[*/   //这句坚决不能删
+		
+		var routeId = [[${not #lists.isEmpty(selfSupportRoute)}?${selfSupportRoute.id}]];
+		$('#tablesAlltt').tabs({
+		    border:false,
+		    selected:selectedIndex,
+		    onSelect:function(title){
+		    		if (title != currentTitle) {
+				    	switch (title) 
+				    	{
+						case "基本信息":
+							location.href = "/ProductBusinessManage/RouteManage/RouteBaseInfo?routeId="+routeId;
+							break;
+						case "行程信息":
+							location.href = "/SelfSupportRoute/routeOtherInfoUpdateHtml?routeId="+routeId;
+							break;
+						case "价格/库存":
+							location.href = "/SelfSupportRoute/routePriceInventoryViewHtml?routeId="+routeId;
+							break;
+						case "其他信息":
+							location.href = "/SelfSupportRoute/routeOtherInfoViewHtml?routeId="+routeId;
+							break;
+						case "保险":
+							location.href = "/SelfSupportRoute/routeRouteInsuranceViewHtml?routeId="+routeId;
+							break;
+							
+						default:
+							break;
+					}
+				}
+		    }
+		});
+	/*]]>*/    //这句坚决不能删
+	</script>
+</div>

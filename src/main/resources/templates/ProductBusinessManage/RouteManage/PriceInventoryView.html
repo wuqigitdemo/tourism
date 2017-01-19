@@ -28,13 +28,10 @@
 
 </head>
 <body id="PriceInventoryView">
-	<div id="PriceInventorytt" class="easyui-tabs">
-		<div title="基本信息"></div>
-		<div title="行程信息"></div>
-		<div title="价格/库存"></div>
-		<div title="其他信息"></div>
-		<div title="保险"></div>
-	</div>
+	<script type="text/javascript">
+var selectedIndex = 2;var currentTitle = "价格/库存";
+</script>
+<div th:include="/ProductBusinessManage/RouteManage/TablesAll :: #View"></div>
 
 	<table id="priceInventoryUpdateDg" class="easyui-datagrid" style="width:100%;height:380px"
             toolbar="#priceInventoryUpdateToolbar" pagination="true"
@@ -67,31 +64,6 @@
     var limitedRegistrationDeadline = [[${not #lists.isEmpty(selfSupportRoute)}?${selfSupportRoute.routeBaseInfo.limitedRegistrationDeadline}]]
     //价格库存
     var priceInventoryTemp = {};
-    
-    $('#PriceInventorytt').tabs({
-	    border:false,
-	    selected:2,
-	    onSelect:function(title){
-		    	switch (title) 
-		    	{
-				case "基本信息":
-					location.href = "/ProductBusinessManage/RouteManage/RouteBaseInfo?routeId="+routeId;
-					break;
-				case "行程信息":
-					location.href = "/SelfSupportRoute/routeOtherInfoAddHtml?routeId="+routeId;
-					break;
-				case "其他信息":
-					location.href = "/SelfSupportRoute/routeOtherInfoViewHtml?routeId="+routeId;
-					break;
-				case "保险":
-					location.href = "/SelfSupportRoute/routeRouteInsuranceViewHtml?routeId="+routeId;
-					break;
-					
-				default:
-					break;
-			}
-	    }
-	});
     
 	//线路价格库存
 	$('#priceInventoryUpdateDg').datagrid(
