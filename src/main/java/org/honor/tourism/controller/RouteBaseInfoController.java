@@ -88,7 +88,7 @@ public class RouteBaseInfoController {
 	 */
 	@RequestMapping("/update")
 	@ResponseBody
-	public Map<String, Object> update(@Valid RouteBaseInfo routeBaseInfo, BindingResult result) {
+	public Map<String, Object> update(@Valid @RequestBody RouteBaseInfo routeBaseInfo, BindingResult result) {
 		if (result.hasErrors()) {//数据交验
 			return EasyuiResult.result(result);
 		}

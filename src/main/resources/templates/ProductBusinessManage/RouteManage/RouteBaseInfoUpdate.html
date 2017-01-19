@@ -52,9 +52,9 @@
 		</tr>
 		<tr>
 			<td style="font-size: 16px; text-align: center;">出发地：</td>
-			<td ><input name="outPlace" class="easyui-validatebox tb" data-options="required:true,validType:['charts','length[2,25]']" th:value="${selfSupportRoute.routeBaseInfo.outPlace}" type="text" style="width:100%;"></input></td>
+			<td ><input id="outPlace" name="outPlace" class="easyui-validatebox tb" data-options="required:true,validType:['charts','length[2,25]']" th:value="${selfSupportRoute.routeBaseInfo.outPlace}" type="text" style="width:100%;"></input></td>
 			<td style="font-size: 16px; text-align: center;">浏览地：</td>
-			<td><input name="destination" class="easyui-validatebox tb" data-options="required:true,validType:['charts','length[2,25]']" th:value="${selfSupportRoute.routeBaseInfo.destination}" type="text" style="width:100%;"></input></td>
+			<td><input id="destination" name="destination" class="easyui-validatebox tb" data-options="required:true,validType:['charts','length[2,25]']" th:value="${selfSupportRoute.routeBaseInfo.destination}" type="text" style="width:100%;"></input></td>
 		</tr>
 		<tr>
 			<td style="font-size: 16px; text-align: center;">签证国家：</td>
@@ -63,7 +63,7 @@
 			</td>
 			<td style="font-size: 16px; text-align: center;">电商页面排序：</td>
 			<td>
-				<input type="text" name="pageOrder" class="easyui-numberbox"  data-options="required:true,min:0" th:value="${selfSupportRoute.routeBaseInfo.pageOrder}" placeholder="请输入数字"></input>
+				<input type="text" id="pageOrder" name="pageOrder" class="easyui-numberbox"  data-options="required:true,min:0" th:value="${selfSupportRoute.routeBaseInfo.pageOrder}" placeholder="请输入数字"></input>
 			</td>
 		</tr>
 		<tr>
@@ -118,38 +118,36 @@
 		
 		<tr>
 			<td style="font-size: 16px; text-align: center;">起价说明：</td>
-			<td colspan="4" style="text-align: left;">
-			<textarea name="startPriceExplain" class="easyui-validatebox tb" data-options="required:true,validType:['charts','length[2,25]']" th:text="${selfSupportRoute.routeBaseInfo.startPriceExplain}" style="width:100%;">
-			</textarea>
+			<td colspan="4" style="text-align: left;"><textarea id="startPriceExplain" name="startPriceExplain" class="easyui-validatebox tb" data-options="required:true,validType:['charts','length[2,25]']" th:text="${selfSupportRoute.routeBaseInfo.startPriceExplain}" style="width:100%;"></textarea>
 			</td>
 		</tr>
 		<tr>
 			<td style="font-size: 16px; text-align: center;">推荐理由：</td>
-			<td colspan="4" style="text-align: left;"><textarea name="recommendedReason" class="easyui-validatebox tb" data-options="required:true,validType:['charts','length[2,25]']" th:text="${selfSupportRoute.routeBaseInfo.recommendedReason}" style="width:100%;"/></td>
+			<td colspan="4" style="text-align: left;"><textarea id="recommendedReason" name="recommendedReason" class="easyui-validatebox tb" data-options="required:true,validType:['charts','length[2,25]']" th:text="${selfSupportRoute.routeBaseInfo.recommendedReason}" style="width:100%;"/></td>
 		</tr>
 		<tr>
 			<td style="font-size: 16px; text-align: center;">重要提示：</td>
-			<td colspan="4" style="text-align: left;"><textarea name="importanceHint" class="easyui-validatebox tb" data-options="required:true,validType:['charts','length[2,25]']" th:text="${selfSupportRoute.routeBaseInfo.importanceHint}" style="width:100%;"/></td>
+			<td colspan="4" style="text-align: left;"><textarea id="importanceHint" name="importanceHint" class="easyui-validatebox tb" data-options="required:true,validType:['charts','length[2,25]']" th:text="${selfSupportRoute.routeBaseInfo.importanceHint}" style="width:100%;"/></td>
 		</tr>
 		<tr>
 			<td style="font-size: 16px; text-align: center;">保险赠送情况说明：</td>
-			<td colspan="4" style="text-align: left;"><textarea name="insuranceGiveExplain" class="easyui-validatebox tb" data-options="required:true,validType:['charts','length[2,25]']" th:text="${selfSupportRoute.routeBaseInfo.insuranceGiveExplain}" style="width:100%;"/></td>
+			<td colspan="4" style="text-align: left;"><textarea id="insuranceGiveExplain" name="insuranceGiveExplain" class="easyui-validatebox tb" data-options="required:true,validType:['charts','length[2,25]']" th:text="${selfSupportRoute.routeBaseInfo.insuranceGiveExplain}" style="width:100%;"/></td>
 		</tr>
 		<tr>
 			<td style="font-size: 16px; text-align: center;">限制报名期限：</td>
-			<td colspan="4" style="text-align: left;"><input name="limitedRegistrationDeadline" class="easyui-numberbox"  data-options="required:true,min:0" th:value="${selfSupportRoute.routeBaseInfo.limitedRegistrationDeadline}" style="width:100%;"/></td>
+			<td colspan="4" style="text-align: left;"><input id="limitedRegistrationDeadline" name="limitedRegistrationDeadline" class="easyui-numberbox"  data-options="required:true,min:0" th:value="${selfSupportRoute.routeBaseInfo.limitedRegistrationDeadline}" style="width:100%;"/></td>
 		</tr>
 		<tr>
 			<td style="font-size: 16px; text-align: center;">限制付款天数：</td>
-			<td colspan="4" style="text-align: left;"><input name="restrictedPaymentDays" class="easyui-numberbox"  data-options="required:true,min:0" th:value="${selfSupportRoute.routeBaseInfo.pageOrder}" style="width:100%;"/></td>
+			<td colspan="4" style="text-align: left;"><input id="restrictedPaymentDays" name="restrictedPaymentDays" class="easyui-numberbox"  data-options="required:true,min:0" th:value="${selfSupportRoute.routeBaseInfo.pageOrder}" style="width:100%;"/></td>
 		</tr>
 		<tr>
 			<td style="font-size: 16px; text-align: center;">限制付款小时：</td>
-			<td colspan="4" style="text-align: left;"><input name="limitedPaymentHours" class="easyui-numberbox"  data-options="required:true,min:0" th:value="${selfSupportRoute.routeBaseInfo.limitedPaymentHours}" style="width:100%;"/></td>
+			<td colspan="4" style="text-align: left;"><input id="limitedPaymentHours" name="limitedPaymentHours" class="easyui-numberbox"  data-options="required:true,min:0" th:value="${selfSupportRoute.routeBaseInfo.limitedPaymentHours}" style="width:100%;"/></td>
 		</tr>
 		<tr>
 			<td style="font-size: 16px; text-align: center;">付款方式：</td>
-			<td colspan="4" style="text-align: left;"><input name="paymentMethod" class="easyui-validatebox tb" data-options="required:true,validType:['charts','length[2,25]']" th:value="${selfSupportRoute.routeBaseInfo.paymentMethod}" style="width:100%;"/></td>
+			<td colspan="4" style="text-align: left;"><input id="paymentMethod" name="paymentMethod" class="easyui-validatebox tb" data-options="required:true,validType:['charts','length[2,25]']" th:value="${selfSupportRoute.routeBaseInfo.paymentMethod}" style="width:100%;"/></td>
 		</tr>
 		<tr>
 			<td style="font-size: 16px; text-align: center;"></td>
@@ -183,15 +181,21 @@
     </div>
 	<script type="text/javascript" th:inline="javascript">
 	/*<![CDATA[*/
-	 
+	           
+	var type = [];          
+	var theme = [];        
+	
 	var Idss = [[${not #lists.isEmpty(selfSupportRoute)}?${selfSupportRoute.routeBaseInfo.id}]];
 	$('#RouteBaseInfoId').val(Idss);
 	
-	var findRouteBaseInfo = [[${selfSupportRoute.routeBaseInfo.routeTypeList}]];
-	$.each(findRouteBaseInfo, function(id, name) {  
-	});
+	var routeTypeListSelection = [[${selfSupportRoute.routeBaseInfo.routeTypeList}]];
+	var themeSelection = [[${selfSupportRoute.routeBaseInfo.tourismTheme}]];
 	
-	 $.ajax({  
+	for (var t = 0; t < themeSelection.length; t++) {
+		theme.push({id:themeSelection[t].id});
+	}
+	
+	$.ajax({  
 	        url: '/RouteCategory/findRouteCategory',  
 	        dataType: 'json',  
 	        success: function (data) {
@@ -199,12 +203,20 @@
 	        	$('#line').after("<tr id='"+i+"'></tr>");
 	        	$('#'+i).append("<td><input type=\"text\" value='"+data[i].categoryName+"'></input></td>"+
 	        	"<td><a class=\"easyui-linkbutton\" plain=\"true\" onclick=\"originalRoute('"+data[i].id+"')\">选择路线</a></td>"+
-	        	"<td><div><input type=\"hidden\" id=\"routeTypeList\" name=\"routeTypeList\" value='"+findRouteBaseInfo[i].id+"' ></input>"+
-			 	"<input type=\"text\" id='originalRoute"+data[i].id+"' name='originalRoute"+data[i].id+"' value='"+findRouteBaseInfo[i].typeName+"' readonly=\"value\" class=\"easyui-validatebox tb\" data-options=\"required:true\"></input></div></td>");
-	        	}
-	        }  
-	    });          
-		 
+	        	"<td><div id='"+'a'+i+"'><input type=\"hidden\" id=\"routeTypeList\" name=\"routeTypeList\" value='"+routeTypeListSelection[i].id+"' ></input>");
+			 	/*"<input type=\"text\" id='originalRoute"+data[i].id+"' name='originalRoute"+data[i].id+"' value='"+routeTypeListSelection[i].typeName+"' readonly=\"value\" class=\"easyui-validatebox tb\" data-options=\"required:true\"></input></div></td>");
+	        	 */
+	        	for (var qq = 0; qq < routeTypeListSelection.length; qq++) {
+	        		if (data[i].id == routeTypeListSelection[qq].routeCategory.id) {
+	        		$('#'+'a'+i).after("<input type=\"text\" id='originalRoute"+data[i].id+"' name='originalRoute"+data[i].id+"' value='"+routeTypeListSelection[qq].typeName+"' readonly=\"value\" class=\"easyui-validatebox tb\" data-options=\"required:true\"></input>");
+					type.push({id:routeTypeListSelection[qq].id});
+					}
+	   		    }
+	        	$('#'+'a'+i).append("</div></td>");
+	       }
+	    }  
+	 });
+	 
 		 function getInfo(routeCategoryId){
 			var check_val= [];
 			var check_name= [];
@@ -219,7 +231,7 @@
 	    				if (obj[h].checked == true) {
 	     			    check_name.push(obj[h].value);
 	     			    }  
-	    				} 
+	    		}
 	  	     $("#routeTypeList").val(check_val);
 	    	 $("#originalRoute"+routeCategoryId).val(check_name);
 			 $('#dlg').dialog('close');
@@ -372,6 +384,7 @@
 			             }  
 			        });  
 		        } 
+		     
 		           
 			function getInfo4(){
 				var check_val= [];
@@ -385,7 +398,7 @@
 	  		}
 	  			for (var h in obj) {
 	  				if (obj[h].checked == true) {
-	   			check_name.push(obj[h].value);
+	   			    check_name.push(obj[h].value);
 	   			}  
 	  		} 
 		     	 $("#tourismTheme").val(check_val);
@@ -428,48 +441,104 @@
 		        });
 	        }
     
-     function saveUser(){
-     	$('#myform').form('submit',{
-             url: '/RouteBaseInfo/update',
-             onSubmit: function(){
-             	/* enableTab(1);
-             	enableTab(2);
-             	enableTab(3);
-             	enableTab(4); */
-             if ($("#f1").filebox('getValue') != "") {
-             		fileUpload1();
-				}
-             if ($("#f2").filebox('getValue') != "") {
-                 	fileUpload2();
-				}
-                 	return $(this).form('validate');
-             },
-             success: function(resultJSON){
-             	var result = JSON.parse(resultJSON);
-                 if (result.errorMsg){
-                     $.messager.show({
-                         title: 'Error',
-                         msg: result.errorMsg
-                     });
-                 } else {
-                 	var values = result.msg;
-                 	var input = document.createElement('input');
-                 	document.body.appendChild(input);
-                 	input.setAttribute('type', 'hidden');
-                 	input.setAttribute('id', 'rId');
-                 	input.setAttribute('value', values);
-                 	$('#myform').form('clear');
-                 }
-             }
-         });
-     }
-    /*  $(function(){
-	        //四个选项卡禁用
-	        disableTab(1);
-	        disableTab(2);
-	        disableTab(3);
-	        disableTab(4);
-     }); */
+	        function saveUser(){
+	        	/* enableTab(1);
+	        	enableTab(2);
+	        	enableTab(3);
+	        	enableTab(4); */
+	        if ($("#f1").filebox('getValue') != "") {
+            		fileUpload1();
+			}
+            if ($("#f2").filebox('getValue') != "") {
+                	fileUpload2();
+			}
+	        	var obj={
+	            		id:Idss,
+	        			routeName:$("#routeName").val(),
+	            		goTraffic:{id:$("#goTraffic").combobox("getValue")},
+	            		returnTraffic:{id:$("#returnTraffic").combobox("getValue")},
+	            		outPlace:$("#outPlace").val(),
+	            		destination:$("#destination").val(),
+	            		visaNationals:{id:$("#visaNationals").combobox("getValue")},
+	            		pageOrder:$("#pageOrder").val(),
+	    			 	routeTypeList:type,
+	            		listRouteDiagram:$("#listRouteDiagram").val(),
+	            		routeDiagram:$("#routeDiagram").val(),
+	            		tourismTheme:theme,
+	            		startPriceExplain:$("#startPriceExplain").val(),
+	            		recommendedReason:$("#recommendedReason").val(),
+	            		importanceHint:$("#importanceHint").val(),
+	            		insuranceGiveExplain:$("#insuranceGiveExplain").val(),
+	            		limitedRegistrationDeadline:$("#limitedRegistrationDeadline").val(),
+	            		restrictedPaymentDays:$("#restrictedPaymentDays").val(),
+	            		limitedPaymentHours:$("#limitedPaymentHours").val(),
+	            		paymentMethod:$("#paymentMethod").val()
+	    	       };
+							   
+	        	//提交方法
+				$.ajax({  
+					   type: "POST",  
+					   url: '/RouteBaseInfo/update', 
+					   data: JSON.stringify(obj),//将对象序列化成JSON字符串  
+					   dataType:"json",
+					   contentType : 'application/json;charset=utf-8', //设置请求头信息  
+					   success: function(data){
+						   if(data.success)
+							{
+						      	alert("修改成功!");
+						      	var values =data.msg;
+		                    	var input = document.createElement('input');
+		                    	document.body.appendChild(input);
+		                    	input.setAttribute('type', 'hidden');
+		                    	input.setAttribute('id', 'rId');
+		                    	input.setAttribute('value', values);
+		                    	$('#myform').form('clear');
+							}else{
+						      	alert(data.errorMsg);
+							}
+					   }
+				});
+	        }
+	        /* function saveUser(){
+	        	$('#myform').form('submit',{
+	                url: '/RouteBaseInfo/save',
+	                onSubmit: function(){
+	                	fileUpload1();
+	                	fileUpload2();
+	                    return $(this).form('validate');
+	                },
+	                success: function(resultJSON){
+	                	//启用选项卡
+	                	enableTab(1);
+	                	enableTab(2);
+	                	enableTab(3);
+	                	enableTab(4);
+	                	var result = JSON.parse(resultJSON);
+	                    if (result.errorMsg){
+	                        $.messager.show({
+	                            title: 'Error',
+	                            msg: result.errorMsg
+	                        });
+	                    } else {
+	                    	var values = result.msg;
+	                    	var input = document.createElement('input');
+	                    	document.body.appendChild(input);
+	                    	input.setAttribute('type', 'hidden');
+	                    	input.setAttribute('id', 'rId');
+	                    	input.setAttribute('value', values);
+	                    	$('#myform').form('clear');
+	                    }
+	                }
+	            });
+	        }*/ 
+	        
+	       /*  $(function(){
+		        //四个选项卡禁用
+		        disableTab(1);
+		        disableTab(2);
+		        disableTab(3);
+		        disableTab(4);
+	        }); */
         /*]]>*/
     </script>
    </body>
