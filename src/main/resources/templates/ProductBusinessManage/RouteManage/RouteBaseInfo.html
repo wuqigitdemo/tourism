@@ -451,10 +451,6 @@
         }
        
         function saveUser(){
-        	enableTab(1);
-        	enableTab(2);
-        	enableTab(3);
-        	enableTab(4);
         	fileUpload1();
             fileUpload2();
         	var obj={
@@ -488,7 +484,10 @@
 				   contentType : 'application/json;charset=utf-8', //设置请求头信息  
 				   success: function(data){
 					   if(data.success)
-						{
+						{	enableTab(1);
+			        		enableTab(2);
+			        		enableTab(3);
+			        		enableTab(4);
 					      	alert("保存成功!");
 					      	var values =data.msg;
 	                    	var input = document.createElement('input');
