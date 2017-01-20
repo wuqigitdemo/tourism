@@ -5,146 +5,191 @@
 <head>
 <meta charset="UTF-8" />
 <title>自营线路管理</title>
-<link rel="stylesheet" type="text/css" href="/easyui/themes/default/easyui.css" />
+<link rel="stylesheet" type="text/css"
+	href="/easyui/themes/default/easyui.css" />
 <link rel="stylesheet" type="text/css" href="/easyui/themes/icon.css" />
-<link rel="stylesheet" type="text/css" href="/easyui/demo/demo.css" />    
-<link rel="stylesheet" type="text/css" href="/easyui/themes/color.css"/>
+<link rel="stylesheet" type="text/css" href="/easyui/demo/demo.css" />
+<link rel="stylesheet" type="text/css" href="/easyui/themes/color.css" />
 <script type="text/javascript" src="/easyui/jquery.min.js"></script>
 <script type="text/javascript" src="/easyui/jquery.easyui.min.js"></script>
 <script type="text/javascript" src="/easyui/locale/easyui-lang-zh_CN.js"></script>
 <script type="text/javascript" src="/easyui/datagrid-detailview.js"></script>
 
 <style>
-
-form td{
+form td {
 	text-align: left;
 }
-.datagrid-cell{line-height:30px}
 
+.datagrid-cell {
+	line-height: 30px
+}
 </style>
 
 </head>
-<body id="rid">
-		 <div id="addTt" class="easyui-tabs" style="width:100%;height50px" overflow="hidden">
-				
-				<div title="基础信息" style="width: 100%;height: 100%"></div>
-				
-				<div title="行程信息" style="width: 100%;height: 100%"></div>
-				
-				<div title="价格/库存" style="width: 100%;height: 100%"></div>
-				
-				<div title="其他信息" style="width: 100%;height: 100%"></div>
-		
-				<div title="保险" style="width: 100%;height: 100%"></div> 
-				
-			</div>
-    <table id="dg" class="easyui-datagrid" style="width:100%;height:440px"
-            toolbar="#toolbar" pagination="true" remoteSort="false" singleSelect="true" 
-          		nowrap="false" fitColumns="true"  >
-    </table>
-      
-    <div id="toolbar">
-        <div>
-        	<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newRouteTrip()">新增行程</a>
-	        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editRouteTrip()">修改</a>
-	        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyRouteTrip()">删除</a>
-        </div>
-    </div>
+<body>
+	<script type="text/javascript">
+			var selectedIndex = 1;var currentTitle = "行程信息";
+			</script>
+	<div th:if="${forwordType eq 'add'}"  th:include="/ProductBusinessManage/RouteManage/TablesAll :: #Add">
+	</div>
+	
+	<div th:if="${forwordType eq 'update'}"  th:include="/ProductBusinessManage/RouteManage/TablesAll :: #Update">
+	</div>
+	
+	<div th:if="${forwordType eq 'view'}"  th:include="/ProductBusinessManage/RouteManage/TablesAll :: #View">
+	</div>
+	
+	<table id="dg" class="easyui-datagrid"
+		style="width: 100%; height: 440px" toolbar="#toolbar"
+		pagination="true" remoteSort="false" singleSelect="true"
+		nowrap="false" fitColumns="true">
+	</table>
 
-   <div id="dlg" class="easyui-dialog" style="width:400px"
-            closed="true" buttons="#dlg-buttons">
-        <form id="fm" enctype="multipart/form-data" method="post" style="margin:0;padding:0px 50px">
-        
-        	<input type="hidden" id="foodPictures" name="foodPictures" value="" ></input> 
-        	<input type="hidden" id="hotelPicture" name="hotelPicture" value="" ></input>  
-        	<input type="hidden" id="tripId" name="tripId"  value="" ></input>
-        	
-            <div style="margin-bottom:10px">
-				 <label for="tripTitle" class="label-top">行程标题:</label><input id="tripTitle" name="tripTitle" class="easyui-validatebox textbox" data-options="required:true,validType:'length[1,50]'"  style="width:100%"/>
-				 <label for="tripDetail" class="label-top">行程详细:</label><textarea id="tripDetail"  name="tripDetail" class="easyui-validatebox textbox" data-options="required:true,validType:'length[1,50]'"  style="width:100%"></textarea>
-                 <label for="breakfast" class="label-top">早餐:</label><input class="easyui-combobox" name="breakfast" id="breakfast"
-										data-options="
+	<div id="toolbar">
+		<div>
+			<a href="javascript:void(0)" class="easyui-linkbutton"
+				iconCls="icon-add" plain="true" onclick="newRouteTrip()">新增行程</a> <a
+				href="javascript:void(0)" class="easyui-linkbutton"
+				iconCls="icon-edit" plain="true" onclick="editRouteTrip()">修改</a> <a
+				href="javascript:void(0)" class="easyui-linkbutton"
+				iconCls="icon-remove" plain="true" onclick="destroyRouteTrip()">删除</a>
+		</div>
+	</div>
+
+	<div id="dlg" class="easyui-dialog" style="width: 400px" closed="true"
+		buttons="#dlg-buttons">
+		<form id="fm" enctype="multipart/form-data" method="post"
+			style="margin: 0; padding: 0px 50px">
+
+			<input type="hidden" id="foodPictures" name="foodPictures" value=""></input>
+			<input type="hidden" id="hotelPicture" name="hotelPicture" value=""></input>
+			<input type="hidden" id="tripId" name="tripId" value=""></input>
+
+			<div style="margin-bottom: 10px">
+				<label for="tripTitle" class="label-top">行程标题:</label><input
+					id="tripTitle" name="tripTitle" class="easyui-validatebox textbox"
+					data-options="required:true,validType:'length[1,50]'"
+					style="width: 100%" /> <label for="tripDetail" class="label-top">行程详细:</label>
+				<textarea id="tripDetail" name="tripDetail"
+					class="easyui-validatebox textbox"
+					data-options="required:true,validType:'length[1,50]'"
+					style="width: 100%"></textarea>
+				<label for="breakfast" class="label-top">早餐:</label><input
+					class="easyui-combobox" name="breakfast" id="breakfast"
+					data-options="
 								url: '/DiningType/selectAll', 
 								method:'get',
 								valueField:'id',
 								textField:'typeName',
 								prompt:'请选择',
 								panelHeight:'auto'" />
-                 <label for="lunch" class="label-top">中餐:</label><input class="easyui-combobox" name="lunch" id="lunch"
-										data-options="
+				<label for="lunch" class="label-top">中餐:</label><input
+					class="easyui-combobox" name="lunch" id="lunch"
+					data-options="
 								url: '/DiningType/selectAll', 
 								method:'get',
 								valueField:'id',
 								textField:'typeName',
 								prompt:'请选择',
 								panelHeight:'auto'" />
-				<label for="dinner" class="label-top">晚餐:</label><input class="easyui-combobox" name="dinner" id="dinner"
-										data-options="
+				<label for="dinner" class="label-top">晚餐:</label><input
+					class="easyui-combobox" name="dinner" id="dinner"
+					data-options="
 								url: '/DiningType/selectAll', 
 								method:'get',
 								valueField:'id',
 								textField:'typeName',
 								prompt:'请选择',
 								panelHeight:'auto'" />
-										
-                <label for="hotelCategories" class="label-top">酒店类型:</label><input class="easyui-combobox" name="hotelCategories" id="hotelCategories"
-										data-options="
+
+				<label for="hotelCategories" class="label-top">酒店类型:</label><input
+					class="easyui-combobox" name="hotelCategories" id="hotelCategories"
+					data-options="
 								url: '/HotelCategories/selectAll', 
 								method:'get',
 								valueField:'id',
 								textField:'categoriesName',
 								prompt:'请选择',
 								panelHeight:'auto'" />
-            </div>
-        </form>
-        
-         <form id="form1" action="/RouteTrip/fileUpload"  enctype="multipart/form-data" method="post"  style="margin:0;padding:0px 50px">
-         <label for="foodPictures" class="label-top">行程餐图片上传:</label><input
-										class="easyui-filebox"  name="uploadFile"
-										data-options="prompt:'Choose a file...', accept:'image/jpeg'" style="width:100%" />
-         </form>
-         
-         <form id="form2" action="/RouteTrip/fileUpload"  enctype="multipart/form-data" method="post"  style="margin:0;padding:10px 50px">
-                       <label for="costCover" class="label-top">行程酒店图片上传:</label><input
-										class="easyui-filebox"  name="uploadFile"
-										data-options="prompt:'Choose a file...'" style="width: 100%" /> 
-         </form>
-         
-    <div id="dlg-buttons">
-        <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="saveRouteTrip()" style="width:90px">提交</a>
-        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')" style="width:90px">取消</a>
-    </div>
-    </div>
-    
-     <div id="dlg1" class="easyui-dialog" style="width:400px"
-            closed="true" buttons="#dlg-buttons1">
-        <form id="fm1" method="post" novalidate="" style="margin:0;padding:0px 50px">
-        <input type="hidden" id="routeDayImageAddress" name="routeDayImageAddress" value="" ></input>
-        <input type="hidden" id="dayId" name="dayId"  value="" ></input>
-            <div style="margin-bottom:10px">
-				 <label for="shop" class="label-top">选择时间:</label><input
-										class="easyui-datetimebox" id="selectionTime" name="selectionTime"
-										data-options="prompt:'请选择日期...'" style="width: 100%" />
-				 <label for="shop" class="label-top">日程简单说明:</label><input id="simplenessExplain" name="simplenessExplain" class="easyui-validatebox textbox" data-options="required:true,validType:'length[1,50]'"  style="width:100%"/>
-				 <label for="shop" class="label-top">日程详细说明:</label><textarea id="detailednessExplain" name="detailednessExplain" class="easyui-validatebox textbox" data-options="required:true,validType:'length[1,50]'"  style="width:100%"></textarea>			
-            </div>
-        </form>
-         <form id="form3" action="/RouteDay/fileUpload" method="post" novalidate="" style="margin:0;padding:0px 50px">
-                 <label for="selfPayItemRemark" class="label-top">日程图片:</label><input
-										class="easyui-filebox" name="uploadFile"
-										data-options="prompt:'Choose a file...'" style="width:100%" />
-         </form>
-    <div id="dlg-buttons1">
-        <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="saveRouteDay()" style="width:90px">提交</a>
-        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg1').dialog('close')" style="width:90px">取消</a>
-    </div>
-    </div>
-    
-    <div id="dlg2" class="easyui-dialog" style="width:700px;height:400px"
-            closed="true" buttons="#dlg-buttons2">
-    </div>
-    
-    <script th:inline="javascript">
+			</div>
+		</form>
+
+		<form id="form1" action="/RouteTrip/fileUpload"
+			enctype="multipart/form-data" method="post"
+			style="margin: 0; padding: 0px 50px">
+			<label for="foodPictures" class="label-top">行程餐图片上传:</label><input
+				class="easyui-filebox" name="uploadFile"
+				data-options="prompt:'Choose a file...', accept:'image/jpeg'"
+				style="width: 100%" />
+		</form>
+
+		<form id="form2" action="/RouteTrip/fileUpload"
+			enctype="multipart/form-data" method="post"
+			style="margin: 0; padding: 10px 50px">
+			<label for="costCover" class="label-top">行程酒店图片上传:</label><input
+				class="easyui-filebox" name="uploadFile"
+				data-options="prompt:'Choose a file...'" style="width: 100%" />
+		</form>
+
+		<div id="dlg-buttons">
+			<a href="javascript:void(0)" class="easyui-linkbutton c6"
+				iconCls="icon-ok" onclick="saveRouteTrip()" style="width: 90px">提交</a>
+			<a href="javascript:void(0)" class="easyui-linkbutton"
+				iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')"
+				style="width: 90px">取消</a>
+		</div>
+	</div>
+
+	<div id="dlg1" class="easyui-dialog" style="width: 400px" closed="true"
+		buttons="#dlg-buttons1">
+		<form id="fm1" method="post" novalidate=""
+			style="margin: 0; padding: 0px 50px">
+			<input type="hidden" id="routeDayImageAddress"
+				name="routeDayImageAddress" value=""></input> <input type="hidden"
+				id="dayId" name="dayId" value=""></input>
+			<div style="margin-bottom: 10px">
+				<label for="shop" class="label-top">选择时间:</label><input
+					class="easyui-datetimebox" id="selectionTime" name="selectionTime"
+					data-options="prompt:'请选择日期...'" style="width: 100%" /> <label
+					for="shop" class="label-top">日程简单说明:</label><input
+					id="simplenessExplain" name="simplenessExplain"
+					class="easyui-validatebox textbox"
+					data-options="required:true,validType:'length[1,50]'"
+					style="width: 100%" /> <label for="shop" class="label-top">日程详细说明:</label>
+				<textarea id="detailednessExplain" name="detailednessExplain"
+					class="easyui-validatebox textbox"
+					data-options="required:true,validType:'length[1,50]'"
+					style="width: 100%"></textarea>
+			</div>
+		</form>
+		<form id="form3" action="/RouteDay/fileUpload" method="post"
+			novalidate="" style="margin: 0; padding: 0px 50px">
+			<label for="selfPayItemRemark" class="label-top">日程图片:</label><input
+				class="easyui-filebox" name="uploadFile"
+				data-options="prompt:'Choose a file...'" style="width: 100%" />
+		</form>
+		<div id="dlg-buttons1">
+			<a href="javascript:void(0)" class="easyui-linkbutton c6"
+				iconCls="icon-ok" onclick="saveRouteDay()" style="width: 90px">提交</a>
+			<a href="javascript:void(0)" class="easyui-linkbutton"
+				iconCls="icon-cancel"
+				onclick="javascript:$('#dlg1').dialog('close')" style="width: 90px">取消</a>
+		</div>
+	</div>
+
+	<div id="dlg2" class="easyui-dialog"
+		style="width: 700px; height: 400px" closed="true"
+		buttons="#dlg-buttons2"></div>
+		
+		<div id="dlg3" class="easyui-dialog"
+		style="width: 700px; height: 400px" closed="true"
+		buttons="#dlg-buttons3"></div>
+		
+		<div id="dlg4" class="easyui-dialog"
+		style="width: 700px; height: 400px" closed="true"
+		buttons="#dlg-buttons4"></div>
+
+	<script th:inline="javascript">
     /*<![CDATA[*/
                
      $('#addTt').tabs({
@@ -157,7 +202,7 @@ form td{
 });
                
     $('#dg').datagrid({
-		url:'/RouteTrip/findAll?routeId='+[[${selfSupportId}]],
+		url:'/RouteTrip/findAll?routeId='+[[${routeId}]],
 		columns:[[
 			{field:'tripTitle',title:'行程标题',width:50,align:'center'},
 			{field:'tripDetail',title:'行程详细',width:50,align:'center'},
@@ -427,7 +472,7 @@ form td{
 	  
   	}
     
-  
+  	routeId=[[${routeId}]];
   
 
         var url;
@@ -435,7 +480,7 @@ form td{
         	var rId=$("#rId").val();
             $('#dlg').dialog('open').dialog('center').dialog('setTitle','新增行程');
             $('#fm').form('clear');
-            url = '/RouteTrip/save?routeId='+[[${selfSupportId}]];          
+            url = '/RouteTrip/save?routeId='+[[${routeId}]];          
         }
         
         function newRouteDay(tripId){
@@ -484,17 +529,21 @@ form td{
         	fileUpload1();
         	fileUpload2();
         	var tmp=$("#tripId").val();
-        	var foodPictures=[{imageAddress:$("#foodPictures").val()}];
-        	var hotelPicture=[{imageAddress:$("#hotelPicture").val()}];
+        	var foodPictures=$("#foodPictures").val();
+        	var hotelPicture=$("#hotelPicture").val();
     		if(tmp==""){
 				tmp=null;
 			}
-    		if(foodPictures=="false"){
+     		if(foodPictures=="false"){
     			foodPictures=null;
+    		} else {
+    			foodPictures = [{imageAddress:foodPictures}];
     		}
     		if(hotelPicture=="false"){
     			hotelPicture=null;
-    		}
+    		} else {
+    			hotelPicture = [{imageAddress:hotelPicture}];
+    		} 
         	var obj={
         			id:tmp,
         			tripTitle:$("#tripTitle").val(),
@@ -533,7 +582,7 @@ form td{
 				tmp=null;
 			}
     		if(routeDayImageAddress=="false"){
-    			routeDayImageAddress=null
+    			routeDayImageAddress=null;
     		}
         	var obj={
         			id:tmp,
@@ -601,6 +650,7 @@ form td{
         }
         
         function foodimagedetails(){
+        	$("#dlg2").html("");
         	var row = $('#dg').datagrid('getSelected');//id获取正确
             $('#dlg2').dialog('open').dialog('center').dialog('setTitle','图片详情');
             var foodPicturesList = row.foodPictures;
@@ -612,23 +662,25 @@ form td{
         }
         
             function hotelimagedetails(){
+            $("#dlg3").html("");
         	var row = $('#dg').datagrid('getSelected');//id获取正确
-            $('#dlg2').dialog('open').dialog('center').dialog('setTitle','图片详情');
+            $('#dlg3').dialog('open').dialog('center').dialog('setTitle','图片详情');
             var hotelPictureList = row.hotelPicture;
             for (var i = 0; i < hotelPictureList.length; i++) {
             	var hotelPictures = hotelPictureList[i];
-                $("#dlg2").append(" <img  src=\"/files/"+hotelPictures.imageAddress+"\"/>");
+                $("#dlg3").append(" <img  src=\"/files/"+hotelPictures.imageAddress+"\"/>");
 			}
           //$.parser.parse('#dlg2');
         }
             
             function routeDayImage(id){
+            	 $("#dlg4").html("");
             	var row = $('#'+id).datagrid('getSelected');//id获取正确
-                $('#dlg2').dialog('open').dialog('center').dialog('setTitle','图片详情');
+                $('#dlg4').dialog('open').dialog('center').dialog('setTitle','图片详情');
                 var routeDayImageList = row.routeDayImageAddress;
                 for (var i = 0; i < routeDayImageList.length; i++) {
                 	var routeDayImages = routeDayImageList[i];
-                    $("#dlg2").append(" <img  src=\"/files/"+routeDayImages.imageAddress+"\"/>");
+                    $("#dlg4").append(" <img  src=\"/files/"+routeDayImages.imageAddress+"\"/>");
     			}
               //$.parser.parse('#dlg2');
             }

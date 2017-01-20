@@ -48,6 +48,8 @@ public class RouteTripServiceImpl implements RouteTripService {
 
 	@Override
 	public RouteTrip save(RouteTrip routeTrip) {
+		RouteTrip temp=routeTripRepository.findOne(routeTrip.getId());
+		routeTrip.setSelfSupportRoute(temp.getSelfSupportRoute());
 		return routeTripRepository.save(routeTrip);
 	}
 }

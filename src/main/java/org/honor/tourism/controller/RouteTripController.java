@@ -120,10 +120,11 @@ public class RouteTripController {
 	}
 	
 	@RequestMapping(value ="/RouteTripForword", method = RequestMethod.GET)  
-	public ModelAndView routeTripForword(String id) throws Exception {    
+	public ModelAndView routeTripForword(String id,String forwordType) throws Exception {    
 	    ModelAndView model=new ModelAndView();
 	    model.setViewName("ProductBusinessManage/RouteManage/RouteTrip");
-	    model.addObject("selfSupportId", id);
+	    model.addObject("routeId", id);
+	    model.addObject("forwordType", forwordType);
 	    return model;
 	}  
 	
