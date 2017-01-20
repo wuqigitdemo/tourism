@@ -27,25 +27,15 @@ public class MyWebAppConfigurer extends WebMvcConfigurerAdapter {
 		registry.addViewController("/ProductBusinessManage/RouteManage/InsuranceManagement").setViewName("ProductBusinessManage/RouteManage/InsuranceManagement");
 		registry.addViewController("/OtherTypeManage/InsuranceType").setViewName("OtherTypeManage/InsuranceType");
 		registry.addViewController("/ProductBusinessManage/RouteManage/SelfSupportRoute").setViewName("/ProductBusinessManage/RouteManage/SelfSupportRoute");
-		registry.addViewController("/OtherTypeManage/SelfSupportRouteOtherInfo").setViewName("OtherTypeManage/SelfSupportRouteOtherInfo");
 		registry.addViewController("/OtherTypeManage/VisaNationalsManage").setViewName("OtherTypeManage/VisaNationalsManage");
 		registry.addViewController("/OtherTypeManage/HotelCategoriesManage").setViewName("OtherTypeManage/HotelCategoriesManage");
 		registry.addViewController("/ProductBusinessManage/RouteManage/RouteBaseInfo").setViewName("ProductBusinessManage/RouteManage/RouteBaseInfo");
-		registry.addViewController("/ProductBusinessManage/RouteManage/SelfSupportRouteAdd").setViewName("/ProductBusinessManage/RouteManage/SelfSupportRouteAdd");
-		registry.addViewController("/ProductBusinessManage/RouteManage/SelfSupportRouteUpdate").setViewName("/ProductBusinessManage/RouteManage/SelfSupportRouteUpdate");
-		//registry.addViewController("/ProductBusinessManage/RouteManage/RouteTrip").setViewName("ProductBusinessManage/RouteManage/RouteTrip");
 		registry.addViewController("/OtherTypeManage/DiningType").setViewName("OtherTypeManage/DiningType");
 		registry.addViewController("/OtherTypeManage/PriceInventory").setViewName("OtherTypeManage/PriceInventory");
 		registry.addViewController("/OtherTypeManage/FileUpload").setViewName("OtherTypeManage/FileUpload");
-		registry.addViewController("/ProductBusinessManage/RouteManage/OtherInfo").setViewName("ProductBusinessManage/RouteManage/OtherInfo");
-		registry.addViewController("/ProductBusinessManage/RouteManage/RouteInsurance").setViewName("ProductBusinessManage/RouteManage/RouteInsurance");
-		registry.addViewController("/ProductBusinessManage/RouteManage/PriceInventoryUpdate").setViewName("ProductBusinessManage/RouteManage/PriceInventoryUpdate");
 		registry.addViewController("/ProductBusinessManage/RouteManage/RouteBaseInfoUpdate").setViewName("ProductBusinessManage/RouteManage/RouteBaseInfoUpdate");
-		registry.addViewController("/ProductBusinessManage/RouteManage/PriceInventoryView").setViewName("ProductBusinessManage/RouteManage/PriceInventoryView");
-		registry.addViewController("/ProductBusinessManage/RouteManage/OtherInfoView").setViewName("ProductBusinessManage/RouteManage/OtherInfoView");
 		registry.addViewController("/ProductBusinessManage/RouteManage/RouteBaseInfoView").setViewName("ProductBusinessManage/RouteManage/RouteBaseInfoView");
 		registry.addViewController("/ProductBusinessManage/RouteManage/TablesAll").setViewName("ProductBusinessManage/RouteManage/TablesAll");
-		registry.addViewController("/OtherTypeManage/datagrid_data").setViewName("OtherTypeManage/datagrid_data");
 	}
 
 	@Override
