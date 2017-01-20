@@ -1,5 +1,5 @@
 <div id="Add">
-	<div id="tablesAlltt" class="easyui-tabs">
+	<div id="tablesAlltt" class="easyui-tabs" style="height: 30px;">
 		<div title="基本信息"></div>
 		<div title="行程信息"></div>
 		<div title="价格/库存"></div>
@@ -19,10 +19,10 @@
 				    	switch (title) 
 				    	{
 						case "基本信息":
-							location.href = "/ProductBusinessManage/RouteManage/RouteBaseInfo?routeId="+routeId;
+							location.href = "/ProductBusinessManage/RouteManage/RouteBaseInfo";
 							break;
 						case "行程信息":
-							location.href = "/SelfSupportRoute/routeOtherInfoAddHtml?routeId="+routeId;
+							location.href = "/RouteTrip/RouteTripForword?id="+routeId+"&forwordType=add";
 							break;
 						case "价格/库存":
 							location.href = "/SelfSupportRoute/routePriceInventoryAddHtml?routeId="+routeId;
@@ -46,7 +46,7 @@
 
 
 <div id="Update">
-	<div id="tablesAlltt" class="easyui-tabs">
+	<div id="tablesAlltt" class="easyui-tabs" style="height: 30px;">
 		<div title="基本信息"></div>
 		<div title="行程信息"></div>
 		<div title="价格/库存"></div>
@@ -66,10 +66,10 @@
 				    	switch (title) 
 				    	{
 						case "基本信息":
-							location.href = "/ProductBusinessManage/RouteManage/RouteBaseInfo?routeId="+routeId;
+							location.href = "/RouteBaseInfo/basicInformationUpdateHtml?routeId="+routeId;
 							break;
 						case "行程信息":
-							location.href = "/SelfSupportRoute/routeOtherInfoUpdateHtml?routeId="+routeId;
+							location.href = "/RouteTrip/RouteTripForword?id="+routeId+"&forwordType=update";
 							break;
 						case "价格/库存":
 							location.href = "/SelfSupportRoute/routePriceInventoryUpdateHtml?routeId="+routeId;
@@ -92,7 +92,7 @@
 </div>
 
 <div id="View">
-	<div id="tablesAlltt" class="easyui-tabs">
+	<div id="tablesAlltt" class="easyui-tabs" style="height: 30px;">
 		<div title="基本信息"></div>
 		<div title="行程信息"></div>
 		<div title="价格/库存"></div>
@@ -112,10 +112,10 @@
 				    	switch (title) 
 				    	{
 						case "基本信息":
-							location.href = "/ProductBusinessManage/RouteManage/RouteBaseInfo?routeId="+routeId;
+							location.href = "/RouteBaseInfo/basicInformationViewHtml?routeId="+routeId;
 							break;
 						case "行程信息":
-							location.href = "/SelfSupportRoute/routeOtherInfoUpdateHtml?routeId="+routeId;
+							location.href = "/RouteTrip/RouteTripForword?id="+routeId+"&forwordType=view";
 							break;
 						case "价格/库存":
 							location.href = "/SelfSupportRoute/routePriceInventoryViewHtml?routeId="+routeId;
