@@ -15,6 +15,7 @@ import org.honor.tourism.entity.VisaNationals;
 import org.honor.tourism.repository.SelfSupportRouteRepository;
 import org.honor.tourism.service.RouteBaseInfoService;
 import org.honor.tourism.service.RouteTypeService;
+import org.honor.tourism.service.SelfSupportRouteService;
 import org.honor.tourism.service.TourismThemeService;
 import org.honor.tourism.service.TrafficWayService;
 import org.honor.tourism.service.VisaNationalsService;
@@ -62,6 +63,9 @@ public class RouteBaseInfoController {
 	@Autowired 
 	private FileUpload fileUpload;
 	
+	@Autowired 
+	private SelfSupportRouteService selfSupportRouteService;
+	
 	@Autowired
 	private SelfSupportRouteRepository selfSupportRouteRepository;
 	
@@ -78,6 +82,51 @@ public class RouteBaseInfoController {
 		List<RouteBaseInfo> rows = pageRouteBaseInfo.getContent();
 		Long total = service.count();
 		return EasyuiResult.result(rows, total);
+	}
+	
+	/**
+	 * 保存成功后跳转到行程信息
+	 * @param model
+	 * @param routeId
+	 * @return
+	 */
+	@RequestMapping(value = "/travelInformationAddHtml",method = RequestMethod.GET)
+	public String travelInformationAddHtml (ModelMap model, String routeId) {
+		
+		SelfSupportRoute selfSupportRoute = selfSupportRouteService.findRouteWithId(routeId);
+		
+		model.addAttribute("selfSupportRoute", selfSupportRoute);
+		return "/ProductBusinessManage/RouteManage/RouteTrip";
+	}
+	
+	/**
+	 * 修改基本信息
+	 * @param model
+	 * @param routeId
+	 * @return
+	 */
+	@RequestMapping(value = "/basicInformationUpdateHtml",method = RequestMethod.GET)
+	public String basicInformationUpdateHtml (ModelMap model, String routeId) {
+		
+		SelfSupportRoute selfSupportRoute = selfSupportRouteService.findRouteWithId(routeId);
+		
+		model.addAttribute("selfSupportRoute", selfSupportRoute);
+		return "/ProductBusinessManage/RouteManage/RouteBaseInfoUpdate";
+	}
+	
+	/**
+	 * 查看基本信息
+	 * @param model
+	 * @param routeId
+	 * @return
+	 */
+	@RequestMapping(value = "/basicInformationViewHtml",method = RequestMethod.GET)
+	public String basicInformationViewHtml (ModelMap model, String routeId) {
+		
+		SelfSupportRoute selfSupportRoute = selfSupportRouteService.findRouteWithId(routeId);
+		
+		model.addAttribute("selfSupportRoute", selfSupportRoute);
+		return "/ProductBusinessManage/RouteManage/RouteBaseInfoView";
 	}
 	
 	

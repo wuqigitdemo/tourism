@@ -70,7 +70,7 @@ form td{
     	</div>
     	
         <div>
-        	<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="javascript:location.href='/SelfSupportRoute/routePriceInventoryAddHtml?routeId=402882c959b077c90159b07a45440000';">新增</a>
+        	<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="javascript:location.href='/ProductBusinessManage/RouteManage/RouteBaseInfo';">新增</a>
 	        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyRoute()">删除</a>
 	        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-search" plain="true" onclick="searchRoute()">查询</a>
         </div>
@@ -194,7 +194,7 @@ form td{
 	    // form 的提交方式  
 	    form1.method = "GET";  
 	    // form 提交路径  
-	    form1.action = "/SelfSupportRoute/routePriceInventoryViewHtml?routeId="+routeId;  
+	    form1.action = "/RouteBaseInfo/basicInformationUpdateHtml?routeId="+routeId;
 	  
 	    // 对该 form 执行提交  
 	    form1.submit();  
@@ -226,7 +226,7 @@ form td{
 	    // form 的提交方式  
 	    form1.method = "GET";  
 	    // form 提交路径  
-	    form1.action = "/SelfSupportRoute/routePriceInventoryUpdateHtml?routeId="+routeId;  
+	    form1.action = "/RouteBaseInfo/basicInformationViewHtml?routeId="+routeId; 
 	  
 	    // 对该 form 执行提交  
 	    form1.submit();  
