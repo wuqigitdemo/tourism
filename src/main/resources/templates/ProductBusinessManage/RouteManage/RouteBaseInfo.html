@@ -498,6 +498,7 @@
 	                    	input.setAttribute('value', values);
 	                    	routeId = values;
 	                    	$('#myform').form('clear');
+	                    	location.href="/RouteTrip/RouteTripForword?id="+routeId+"&forwordType=add";
 						}else{
 					      	alert(data.errorMsg);
 						}
