@@ -17,7 +17,7 @@ public class SelfSupportRouteRepositoryImpl {
 	public Page<SelfSupportRoute> findByRouteBaseInfoRouteNameOrRouteBaseInfoOutPlaceOrRouteBaseInfoDestinationOrRouteBaseInfoRouteTypeListTypeName(
 			String routeName, String outPlace, String destination, String typeName, Integer startDays, Integer endDays, Pageable pageable) {
 		StringBuffer jpql = new StringBuffer();
-		jpql.append("from SelfSupportRoute ssr where 1=1");
+		jpql.append("from SelfSupportRoute ssr join fetch ssr.routeBaseInfo.routeTypeList rtl where 1=1");
 		if (routeName != null && !"".equals(routeName)) {
 			jpql.append(" and ssr.routeBaseInfo.routeName like :routeName");
 		}
@@ -28,7 +28,7 @@ public class SelfSupportRouteRepositoryImpl {
 			jpql.append(" and ssr.routeBaseInfo.destination like :destination");
 		}
 		if (typeName != null && !"".equals(typeName)) {
-			jpql.append(" and ssr.routeBaseInfo.routeTypeList.typeName like :typeName");
+			jpql.append(" and rtl.typeName like :typeName");
 		}
 		if (startDays != null) {
 			jpql.append(" and size(ssr.routeTripList) >= :startDays");

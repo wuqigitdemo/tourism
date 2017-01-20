@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.honor.tourism.entity.PriceInventory;
+import org.honor.tourism.entity.RouteTrip;
 import org.honor.tourism.entity.RouteType;
 import org.honor.tourism.entity.SelfSupportRoute;
 import org.honor.tourism.service.CrudService;
@@ -184,6 +185,12 @@ public class SelfSupportRouteController extends CrudController<SelfSupportRoute>
 		Pageable pageable = new PageRequest(page.getPage(), page.getRows());
 		Page<SelfSupportRoute> pageList =  selfSupportRouteService.findByRouteBaseInfoRouteNameOrRouteBaseInfoOutPlaceOrRouteBaseInfoDestinationOrRouteBaseInfoRouteTypeListTypeName(routeName, outPlace, destination, typeName, startDays, endDays, pageable);
 		List<SelfSupportRoute> rows = pageList.getContent();
+		for (SelfSupportRoute selfSupportRoute : rows) {
+			List<RouteTrip> list = selfSupportRoute.getRouteTripList();
+			for (RouteTrip routeTrip : list) {
+				routeTrip.setSelfSupportRoute(null);
+			}
+		}
 		long total = pageList.getTotalElements();
 		return EasyuiResult.result(rows, total);
 	}

@@ -31,7 +31,7 @@ public class TestSelfSupportRouteRepository {
 	@Autowired
 	private RouteTripRepository routeTripRepository;
 	
-	@Test
+//	@Test
 	public void testSave() {
 		List<RouteTrip> routeTripList = new ArrayList<>();
 		RouteTrip routeTrip = new RouteTrip();
@@ -77,6 +77,16 @@ public class TestSelfSupportRouteRepository {
 		}
 		System.out.println("执行");
 		
+	}
+	
+	@Test
+	public void findBar() {
+		Pageable pageable = new PageRequest(0, 111);
+		Page<SelfSupportRoute> page = repository.findByRouteBaseInfoRouteNameOrRouteBaseInfoOutPlaceOrRouteBaseInfoDestinationOrRouteBaseInfoRouteTypeListTypeName(null, null, null, null, null, null, pageable);
+		List<SelfSupportRoute> rows = page.getContent();
+		for (SelfSupportRoute selfSupportRoute : rows) {
+			System.out.println("fdsafdsafd" + selfSupportRoute.getRouteBaseInfo().getRouteName());
+		}
 	}
 	
 	
