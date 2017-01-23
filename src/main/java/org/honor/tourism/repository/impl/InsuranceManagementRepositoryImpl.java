@@ -16,9 +16,9 @@ public class InsuranceManagementRepositoryImpl {
 
 	public Page<InsuranceManagement> findByInsuranceNameLike(String insuranceName, Pageable pageable) {
 		StringBuffer jpql = new StringBuffer();
-		jpql.append("from InsuranceManagement ssr where 1=1");
+		jpql.append("from InsuranceManagement im where 1=1");
 		if (insuranceName != null && !"".equals(insuranceName)) {
-			jpql.append(" and ssr.insuranceName like :insuranceName");
+			jpql.append(" and im.insuranceName like :insuranceName");
 		}
 		
 		TypedQuery<InsuranceManagement> tq = em.createQuery(jpql.toString(), InsuranceManagement.class);
