@@ -1,5 +1,7 @@
 package org.honor.tourism.service.impl;
 
+import java.util.Date;
+
 import org.honor.tourism.entity.RouteBaseInfo;
 import org.honor.tourism.entity.SelfSupportRoute;
 import org.honor.tourism.repository.RouteBaseInfoRepository;
@@ -35,6 +37,8 @@ public class RouteBaseInfoServiceImpl implements RouteBaseInfoService {
 	public SelfSupportRoute save(RouteBaseInfo routeBaseInfo) {
 		
 			SelfSupportRoute selfSupportRoute = new SelfSupportRoute();
+			selfSupportRoute.setCreateDate(new Date());
+			selfSupportRoute.setUpdateDate(new Date());
 			selfSupportRoute.setRouteBaseInfo(routeBaseInfo);
 			return selfSupportRouteRepository.save(selfSupportRoute);
 	}

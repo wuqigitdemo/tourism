@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.honor.tourism.entity.InsuranceManagement;
 import org.honor.tourism.entity.InsuranceType;
 import org.honor.tourism.entity.RouteCategory;
+import org.honor.tourism.entity.SelfSupportRoute;
 import org.honor.tourism.service.InsuranceManagementService;
 import org.honor.tourism.service.InsuranceTypeService;
 import org.honor.tourism.service.RouteCategoryService;
@@ -106,4 +107,22 @@ public class InsuranceManagementController {
 		Long total = (long)rows.size();
 		return EasyuiResult.result(rows,total);
 	}
+	
+	
+	/**
+	 * 查询
+	 * @param insuranceName
+	 * @param page
+	 * @return
+	 */
+	@RequestMapping("/findByInsuranceNameLike")
+	@ResponseBody
+	public Map<String, Object> findByInsuranceNameLike(String insuranceName,EasyuiPage page) {
+		Pageable pageable = new PageRequest(page.getPage(), page.getRows());
+		Page<InsuranceManagement> pageList =  service.findByInsuranceNameLike(insuranceName, pageable);
+		List<InsuranceManagement> rows = pageList.getContent();
+		long total = pageList.getTotalElements();
+		return EasyuiResult.result(rows, total);
+	}
+	
 }

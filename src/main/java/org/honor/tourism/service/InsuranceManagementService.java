@@ -6,6 +6,7 @@ import org.honor.tourism.entity.InsuranceManagement;
 import org.honor.tourism.entity.InsuranceType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
 
 /**
  * 保险管理Service
@@ -23,4 +24,7 @@ public interface InsuranceManagementService {
 	public void delete(String id);
 	//获取单条数据
 	public List<InsuranceManagement> findOne(String id);
+	//查询保险名称
+	@Query("select im from InsuranceManagementim where im.insuranceName like %?1%")
+	public Page<InsuranceManagement> findByInsuranceNameLike(String insuranceName, Pageable pageable);
 }

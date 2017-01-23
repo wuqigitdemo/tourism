@@ -36,7 +36,10 @@
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newUser()">新增</a>
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editUser()">修改</a>
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyUser()">删除</a>
-        <input id="ss" name="ss" class="easyui-searchbox"  searcher="doSearch" prompt="请输入保险名称"  style="width: 130px; vertical-align: middle;"></input>   
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-search" plain="true" onclick="searchRoute()">查询</a>
+    	<form id="datas" action="/InsuranceManagement/findByInsuranceName">
+        <input id="insuranceName" name="insuranceName" style="width: 130px; vertical-align: middle;"></input>   
+        </form>
     </div>
     
     <div id="dlg" class="easyui-dialog" style="width:400px"
@@ -45,7 +48,7 @@
             <div style="margin-bottom:10px">
               <td>
 	           <label for="insuranceType" class="label-top">险种:</label> <input id="insuranceType" style="width:100%" name="insuranceType" />
-               <label for="insuranceName" class="label-top">保险名称:</label> <input name="insuranceName" class="easyui-validatebox tb" data-options="required:true,validType:['charts','length[2,25]']" style="width:100%"/>
+               <label for="insuranceName" class="label-top">保险名称:</label> <input id="insuranceName" name="insuranceName" class="easyui-validatebox tb" data-options="required:true,validType:['charts','length[2,25]']" style="width:100%"/>
                <label for="cost" class="label-top">成本:</label> <input name="cost" class="easyui-numberbox"  data-options="required:true,min:0,precision:2" style="width:100%"/>
                <label for="price" class="label-top">售价:</label> <input name="price" class="easyui-numberbox"  data-options="required:true,min:0,precision:2" style="width:100%"/>
                <label for="insuranceInstructions" class="label-top">保险说明:</label> <input name="insuranceInstructions" class="easyui-validatebox tb" data-options="required:true,validType:['charts','length[2,25]']" style="width:100%"/>
@@ -152,10 +155,18 @@
                 });
             }
         }
-		function doSearch(insuranceName){
-			alert('You input:' + insuranceName);
-			$('#ss').searchbox('selectName', 'insuranceName');
-		}
+        //查询
+        function searchRoute()
+        {
+        	$('#dg').datagrid({
+        		url:'/InsuranceManagement/findByInsuranceNameLike',
+        		type: "POST", 
+        		contentType: "application/json", 
+        		queryParams: {
+        			insuranceName: $("#insuranceName").val()
+        		}
+        	});
+        }
     </script>
 </body>
 </html>

@@ -53,4 +53,11 @@ public class InsuranceManagementServiceImpl implements InsuranceManagementServic
 		rows.add(repository.findOne(id));
 		return rows;
 	}
+
+	@Override
+	public Page<InsuranceManagement> findByInsuranceNameLike(String insuranceName, Pageable pageable) {
+		return repository.findByInsuranceNameLike(insuranceName, pageable);
+	}
+
+	
 }
