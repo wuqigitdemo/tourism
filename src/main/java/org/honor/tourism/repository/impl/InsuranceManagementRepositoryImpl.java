@@ -14,7 +14,7 @@ public class InsuranceManagementRepositoryImpl {
 	@PersistenceContext
 	private EntityManager em;
 
-	public Page<InsuranceManagement> search(String insuranceName, Pageable pageable) {
+	public Page<InsuranceManagement> findByInsuranceNameLike(String insuranceName, Pageable pageable) {
 		StringBuffer jpql = new StringBuffer();
 		jpql.append("from InsuranceManagement ssr where 1=1");
 		if (insuranceName != null && !"".equals(insuranceName)) {
