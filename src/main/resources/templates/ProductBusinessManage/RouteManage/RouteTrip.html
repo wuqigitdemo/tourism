@@ -4,7 +4,7 @@
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
 <meta charset="UTF-8" />
-<title>自营线路管理</title>
+<title>行程信息管理</title>
 <link rel="stylesheet" type="text/css"
 	href="/easyui/themes/default/easyui.css" />
 <link rel="stylesheet" type="text/css" href="/easyui/themes/icon.css" />
@@ -280,7 +280,7 @@ form td {
 	        				{field:'selectionTime',title:'选择时间',width:150,align:'center'},
 	        				{field:'simplenessExplain',title:'日程简单说明',width:250,align:'center'},
 	        				{field:'detailednessExplain',title:'日程详细说明',width:300,align:'center'},
-	        				{field:'attr11',title:'日程图片',width:200,align:'center',
+	        				{field:'attr11',title:'日程图片',width:150,align:'center',
 	        					formatter: function(value,row,index){
 	        	    				return '<a href="javascript:routeDayImage(\''+routeId+'\')">日程图片详情</a>';
 	        	    			}

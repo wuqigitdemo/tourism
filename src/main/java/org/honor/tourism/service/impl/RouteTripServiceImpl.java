@@ -27,8 +27,13 @@ public class RouteTripServiceImpl implements RouteTripService {
 	@Override
 	public RouteTrip saveRouteTrip(RouteTrip routeTrip,  String routeId) {
 		SelfSupportRoute selfSupportRoute = selfSupportRouteRepository.findOne(routeId);
-		routeTrip.setSelfSupportRoute(selfSupportRoute);
-		return routeTripRepository.save(routeTrip);
+		if(selfSupportRoute!=null){
+			routeTrip.setSelfSupportRoute(selfSupportRoute);
+			return routeTripRepository.save(routeTrip);
+		}else{
+			return null;
+		}
+
 	}
 
 	@Override
