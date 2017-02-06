@@ -80,6 +80,9 @@ form td{
 <script type="text/javascript">
 /*<![CDATA[*/   //这句坚决不能删
            
+		var heightValue = $(window).height();
+		document.getElementById('dg').style.height = (heightValue-50)+'px';
+           
  	$.ajax({  
            url: '/RouteType/selectAll',  
            dataType: 'json',  
