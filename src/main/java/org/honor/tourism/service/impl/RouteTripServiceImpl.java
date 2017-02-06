@@ -55,6 +55,7 @@ public class RouteTripServiceImpl implements RouteTripService {
 	public RouteTrip save(RouteTrip routeTrip) {
 		RouteTrip temp=routeTripRepository.findOne(routeTrip.getId());
 		routeTrip.setSelfSupportRoute(temp.getSelfSupportRoute());
+		routeTrip.setRouteDayList(temp.getRouteDayList());
 		return routeTripRepository.save(routeTrip);
 	}
 }

@@ -90,7 +90,7 @@ public class RouteTripController {
         }
 		RouteTrip returnRouteTrip = service.save(routeTrip);
 		if (returnRouteTrip == null) {
-			EasyuiResult.result(false, "添加失败");
+			EasyuiResult.result(false, "修改失败");
 		}
 		return EasyuiResult.result(true);
 	}
