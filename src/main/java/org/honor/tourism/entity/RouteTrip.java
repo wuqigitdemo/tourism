@@ -49,14 +49,14 @@ public class RouteTrip {
 	private DiningType dinner;
 	/** 餐饮图片 */
 	@OneToMany(cascade={CascadeType.ALL})
-	@JoinColumn(name="routeTripId")
+	@JoinColumn(name="routeTripFoodPicturesId")
 	private List<ImageAddress> foodPictures;
 	/** 酒店分类 */
 	@ManyToOne
 	private HotelCategories hotelCategories;
 	/** 酒店图片 */
 	@OneToMany(cascade={CascadeType.ALL})
-	@JoinColumn(name="routeTripId")
+	@JoinColumn(name="routeTripHotelPictureId")
 	private List<ImageAddress> hotelPicture;
 	@ManyToOne(cascade = CascadeType.PERSIST)
 	private SelfSupportRoute selfSupportRoute;
