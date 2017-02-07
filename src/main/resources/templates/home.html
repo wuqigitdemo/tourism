@@ -13,7 +13,7 @@
 <script type="text/javascript" src="/easyui/jquery.easyui.min.js"></script>
 </head>
 <body> 
-	<div id="cc" class="easyui-layout" style="width: 100%; height: 599px;">
+	<div id="cc" class="easyui-layout" style="width: 100%; height: 615px;">
 		<div data-options="region:'north'" style="height: 50px"></div>
 		<div data-options="region:'south',split:true" style="height: 30px;"></div>
 		<div data-options="region:'west',split:true" title="菜单"
@@ -28,6 +28,9 @@
 									<li id="/ProductBusinessManage/RouteManage/SelfSupportRoute"><span>自营线路管理</span></li>
 								</ul>
 							</li>
+						</ul>
+						<ul>
+							<li id="/ProductBusinessManage/RouteManage/HotelManagement"><span>酒店管理</span></li>
 						</ul>
 					</li>
 					<li><span>其它类型等参数管理</span>
@@ -47,9 +50,6 @@
 							<li id="/ProductBusinessManage/RouteManage/InsuranceManagement"><span>保险管理</span></li>
 						</ul>
 						<ul>
-							<li id="/RouteTrip/RouteTripForword?id=402882bc59b59fe80159b59ffdc80000&amp;forwordType=view"><span>行程信息管理</span></li>
-						</ul>
-						<ul>
 							<li id="/OtherTypeManage/InsuranceType"><span>保险种类管理</span></li>
 						</ul>
 						<ul>
@@ -65,6 +65,21 @@
 							<li id="/OtherTypeManage/RouteTrip"><span>行程信息管理</span></li>
 						</ul> -->
 					</li>
+				<li>
+					<span>权限管理</span>
+					<ul>
+						<li id="/AuthorityManagement/ModuleManagement">模块管理</li>
+					</ul>
+					<ul>
+						<li id="/AuthorityManagement/RoleManagement">角色管理</li>
+					</ul>
+					<ul>
+						<li id="/AuthorityManagement/DivisionalManagement">部门管理</li>
+					</ul>
+					<ul>
+						<li id="/AuthorityManagement/StaffManagement">员工管理</li>
+					</ul>
+				</li>
 				</ul>
 			</div>
 		</div>
@@ -73,7 +88,7 @@
 				style="width: 100%; height: 100%">
 				<div title="首页" data-options="closable:false"
 					style="overflow: hidden; width: 100%;height: 100%;">
-					<iframe scrolling="yes" frameborder="0"
+					<iframe id="homeIframe" scrolling="yes" frameborder="0"
 						src="/welcome"
 						style="width: 100%; height: 100%;"></iframe>
 				</div>
@@ -82,6 +97,8 @@
 	</div>
  
 	<script type="text/javascript">
+	var heightValue = $(window).height();
+	document.getElementById('cc').style.height = heightValue+'px';
 		$('#mt').tree({
 			onClick : function(node) {
 				addPanel(node.text, node.id);
