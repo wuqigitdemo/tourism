@@ -37,7 +37,6 @@ public class MyWebAppConfigurer extends WebMvcConfigurerAdapter {
 		registry.addViewController("/ProductBusinessManage/RouteManage/RouteBaseInfoView").setViewName("ProductBusinessManage/RouteManage/RouteBaseInfoView");
 		registry.addViewController("/ProductBusinessManage/RouteManage/TablesAll").setViewName("ProductBusinessManage/RouteManage/TablesAll");
 		registry.addViewController("/ProductBusinessManage/RouteManage/HotelManagement").setViewName("/ProductBusinessManage/RouteManage/HotelManagement");
-
 		registry.addViewController("/AuthorityManagement/ModuleManagement").setViewName("AuthorityManagement/ModuleManagement");
 		registry.addViewController("/AuthorityManagement/RoleManagement").setViewName("AuthorityManagement/RoleManagement");
 		registry.addViewController("/AuthorityManagement/DivisionalManagement").setViewName("AuthorityManagement/DivisionalManagement");

@@ -4,7 +4,7 @@
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
 <meta charset="UTF-8" />
-<title>自营线路管理</title>
+<title>酒店管理</title>
 <link rel="stylesheet" type="text/css" href="/easyui/themes/default/easyui.css" />
 <link rel="stylesheet" type="text/css" href="/easyui/themes/icon.css" />
 <link rel="stylesheet" type="text/css" href="/easyui/demo/demo.css" />    
@@ -34,33 +34,30 @@ form td{
 	    	<form id="dataForm" action="/SelfSupportRoute/findByPar">
 				<table style="width:100%;">
 		        	<tr>
-		        		<td width="100">线路名称：</td>
-		        		<td colspan="4" style="text-align: left;">
+		        		<td width="100">名&nbsp;&nbsp;称：</td>
+		        		<td style="text-align: left;">
 		        			<input name="routeName" id="routeName" style="width: 80%;" type="text" />
 		        		</td>
+		        		<td width="100">星&nbsp;&nbsp;级：</td>
+		        		<td style="text-align: left;">
+		        			<input name="routeName" id="routeName"  type="text" />
+		        		</td>
 		        	</tr>
 		        	<tr>
-		        		<td width="100"><font style="letter-spacing: 0.5em;">出</font><font style="letter-spacing: 0.5em;">发</font>地：</td>
-		        		<td colspan="2" style="text-align: left;width:40%;">
+		        		<td width="100">联系电话：</td>
+		        		<td style="text-align: left;">
 		        			<input name="outPlace" id="outPlace" value="" type="text" />
 		        		</td>
-		                <td width="100"><font style="letter-spacing: 2em;">天</font>数：</td>
-		                <td colspan="2" style="text-align: left;">
-		                	<input name="fromDays" id="startDays" value="" datatype="n1-10" size="3" type="text" />天 - <input name="endDays" id="endDays" value="" datatype="n1-10" size="3" type="text" />天
-		                </td>
-		        	</tr>
+		                <td width="100">所在城市：</td>
+		                <td style="text-align: left;">
+		                	<input name="outPlace" id="outPlace" value="" type="text" /></td>
+		        		</tr>
 		        	<tr>
-		        		<td width="100">游览地：</td>
-		        		<td colspan="4" style="text-align: left;">
-		        			<input name="destination" id="destination" style="width: 80%;" type="text" />
-		        		</td>
-		        	</tr>
-		        	<tr>
-		        		<td width="100">类别：</td>
-		        		<td colspan="2" style="text-align: left;">
+		        		<td width="100">是否加入轮播：</td>
+		        		<td style="text-align: left;">
 			        		<input id="typeName" name="typeName" />  
 		        		</td>
-		        		<td width="100">编号：</td>
+		        		<td width="100">酒店编号：</td>
 		        		<td style="text-align: left;">
 		        			<input name="routeBaseInfo.id" style="width: 55%;" type="text" />
 		        		</td>
@@ -79,9 +76,6 @@ form td{
 </body>
 <script type="text/javascript">
 /*<![CDATA[*/   //这句坚决不能删
-           
-		var heightValue = $(window).height();
-		document.getElementById('dg').style.height = (heightValue-50)+'px';
            
  	$.ajax({  
            url: '/RouteType/selectAll',  
@@ -109,8 +103,8 @@ form td{
    	nowrap:false,
    	columns:[[
 		{field:'undefined',checkbox:true},
-		{field:'numbering',title:'线路编号',width:100},
-		{field:'routeName',title:'线路名称',width:150,
+		{field:'numbering',title:'酒店编号',width:100},
+		{field:'routeName',title:'名称',width:150,
    			formatter: function(value,row,index){
    				if (row.routeBaseInfo != null){
    					return row.routeBaseInfo.routeName;
@@ -119,7 +113,7 @@ form td{
    				}
    			}
 		},
-		{field:'outPlace',title:'出发地',width:80,
+		{field:'outPlace',title:'所在城市',width:80,
    			formatter: function(value,row,index){
    				if (row.routeBaseInfo != null){
    					return row.routeBaseInfo.outPlace;
@@ -128,7 +122,7 @@ form td{
    				}
    			}
 		},
-		{field:'routeTripList',title:'天数',width:50,
+		{field:'routeTripList',title:'星级',width:50,
    			formatter: function(value,row,index){
    				if (row.routeTripList != null) {
    					return row.routeTripList.length + "天";
@@ -137,7 +131,7 @@ form td{
    				}
    			}
 		},
-		{field:'businessType',title:'经营类型',width:50,
+		{field:'businessType',title:'联系电话',width:50,
    			formatter: function(value,row,index){
    				if (row.businessType == 'SELF_EMPLOYED') {
    					return "自营";
@@ -146,8 +140,6 @@ form td{
    				}
    			}
 		},
-		{field:'createDate',title:'创建时间',width:100},
-		{field:'updateDate',title:'最后更新时间',width:100},
 		{field:'operation',title:'操作',width:100,align:'center',
    			formatter: function(value,row,index){
    				return "<a href=\"javascript:viewRoute('"+row.id+"');\">查看</a> <a href=\"javascript:updateRoute('"+row.id+"');\">修改</a>";

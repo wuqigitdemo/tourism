@@ -17,7 +17,11 @@ public class SelfSupportRouteRepositoryImpl {
 	public Page<SelfSupportRoute> findByRouteBaseInfoRouteNameOrRouteBaseInfoOutPlaceOrRouteBaseInfoDestinationOrRouteBaseInfoRouteTypeListTypeName(
 			String routeName, String outPlace, String destination, String typeName, Integer startDays, Integer endDays, Pageable pageable) {
 		StringBuffer jpql = new StringBuffer();
-		jpql.append("from SelfSupportRoute ssr join fetch ssr.routeBaseInfo.routeTypeList rtl where 1=1");
+		jpql.append("from SelfSupportRoute ssr ");
+		if (typeName != null && !"".equals(typeName)) {
+			jpql.append(" join fetch ssr.routeBaseInfo.routeTypeList rtl");
+		}
+		jpql.append(" where 1=1");
 		if (routeName != null && !"".equals(routeName)) {
 			jpql.append(" and ssr.routeBaseInfo.routeName like :routeName");
 		}

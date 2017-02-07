@@ -52,8 +52,10 @@
     </div>
     
     <script type="text/javascript">
-    
-	  	//回车事件绑定
+		var heightValue = $(window).height();
+		document.getElementById('dg').style.height = (heightValue-50)+'px';
+
+		//回车事件绑定
 		$(function() 
 		{
 			$('#categoriesName').keyup(function(event){

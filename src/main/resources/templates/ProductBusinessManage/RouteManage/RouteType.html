@@ -68,7 +68,9 @@
     </div>
     
     <script type="text/javascript">
-    
+		var heightValue = $(window).height();
+		document.getElementById('dg').style.height = (heightValue-50)+'px';
+		
     	//下拉框验证开始
 	    $.extend($.fn.validatebox.defaults.rules, {
 	    	selected: {

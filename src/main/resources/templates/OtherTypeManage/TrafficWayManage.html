@@ -44,6 +44,9 @@
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')" style="width:90px">取消</a>
     </div>
     <script type="text/javascript">
+		var heightValue = $(window).height();
+		document.getElementById('dg').style.height = (heightValue-50)+'px';
+	
         var url;
         function newUser(){
             $('#dlg').dialog('open').dialog('center').dialog('setTitle','新增');
