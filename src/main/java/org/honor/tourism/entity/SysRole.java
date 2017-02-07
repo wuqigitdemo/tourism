@@ -8,7 +8,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 
 /**
- * 权限表
+ * 角色权限表
  * @author keiwu
  *
  */

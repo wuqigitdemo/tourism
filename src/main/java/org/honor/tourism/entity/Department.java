@@ -26,6 +26,9 @@ public class Department {
 	/** 部门名称 */
 	@Length(min = 2, max = 30, message = "部门名称需要2-30位字符")
 	private String departmentName;
+	/** 部门编号 */
+	@Length(min = 2, max = 30, message = "部门编号需要2-30位字符")
+	private String departmentNumber;
 	/** 上级部门 */
 	@ManyToOne
 	private Department parentDepartment;
@@ -52,6 +55,14 @@ public class Department {
 
 	public void setParentDepartment(Department parentDepartment) {
 		this.parentDepartment = parentDepartment;
+	}
+
+	public String getDepartmentNumber() {
+		return departmentNumber;
+	}
+
+	public void setDepartmentNumber(String departmentNumber) {
+		this.departmentNumber = departmentNumber;
 	}
 
 }
