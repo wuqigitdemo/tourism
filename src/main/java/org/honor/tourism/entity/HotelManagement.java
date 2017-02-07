@@ -16,7 +16,7 @@ import org.hibernate.validator.constraints.Length;
  *
  */
 @Entity
-@Table(name = "t_hotelManagement")
+@Table(name = "t_hotel_management")
 public class HotelManagement {
 
 	@Id
@@ -28,6 +28,7 @@ public class HotelManagement {
 	private String hotelName;
 	/** 级别 */
 	@Length(min = 2, max = 30, message = "级别需要2-30位字符")
+	@ManyToOne
 	private HotelLevel hotelLevel;
 	/** 联系电话 */
 	@Length(min = 6, max = 11, message = "联系电话需要6-11位字符")
