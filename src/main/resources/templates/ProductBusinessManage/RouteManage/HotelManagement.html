@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<meta charset="UTF-8" />
+<title>酒店管理</title>
+<link rel="stylesheet" type="text/css" href="/easyui/themes/default/easyui.css" />
+<link rel="stylesheet" type="text/css" href="/easyui/themes/icon.css" />
+<link rel="stylesheet" type="text/css" href="/easyui/demo/demo.css" />    
+<link rel="stylesheet" type="text/css" href="/easyui/themes/color.css"/>
+<script type="text/javascript" src="/easyui/jquery.min.js"></script>
+<script type="text/javascript" src="/easyui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="/easyui/locale/easyui-lang-zh_CN.js"></script>
+
+<style>
+
+form td{
+	text-align: left;
+}
+.datagrid-cell{line-height:30px}
+
+</style>
+
+</head>
+<body>
+    <table id="dg" class="easyui-datagrid" style="width:100%;height:440px"
+            toolbar="#toolbar" pagination="true"
+            rownumbers="true" fitColumns="true">
+    </table> 
+      
+    <div id="toolbar">
+    	<div>
+	    	<form id="dataForm" action="/SelfSupportRoute/findByPar">
+				<table style="width:100%;">
+		        	<tr>
+		        		<td width="100">名&nbsp;&nbsp;称：</td>
+		        		<td style="text-align: left;">
+		        			<input name="routeName" id="routeName" style="width: 80%;" type="text" />
+		        		</td>
+		        		<td width="100">星&nbsp;&nbsp;级：</td>
+		        		<td style="text-align: left;">
+		        			<input name="routeName" id="routeName"  type="text" />
+		        		</td>
+		        	</tr>
+		        	<tr>
+		        		<td width="100">联系电话：</td>
+		        		<td style="text-align: left;">
+		        			<input name="outPlace" id="outPlace" value="" type="text" />
+		        		</td>
+		                <td width="100">所在城市：</td>
+		                <td style="text-align: left;">
+		                	<input name="outPlace" id="outPlace" value="" type="text" /></td>
+		        		</tr>
+		        	<tr>
+		        		<td width="100">是否加入轮播：</td>
+		        		<td style="text-align: left;">
+			        		<input id="typeName" name="typeName" />  
+		        		</td>
+		        		<td width="100">酒店编号：</td>
+		        		<td style="text-align: left;">
+		        			<input name="routeBaseInfo.id" style="width: 55%;" type="text" />
+		        		</td>
+		        	</tr>
+		        </table>
+			</form>
+    	</div>
+    	
+        <div>
+        	<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="javascript:location.href='/ProductBusinessManage/RouteManage/RouteBaseInfo';">新增</a>
+	        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyRoute()">删除</a>
+	        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-search" plain="true" onclick="searchRoute()">查询</a>
+        </div>
+    </div>
+
+</body>
+<script type="text/javascript">
+/*<![CDATA[*/   //这句坚决不能删
+           
+ 	$.ajax({  
+           url: '/RouteType/selectAll',  
+           dataType: 'json',  
+           success: function (jsonstr) {  
+               jsonstr.unshift({  
+                   'id': '-1',  
+                   'typeName': '--请选择--'  
+               });//向json数组开头添加自定义数据  
+               $('#typeName').combobox({ 
+               	data: jsonstr,  
+       	    	valueField: 'id',    
+       	        textField: 'typeName',
+       	        editable:false,
+       	        onLoadSuccess: function(){
+                      	var Data = $(this).combobox('getData');
+                    	  	$(this).combobox('select',Data[0].id);
+       		  	}  
+       	    }); 
+           }  
+       });
+ 	
+   	$('#dg').datagrid({
+   	url:'/SelfSupportRoute/findByPar',
+   	nowrap:false,
+   	columns:[[
+		{field:'undefined',checkbox:true},
+		{field:'numbering',title:'酒店编号',width:100},
+		{field:'routeName',title:'名称',width:150,
+   			formatter: function(value,row,index){
+   				if (row.routeBaseInfo != null){
+   					return row.routeBaseInfo.routeName;
+   				} else {
+   					return "";
+   				}
+   			}
+		},
+		{field:'outPlace',title:'所在城市',width:80,
+   			formatter: function(value,row,index){
+   				if (row.routeBaseInfo != null){
+   					return row.routeBaseInfo.outPlace;
+   				} else {
+   					return "";
+   				}
+   			}
+		},
+		{field:'routeTripList',title:'星级',width:50,
+   			formatter: function(value,row,index){
+   				if (row.routeTripList != null) {
+   					return row.routeTripList.length + "天";
+   				} else {
+   	   				return "0天"; 
+   				}
+   			}
+		},
+		{field:'businessType',title:'联系电话',width:50,
+   			formatter: function(value,row,index){
+   				if (row.businessType == 'SELF_EMPLOYED') {
+   					return "自营";
+   				} else {
+   	   				return "供应商"; 
+   				}
+   			}
+		},
+		{field:'operation',title:'操作',width:100,align:'center',
+   			formatter: function(value,row,index){
+   				return "<a href=\"javascript:viewRoute('"+row.id+"');\">查看</a> <a href=\"javascript:updateRoute('"+row.id+"');\">修改</a>";
+   			}
+		}
+       ]]
+   });
+      
+   	//查询
+    function searchRoute()
+    {
+    	var typeName = $('#typeName').combobox('getText');
+    	typeName = typeName == '--请选择--' ? null : typeName;
+    	$('#dg').datagrid({
+    		queryParams: {
+    			routeName: $("#routeName").val(),
+    			outPlace: $("#outPlace").val(),
+    			destination: $("#destination").val(),
+    			typeName: typeName,
+    			startDays:$("#startDays").val(),
+    			endDays:$("#endDays").val()
+    		}
+    	});
+    }
+   
+   	//查看线路信息
+   	function viewRoute(routeId)
+	{
+   		// 创建一个 form  
+	    var form1 = document.createElement("form");  
+	    form1.id = "form1";  
+	    form1.name = "form1";  
+	  
+	    // 添加到 body 中  
+	    document.body.appendChild(form1);  
+	  
+	    // 创建一个输入  
+	    var input = document.createElement("input");  
+	    // 设置相应参数  
+	    input.type = "hidden";  
+	    input.name = "routeId";  
+	    input.value = routeId;  
+	  
+	    // 将该输入框插入到 form 中  
+	    form1.appendChild(input);  
+	  
+	    // form 的提交方式  
+	    form1.method = "GET";  
+	    // form 提交路径  
+	    form1.action = "/RouteBaseInfo/basicInformationViewHtml?routeId="+routeId;
+	  
+	    // 对该 form 执行提交  
+	    form1.submit();  
+	    // 删除该 form  
+	    document.body.removeChild(form1);
+	}
+   	
+   	//修改
+   	function updateRoute(routeId)
+	{
+		// 创建一个 form  
+	    var form1 = document.createElement("form");  
+	    form1.id = "form1";  
+	    form1.name = "form1";  
+	  
+	    // 添加到 body 中  
+	    document.body.appendChild(form1);  
+	  
+	    // 创建一个输入  
+	    var input = document.createElement("input");  
+	    // 设置相应参数  
+	    input.type = "hidden";  
+	    input.name = "routeId";  
+	    input.value = routeId;  
+	  
+	    // 将该输入框插入到 form 中  
+	    form1.appendChild(input);  
+	  
+	    // form 的提交方式  
+	    form1.method = "GET";  
+	    // form 提交路径  
+	    form1.action = "/RouteBaseInfo/basicInformationUpdateHtml?routeId="+routeId;
+	  
+	    // 对该 form 执行提交  
+	    form1.submit();  
+	    // 删除该 form  
+	    document.body.removeChild(form1);
+	}
+
+   	function destroyRoute(){
+        var row = $('#dg').datagrid('getSelections');
+        var rowIDS = [];
+       	row.forEach(function(value, index, array) {
+			var rowID = {id:value.id};
+			rowIDS.push(rowID);
+       	});
+        if (row){
+            $.messager.confirm('Confirm','确定删除吗？',function(r){
+                if (r){
+                	$.ajax({
+                        url: "/SelfSupportRoute/deletes",
+                        type: "POST",
+                        contentType : 'application/json;charset=utf-8', //设置请求头信息
+                        dataType:"json",
+                        data: JSON.stringify(rowIDS),            //将Json对象序列化成Json字符串
+                        success: function(data){
+                        	$('#dg').datagrid('reload');
+                        },
+                        error: function(res){
+                        	$.messager.show({    // show error message
+                                title: 'Error',
+                                msg: result.errorMsg
+                            });
+                        }
+                    });
+                }
+            });
+        }
+    }
+
+/*]]>*/    //这句坚决不能删
+</script>
+</html>
