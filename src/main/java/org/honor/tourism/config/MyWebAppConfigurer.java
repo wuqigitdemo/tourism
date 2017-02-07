@@ -36,7 +36,14 @@ public class MyWebAppConfigurer extends WebMvcConfigurerAdapter {
 		registry.addViewController("/ProductBusinessManage/RouteManage/RouteBaseInfoUpdate").setViewName("ProductBusinessManage/RouteManage/RouteBaseInfoUpdate");
 		registry.addViewController("/ProductBusinessManage/RouteManage/RouteBaseInfoView").setViewName("ProductBusinessManage/RouteManage/RouteBaseInfoView");
 		registry.addViewController("/ProductBusinessManage/RouteManage/TablesAll").setViewName("ProductBusinessManage/RouteManage/TablesAll");
-		registry.addViewController("/ProductBusinessManage/RouteManage/HotelManagement").setViewName("/ProductBusinessManage/RouteManage/HotelManagement");
+		registry.addViewController("/ProductBusinessManage/ScenicManagement").setViewName("/ProductBusinessManage/ScenicManagement");
+		registry.addViewController("/ProductBusinessManage/ScenicManagementAdd").setViewName("/ProductBusinessManage/ScenicManagementAdd");
+		registry.addViewController("/ProductBusinessManage/RouteManage/HotelManagement").setViewName("ProductBusinessManage/RouteManage/HotelManagement");
+		registry.addViewController("/ProductBusinessManage/RouteManage/HotelManagementAdd").setViewName("ProductBusinessManage/RouteManage/HotelManagementAdd");
+		registry.addViewController("/OtherTypeManage/HotelLevel").setViewName("OtherTypeManage/HotelLevel");
+		registry.addViewController("/OtherTypeManage/City").setViewName("OtherTypeManage/City");
+		registry.addViewController("/OtherTypeManage/HotelProvideService").setViewName("OtherTypeManage/HotelProvideService");
+		registry.addViewController("/OtherTypeManage/Department").setViewName("OtherTypeManage/Department");
 		registry.addViewController("/AuthorityManagement/ModuleManagement").setViewName("AuthorityManagement/ModuleManagement");
 		registry.addViewController("/AuthorityManagement/RoleManagement").setViewName("AuthorityManagement/RoleManagement");
 		registry.addViewController("/AuthorityManagement/DivisionalManagement").setViewName("AuthorityManagement/DivisionalManagement");
