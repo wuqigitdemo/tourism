@@ -32,7 +32,6 @@ public class HotelManagement {
 	@Length(min = 2, max = 30, message = "酒店名称需要2-30位字符")
 	private String hotelName;
 	/** 级别 */
-	@Length(min = 2, max = 30, message = "级别需要2-30位字符")
 	@ManyToOne
 	private HotelLevel hotelLevel;
 	/** 联系电话 */
