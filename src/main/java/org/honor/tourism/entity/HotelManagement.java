@@ -3,7 +3,9 @@ package org.honor.tourism.entity;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
@@ -51,7 +53,7 @@ public class HotelManagement {
 	/** 评分 */
 	private String score;
 	/** 提供服务 */
-	@ManyToMany(cascade={CascadeType.ALL})
+	@ManyToMany
 	private List<HotelProvideService> hotelProvideService;
 	/** 酒店缩略图 */
 	private String hotelThumbnails;
