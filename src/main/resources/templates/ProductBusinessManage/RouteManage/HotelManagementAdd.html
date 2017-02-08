@@ -93,8 +93,9 @@
 				<tr>
 					<th width="">部门名称</th>
 					<td width="" colspan="3"><input id="department" name="department" value="" type="hidden" />
-						<input id="department" value="" type="text"/>
-						<input onclick="depart();" type="button" class="btn btn-danger" value="选择部门"/>
+						<input type="hidden" id="department" name="department" value="" ></input>	
+						<input id="department1" name="department1" value="" type="text" disabled="disabled"/>
+						<input onclick="depart()" type="button" class="btn btn-danger" value="选择部门"/>
 					</td>
 				</tr>
 				<tr>
@@ -117,8 +118,18 @@
 		<div class="alert-main" id="alert-main" style="width: 75%;height: 800px;">
 	   		<iframe class="pageIframe" id="showIframe" src="" style="width: 100%;height: 100%;"/>
 	    </div>
-		
 	</form>
+	
+	<div id="dlg" class="easyui-dialog" style="width:500px"
+            closed="true" buttons="#dlg-buttons" data-options="modal: true">
+        <form id="fm" novalidate="" style="margin:0;padding:20px 50px">
+        
+        </form>
+    </div>
+	<div id="dlg-buttons">
+        <a id="info1" href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="getInfo()" style="width:90px">提交</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')" style="width:90px">取消</a>
+    </div>
 </div>
 </body>
 <script type="text/javascript">
@@ -183,7 +194,7 @@
             }  
         });
        
-       function fileUpload1() {
+        function fileUpload1() {
        	var formData = new FormData($( "#form1" )[0]);  
 	        $.ajax({
 	             url: '/HotelManagementInfo/fileUpload' ,  
@@ -201,6 +212,62 @@
 	             }  
 	        });  
        }          
+       //部门
+       function depart(){
+       	   $('#dlg').dialog('open').dialog('center').dialog('setTitle','部门选择');
+           $('#fm').form('clear');
+           $.ajax({  
+           	type: "POST", 
+           	url: '/Department/selectAll',  
+	            dataType: 'json',
+	            contentType : 'application/json;charset=utf-8', //设置请求头信息
+	            success: function (data) {
+	            			var ids = document.getElementById('v');
+	            			if (ids!= null) {
+	            			ids.parentNode.removeChild(ids);
+							}
+	            			var div = document.createElement("div");
+	            			div.id="v";
+	                		document.getElementById('fm').appendChild(div);
+       	        	        var ul=document.createElement("ul");
+       	        	        div.appendChild(ul);
+       	        	　　          for(var i=0;i<data.length;i++){
+       	        	        var checkbox=document.createElement("input");
+       	        	        // 加入复选框
+       	        	        checkbox.setAttribute("type","checkbox");
+       	        	        checkbox.setAttribute("id",data[i].id);
+       	        	        checkbox.setAttribute("name", "department");
+       	        	        checkbox.setAttribute("value", data[i].departmentName);
+       	        	        var li=document.createElement("li");
+       	        	        li.appendChild(checkbox);       
+       	        	        li.appendChild(document.createTextNode(data[i].departmentName));
+       	        	        ul.appendChild(li);
+       	        	    }
+	            }  
+	        });
+       }
+       
+       var department=[];
+       function getInfo(){
+   		var check_val= [];
+   		var check_name= [];
+   	    var obj = $("input[name='department']:checked");
+   	    //obj = document.getElementsByName("tourismTheme")
+   	    for (var j in obj) {
+   	    if (obj[j].checked == true ) {
+   				check_val.push(obj[j].id);
+   				department.push({id:obj[j].id});
+   				}
+   			}
+   			for (var h in obj) {
+   				if (obj[h].checked == true) {
+   				check_name.push(obj[h].value);
+   			}  
+   				} 
+   	     	 $("#department").val(check_val);
+   			 $("#department1").val(check_name);
+   			 $('#dlg').dialog('close');
+   		}
        
        function saveUser(){
 	   	    var hotelProvideService = [];

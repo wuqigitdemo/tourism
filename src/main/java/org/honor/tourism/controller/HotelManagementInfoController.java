@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
- * 酒店信息Controller
+ * 酒店管理信息Controller
  *
  */
 @Controller

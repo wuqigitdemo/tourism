@@ -11,6 +11,7 @@ import org.honor.tourism.entity.HotelLevel;
 import org.honor.tourism.entity.HotelManagement;
 import org.honor.tourism.entity.HotelProvideService;
 import org.honor.tourism.entity.TourismTheme;
+import org.honor.tourism.service.HotelProvideServiceService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,6 +38,9 @@ public class TestHotelManagementController {
 	private WebApplicationContext context;
 	private MockMvc mockMvc;
 	
+	@Autowired
+	private HotelProvideServiceService service;
+	
 	@Before
 	public void setupMockMvc() throws Exception {
 		mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
@@ -60,7 +64,8 @@ public class TestHotelManagementController {
 		//tt.setBusinessDistrict("哈尔滨");
 		List<HotelProvideService> list = new ArrayList<HotelProvideService>();
 		HotelProvideService hp = new HotelProvideService();
-		hp.setId("402882bb5a17825e015a17ddb6140005");
+		hp.setId("402882bb5a1ca9f9015a1cac315a0006");
+		hp = service.findById("402882bb5a1ca9f9015a1cac315a0006");
 		list.add(hp);
 		tt.setHotelProvideService(list);
 		ObjectMapper mapper = new ObjectMapper();  
