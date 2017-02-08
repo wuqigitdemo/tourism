@@ -1,9 +1,14 @@
 package org.honor.tourism.entity;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -48,8 +53,9 @@ public class HotelManagement {
 	/** 评分 */
 	private String score;
 	/** 提供服务 */
-	@ManyToOne
-	private HotelProvideService hotelProvideService;
+	@OneToMany(cascade={CascadeType.ALL})
+	@JoinColumn(name="hotelManagementId")
+	private List<HotelProvideService> hotelProvideService;
 	/** 酒店缩略图 */
 	private String hotelThumbnails;
 	/** 是否热门酒店 */
@@ -132,11 +138,11 @@ public class HotelManagement {
 		this.score = score;
 	}
 
-	public HotelProvideService getHotelProvideService() {
+	public List<HotelProvideService> getHotelProvideService() {
 		return hotelProvideService;
 	}
 
-	public void setHotelProvideService(HotelProvideService hotelProvideService) {
+	public void setHotelProvideService(List<HotelProvideService> hotelProvideService) {
 		this.hotelProvideService = hotelProvideService;
 	}
 
