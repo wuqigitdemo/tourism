@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<meta charset="UTF-8" />
+<title>部门管理</title>
+<link rel="stylesheet" type="text/css" href="/easyui/themes/default/easyui.css" />
+<link rel="stylesheet" type="text/css" href="/easyui/themes/icon.css" />
+<link rel="stylesheet" type="text/css" href="/easyui/demo/demo.css" />    
+<link rel="stylesheet" type="text/css" href="/easyui/themes/color.css"/>
+<script type="text/javascript" src="/easyui/jquery.min.js"></script>
+<script type="text/javascript" src="/easyui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="/easyui/locale/easyui-lang-zh_CN.js"></script>
+</head>
+<body>
+    <table id="dg" class="easyui-datagrid" style="width:100%;height:440px"
+            url="/Department/findAll"
+            toolbar="#toolbar" pagination="true"
+            rownumbers="true" fitColumns="true" singleSelect="true">
+    </table> 
+      
+    <div id="toolbar">
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newType()">新增</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editType()">修改</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyType()">删除</a>
+    </div>
+    <div id="dlg" class="easyui-dialog" closed="true" data-options="
+    			width:350,
+               	height:220,   
+               	cache: false,       
+               	modal: true,
+               	buttons:'#dlg-buttons'">
+        <form id="fm" method="post" novalidate="" style="margin:0;padding:20px 50px">
+            <div style="margin-bottom:10px">
+				<table>
+	            	<tr>
+	            		<td>
+	            			<label for="departmentName" class="label-center">部门名称:</label>
+	            		</td>
+	            		<td>
+	            			<input name="departmentName" class="easyui-validatebox tb" data-options="required:true,validType:['charts','length[1,30]']"/>
+	            		</td>
+	            	</tr>
+	            	<tr>
+	            		<td>
+	            			<label class="label-center">上级部门:</label>
+	            		</td>
+	            		<td>
+	            			<input id="parentId" style="width:100%" name="parentDepartment"/>
+	            		</td>
+	            	</tr>
+	            </table>
+            </div>
+        </form>
+    <div id="dlg-buttons">
+        <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="saveType()" style="width:90px">提交</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')" style="width:90px">取消</a>
+    </div>
+    </div>
+    
+    <script type="text/javascript">
+		var heightValue = $(window).height();
+		document.getElementById('dg').style.height = (heightValue-50)+'px';
+		
+    	//下拉框验证开始
+	    $.extend($.fn.validatebox.defaults.rules, {
+	    	selected: {
+	    		validator: function(value, param){
+	    			return value != '--请选择--';
+	    		},
+	    		message: '请选择上级部门'
+	        }
+	    });
+	  	//下拉框验证结束
+	  	
+	    $('#dg').datagrid({
+	        columns:[[
+	            {field:'departmentName',title:'部门名称',width:100},
+	            {field:'parentDepartment',title:'上级部门',width:100,
+	    			formatter: function(value,row,index){
+	    				if(row.parentDepartment != null) {
+		    				return row.parentDepartment.departmentName;
+	    				}
+	    				return "";
+	    			}
+	    		}
+	        ]]
+	    });
+
+	  	//获取下拉列表框数据
+	  	function getComboboxData(row)
+	  	{
+		  	//上级类别
+		    $.ajax({  
+	            url: '/Department/selectAll',  
+	            dataType: 'json',  
+	            success: function (jsonstr) {  
+	                jsonstr.unshift({  
+	                    'id': '-1',  
+	                    'departmentName': '--请选择--'  
+	                });//向json数组开头添加自定义数据  
+	                $('#parentId').combobox({ 
+	                	data: jsonstr,  
+	        	    	valueField: 'id',    
+	        	        textField: 'departmentName',
+	        	        editable:false,
+	        	        onLoadSuccess: function(){
+	        		  		if(row != undefined){
+	            	        	if(row.parentDepartment != null){
+	                        		$(this).combobox('select',row.parentDepartment.id);
+	                            }else{
+	                            	var Data = $(this).combobox('getData');
+	                          	  	$(this).combobox('select',Data[0].id);
+	                            }
+	        	        	}else{
+	                        	var Data = $(this).combobox('getData');
+	                      	  	$(this).combobox('select',Data[0].id);
+	                        }
+	        		  	}  
+	        	    }); 
+	            }  
+	        });
+		  	
+	  	}
+	  	
+        var url;
+        function newType(){
+           $('#fm').form('clear');
+           //$('#dlg').dialog('open');
+            
+           $('#dlg').dialog({    
+              title: '新增', 
+              closed: false,
+              onOpen:function(){
+           	  	getComboboxData();
+              }
+           });
+            
+           url = '/Department/save';
+        }
+        function editType(){
+            var row = $('#dg').datagrid('getSelected');
+            if (row){
+                $('#fm').form('load',row);
+                
+                $('#dlg').dialog({    
+                    title: '修改', 
+                    closed: false,
+                    onOpen:function(){
+                 	  	getComboboxData(row);
+                    }
+                 });
+                
+                url = '/Department/save?id='+row.id;
+            }
+        }
+        function saveType(){
+            $('#fm').form('submit',{
+                url: url,
+                onSubmit: function(){
+                    return $(this).form('validate');
+                },
+                success: function(resultJSON){
+                	var result = JSON.parse(resultJSON);
+                    if (result.errorMsg){
+                        $.messager.show({
+                            title: 'Error',
+                            msg: result.errorMsg
+                        });
+                    } else {
+                        $('#dlg').dialog('close');        // close the dialog
+                        $('#dg').datagrid('reload');    // reload the user data
+                    }
+                }
+            });
+        }
+        function destroyType(){
+            var row = $('#dg').datagrid('getSelected');
+            if (row){
+                $.messager.confirm('确认删除','确定删除这个部门吗？',function(r){
+                    if (r){
+                        $.post('/Department/delete',{id:row.id},function(result){
+                            if (result.success){
+                                $('#dg').datagrid('reload');    // reload the user data
+                            } else {
+                                $.messager.show({    // show error message
+                                    title: 'Error',
+                                    msg: result.errorMsg
+                                });
+                            }
+                        },'json');
+                    }
+                });
+            }
+        }
+    </script>
+</body>
+</html>
