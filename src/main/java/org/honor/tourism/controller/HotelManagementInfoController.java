@@ -39,9 +39,9 @@ public class HotelManagementInfoController extends CrudController<HotelManagemen
 	@Autowired 
 	private FileUpload fileUpload;
 	
+	@Autowired
 	public HotelManagementInfoController(CrudService<HotelManagement> service) {
 		super(service);
-		// TODO Auto-generated constructor stub
 	}
 	/**
 	 * 获取酒店信息
