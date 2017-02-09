@@ -45,10 +45,16 @@ public class CrudController<T> {
 		if (result.hasErrors()) {//数据交验
 			return EasyuiResult.result(result);
         }
-		T returnT = service.save(t);
-		if (returnT == null) {
-			EasyuiResult.result(false, "添加失败");
+		
+		try {
+			T returnT = service.save(t);
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("添加失败");
+			e.printStackTrace();
+			return EasyuiResult.result(false, "添加失败");
 		}
+		
 		return EasyuiResult.result(true);
 	}
 	

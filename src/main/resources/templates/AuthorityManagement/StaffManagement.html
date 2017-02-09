@@ -3,12 +3,491 @@
  * 作者:修罗大人
  * 时间:Feb 6, 2017 5:07:20 PM
  -->
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
 <meta charset="UTF-8" />
-<title>Insert title here</title>
+<title>员工管理</title>
+<link rel="stylesheet" type="text/css"
+	href="/easyui/themes/default/easyui.css" />
+<link rel="stylesheet" type="text/css" href="/easyui/themes/icon.css" />
+<link rel="stylesheet" type="text/css" href="/easyui/demo/demo.css" />
+<script type="text/javascript" src="/easyui/jquery.min.js"></script>
+<script type="text/javascript" src="/easyui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="/easyui/locale/easyui-lang-zh_CN.js"></script>
+
+<!-- oldcss -->
+<link rel="stylesheet" type="text/css" href="/css/oldcss/base.css" />
+<link rel="stylesheet" type="text/css" href="/css/oldcss/animation1.css" />
+<link rel="stylesheet" type="text/css" href="/css/oldcss/form.css" />
+
 </head>
 <body>
 
+	<div class="page_content">
+		<div class="layout_01_left">
+			<div class="layout_overflow">
+				<ul id="deptTree">
+				</ul>
+			</div>
+		</div>
+		<div class="layout_01_right">
+			<div class="layout_overflow">
+				<div class="inner6px submitdata">
+					<div class="boxBmargin12 cell">
+						<form id="searchform" name="searchform" method="post">
+							<input id="deptId" type="hidden" name="deptId" value="" />
+							<table>
+								<tr>
+									<th width="15%">用户名</th>
+									<td width="35%"><input class="form_text"
+										name="username" id="usernamesearch" value="" /></td>
+									<th width="15%">姓名</th>
+									<td width="35%"><input class="form_text"
+										name="name" id="namesearch" value="" /></td>
+								</tr>
+								<tr>
+									<th width="15%">是否显示禁用的用户</th>
+									<td width="35%" colspan="3">
+										<select name="delFlag" id="delFlag">
+												<option value="0">否</option>
+												<option value="1">是</option>
+										</select>
+									</td>
+								</tr>
+								<tr>
+									<td colspan="4">
+										<div class="btn_area_setc">
+											<a href="###" class="btn_01"
+												onclick="javascript:$('#namesearch').val('');$('#usernamesearch').val('');search_user();">清空<b></b></a> <a
+												href="###" class="btn_01" onclick="search_user();">查询<b></b></a>
+										</div>
+									</td>
+								</tr>
+							</table>
+						</form>
+					</div>
+
+					<div id="pagination"></div>
+					
+					<div id="ddUser" class="easyui-dialog"  title="添加/修改员工信息"
+							style="width: 350px;  height: 350px;"
+							data-options="resizable:true,modal:true"
+							closed="true">
+
+						<div class="inner6px">
+							<div class="cell">
+								<form id="userform" name="userform" method="post"
+									ajax="true">
+									<input id="userId" type="hidden" name="id"/>
+									<input id="password" type="hidden" name="password" value="123456"/>
+
+									<table>
+										<tr>
+											<th>姓名<font color="red">*</font></th>
+											<td>
+												<input id="name" name="name"  class="easyui-validatebox tb" 
+													data-options="required:true,validType:['charts','length[1,30]'],invalidMessage:'昵称至少1个字符,最多30个字符！'"  /></td>
+										</tr>
+										<tr>
+											<th>用户名<font color="red">*</font></th>
+											<td>
+												<input id="username" name="username" class="easyui-validatebox" data-options="required:true,validType:'userName',invalidMessage:'用户名必须填写，且用户名必须是数字、字母和下划线,4~30位'" />  
+											</td>
+										</tr>
+										<tr>
+											<th>所属部门<font color="red">*</font></th>
+											<td>
+												<input id="departmentId" name="department.id" type="hidden" /> 
+												<input id="departmentName"  class="easyui-validatebox tb"  data-options="required:true,invalidMessage:'请选择所属部门'" readonly="readonly" /> 
+												<a href="###" class="btn_01_mini" onclick="search_parent();">查找<b></b></a>
+											</td>
+										</tr>
+										<tr>
+											<th>职务</th>
+											<td><input id="duty" name="duty" value="" maxlength="50" /></td>
+										</tr>
+										<tr>
+											<th>电话</th>
+											<td><input id="phone" name="phone" value="" dataType="n1-12"
+												ignore="ignore" /></td>
+										</tr>
+										<tr>
+											<th>手机<font color="red">*</font></th>
+											<td>
+												<input id="mobilePhone" name="mobilePhone"  class="easyui-validatebox tb"  data-options="required:true,validType:'phoneNum',invalidMessage:'必须为11位手机号码'"  />
+											</td>
+										</tr>
+										<tr>
+											<th>电子邮箱</th>
+											<td>
+												<input id="emailAddress" name="emailAddress" class="easyui-validatebox" data-options="validType:'email'" />  
+											</td>
+										</tr>
+										<tr>
+											<th>同级排序<font color="red">*</font></th>
+											<td><input id="siblingSorting" name="siblingSorting"  class="easyui-validatebox tb"  data-options="required:true,validType:'numRange[0,1000]',invalidMessage:'必须填写0~1000之间的数字'"  /></td>
+										</tr>
+										<tr>
+											<td colspan="4">
+												<div class="btn_area_setc"> 
+													<a href="###" class="btn_01_mini" onclick="init_password('');">初始化密码<b></b></a>
+													<a href="###" class="btn_01_mini" type="submit" onclick="javascript:submitUser();">保存<b></b></a>
+													<a href="###" class="btn_01_mini" onclick="javascript:$('#ddUser').dialog('close');">关闭<b></b></a>
+												</div>
+											</td>
+										</tr>
+									</table>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			
+					<div id="ddUserView" class="easyui-dialog" title="查看用户详细信息" 
+						style="width: 300px;  height: 350px;" data-options="resizable:true,modal:true"
+						closed="true">
+
+					</div>
+					
+			</div>
+		</div>
+	</div>
+
+
 </body>
+<script type="text/javascript" th:inline="javascript">
+	/*<![CDATA[*///这句坚决不能删
+	
+	//自定义验证
+	 $.extend($.fn.validatebox.defaults.rules, {    
+	    numRange: {    
+	        validator: function(value, param){
+	            return (value >= param[0] && value <= param[1]);    
+	        },
+    		message: ''
+	    },
+	    userName:{
+	        validator:function(value,param){
+	            var reg = /^\w+$/;
+	            if(value.length < 4 || value.length > 30) return false;
+	            return reg.test(value);
+	        },
+	        message:  ''
+	    },
+	    phoneNum: {
+			validator: function(value){
+				var rex=/^1[3-8]+\d{9}$/;
+				
+				if (value.length > 11) return false;
+				return rex.test(value);
+			},
+			message: ''
+		}
+	});  
+	      
+	//新增/修改员工提交
+	function submitUser()
+	{
+		$('#userform').form('submit',{
+			url:'/SysUserController/save',
+            onSubmit: function(){
+                return $(this).form('validate');
+            },
+            success: function(resultJSON){
+            	
+            	$('#ddUser').dialog('close');
+            	var result = JSON.parse(resultJSON);
+				
+                if (result.errorMsg){
+                    $.messager.show({
+                        title: 'Error',
+                        msg: result.errorMsg
+                    });
+                } else {
+                    $('#pagination').datagrid('reload');    // reload the user data
+                }
+            }
+        });
+	}
+	
+	//将对象属性值的null替换成""
+	function displayProp(obj){   
+		var retObj = {};
+	          
+	    for(var name in obj){       
+	       	var value = obj[name];
+	       	if(value != null && value != "null")
+			{
+				retObj[name] = value;
+			}else{
+				retObj[name] = "";
+			}
+	    }  
+	    
+	    return retObj;
+	}
+	
+	//将对象属性值的""替换成null
+	function playProp(obj){   
+		var retObj = {};
+	          
+	    for(var name in obj){       
+	       	var value = obj[name];
+	       	if(value != null && value != "")
+			{
+				retObj[name] = value;
+			}else{
+				retObj[name] = null;
+			}
+	    }  
+	    
+	    return retObj;
+	}
+	
+	//修改员工信息
+	function edit_user(id)
+	{
+		$.ajax({
+			 url: '/SysUserController/findById?id='+id,  
+	            dataType: 'json', 
+	            method:'POST',
+	            contentType : 'application/json;charset=utf-8',
+	            success: function (data) {
+					data = displayProp(data);
+
+					$('#userId').val(data.id);
+					$('#name').val(data.name);
+					$('#username').val(data.username);
+					$('#departmentId').val(data.department.id);
+					$('#departmentName').val(data.department.departmentName);
+					$('#duty').val(data.duty);
+					$('#phone').val(data.phone);
+					$('#mobilePhone').val(data.mobilePhone);
+					$('#emailAddress').val(data.emailAddress);
+					$('#siblingSorting').val(data.siblingSorting);
+					
+					$('#ddUser').dialog('open');
+	            }
+		});
+	}
+	
+	//查看员工详细信息
+	function view_user(id)
+	{
+		$.ajax({  
+            url: '/SysUserController/findById?id='+id,  
+            dataType: 'json', 
+            method:'POST',
+            contentType : 'application/json;charset=utf-8',
+            success: function (data) {
+				data = displayProp(data);	          
+            	$('#ddUserView').dialog({
+            		closed:false,
+            		content:'<div class="inner6px">'
+            		+'<div class="cell">'
+            		+'<table>'
+            		+'<tr>'
+            		+'<th style="width:40%;">姓名</th>'
+            		+'<td>'+data.name+'</td>'
+            		+'</tr>'
+            		+'<tr>'
+            		+'<th>用户名</th>'
+            		+'<td>'+data.username+'</td>'
+            		+'</tr>'
+            		+'<tr>'
+            		+'<th>所属部门</th>'
+            		+'<td>'+data.department.departmentName+'</td>'
+            		+'</tr>'
+            		+'<tr>'
+            		+'<th>职务</th>'
+            		+'<td>'+data.duty+'</td>'
+            		+'</tr>'
+            		+'<tr>'
+            		+'<th>电话</th>'
+            		+'<td>'+data.phone+'</td>'
+            		+'</tr>'
+            		+'<tr>'
+            		+'<th>手机</th>'
+            		+'<td>'+data.mobilePhone+'</td>'
+            		+'</tr>'
+            		+'<tr>'
+            		+'<th>电子邮箱</th>'
+            		+'<td>'+data.emailAddress+'</td>'
+            		+'</tr>'
+            		+'<tr>'
+            		+'<th>用户角色</th>'
+            		+'<td>'+data.roles+'</td>'
+            		+'</tr>'
+            		+'<tr>'
+            		+'<td colspan="2">'
+            		+'<div class="btn_area_setc">'
+            		+'<a class="btn_01" onclick="javascript:$(\'#ddUserView\').dialog(\'close\');">关闭</a>'
+            		+'</div>'
+            		+'</td>'
+            		+'</tr>'
+            		+'</table>'
+            		+'</div>'
+            		+'</div>'
+            	});
+            	
+            }  
+	    });
+	}
+	
+	//查询用户
+	function search_user()
+	{
+		var name = $('#namesearch').val();
+		var username = $('#usernamesearch').val();
+		var deptId = $('#deptId').val();
+		var delFlag = $('#delFlag').val();
+
+		var url = "/SysUserController/findUsers?name="+name+"&username="+username+"&deptId="+deptId+"&delFlag="+delFlag;
+		
+		$('#pagination').datagrid('reload',url);    // reload the user data
+	}
+	
+	//组织机构
+	$('#deptTree').tree({   
+                //url: '/operatorcenter/jsp/admin/dept/findChildDeptByCurrUser.action', 
+                onBeforeExpand:function(node){
+                    //$('#deptTree').tree('options').url = "/operatorcenter/jsp/admin/dept/findChildDeptByCurrUser.action?selDept=" + node.id;
+            	},
+            	data:[{"id":"","text":"组织机构","state":"opened","children":[{"id":"002","text":"001资源中心","state":"closed"},{"id":"004","text":"销售中心","state":"closed"},{"id":"00B","text":"超凡之旅"},{"id":"00E","text":"INT 世一旅游"},{"id":"00F","text":"INT 深圳海外南洋风情"},{"id":"00K","text":"INT 北京竹园假期"},{"id":"00L","text":"INT 观光风尚国际"},{"id":"00N","text":"INT 爱尚旅游"},{"id":"00P","text":"INT 海洋国旅"},{"id":"00Q","text":"INT 中盛商旅爱之旅"},{"id":"00R","text":"INT 北京九州俄风行"},{"id":"00T","text":"INT 北京众信旅游"},{"id":"00U","text":"INT 北京迷情兰卡"},{"id":"00X","text":"INT 北京阳光假期"},{"id":"012","text":"INT 北京越柬行踪"},{"id":"013","text":"INT 运通领岛者"},{"id":"017","text":"INT 北京凤凰寰宇假期"},{"id":"01B","text":"INT 北京优加国际"},{"id":"01C","text":"INT 北京行天下"},{"id":"01D","text":"INT 北京领先环境国旅"},{"id":"01F","text":"INT 环球假日鸿望假期"},{"id":"01J","text":"INT 北京五洲行"},{"id":"01L","text":"香炉山"},{"id":"01M","text":"艺术邨"},{"id":"01N","text":"开发部"},{"id":"01O","text":"INT 大连北玛假期"},{"id":"01Q","text":"INT 海外泰港假期"},{"id":"01S","text":"INT 航空世纪"},{"id":"01X","text":"INT 北京中旅"},{"id":"01Y","text":"INT 北京华远"},{"id":"01Z","text":"INT 北京盛行国际"},{"id":"020","text":"INT 北京上航假期"},{"id":"021","text":"INT 尽游天下"},{"id":"022","text":"INT 中青旅","state":"closed"},{"id":"023","text":"INT 北京恒信国际"},{"id":"024","text":"INT 沈阳美国海德集团"},{"id":"025","text":"INT 北京缤纷邮轮"},{"id":"026","text":"INT 北京环境国际飞扬假期"},{"id":"027","text":"INT 中旅体育全新假期"},{"id":"028","text":"INT 北京特色旅游"},{"id":"029","text":"INT 四季总部自由世界"},{"id":"02E","text":"INT 哈国旅多彩假期"},{"id":"02F","text":"出境供应商","state":"closed"},{"id":"02G","text":"INT 乐天国际"},{"id":"02H","text":"地接供应商","state":"closed"},{"id":"02I","text":"国内供应商"},{"id":"02J","text":"INT 北京澳久假期"},{"id":"02L","text":"INT 经典假日经深飞"},{"id":"02M","text":"DJ 桃源假日"},{"id":"02N","text":"DJ 超凡假期"},{"id":"02O","text":"DJ 新概念"},{"id":"02P","text":"DJ 清扬假期"},{"id":"02Q","text":"INT 北京皇家游够天下"},{"id":"02R","text":"INT 哈观光卓月旅游"},{"id":"02S","text":"DJ 心旅程"},{"id":"02T","text":"DJ 花园之旅"},{"id":"02U","text":"INT北京天畅商旅"},{"id":"02V","text":"INT 北京海外国际非凡俄罗斯"},{"id":"02W","text":"INT北国春秋旅行社"},{"id":"02X","text":"信息部测试"},{"id":"001","text":"系统管理"},{"id":"003","text":"操作中心"},{"id":"009","text":"供应商"},{"id":"00A","text":"集散中心计调部"},{"id":"006","text":"中山陵景区"},{"id":"008","text":"特产"},{"id":"007","text":"景区","state":"closed"}]}],
+                onClick:function(node){
+                	clear_form(document.myform);
+					window.currentDeptCode=node.id;
+					search_user();
+              	}
+     });
+	 
+	//人员列表
+	$('#pagination').datagrid({
+		toolbar:[{
+			text:'新增',
+			iconCls:'icon-add',
+			handler:function()
+			{
+				$('#userform').form('clear');
+				$('#ddUser').dialog('open');
+			}
+		},'-',{
+			text:'删除',
+			iconCls:'icon-remove',
+			handler:function(){
+				
+				$.messager.confirm('删除员工', '确定要删除这些员工吗？', function(result){
+					if(result)
+					{
+						var selectionsUsers = $('#pagination').datagrid('getSelections');
+						var userIds = [];
+						selectionsUsers.forEach(function(value,index,array){
+							userIds.push(value.id);
+						});
+												
+						$.ajax({  
+				            url: '/SysUserController/deleteUsers',  
+				            dataType: 'json', 
+				            method:'POST',
+				            contentType : 'application/json;charset=utf-8',
+				            data:JSON.stringify(userIds),
+				            success: function (data) {
+				            	if(data.success){
+				            		alert(data.msg);
+				            		$(pagination).datagrid('reload');
+				            	}else{
+				            		alert(data.errorMsg);
+				            	}
+				            }  
+					    });
+					}
+				});
+			}
+		},'-',{
+			text:'导出Excel',
+			iconCls:'icon-add',
+			handler:function(){
+				outputExcel($('#pagination'),"系统用户.xls","","","",true);
+			}
+		},'-',{
+			text:'导出PDF',
+			iconCls:'icon-add',
+			handler:function(){
+				outputPDF($('#pagination'),'系统用户.pdf');
+			}
+		},'-',{
+			text:'导入用户',
+			iconCls:'icon-add',
+			//handler:importUser
+		}],
+		title:'人员列表',
+		pagination:true,
+		rownumbers:true,
+		fitColumns:true,
+		nowrap:false,
+		height:280,
+		method:'GET',
+		url:'/SysUserController/findAll',
+		columns:[[
+				  {field:'id',checkbox:true},
+		          {field:'name',title:'姓名',width:80},
+		          {field:'username',title:'用户名',width:80},
+		          {field:'department',title:'所属部门',width:80,formatter:function(value,row){
+		        	  return value != null ? value.departmentName : "" ;
+				  }},
+		          {field:'duty',title:'职务',width:80},
+		          {field:'mobilePhone',title:'手机',width:90},
+		          {field:'phone',title:'电话',width:80},
+		          {field:'op',title:'操作',width:350,formatter:function(value,rec){
+		          		var retStr = "<a href='#' class='btn_01_mini' onclick='view_user(\""+rec.id+"\")'>查看<b></b></a>"
+		          					+"<a href='#' class='btn_01_mini' onclick='edit_user(\""+rec.id+"\")'>修改<b></b></a>";	
+						if(rec.delFlag==0){
+							retStr += "<a href='#' class='btn_01_mini' onclick='inactive_user(\""+rec.id+"\")'>禁用<b></b></a>"
+						}else{
+			  				retStr += "<a href='#' class='btn_01_mini' onclick='active_user(\""+rec.id+"\")'>激活<b></b></a>"
+				  		}
+				  		retStr += "<a href='#' class='btn_01_mini' onclick='editUserRight(\""+rec.id+"\")'>角色设置<b></b></a>";
+				  		retStr += "<a href='#' class='btn_01_mini' onclick='set_userLinkedDept(\""+rec.id+"\")'>设置关联部门<b></b></a>";
+				  		
+				  		return retStr;
+				  }}
+		        ]]
+	});
+	
+	//初始化密码
+	function init_password(){
+		var id = $('#userId').val();
+
+		$.messager.confirm('初始化密码', '确定要初始化该用户的密码？', function(result){
+			if (result){
+				$.ajax({
+					url : "/SysUserController/resetPassword?userId="+id,
+					type: 'post',
+					dataType: 'json',
+					async : false,
+					error: function(){
+						$.messager.alert('错误','始化该用户的密码时出错！');
+					},
+					success: function(data){
+						if(data.success){
+							$.messager.alert('提示','始化该用户的密码成功！', 'info',function(){
+								$('#ddUser').dialog('close');
+							});
+						}else{
+							$.messager.alert('错误','始化该用户的密码时出错！', 'info',function(){
+								$('#ddUser').dialog('close');
+							});
+						}
+					}
+				});					
+			}
+		});
+	}
+	
+	
+	
+	/*]]>*///这句坚决不能删
+</script>
 </html>
