@@ -46,5 +46,10 @@ public class HotelManagementServiceImpl extends CrudServiceImpl<HotelManagement>
 	public void delete(List<HotelManagement> ids) {
 		hotelManagementRepository.delete(ids);
 	}
+
+	@Override
+	public Page<HotelManagement> findSearch(String hotelName, String phone, String levelName, String cityName,Pageable pageable) {
+		return hotelManagementRepository.findSearch(hotelName, phone, levelName, cityName,pageable);
+	}
 	
 }

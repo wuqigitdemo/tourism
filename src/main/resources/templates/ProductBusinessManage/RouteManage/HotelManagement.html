@@ -31,64 +31,64 @@ form td{
       
     <div id="toolbar">
     	<div>
-	    	<form id="dataForm" action="/SelfSupportRoute/findByPar">
+	    	<form id="dataForm" action="/HotelManagementInfo/findByPar">
 				<table style="width:100%;">
 		        	<tr>
 		        		<td width="100">名&nbsp;&nbsp;称：</td>
 		        		<td style="text-align: left;">
-		        			<input name="routeName" id="routeName" style="width: 80%;" type="text" />
+		        			<input name="hotelName" id="hotelName" style="width: 80%;" type="text" />
 		        		</td>
 		        		<td width="100">星&nbsp;&nbsp;级：</td>
 		        		<td style="text-align: left;">
-		        			<input name="routeName" id="routeName"  type="text" />
+		        			<input name="hotelLevel" id="hotelLevel"  type="text" />
 		        		</td>
 		        	</tr>
 		        	<tr>
 		        		<td width="100">联系电话：</td>
 		        		<td style="text-align: left;">
-		        			<input name="outPlace" id="outPlace" value="" type="text" />
+		        			<input name="phone" id="phone" value="" type="text" />
 		        		</td>
 		                <td width="100">所在城市：</td>
 		                <td style="text-align: left;">
-		                	<input name="outPlace" id="outPlace" value="" type="text" /></td>
+		                	<input name="city" id="city" value="" type="text" /></td>
 		        		</tr>
 		        	<tr>
-		        		<td width="100">是否加入轮播：</td>
+		        		<!-- <td width="100">是否加入轮播：</td>
 		        		<td style="text-align: left;">
 			        		<input id="typeName" name="typeName" />  
-		        		</td>
-		        		<td width="100">酒店编号：</td>
+		        		</td> -->
+		        		<!-- <td width="100">酒店编号：</td>
 		        		<td style="text-align: left;">
-		        			<input name="routeBaseInfo.id" style="width: 55%;" type="text" />
-		        		</td>
+		        			<input name="id" style="width: 55%;" type="text" />
+		        		</td> -->
 		        	</tr>
 		        </table>
 			</form>
     	</div>
     	
         <div>
-        	<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="javascript:location.href='/ProductBusinessManage/RouteManage/RouteBaseInfo';">新增</a>
-	        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyRoute()">删除</a>
-	        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-search" plain="true" onclick="searchRoute()">查询</a>
+        	<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="javascript:location.href='/ProductBusinessManage/RouteManage/HotelManagementAdd';">新增</a>
+	        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroy()">删除</a>
+	        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-search" plain="true" onclick="searchHotel()">查询</a>
         </div>
     </div>
 
 </body>
 <script type="text/javascript">
 /*<![CDATA[*/   //这句坚决不能删
-           
- 	$.ajax({  
-           url: '/RouteType/selectAll',  
+     
+    $.ajax({  
+           url: '/HotelLevel/selectAll',  
            dataType: 'json',  
-           success: function (jsonstr) {  
-               jsonstr.unshift({  
-                   'id': '-1',  
-                   'typeName': '--请选择--'  
+           success: function (jsonstr) {
+        	   jsonstr.unshift({  
+                   'id': '',  
+                   'levelName': '--请选择--'  
                });//向json数组开头添加自定义数据  
-               $('#typeName').combobox({ 
+               $('#hotelLevel').combobox({ 
                	data: jsonstr,  
        	    	valueField: 'id',    
-       	        textField: 'typeName',
+       	        textField: 'levelName',
        	        editable:false,
        	        onLoadSuccess: function(){
                       	var Data = $(this).combobox('getData');
@@ -97,76 +97,84 @@ form td{
        	    }); 
            }  
        });
- 	
+           
+ 	$.ajax({  
+           url: '/City/selectAll',  
+           dataType: 'json',  
+           success: function (jsonstr) {
+        	   jsonstr.unshift({  
+                   'id': '',  
+                   'cityName': '--请选择--' 
+               });//向json数组开头添加自定义数据  
+               $('#city').combobox({ 
+               	data: jsonstr,  
+       	    	valueField: 'id',    
+       	        textField: 'cityName',
+       	        editable:false,
+       	        onLoadSuccess: function(){
+                      	var Data = $(this).combobox('getData');
+                    	  	$(this).combobox('select',Data[0].id);
+       		  	}  
+       	    }); 
+           }  
+       });
    	$('#dg').datagrid({
-   	url:'/SelfSupportRoute/findByPar',
+   	url:'/HotelManagementInfo/findAll',
    	nowrap:false,
    	columns:[[
 		{field:'undefined',checkbox:true},
-		{field:'numbering',title:'酒店编号',width:100},
-		{field:'routeName',title:'名称',width:150,
-   			formatter: function(value,row,index){
-   				if (row.routeBaseInfo != null){
-   					return row.routeBaseInfo.routeName;
+		{field:'id',title:'酒店编号',width:100},
+		{field:'hotelName',title:'名称',width:130},
+		{field:'city',title:'所在城市',width:80,
+			formatter: function(value,row,index){
+   				if (row.city != null){
+   					return row.city.cityName;
    				} else {
    					return "";
    				}
-   			}
+   			}	
 		},
-		{field:'outPlace',title:'所在城市',width:80,
-   			formatter: function(value,row,index){
-   				if (row.routeBaseInfo != null){
-   					return row.routeBaseInfo.outPlace;
+		{field:'hotelLevel',title:'星级',width:50,
+			formatter: function(value,row,index){
+   				if (row.hotelLevel != null){
+   					return row.hotelLevel.levelName;
    				} else {
    					return "";
    				}
-   			}
+   			}				
 		},
-		{field:'routeTripList',title:'星级',width:50,
-   			formatter: function(value,row,index){
-   				if (row.routeTripList != null) {
-   					return row.routeTripList.length + "天";
-   				} else {
-   	   				return "0天"; 
-   				}
-   			}
-		},
-		{field:'businessType',title:'联系电话',width:50,
-   			formatter: function(value,row,index){
-   				if (row.businessType == 'SELF_EMPLOYED') {
-   					return "自营";
-   				} else {
-   	   				return "供应商"; 
-   				}
-   			}
-		},
+		{field:'phone',title:'联系电话',width:70},
 		{field:'operation',title:'操作',width:100,align:'center',
    			formatter: function(value,row,index){
-   				return "<a href=\"javascript:viewRoute('"+row.id+"');\">查看</a> <a href=\"javascript:updateRoute('"+row.id+"');\">修改</a>";
+   				return "<a href=\"javascript:view('"+row.id+"');\">查看</a> <a href=\"javascript:update('"+row.id+"');\">修改</a>";
    			}
 		}
        ]]
    });
-      
-   	//查询
-    function searchRoute()
-    {
-    	var typeName = $('#typeName').combobox('getText');
-    	typeName = typeName == '--请选择--' ? null : typeName;
-    	$('#dg').datagrid({
-    		queryParams: {
-    			routeName: $("#routeName").val(),
-    			outPlace: $("#outPlace").val(),
-    			destination: $("#destination").val(),
-    			typeName: typeName,
-    			startDays:$("#startDays").val(),
-    			endDays:$("#endDays").val()
-    		}
-    	});
-    }
+   	
+   //查询 
+   function searchHotel()
+   {
+		var hotelLevel = $('#hotelLevel').combobox('getText');
+		hotelLevel = hotelLevel == '--请选择--' ? null : hotelLevel;
+	  	var city = $('#city').combobox('getText');
+	  	city = city == '--请选择--' ? null : city;
+	  	$('#dg').datagrid({
+	  		url:'/HotelManagementInfo/findBySearch',
+	  		type: "POST", 
+	  		contentType: "application/json",     		
+	  		queryParams: {
+	  			hotelName: $("#hotelName").val(),
+	  			phone: $("#phone").val(),
+	  			levelName: hotelLevel,
+	  			cityName: city
+   		}
+   	});
+   }
+   	
    
-   	//查看线路信息
-   	function viewRoute(routeId)
+   	//查看信息
+   	function view(id)
 	{
    		// 创建一个 form  
 	    var form1 = document.createElement("form");  
@@ -180,8 +188,8 @@ form td{
 	    var input = document.createElement("input");  
 	    // 设置相应参数  
 	    input.type = "hidden";  
-	    input.name = "routeId";  
-	    input.value = routeId;  
+	    input.name = "id";  
+	    input.value = id;  
 	  
 	    // 将该输入框插入到 form 中  
 	    form1.appendChild(input);  
@@ -189,7 +197,7 @@ form td{
 	    // form 的提交方式  
 	    form1.method = "GET";  
 	    // form 提交路径  
-	    form1.action = "/RouteBaseInfo/basicInformationViewHtml?routeId="+routeId;
+	    form1.action = "/HotelManagementInfo/hotelManagementViewHtml?id="+id;
 	  
 	    // 对该 form 执行提交  
 	    form1.submit();  
@@ -198,7 +206,7 @@ form td{
 	}
    	
    	//修改
-   	function updateRoute(routeId)
+   	function update(id)
 	{
 		// 创建一个 form  
 	    var form1 = document.createElement("form");  
@@ -212,8 +220,8 @@ form td{
 	    var input = document.createElement("input");  
 	    // 设置相应参数  
 	    input.type = "hidden";  
-	    input.name = "routeId";  
-	    input.value = routeId;  
+	    input.name = "id";  
+	    input.value = id;  
 	  
 	    // 将该输入框插入到 form 中  
 	    form1.appendChild(input);  
@@ -221,15 +229,15 @@ form td{
 	    // form 的提交方式  
 	    form1.method = "GET";  
 	    // form 提交路径  
-	    form1.action = "/RouteBaseInfo/basicInformationUpdateHtml?routeId="+routeId;
+	    form1.action = "/HotelManagementInfo/hotelManagementUpdateHtml?id="+id;
 	  
 	    // 对该 form 执行提交  
 	    form1.submit();  
 	    // 删除该 form  
 	    document.body.removeChild(form1);
 	}
-
-   	function destroyRoute(){
+	//删除
+   	function destroy(){
         var row = $('#dg').datagrid('getSelections');
         var rowIDS = [];
        	row.forEach(function(value, index, array) {
@@ -237,10 +245,10 @@ form td{
 			rowIDS.push(rowID);
        	});
         if (row){
-            $.messager.confirm('Confirm','确定删除吗？',function(r){
+            $.messager.confirm('确认删除','确定删除吗？',function(r){
                 if (r){
                 	$.ajax({
-                        url: "/SelfSupportRoute/deletes",
+                        url: "/HotelManagementInfo/deletes",
                         type: "POST",
                         contentType : 'application/json;charset=utf-8', //设置请求头信息
                         dataType:"json",
