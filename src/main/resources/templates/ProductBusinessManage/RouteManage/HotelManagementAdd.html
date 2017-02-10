@@ -196,7 +196,7 @@
     	        	        checkbox.setAttribute("name", "hotelProvideService");
     	        	        checkbox.setAttribute("value", data[i].serviceName);
     	        	        var li=document.createElement("li");
-    	        	        li.appendChild(checkbox);       
+    	        	        li.appendChild(checkbox);      
     	        	        li.appendChild(document.createTextNode(data[i].serviceName));
     	        	        ul.appendChild(li);
     	        	    }
@@ -243,7 +243,7 @@
        	        	　　          for(var i=0;i<data.length;i++){
        	        	        var checkbox=document.createElement("input");
        	        	        // 加入复选框
-       	        	        checkbox.setAttribute("type","checkbox");
+       	        	        checkbox.setAttribute("type","radio");
        	        	        checkbox.setAttribute("id",data[i].id);
        	        	        checkbox.setAttribute("name", "department");
        	        	        checkbox.setAttribute("value", data[i].departmentName);
@@ -256,7 +256,6 @@
 	        });
        }
        
-       var department=[];
        function getInfo(){
    		var check_val= [];
    		var check_name= [];
@@ -265,7 +264,6 @@
    	    for (var j in obj) {
    	    if (obj[j].checked == true ) {
    				check_val.push(obj[j].id);
-   				department.push({id:obj[j].id});
    				}
    			}
    			for (var h in obj) {
@@ -299,10 +297,10 @@
    			    hotelProvideService:hotelProvideService,
    			    hotelThumbnails:$("#hotelThumbnails").val(),
    			    popularHotels:$("#popularHotels").val(),
-   			    department:$("#department").val(),
+   			    department:{id:$("#department").val()},
    			    introduction:$("#introduction").val(),
    	       };
-       	    //alert(JSON.stringify(obj));
+       	    alert(JSON.stringify(obj));
        	    //提交方法
 			$.ajax({  
 				   type: "POST",  

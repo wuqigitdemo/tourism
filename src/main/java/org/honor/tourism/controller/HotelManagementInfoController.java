@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import org.honor.tourism.entity.HotelLevel;
 import org.honor.tourism.entity.HotelManagement;
+import org.honor.tourism.entity.RouteBaseInfo;
 import org.honor.tourism.entity.RouteTrip;
 import org.honor.tourism.entity.SelfSupportRoute;
 import org.honor.tourism.service.CrudService;
