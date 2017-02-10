@@ -1,5 +1,7 @@
 package org.honor.tourism.entity;
 
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -38,7 +40,7 @@ public class Module {
 	/** 模块排序 */
 	private Integer moduleSort;
 	@ManyToMany(mappedBy = "moduleList", cascade = { CascadeType.REFRESH }, fetch = FetchType.EAGER)
-	private SysRole sysRoleList;
+	private List<SysRole> sysRoleList;
 
 	public String getId() {
 		return id;
@@ -80,11 +82,11 @@ public class Module {
 		this.linkddress = linkddress;
 	}
 
-	public SysRole getSysRoleList() {
+	public List<SysRole> getSysRoleList() {
 		return sysRoleList;
 	}
 
-	public void setSysRoleList(SysRole sysRoleList) {
+	public void setSysRoleList(List<SysRole> sysRoleList) {
 		this.sysRoleList = sysRoleList;
 	}
 
