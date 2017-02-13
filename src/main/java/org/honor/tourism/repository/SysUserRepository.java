@@ -23,4 +23,12 @@ public interface SysUserRepository extends JpaRepository<SysUser, String> {
 	 * @param deptId
 	 */
 	public Page<SysUser> findUsersByNameAndUsernameAndDeptId(String name,String username,String deptId,Pageable pageable);
+	
+	/**
+	 * 查找后代节点的员工
+	 * @param id
+	 * @return
+	 */
+	public List<SysUser> findByDepartmentId(String id);
+	
 }

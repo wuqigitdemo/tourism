@@ -47,7 +47,7 @@
 									<td width="35%"><input class="form_text"
 										name="name" id="namesearch" value="" /></td>
 								</tr>
-								<tr>
+								<!-- <tr>
 									<th width="15%">是否显示禁用的用户</th>
 									<td width="35%" colspan="3">
 										<select name="delFlag" id="delFlag">
@@ -55,7 +55,7 @@
 												<option value="1">是</option>
 										</select>
 									</td>
-								</tr>
+								</tr> -->
 								<tr>
 									<td colspan="4">
 										<div class="btn_area_setc">
@@ -149,6 +149,12 @@
 						style="width: 300px;  height: 350px;" data-options="resizable:true,modal:true"
 						closed="true">
 
+					</div>
+					
+					<div id="setDeptView" class="easyui-dialog" title="设置用户部门" 
+						style="width: 200px;  height: 350px;" data-options="resizable:true,modal:true"
+						closed="true">
+						<ul id="setDeptTree"></ul>
 					</div>
 					
 			</div>
@@ -351,18 +357,46 @@
 	
 	//组织机构
 	$('#deptTree').tree({   
-                //url: '/operatorcenter/jsp/admin/dept/findChildDeptByCurrUser.action', 
+                url: '/Department/findTree', 
                 onBeforeExpand:function(node){
-                    //$('#deptTree').tree('options').url = "/operatorcenter/jsp/admin/dept/findChildDeptByCurrUser.action?selDept=" + node.id;
-            	},
-            	data:[{"id":"","text":"组织机构","state":"opened","children":[{"id":"002","text":"001资源中心","state":"closed"},{"id":"004","text":"销售中心","state":"closed"},{"id":"00B","text":"超凡之旅"},{"id":"00E","text":"INT 世一旅游"},{"id":"00F","text":"INT 深圳海外南洋风情"},{"id":"00K","text":"INT 北京竹园假期"},{"id":"00L","text":"INT 观光风尚国际"},{"id":"00N","text":"INT 爱尚旅游"},{"id":"00P","text":"INT 海洋国旅"},{"id":"00Q","text":"INT 中盛商旅爱之旅"},{"id":"00R","text":"INT 北京九州俄风行"},{"id":"00T","text":"INT 北京众信旅游"},{"id":"00U","text":"INT 北京迷情兰卡"},{"id":"00X","text":"INT 北京阳光假期"},{"id":"012","text":"INT 北京越柬行踪"},{"id":"013","text":"INT 运通领岛者"},{"id":"017","text":"INT 北京凤凰寰宇假期"},{"id":"01B","text":"INT 北京优加国际"},{"id":"01C","text":"INT 北京行天下"},{"id":"01D","text":"INT 北京领先环境国旅"},{"id":"01F","text":"INT 环球假日鸿望假期"},{"id":"01J","text":"INT 北京五洲行"},{"id":"01L","text":"香炉山"},{"id":"01M","text":"艺术邨"},{"id":"01N","text":"开发部"},{"id":"01O","text":"INT 大连北玛假期"},{"id":"01Q","text":"INT 海外泰港假期"},{"id":"01S","text":"INT 航空世纪"},{"id":"01X","text":"INT 北京中旅"},{"id":"01Y","text":"INT 北京华远"},{"id":"01Z","text":"INT 北京盛行国际"},{"id":"020","text":"INT 北京上航假期"},{"id":"021","text":"INT 尽游天下"},{"id":"022","text":"INT 中青旅","state":"closed"},{"id":"023","text":"INT 北京恒信国际"},{"id":"024","text":"INT 沈阳美国海德集团"},{"id":"025","text":"INT 北京缤纷邮轮"},{"id":"026","text":"INT 北京环境国际飞扬假期"},{"id":"027","text":"INT 中旅体育全新假期"},{"id":"028","text":"INT 北京特色旅游"},{"id":"029","text":"INT 四季总部自由世界"},{"id":"02E","text":"INT 哈国旅多彩假期"},{"id":"02F","text":"出境供应商","state":"closed"},{"id":"02G","text":"INT 乐天国际"},{"id":"02H","text":"地接供应商","state":"closed"},{"id":"02I","text":"国内供应商"},{"id":"02J","text":"INT 北京澳久假期"},{"id":"02L","text":"INT 经典假日经深飞"},{"id":"02M","text":"DJ 桃源假日"},{"id":"02N","text":"DJ 超凡假期"},{"id":"02O","text":"DJ 新概念"},{"id":"02P","text":"DJ 清扬假期"},{"id":"02Q","text":"INT 北京皇家游够天下"},{"id":"02R","text":"INT 哈观光卓月旅游"},{"id":"02S","text":"DJ 心旅程"},{"id":"02T","text":"DJ 花园之旅"},{"id":"02U","text":"INT北京天畅商旅"},{"id":"02V","text":"INT 北京海外国际非凡俄罗斯"},{"id":"02W","text":"INT北国春秋旅行社"},{"id":"02X","text":"信息部测试"},{"id":"001","text":"系统管理"},{"id":"003","text":"操作中心"},{"id":"009","text":"供应商"},{"id":"00A","text":"集散中心计调部"},{"id":"006","text":"中山陵景区"},{"id":"008","text":"特产"},{"id":"007","text":"景区","state":"closed"}]}],
+
+                },
                 onClick:function(node){
-                	clear_form(document.myform);
-					window.currentDeptCode=node.id;
-					search_user();
-              	}
+                	$('#deptId').val(node.id);
+                	$('#namesearch').val('');
+            		$('#usernamesearch').val('');
+                	var url = '/Department/findProgenyUsers?id='+node.id;
+                	if(node.departmentName == '所有部门')
+					{
+						url = '/SysUserController/findAll';
+					}
+                	$('#pagination').datagrid('reload',url);
+              	},formatter:function(node){
+            		return node.departmentName;
+            	}
      });
 	 
+	//用户部门
+	$('#setDeptTree').tree({   
+        url: '/Department/findTree', 
+        onBeforeExpand:function(node){
+
+        },
+        onClick:function(node){
+        	$('#departmentId').val(node.id);
+        	$('#departmentName').val(node.departmentName);
+        	$('#setDeptView').dialog('close');
+        },formatter:function(node){
+    		return node.departmentName;
+    	}
+	});
+	
+	//查找所属部门
+	function search_parent()
+	{
+		$('#setDeptView').dialog('open');
+	}
+	
 	//人员列表
 	$('#pagination').datagrid({
 		toolbar:[{
@@ -443,14 +477,7 @@
 		          {field:'op',title:'操作',width:350,formatter:function(value,rec){
 		          		var retStr = "<a href='#' class='btn_01_mini' onclick='view_user(\""+rec.id+"\")'>查看<b></b></a>"
 		          					+"<a href='#' class='btn_01_mini' onclick='edit_user(\""+rec.id+"\")'>修改<b></b></a>";	
-						if(rec.delFlag==0){
-							retStr += "<a href='#' class='btn_01_mini' onclick='inactive_user(\""+rec.id+"\")'>禁用<b></b></a>"
-						}else{
-			  				retStr += "<a href='#' class='btn_01_mini' onclick='active_user(\""+rec.id+"\")'>激活<b></b></a>"
-				  		}
 				  		retStr += "<a href='#' class='btn_01_mini' onclick='editUserRight(\""+rec.id+"\")'>角色设置<b></b></a>";
-				  		retStr += "<a href='#' class='btn_01_mini' onclick='set_userLinkedDept(\""+rec.id+"\")'>设置关联部门<b></b></a>";
-				  		
 				  		return retStr;
 				  }}
 		        ]]

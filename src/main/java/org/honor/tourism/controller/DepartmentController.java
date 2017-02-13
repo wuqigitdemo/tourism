@@ -1,16 +1,15 @@
 package org.honor.tourism.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.validation.Valid;
 
 import org.honor.tourism.entity.Department;
-import org.honor.tourism.entity.RouteCategory;
-import org.honor.tourism.entity.RouteType;
+import org.honor.tourism.entity.SysUser;
 import org.honor.tourism.service.DepartmentService;
-import org.honor.tourism.service.RouteCategoryService;
-import org.honor.tourism.service.RouteTypeService;
 import org.honor.tourism.util.EasyuiPage;
 import org.honor.tourism.util.EasyuiResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 
@@ -71,6 +72,11 @@ public class DepartmentController {
 		if (result.hasErrors()) {//数据交验
 			return EasyuiResult.result(result);
         }
+		
+		if (department.getParentDepartment().getId().equals("001")) {
+			department.setParentDepartment(null);
+		}
+		
 		Department returnDepartment = service.save(department);
 		if (returnDepartment == null) {
 			EasyuiResult.result(false, "添加失败");
@@ -96,6 +102,126 @@ public class DepartmentController {
 		}
 		
 		return EasyuiResult.result(true);
+	}
+	
+	/**
+	 * 查询部门，返回tree
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping("/findTree")
+	@ResponseBody
+	public List<Map<String,Object>> findTree(String id) {
+		
+		List<Map<String,Object>> departments = new ArrayList<>();
+		if (id == null || id.equals("")) {
+			//查出部门整个森林
+			departments = service.findChildren(null);
+			
+			//添加一个虚拟节点，所有部门
+			Map<String, Object> deptMap = new HashMap<>();
+			deptMap.put("id", "001");
+			deptMap.put("departmentName", "所有部门");
+			deptMap.put("children", departments);
+			
+			List<Map<String,Object>> departmentAll = new ArrayList<>();
+			departmentAll.add(deptMap);
+			return departmentAll;
+		}else {
+			Department department = service.findOne(id);
+			return service.findChildren(department);
+		}		
+		
+	}
+	
+	/**
+	 * 查询后代部门中所有员工
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping("/findProgenyUsers")
+	@ResponseBody
+	public List<SysUser> findProgenyUsers(String id,EasyuiPage page) {
+
+		List<SysUser> users = new ArrayList<SysUser>();
+		if (id == null || id.equals("")) {
+			users = service.findUsers(null);
+		}else {
+			Department department = service.findOne(id);
+			users = service.findUsers(department);
+		}
+		
+		return users;
+	}
+	
+	/**
+	 * 根据条件查询部门，返回tree
+	 * @param departmentName
+	 * @param parentDepartmentId
+	 * @param delFlag
+	 * @return
+	 */
+	@RequestMapping("/findDepts")
+	@ResponseBody
+	public Map<String, Object> findDepts(String departmentName,String parentDepartmentId,String delFlag, EasyuiPage page) {
+
+		if (parentDepartmentId.equals("001")) {
+			parentDepartmentId = null;
+		}
+		Pageable pageable = new PageRequest(page.getPage(), page.getRows());
+		Page<Department> pageList =  service.findDepts(departmentName, parentDepartmentId, delFlag,pageable);
+		List<Department> rows = pageList.getContent();
+		long total = pageList.getTotalElements();
+		return EasyuiResult.result(rows, total);
+	}
+
+	/**
+	 * 查询子部门
+	 * @param parentDepartmentId
+	 * @param page
+	 * @return
+	 */
+	@RequestMapping("/findByParentDepartmentId")
+	@ResponseBody
+	public Map<String, Object> findByParentDepartmentId(String parentDepartmentId, EasyuiPage page) {
+		Pageable pageable = new PageRequest(page.getPage(), page.getRows());
+		Page<Department> pageDepartment =  service.findByParentDepartmentId(parentDepartmentId, pageable);
+		List<Department> rows = pageDepartment.getContent();
+		Long total = service.count();
+		return EasyuiResult.result(rows, total);
+	}
+	
+	/**
+	 * 批量删除部门
+	 * @param userIds
+	 * @return
+	 */
+	@RequestMapping(value = "/deleteDepts",method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> deleteDepts(@RequestBody List<String> deptIds) {
+		try {
+			service.deleteDepts(deptIds);
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("批量删除员工错误");
+			e.printStackTrace();
+			return EasyuiResult.result(false,"操作失败");
+		}
+		
+		return EasyuiResult.result(true,"操作成功");
+	}
+	
+	/**
+	 * 查找单个部门详细信息
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping(value = "/findById",method = RequestMethod.POST)
+	@ResponseBody
+	public Department findById(String id) {
+		
+		Department dept = service.findById(id);
+		return dept;
 	}
 	
 }

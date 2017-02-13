@@ -1,5 +1,7 @@
 package org.honor.tourism.repository.impl;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -34,6 +36,10 @@ public class SysUserRepositoryImpl {
 		
 		jpql.append(" where 1=1");
 		
+		if (deptId != null && !"".equals(deptId)) {
+			jpql.append(" and su.department.id = :deptId");
+		}
+		
 		if (name != null && !"".equals(name)) {
 			jpql.append(" and su.name like :name");
 		}
@@ -44,6 +50,10 @@ public class SysUserRepositoryImpl {
 		
 		TypedQuery<SysUser> tq = em.createQuery(jpql.toString(), SysUser.class);
 
+		if (deptId != null && !"".equals(deptId)) {
+			tq.setParameter("deptId", deptId);
+		}
+		
 		if (name != null && !"".equals(name)) {
 			tq.setParameter("name", "%" + name + "%");
 		}
@@ -58,4 +68,5 @@ public class SysUserRepositoryImpl {
 		Page<SysUser> page = new PageImpl<SysUser>(tq.getResultList(), pageable, total);
 		return page;
 	}
+	
 }
