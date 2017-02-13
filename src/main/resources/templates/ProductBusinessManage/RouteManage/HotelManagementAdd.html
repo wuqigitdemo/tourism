@@ -101,7 +101,6 @@
 				<tr>
 					<th width="">部门名称</th>
 					<td width="" colspan="3">
-					    <input id="department" name="department" value="" type="hidden" />
 						<input type="hidden" id="department" name="department" value="" ></input>	
 						<input id="department1" name="department1" value="" type="text" disabled="disabled"/>
 						<input onclick="depart()" type="button" class="btn btn-danger" value="选择部门"/>
@@ -129,8 +128,8 @@
 	    </div>
 	</form>
 	
-	<div id="dlg" class="easyui-dialog" style="width:500px"
-            closed="true" buttons="#dlg-buttons" data-options="modal: true">
+	<div id="dlg" class="easyui-dialog" style="width:500px; left:100px;" 
+            closed="true" buttons="#dlg-buttons" data-options="modal: true" >
         <form id="fm" novalidate="" style="margin:0;padding:20px 50px">
         
         </form>
@@ -220,42 +219,88 @@
 	                 alert("错误!");  
 	             }  
 	        });  
-       }          
-       //部门
-       function depart(){
-       	   $('#dlg').dialog('open').dialog('center').dialog('setTitle','部门选择');
-           $('#fm').form('clear');
-           $.ajax({  
-           	type: "POST", 
-           	url: '/Department/selectAll',  
-	            dataType: 'json',
-	            contentType : 'application/json;charset=utf-8', //设置请求头信息
-	            success: function (data) {
-	            			var ids = document.getElementById('v');
-	            			if (ids!= null) {
-	            			ids.parentNode.removeChild(ids);
-							}
-	            			var div = document.createElement("div");
-	            			div.id="v";
-	                		document.getElementById('fm').appendChild(div);
-       	        	        var ul=document.createElement("ul");
-       	        	        div.appendChild(ul);
-       	        	　　          for(var i=0;i<data.length;i++){
-       	        	        var checkbox=document.createElement("input");
-       	        	        // 加入复选框
-       	        	        checkbox.setAttribute("type","radio");
-       	        	        checkbox.setAttribute("id",data[i].id);
-       	        	        checkbox.setAttribute("name", "department");
-       	        	        checkbox.setAttribute("value", data[i].departmentName);
-       	        	        var li=document.createElement("li");
-       	        	        li.appendChild(checkbox);       
-       	        	        li.appendChild(document.createTextNode(data[i].departmentName));
-       	        	        ul.appendChild(li);
-       	        	    }
-	            }  
-	        });
        }
        
+        //部门
+        function depart(){
+        	$('#dlg').dialog('open').dialog('center').dialog('setTitle','部门选择');
+            $('#fm').form('clear');
+            $.ajax({  
+            	type: "POST", 
+            	url: '/Department/selectAll',  
+ 	            dataType: 'json',
+ 	            contentType : 'application/json;charset=utf-8', //设置请求头信息
+ 	            success: function (data) {
+ 	            	printCheckbox(data,null);
+ 	            }  
+ 	        });
+        }
+        
+        function printCheckbox(data, parentId) {
+    		var ids = document.getElementById('a');
+    		if (ids!= null) {
+    		ids.parentNode.removeChild(ids);
+    		}
+    		var div = document.createElement("div");
+    		div.id="a";document.getElementById('fm').appendChild(div);
+    	    var ul=document.createElement("ul");
+    	    div.appendChild(ul);
+    	   
+    	    printCheckbox1(data, parentId,ul);
+     		/* checkbox.appendChild(ul); */
+    	    
+    	}
+    	
+    	function printCheckbox1(data, parentId,ul) {
+    		for (var int = 0; int < data.length; int++) {
+    			if(data[int].parentDepartment == parentId) {
+    				var parId = data[int].id;
+    				/***/
+    			    var checkbox=document.createElement("checkbox");
+    			        // 加入复选框
+    			        checkbox.setAttribute("type","radio");
+    			        checkbox.setAttribute("name", "department");
+    			        checkbox.setAttribute("value", data[int].departmentName);
+    			        var li=document.createElement("li");
+    			        li.appendChild(checkbox);       
+    			        li.appendChild(document.createTextNode(data[int].departmentName+":"));
+    			        ul.appendChild(li);
+    				 	/***/
+    				 var zj = getCheckboxValue(data, parId);
+    				 printCheckbox1(zj, parId,ul);
+    			}
+    			if(data[int].parentDepartment != null && data[int].parentDepartment.id == parentId) {
+    				var parId = data[int].id;
+    				/***/
+    			    var checkbox=document.createElement("input");
+    			        // 加入复选框
+    			        checkbox.setAttribute("type","radio");
+    			        checkbox.setAttribute("id",data[int].id);
+    			        checkbox.setAttribute("name", "department");
+    			        checkbox.setAttribute("value", data[int].departmentName);
+    			        var li=document.createElement("li");
+    			        li.appendChild(checkbox);       
+    			        li.appendChild(document.createTextNode(data[int].departmentName));
+    			        ul.appendChild(li);
+    				 	/***/
+    				 var zj = getCheckboxValue(data, parId);
+    				 printCheckbox1(zj, parId,ul);
+    			}
+    		}
+    	}
+    	
+    	function getCheckboxValue(data, parId) {
+    		var checkboxList = new Array();
+    		for (var i = 0; i < data.length; i++) {
+    			if (data[i].parentDepartment != null) {
+    				if(data[i].parentDepartment.id == parId) {
+    					checkboxList.push(data[i]);
+    				}
+    			}
+    		}
+    		return checkboxList;
+    	}
+        
        function getInfo(){
    		var check_val= [];
    		var check_name= [];
