@@ -3,7 +3,8 @@ package org.honor.tourism.service;
 import java.util.List;
 
 import org.honor.tourism.entity.HotelManagement;
-import org.honor.tourism.util.EasyuiPage;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 /**
  * 酒店管理
@@ -19,5 +20,15 @@ public interface HotelManagementService extends CrudService<HotelManagement> {
 	 * @param ids
 	 */
 	public void delete(List<HotelManagement> ids);
+	
+	/**
+	 * 查询方法
+	 * @param hotelName
+	 * @param phone
+	 * @param levelName
+	 * @param cityName
+	 * @return
+	 */
+	public Page<HotelManagement> findSearch(String hotelName,String phone,String levelName, String cityName,Pageable pageable);
 	
 }

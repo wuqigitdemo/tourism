@@ -1,8 +1,13 @@
 package org.honor.tourism.entity;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -10,7 +15,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.Length;
 
 /**
- * 模块
+ * 模块权限
  * 
  * @author keiwu
  *
@@ -34,6 +39,8 @@ public class Module {
 	private Module parentModule;
 	/** 模块排序 */
 	private Integer moduleSort;
+	@ManyToMany(mappedBy = "moduleList", cascade = { CascadeType.REFRESH }, fetch = FetchType.EAGER)
+	private List<SysRole> sysRoleList;
 
 	public String getId() {
 		return id;
@@ -73,6 +80,14 @@ public class Module {
 
 	public void setLinkddress(String linkddress) {
 		this.linkddress = linkddress;
+	}
+
+	public List<SysRole> getSysRoleList() {
+		return sysRoleList;
+	}
+
+	public void setSysRoleList(List<SysRole> sysRoleList) {
+		this.sysRoleList = sysRoleList;
 	}
 
 }

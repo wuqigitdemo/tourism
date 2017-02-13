@@ -40,24 +40,32 @@
 				</tr>
 				<tr>
 					<th width="">联系电话</th>
-					<td width=""><input id="phone" name="phone" value="" type="text" maxlength="20"/></td>
+					<td width="">
+					<input id="phone" name="phone" value="" type="text" class="easyui-numberbox"  data-options="required:true,min:0,validType:'length[6,11]'" maxlength="11"/>
+					</td>
 					<th width="">地址</th>
-					<td width=""><input id="address" name="address" value="" type="text" maxlength="127"/></td>
+					<td width="">
+					<input id="address" name="address" value="" type="text" maxlength="127"/>
+					</td>
 				</tr>
 				<tr>
 					<th width="15%">所在城市</th>
 					<td width="35">
-						<input name="city" id="city"/>
+					<input name="city" id="city"/>
 					</td>
 					<th width="">所在商圈</th>
-					<td width=""><input id="businessDistrict" name="businessDistrict" value="" type="text" maxlength="32"/></td>
+					<td width="">
+					<input id="businessDistrict" name="businessDistrict" value="" type="text" maxlength="32"/>
+					</td>
 				</tr>
 				<tr>
 					
 				</tr>
 				<tr>
 					<th width="">评分</th>
-					<td width="" ><input id="score" name="score" value="" type="text" /></td>
+					<td width="" >
+					<input id="score" name="score" value="" type="text" class="easyui-numberbox"  data-options="required:true,min:0,validType:'length[1,3]'" />
+					</td>
 				</tr>
 				  <tr>
 				<th >提供服务</th>
@@ -92,7 +100,7 @@
 				</tr>
 				<tr>
 					<th width="">部门名称</th>
-					<td width="" colspan="3"><input id="department" name="department" value="" type="hidden" />
+					<td width="" colspan="3">
 						<input type="hidden" id="department" name="department" value="" ></input>	
 						<input id="department1" name="department1" value="" type="text" disabled="disabled"/>
 						<input onclick="depart()" type="button" class="btn btn-danger" value="选择部门"/>
@@ -108,7 +116,7 @@
 				<tr>
 		        	<td colspan="4">
 						<a href="#" class="btn btn-danger" onclick="saveUser()" >添加<b></b></a>&nbsp;&nbsp;
-		        		<a href="#" class="btn btn-danger" id="closebtn" onclick="">返回</a>
+		        		<a href="javascript:history.back(-1)" class="btn btn-danger" id="closebtn" onclick="">返回</a>
 		        	</td>
 		        </tr>
 			</tbody>
@@ -120,8 +128,8 @@
 	    </div>
 	</form>
 	
-	<div id="dlg" class="easyui-dialog" style="width:500px"
-            closed="true" buttons="#dlg-buttons" data-options="modal: true">
+	<div id="dlg" class="easyui-dialog" style="width:500px; left:100px;" 
+            closed="true" buttons="#dlg-buttons" data-options="modal: true" >
         <form id="fm" novalidate="" style="margin:0;padding:20px 50px">
         
         </form>
@@ -187,7 +195,7 @@
     	        	        checkbox.setAttribute("name", "hotelProvideService");
     	        	        checkbox.setAttribute("value", data[i].serviceName);
     	        	        var li=document.createElement("li");
-    	        	        li.appendChild(checkbox);       
+    	        	        li.appendChild(checkbox);      
     	        	        li.appendChild(document.createTextNode(data[i].serviceName));
     	        	        ul.appendChild(li);
     	        	    }
@@ -211,43 +219,88 @@
 	                 alert("错误!");  
 	             }  
 	        });  
-       }          
-       //部门
-       function depart(){
-       	   $('#dlg').dialog('open').dialog('center').dialog('setTitle','部门选择');
-           $('#fm').form('clear');
-           $.ajax({  
-           	type: "POST", 
-           	url: '/Department/selectAll',  
-	            dataType: 'json',
-	            contentType : 'application/json;charset=utf-8', //设置请求头信息
-	            success: function (data) {
-	            			var ids = document.getElementById('v');
-	            			if (ids!= null) {
-	            			ids.parentNode.removeChild(ids);
-							}
-	            			var div = document.createElement("div");
-	            			div.id="v";
-	                		document.getElementById('fm').appendChild(div);
-       	        	        var ul=document.createElement("ul");
-       	        	        div.appendChild(ul);
-       	        	　　          for(var i=0;i<data.length;i++){
-       	        	        var checkbox=document.createElement("input");
-       	        	        // 加入复选框
-       	        	        checkbox.setAttribute("type","checkbox");
-       	        	        checkbox.setAttribute("id",data[i].id);
-       	        	        checkbox.setAttribute("name", "department");
-       	        	        checkbox.setAttribute("value", data[i].departmentName);
-       	        	        var li=document.createElement("li");
-       	        	        li.appendChild(checkbox);       
-       	        	        li.appendChild(document.createTextNode(data[i].departmentName));
-       	        	        ul.appendChild(li);
-       	        	    }
-	            }  
-	        });
        }
        
-       var department=[];
+        //部门
+        function depart(){
+        	$('#dlg').dialog('open').dialog('center').dialog('setTitle','部门选择');
+            $('#fm').form('clear');
+            $.ajax({  
+            	type: "POST", 
+            	url: '/Department/selectAll',  
+ 	            dataType: 'json',
+ 	            contentType : 'application/json;charset=utf-8', //设置请求头信息
+ 	            success: function (data) {
+ 	            	printCheckbox(data,null);
+ 	            }  
+ 	        });
+        }
+        
+        function printCheckbox(data, parentId) {
+    		var ids = document.getElementById('a');
+    		if (ids!= null) {
+    		ids.parentNode.removeChild(ids);
+    		}
+    		var div = document.createElement("div");
+    		div.id="a";document.getElementById('fm').appendChild(div);
+    	    var ul=document.createElement("ul");
+    	    div.appendChild(ul);
+    	   
+    	    printCheckbox1(data, parentId,ul);
+     		/* checkbox.appendChild(ul); */
+    	    
+    	}
+    	
+    	function printCheckbox1(data, parentId,ul) {
+    		for (var int = 0; int < data.length; int++) {
+    			if(data[int].parentDepartment == parentId) {
+    				var parId = data[int].id;
+    				/***/
+    			    var checkbox=document.createElement("checkbox");
+    			        // 加入复选框
+    			        checkbox.setAttribute("type","radio");
+    			        checkbox.setAttribute("name", "department");
+    			        checkbox.setAttribute("value", data[int].departmentName);
+    			        var li=document.createElement("li");
+    			        li.appendChild(checkbox);       
+    			        li.appendChild(document.createTextNode(data[int].departmentName+":"));
+    			        ul.appendChild(li);
+    				 	/***/
+    				 var zj = getCheckboxValue(data, parId);
+    				 printCheckbox1(zj, parId,ul);
+    			}
+    			if(data[int].parentDepartment != null && data[int].parentDepartment.id == parentId) {
+    				var parId = data[int].id;
+    				/***/
+    			    var checkbox=document.createElement("input");
+    			        // 加入复选框
+    			        checkbox.setAttribute("type","radio");
+    			        checkbox.setAttribute("id",data[int].id);
+    			        checkbox.setAttribute("name", "department");
+    			        checkbox.setAttribute("value", data[int].departmentName);
+    			        var li=document.createElement("li");
+    			        li.appendChild(checkbox);       
+    			        li.appendChild(document.createTextNode(data[int].departmentName));
+    			        ul.appendChild(li);
+    				 	/***/
+    				 var zj = getCheckboxValue(data, parId);
+    				 printCheckbox1(zj, parId,ul);
+    			}
+    		}
+    	}
+    	
+    	function getCheckboxValue(data, parId) {
+    		var checkboxList = new Array();
+    		for (var i = 0; i < data.length; i++) {
+    			if (data[i].parentDepartment != null) {
+    				if(data[i].parentDepartment.id == parId) {
+    					checkboxList.push(data[i]);
+    				}
+    			}
+    		}
+    		return checkboxList;
+    	}
+        
        function getInfo(){
    		var check_val= [];
    		var check_name= [];
@@ -256,7 +309,6 @@
    	    for (var j in obj) {
    	    if (obj[j].checked == true ) {
    				check_val.push(obj[j].id);
-   				department.push({id:obj[j].id});
    				}
    			}
    			for (var h in obj) {
@@ -290,9 +342,10 @@
    			    hotelProvideService:hotelProvideService,
    			    hotelThumbnails:$("#hotelThumbnails").val(),
    			    popularHotels:$("#popularHotels").val(),
+   			    department:{id:$("#department").val()},
    			    introduction:$("#introduction").val(),
    	       };
-       	   alert(JSON.stringify(obj));
+       	    alert(JSON.stringify(obj));
        	    //提交方法
 			$.ajax({  
 				   type: "POST",  
@@ -312,6 +365,7 @@
 	                    	input.setAttribute('value', values);
 	                    	routeId = values;
 	                    	$('#myform').form('clear');
+	                    	location.href="/ProductBusinessManage/RouteManage/HotelManagement";
 						}else{
 					      	alert(data.errorMsg);
 						}

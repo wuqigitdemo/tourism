@@ -44,6 +44,14 @@
 	            	</tr>
 	            	<tr>
 	            		<td>
+	            			<label for="departmentNumber" class="label-center">部门编号:</label>
+	            		</td>
+	            		<td>
+	            			<input name="departmentNumber" class="easyui-validatebox tb" data-options="required:true,validType:['charts','length[1,30]']"/>
+	            		</td>
+	            	</tr>
+	            	<tr>
+	            		<td>
 	            			<label class="label-center">上级部门:</label>
 	            		</td>
 	            		<td>
@@ -77,6 +85,7 @@
 	    $('#dg').datagrid({
 	        columns:[[
 	            {field:'departmentName',title:'部门名称',width:100},
+	            {field:'departmentNumber',title:'部门编号',width:100},
 	            {field:'parentDepartment',title:'上级部门',width:100,
 	    			formatter: function(value,row,index){
 	    				if(row.parentDepartment != null) {

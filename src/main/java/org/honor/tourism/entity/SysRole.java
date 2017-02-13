@@ -1,14 +1,19 @@
 package org.honor.tourism.entity;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
 /**
- * 角色权限表
+ * 角色表
  * 
  * @author keiwu
  *
@@ -29,6 +34,8 @@ public class SysRole {
 	private Integer sort;
 	/** 角色状态 */
 	private boolean state;
+	@ManyToMany(cascade = { CascadeType.REFRESH }, fetch = FetchType.EAGER)
+	private List<Module> moduleList;
 
 	public String getId() {
 		return id;
@@ -68,6 +75,14 @@ public class SysRole {
 
 	public void setState(boolean state) {
 		this.state = state;
+	}
+
+	public List<Module> getModuleList() {
+		return moduleList;
+	}
+
+	public void setModuleList(List<Module> moduleList) {
+		this.moduleList = moduleList;
 	}
 
 }

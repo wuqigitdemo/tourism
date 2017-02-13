@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<meta charset="UTF-8" />
+<title>酒店管理查看</title>
+<link rel="stylesheet" type="text/css" href="/css/reset.css"/>
+<link rel="stylesheet" type="text/css" href="/css/common.css"/>
+<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css"/>
+<link rel="stylesheet" type="text/css" href="/css/page.css"/>
+<link rel="stylesheet" type="text/css" href="/css/calendar.css"/>
+
+<link rel="stylesheet" type="text/css" href="/easyui/themes/default/easyui.css" />
+<link rel="stylesheet" type="text/css" href="/easyui/themes/icon.css" />
+<link rel="stylesheet" type="text/css" href="/easyui/demo/demo.css" />    
+<link rel="stylesheet" type="text/css" href="/easyui/themes/color.css"/>
+
+<script type="text/javascript" src="/easyui/jquery.min.js"></script>
+<script type="text/javascript" src="/easyui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="/easyui/locale/easyui-lang-zh_CN.js"></script>
+</head>
+<body>
+<div>
+	<div class="alert_tit">
+		<h2 style="line-height: 30px;padding-left: 22px;">查看酒店信息</h2>
+	</div>
+	<form id="myform" name="myform" method="post" enctype="multipart/form-data">
+		<table class="table table-bordered" style="margin-top: 30px;">
+			<tbody>
+				<tr>
+					<th width="15%">名称</th>
+					<td width="35%">
+					<p th:text="${hotelManagement.hotelName}"></p> 
+					</td>
+					<th width="15%">级别</th>
+					<td width="35%">
+					<p th:text="${hotelManagement.hotelLevel.levelName}"></p>
+					</td>
+				</tr>
+				<tr>
+					<th width="">联系电话</th>
+					<td width="">
+					<p th:text="${hotelManagement.phone}"></p>
+					</td>
+					<th width="">地址</th>
+					<td width="">
+					<p th:text="${hotelManagement.address}"></p>
+					</td>
+				</tr>
+				<tr>
+					<th width="15%">所在城市</th>
+					<td width="35">
+					<p th:text="${hotelManagement.city.cityName}"></p>
+					</td>
+					<th width="">所在商圈</th>
+					<td width="">
+					<p th:text="${hotelManagement.businessDistrict}"></p>
+					</td>
+				</tr>
+				<tr>
+					
+				</tr>
+				<tr>
+					<th width="">评分</th>
+					<td width="" >
+					<p th:text="${hotelManagement.score}"></p>
+					</td>
+				</tr>
+				  <tr>
+				<th >提供服务</th>
+				<td colspan="5">
+					<li style="float: left;width: 151px;list-style: none;">
+						<div th:each="hotelProvideService:${hotelManagement.hotelProvideService}"> 
+						<lable th:inline="text">[[${hotelProvideService.serviceName}]]</lable>
+						</div>
+					</li>
+				</td>
+				</tr>				
+				<tr>
+					<th width="5%">酒店缩略图<input type="hidden" value="" name="hotelThumbnails"/></th>
+					<td >
+        				<div>
+           				<img id="img1" th:src="@{'/files/'+${hotelManagement.hotelThumbnails}}" height="150px" width="200px"/>
+            			</div>
+					</td>
+				</tr>
+				<tr>
+					<th width="5%">是否热门酒店</th>
+					<td width="" colspan="1">
+						<p th:text="${hotelManagement.popularHotels}? '是': '否'"></p>
+					</td>
+				</tr>
+				<tr>
+					<th width="">部门名称</th>
+					<td width="" colspan="1">
+						<p th:text="${hotelManagement.department.departmentName}"></p>
+					</td>
+				</tr>
+				<tr>
+					<th width="">简介</th>
+					<td width="" colspan="1">
+					<p th:text="${hotelManagement.introduction}"></p>
+					</td>
+				</tr>
+				<tr>
+		        	<td colspan="4">
+		        		<a href="javascript:history.back(-1)" class="btn btn-danger" id="closebtn" onclick="">返回</a>
+		        	</td>
+		        </tr>
+			</tbody>
+		</table>
+	</form>
+</div>
+</body>
+<script type="text/javascript">
+/*<![CDATA[*/   //这句坚决不能删
+     
+  /*]]>*/    //这句坚决不能删           
+</script>
+</html>
