@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<!--  
+ * 作者:修罗大人
+ * 时间:Feb 6, 2017 5:07:20 PM
+ -->
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<meta charset="UTF-8" />
+<title>部门管理</title>
+<link rel="stylesheet" type="text/css"
+	href="/easyui/themes/default/easyui.css" />
+<link rel="stylesheet" type="text/css" href="/easyui/themes/icon.css" />
+<link rel="stylesheet" type="text/css" href="/easyui/demo/demo.css" />
+<script type="text/javascript" src="/easyui/jquery.min.js"></script>
+<script type="text/javascript" src="/easyui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="/easyui/locale/easyui-lang-zh_CN.js"></script>
+
+<!-- oldcss -->
+<link rel="stylesheet" type="text/css" href="/css/oldcss/base.css" />
+<link rel="stylesheet" type="text/css" href="/css/oldcss/animation1.css" />
+<link rel="stylesheet" type="text/css" href="/css/oldcss/form.css" />
+
+</head>
+<body>
+
+	<div class="page_content">
+		<div class="layout_01_left">
+			<div class="layout_overflow">
+				<ul id="deptTree">
+				</ul>
+			</div>
+		</div>
+		<div class="layout_01_right">
+			<div class="layout_overflow">
+				<div class="inner6px submitdata">
+					<div class="boxBmargin12 cell">
+						<form id="searchform" name="searchform" method="post">
+							<input id="parentDepartmentId" type="hidden" name="parentDepartmentId" value="" />
+							<table>
+								<tr>
+									<th width="15%">部门名称</th>
+									<td width="35%"><input name="departmentName" id="departmentName" value="" /></td>
+									
+									<!-- <th width="15%">是否显示禁用的部门</th>
+									<td width="35%">
+										<select name="delFlag" id="delFlag">
+										    <option value="0" >否</option>
+									 		<option value="1" >是</option>
+										</select>									
+									</td> -->
+								</tr>
+								<tr>
+									<td colspan="4">
+										<div class="btn_area_setc">
+											<a href="###" class="btn_01" onclick="search_dept();">查询<b></b></a>
+										</div>
+									</td>
+								</tr>
+							</table>
+						</form>
+					</div>
+
+					<div id="pagination"></div>
+					
+					<div id="ddDept" class="easyui-dialog"  title="添加/修改部门信息"
+							style="width: 300px;  height: 220px;"
+							data-options="resizable:true,modal:true"
+							closed="true">
+
+						<div class="inner6px">
+							<div class="cell">
+								<form id="deptform" name="deptform" method="post" action="saveDept.action"
+									ajax="true">
+									<input id="deptId" type="hidden" name="id"/>
+									<table>
+										<tr>
+											<th width="80">上级部门</th>
+											<td><input class="form_text" id="parentDepartment"
+												name="parentDepartment.id" value="001" readonly="readonly" type="hidden" /> 
+											<input class="form_text" id="parentDepartmentName" readonly="readonly" value="所有部门" /></td>
+										</tr>
+										<tr>
+											<th>部门编号</th>
+											<td>
+												<input id="departmentNumber" name="departmentNumber"  class="easyui-validatebox tb" 
+													data-options="required:true,validType:['charts','length[2,30]'],invalidMessage:'编号至少2个字符,最多30个字符！'"  />	
+											</td>
+										</tr>
+										<tr>
+											<th>部门名称</th>
+											<td>
+												<input id="departmentNameNew" name="departmentName"  class="easyui-validatebox tb" 
+													data-options="required:true,validType:['charts','length[2,30]'],invalidMessage:'名称至少2个字符,最多30个字符！'"  />
+											</td>
+										</tr>
+										<!-- <tr>
+											<th>部门类型</th>
+											<td><select id="deptTypeCode" name="dept.deptTypeCode">
+													<option value="">请选择</option>
+													<option value="01">省级部门</option>
+													<option value="02">市级部门</option>
+													<option value="03">会员</option>
+													<option value="04">一般部门</option></select></td>
+										</tr>
+										<tr>
+											<th>关联部门类型</th>
+											<td><select id="linkedDeptTypeCode"
+												name="dept.linkedDeptTypeCode"><option value="">请选择</option>
+													<option value="01">省级部门</option>
+													<option value="02">市级部门</option>
+													<option value="03">会员</option>
+													<option value="04">一般部门</option></select></td>
+										</tr> -->
+										<tr>
+											<th>同级排序</th>
+											<td><input class="form_text" name="dept.sortSQ" value=""
+												datatype="n1-3" maxlength="3" errormsg="排序号必须是小于1000的数字" /></td>
+										</tr>
+										<tr>
+											<td colspan="4">
+												<div class="btn_area_setc">
+													<a href="###" class="btn_01_mini" onclick="javascript:submitDept();" type="submit">保存<b></b></a>
+													<a href="###" class="btn_01_mini" onclick="javascript:$('#ddDept').dialog('close');">关闭<b></b></a>
+												</div>
+											</td>
+										</tr>
+									</table>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			
+					<div id="ddDeptView" class="easyui-dialog" title="查看部门详细信息" 
+						style="width: 300px;  height: 220px;" data-options="resizable:true,modal:true"
+						closed="true">
+
+					</div>
+					
+			</div>
+		</div>
+	</div>
+
+
+</body>
+<script type="text/javascript" th:inline="javascript">
+	/*<![CDATA[*///这句坚决不能删
+	
+	//新增/修改员工提交
+	function submitDept()
+	{
+		$('#deptform').form('submit',{
+			url:'/Department/save',
+            onSubmit: function(){
+                return $(this).form('validate');
+            },
+            success: function(resultJSON){
+            	
+            	$('#ddDept').dialog('close');
+            	var result = JSON.parse(resultJSON);
+				
+                if (result.errorMsg){
+                    $.messager.show({
+                        title: 'Error',
+                        msg: result.errorMsg
+                    });
+                } else {
+                    $('#pagination').datagrid('reload');    // reload the user data
+                    $('#deptTree').tree('reload');
+                }
+            }
+        });
+	}
+	
+	//将对象属性值的null替换成""
+	function displayProp(obj){   
+		var retObj = {};
+	          
+	    for(var name in obj){       
+	       	var value = obj[name];
+	       	if(value != null && value != "null")
+			{
+				retObj[name] = value;
+			}else{
+				retObj[name] = "";
+			}
+	    }  
+	    
+	    return retObj;
+	}
+	
+	//将对象属性值的""替换成null
+	function playProp(obj){   
+		var retObj = {};
+	          
+	    for(var name in obj){       
+	       	var value = obj[name];
+	       	if(value != null && value != "")
+			{
+				retObj[name] = value;
+			}else{
+				retObj[name] = null;
+			}
+	    }  
+	    
+	    return retObj;
+	}
+	
+	//修改员工信息
+	function edit_dept(id)
+	{
+		$.ajax({
+			 url: '/Department/findById?id='+id,  
+	            dataType: 'json', 
+	            method:'POST',
+	            contentType : 'application/json;charset=utf-8',
+	            success: function (data) {
+					data = displayProp(data);
+					$('#deptId').val(data.id);
+					if(data.parentDepartment.id != null)
+					{
+						$('#parentDepartment').val(data.parentDepartment.id);
+						$('#parentDepartmentName').val(data.parentDepartment.departmentName);
+					}else{
+						$('#parentDepartmentName').val('所有部门');
+					}
+					
+					$('#departmentNumber').val(data.departmentNumber);
+					$('#departmentNameNew').val(data.departmentName);
+					$('#ddDept').dialog('open');
+	            }
+		});
+	}
+	
+	//查看员工详细信息
+	function view_dept(id)
+	{
+		$.ajax({  
+            url: '/Department/findById?id='+id,  
+            dataType: 'json', 
+            method:'POST',
+            contentType : 'application/json;charset=utf-8',
+            success: function (data) {
+				data = displayProp(data);	      
+				var parentDepartmentName = (data.parentDepartment.departmentName == null ? '' : data.parentDepartment.departmentName);
+            	$('#ddDeptView').dialog({
+            		closed:false,
+            		content:'<div class="inner6px">'
+            		+'<div class="cell">'
+            		+'<table>'
+            		+'<tr>'
+            		+'<th style="width:40%;">上级部门</th>'
+            		+'<td>'+parentDepartmentName+'</td>'
+            		+'</tr>'
+            		+'<tr>'
+            		+'<th>部门编号</th>'
+            		+'<td>'+data.departmentNumber+'</td>'
+            		+'</tr>'
+            		+'<tr>'
+            		+'<th>部门名称</th>'
+            		+'<td>'+data.departmentName+'</td>'
+            		+'</tr>'
+            		+'<tr>'
+            		+'<th>同级排序</th>'
+            		+'<td>0</td>'
+            		+'</tr>'
+            		+'<tr>'
+            		+'<td colspan="2">'
+            		+'<div class="btn_area_setc">'
+            		+'<a class="btn_01" onclick="javascript:$(\'#ddDeptView\').dialog(\'close\');">关闭</a>'
+            		+'</div>'
+            		+'</td>'
+            		+'</tr>'
+            		+'</table>'
+            		+'</div>'
+            		+'</div>'
+            	});
+            	
+            }  
+	    });
+	}
+	
+	//查询用户
+	function search_dept()
+	{
+		var departmentName = $('#departmentName').val();
+		var parentDepartmentId = $('#parentDepartmentId').val();
+		var delFlag = $('#delFlag').val();
+
+		var url = "/Department/findDepts?departmentName="+departmentName+"&parentDepartmentId="+parentDepartmentId+"&delFlag="+delFlag;
+		
+		$('#pagination').datagrid('reload',url);    // reload the user data
+	}
+	
+	//组织机构
+	$('#deptTree').tree({   
+                url: '/Department/findTree', 
+                onBeforeExpand:function(node){
+                	
+            	},
+                onClick:function(node){
+                	$('#parentDepartmentId').val(node.id);
+                	$('#parentDepartment').val(node.id);
+                	$('#departmentName').val("");
+                	$('#parentDepartmentName').val(node.departmentName);
+                	
+                	var url = '/Department/findByParentDepartmentId?parentDepartmentId='+node.id;
+                	if(node.departmentName == '所有部门')
+					{
+						url = '/Department/findAll';
+					}
+                	$('#pagination').datagrid('reload',url);
+              	},formatter:function(node){
+            		return node.departmentName;
+            	}
+     });
+	 
+	//部门列表
+	$('#pagination').datagrid({
+		toolbar:[{
+			text:'新增',
+			iconCls:'icon-add',
+			handler:function()
+			{
+				$('#departmentNumber').val('');
+ 				$('#departmentNameNew').val('');
+				$('#ddDept').dialog('open');
+			}
+		},'-',{
+			text:'删除',
+			iconCls:'icon-remove',
+			handler:function()
+			{
+				$.messager.confirm('删除员工', '确定要删除这些员工吗？', function(result){
+					if(result)
+					{
+						var selectionsDepts = $('#pagination').datagrid('getSelections');
+						var deptIds = [];
+						selectionsDepts.forEach(function(value,index,array){
+							deptIds.push(value.id);
+						});
+												
+						$.ajax({  
+				            url: '/Department/deleteDepts',  
+				            dataType: 'json', 
+				            method:'POST',
+				            contentType : 'application/json;charset=utf-8',
+				            data:JSON.stringify(deptIds),
+				            success: function (data) {
+				            	if(data.success){
+				            		alert(data.msg);
+				            		$('#pagination').datagrid('reload');
+				            		$('#deptTree').tree('reload');
+				            	}else{
+				            		alert(data.errorMsg);
+				            	}
+				            }  
+					    });
+					}
+				});
+			}
+		},'-',{
+			text:'导出Excel',
+			iconCls:'icon-add',
+			handler:function(){
+				outputExcel($('#pagination'),'部门.xls','', '','', true);
+			}
+		},'-',{
+			text:'导出PDF',
+			iconCls:'icon-add',
+			handler:function(){
+				outputPDF($('#pagination'),'部门.pdf','');
+			}
+		}],
+		title:'人员列表',
+		pagination:true,
+		rownumbers:true,
+		fitColumns:true,
+		nowrap:false,
+		height:315,
+		method:'GET',
+		url:'/Department/findAll',
+		columns:[[
+				  {field:'id',checkbox:true},
+					          {field:'departmentName',title:'部门名称',width:20},
+					          {field:'departmentNumber',title:'部门编号',width:20},
+							  {field:'parentDepartment',title:'上级部门',width:20,formatter:function(value,row){
+					        	  if(row.parentDepartment!=null)
+					        		  return row.parentDepartment.departmentName;
+							  }},
+					          {field:'op',title:'操作',width:40,formatter:function(value,rec){
+									return "<a href='#' class='btn_01_mini' onclick='view_dept(\""+rec.id+"\")'>查看<b></b></a>"
+										  +"<a href='#' class='btn_01_mini' onclick='edit_dept(\""+rec.id+"\")'>修改<b></b></a>"
+							  }}
+		        ]]
+	});
+	
+	/*]]>*///这句坚决不能删
+</script>
+</html>
