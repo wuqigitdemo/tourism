@@ -3,6 +3,8 @@ package org.honor.tourism.service;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.honor.tourism.entity.Department;
 import org.honor.tourism.entity.SysUser;
 import org.springframework.data.domain.Page;
@@ -52,7 +54,7 @@ public interface DepartmentService extends CrudService<Department> {
 	public Page<Department> findDepts(String departmentName,String parentDepartmentId,String delFlag,Pageable pageable);
 	
 	/**
-	 * 查询子部门
+	 * 查询子部门,带分页
 	 * @param parentDepartmentId
 	 * @param pageable
 	 * @return
@@ -60,9 +62,31 @@ public interface DepartmentService extends CrudService<Department> {
 	public Page<Department> findByParentDepartmentId(String parentDepartmentId,Pageable pageable);
 	
 	/**
+	 * 查询子部门,不带分页
+	 * @param parentDepartmentId
+	 * @return
+	 */
+	public List<Department> findByParentDepartmentId(String parentDepartmentId);
+	
+	/**
 	 * 批量删除部门
 	 * @param userIds
 	 * @return
 	 */
 	public void deleteDepts(List<String> deptIds);
+	
+	/**
+	 * 导出Deptexcel
+	 * @param deptId
+	 * @param response
+	 */
+	public void outputDeptExcel(String deptId,HttpServletResponse response);
+
+	/**
+	 * 导出Deptpdf
+	 * @param deptId
+	 * @param response
+	 */
+	public void outputDeptPDF(String deptId,HttpServletResponse response);
+	
 }

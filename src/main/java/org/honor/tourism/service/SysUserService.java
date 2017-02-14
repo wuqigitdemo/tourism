@@ -1,8 +1,9 @@
 package org.honor.tourism.service;
 
+import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
-
+import javax.servlet.http.HttpServletResponse;
 import org.honor.tourism.entity.SysUser;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -41,4 +42,27 @@ public interface SysUserService extends CrudService<SysUser> {
 	 */
 	public SysUser resetPassword(String userId,String passwrod);
 	
+	/**
+	 * 导出Usersexcel
+	 * @param fileName
+	 * @param users
+	 * @param response
+	 */
+	public void outputUsersExcel(String fileName,List<SysUser> users,HttpServletResponse response);
+	
+	/**
+	 * 导出UsersPDF
+	 * @param fileName
+	 * @param users
+	 * @param response
+	 */
+	public void outputUsersPDF(String fileName,List<SysUser> users,HttpServletResponse response);
+	
+	/**
+	 * 导入员工excel
+	 * @param fileInputStream
+	 * @return
+	 * @throws Exception 
+	 */
+	public void inputUsersExcel (InputStream inputStream) throws Exception;
 }

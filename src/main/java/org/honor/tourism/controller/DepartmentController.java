@@ -1,17 +1,25 @@
 package org.honor.tourism.controller;
 
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.Servlet;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.honor.tourism.entity.Department;
 import org.honor.tourism.entity.SysUser;
 import org.honor.tourism.service.DepartmentService;
+import org.honor.tourism.service.SysUserService;
 import org.honor.tourism.util.EasyuiPage;
 import org.honor.tourism.util.EasyuiResult;
+import org.honor.tourism.util.ExcelUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -34,6 +42,9 @@ public class DepartmentController {
 	
 	@Autowired 
 	private DepartmentService service;
+	
+	@Autowired
+	private SysUserService sysUserService;
 
 	/**
 	 * 获取部门
@@ -151,6 +162,14 @@ public class DepartmentController {
 			users = service.findUsers(department);
 		}
 		
+		int startIndex = page.getPage();
+		int endIndex = (startIndex + page.getRows() > users.size()) ? users.size() : (startIndex + page.getRows());
+		List<SysUser> retUsers = new ArrayList<SysUser>();
+		for (int i = startIndex; i < endIndex; i++) 
+		{
+			retUsers.add(users.get(i));
+		}
+		
 		return users;
 	}
 	
@@ -224,4 +243,98 @@ public class DepartmentController {
 		return dept;
 	}
 	
+	/**
+	 * 导出部门excel表格
+	 * @param deptId
+	 * @return
+	 */
+	@RequestMapping("/outputDeptExcel")
+	@ResponseBody
+	public Map<String, Object> outputDeptExcel(String deptId,HttpServletResponse response) {
+
+		try {
+			service.outputDeptExcel(deptId, response);
+		} catch (Exception e) {
+			return EasyuiResult.result(false);
+		}
+		
+		return EasyuiResult.result(true);
+	}
+	
+	/**
+	 * 导出部门pdf
+	 * @param deptId
+	 * @return
+	 */
+	@RequestMapping("/outputDeptPDF")
+	@ResponseBody
+	public Map<String, Object> outputDeptPDF(String deptId,HttpServletResponse response) {
+
+		try {
+			service.outputDeptPDF(deptId, response);
+		} catch (Exception e) {
+			return EasyuiResult.result(false);
+		}
+		
+		return EasyuiResult.result(true);
+	}
+	
+	/**
+	 * 导出员工excel表格
+	 * @param deptId
+	 * @return
+	 */
+	@RequestMapping("/outputUsersExcel")
+	@ResponseBody
+	public Map<String, Object> outputUsersExcel(String deptId,HttpServletResponse response) {
+
+		List<SysUser> users = new ArrayList<SysUser>();
+		String fileName = "用户-所有用户.xls"; //文件名 
+		
+		if (deptId == null || deptId.equals("")) {
+			users = service.findUsers(null);
+		}else {
+			Department department = service.findOne(deptId);
+			users = service.findUsers(department);
+			fileName = "用户-"+department.getDepartmentName()+".xls"; //文件名 
+		}
+		
+		try {
+			sysUserService.outputUsersExcel(fileName,users, response);
+		} catch (Exception e) {
+			return EasyuiResult.result(false);
+		}
+		
+		return EasyuiResult.result(true);
+	}
+	
+	/**
+	 * 导出员工PDF
+	 * @param deptId
+	 * @return
+	 */
+	@RequestMapping("/outputUsersPDF")
+	@ResponseBody
+	public Map<String, Object> outputUsersPDF(String deptId,HttpServletResponse response) {
+
+		List<SysUser> users = new ArrayList<SysUser>();
+		String fileName = "用户-所有用户.pdf"; //文件名 
+		
+		if (deptId == null || deptId.equals("")) {
+			users = service.findUsers(null);
+		}else {
+			Department department = service.findOne(deptId);
+			users = service.findUsers(department);
+			fileName = "用户-"+department.getDepartmentName()+".pdf"; //文件名 
+		}
+		
+		try {
+			sysUserService.outputUsersPDF(fileName, users, response);
+		} catch (Exception e) {
+			return EasyuiResult.result(false);
+		}
+		
+		return EasyuiResult.result(true);
+	}
+
 }
