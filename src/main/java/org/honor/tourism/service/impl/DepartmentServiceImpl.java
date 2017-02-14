@@ -1,21 +1,29 @@
 package org.honor.tourism.service.impl;
 
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.honor.tourism.entity.Department;
 import org.honor.tourism.entity.SysUser;
 import org.honor.tourism.repository.DepartmentRepository;
 import org.honor.tourism.repository.SysUserRepository;
 import org.honor.tourism.service.DepartmentService;
+import org.honor.tourism.util.ExcelUtil;
+import org.honor.tourism.util.PDFUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
+
+import com.itextpdf.text.pdf.PdfWriter;
 
 @Service
 public class DepartmentServiceImpl extends CrudServiceImpl<Department> implements DepartmentService {
@@ -95,12 +103,6 @@ public class DepartmentServiceImpl extends CrudServiceImpl<Department> implement
 				deptMap.put("id", departmentTemp.getId());
 				deptMap.put("departmentName", departmentTemp.getDepartmentName());
 				
-				List<Map<String, Object>> children = findChildren(departmentTemp);
-				if (children.size() != 0) {
-					deptMap.put("children", children);
-					deptMap.put("state","closed");
-				}
-				
 				List<SysUser> users = sysUserRepository.findByDepartmentId(departmentTemp.getId());
 
 				for (SysUser sysUser : users) {
@@ -108,13 +110,14 @@ public class DepartmentServiceImpl extends CrudServiceImpl<Department> implement
 				}
 				
 				deptMap.put("users", users);
+				
+				List<Map<String, Object>> children = findProgenyUsers(departmentTemp);
+				if (children.size() != 0) {
+					deptMap.put("children", children);
+					deptMap.put("state","closed");
+				}
+				
 				retDepts.add(deptMap);
-			}
-		}else {
-			List<SysUser> users = sysUserRepository.findByDepartmentId(department.getId());
-
-			for (SysUser sysUser : users) {
-				this.users.add(sysUser);
 			}
 		}
 		
@@ -235,4 +238,115 @@ public class DepartmentServiceImpl extends CrudServiceImpl<Department> implement
 	{
 		return repository.findOne(id);
 	}
+
+	/**
+	 * 查询子部门,不带分页
+	 * @param parentDepartmentId
+	 * @return
+	 */
+	@Override
+	public List<Department> findByParentDepartmentId(String parentDepartmentId)
+	{
+		return repository.findByParentDepartmentId(parentDepartmentId);
+	}
+
+	/**
+	 * 导出Deptexcel
+	 * @param deptId
+	 * @param response
+	 */
+	@Override
+	public void outputDeptExcel(String deptId, HttpServletResponse response)
+	{
+		List<Department> departments = new ArrayList<Department>();
+		
+		String fileName = "部门-所有部门.xls"; //文件名 
+		if (deptId == null || deptId.equals("")) {
+			departments = findByParentDepartmentId(null);
+		}else{
+			departments = findByParentDepartmentId(deptId);
+			Department department = findOne(deptId);
+			fileName = "部门-"+department.getDepartmentName()+".xls"; //文件名 
+		}
+		
+        String sheetName = "部门";//sheet名
+        
+        String []title = new String[]{"Id","部门名称","部门编号","上级部门"};//标题
+        
+        String [][]values = new String[departments.size()][];
+        for(int i=0;i<departments.size();i++){
+            values[i] = new String[title.length];
+            //将对象内容转换成string
+            Department obj = departments.get(i);
+            values[i][0] = obj.getId()+"";
+            values[i][1] = obj.getDepartmentName()+"";
+            values[i][2] = obj.getDepartmentNumber()+"";
+            values[i][3] = obj.getParentDepartment() == null ? "" : obj.getParentDepartment().getDepartmentName();
+        }
+        
+        HSSFWorkbook wb = ExcelUtil.getHSSFWorkbook(sheetName, title, values, null);
+        
+        //将文件存到指定位置  
+        try {  
+        	 fileName = new String(fileName.getBytes(),"ISO_8859_1");
+	    	 response.setContentType("application/octet-stream;charset=ISO_8859_1");  
+	         response.setHeader("Content-Disposition", "attachment;filename="+ fileName); 
+	         OutputStream os = response.getOutputStream();  
+	         wb.write(os);  
+	         os.flush();  
+	         os.close();  
+        } catch (Exception e) {  
+             e.printStackTrace();  
+        }
+	}
+
+	/**
+	 * 导出Deptpdf
+	 * @param deptId
+	 * @param response
+	 */
+	@Override
+	public void outputDeptPDF(String deptId, HttpServletResponse response)
+	{
+		List<Department> departments = new ArrayList<Department>();
+		
+		String fileName = "部门-所有部门.pdf"; //文件名 
+		if (deptId == null || deptId.equals("")) {
+			departments = findByParentDepartmentId(null);
+		}else{
+			departments = findByParentDepartmentId(deptId);
+			Department department = findOne(deptId);
+			fileName = "部门-"+department.getDepartmentName()+".pdf"; //文件名 
+		}
+		
+        String sheetName = "部门";//sheet名
+        
+        String []title = new String[]{"Id","部门名称","部门编号","上级部门"};//标题
+        
+        String [][]values = new String[departments.size()][];
+        for(int i=0;i<departments.size();i++){
+            values[i] = new String[title.length];
+            //将对象内容转换成string
+            Department obj = departments.get(i);
+            values[i][0] = obj.getId()+"";
+            values[i][1] = obj.getDepartmentName()+"";
+            values[i][2] = obj.getDepartmentNumber()+"";
+            values[i][3] = obj.getParentDepartment() == null ? "" : obj.getParentDepartment().getDepartmentName();
+        }
+        
+        //将文件存到指定位置  
+        try {  
+        	 fileName = new String(fileName.getBytes(),"ISO_8859_1");
+	    	 response.setContentType("application/octet-stream;charset=ISO_8859_1");  
+	         response.setHeader("Content-Disposition", "attachment;filename="+ fileName); 
+	         OutputStream os = response.getOutputStream();  
+	         PdfWriter pdfWriter = PDFUtil.getPDFWriter(title, values, os);
+	         os.flush();  
+	         os.close();  
+	         pdfWriter.close();
+        } catch (Exception e) {  
+             e.printStackTrace();  
+        }
+	}
+	 
 }
