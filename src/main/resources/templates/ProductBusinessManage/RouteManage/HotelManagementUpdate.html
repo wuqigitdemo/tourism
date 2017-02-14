@@ -144,7 +144,7 @@
 <script type="text/javascript" th:inline="javascript">
 /*<![CDATA[*/   //这句坚决不能删
     
-    var cc = [[${hotelManagement.hotelLevel.levelName}]];    
+    var hh = [[${hotelManagement.hotelLevel.levelName}]];    
     $.ajax({  
            url: '/HotelLevel/selectAll',  
            dataType: 'json',  
@@ -157,16 +157,15 @@
        	        onLoadSuccess: function(){
                       	var Data = $(this).combobox('getData');
                       		for (var j = 0; j < jsonstr.length; j++) {
-                      	    if (cc == jsonstr[j].levelName) {
+                      	    if (hh == jsonstr[j].levelName) {
                     	  	$(this).combobox('select',Data[j].id);
 							}
-                    	  	
 						}
        		  	}  
        	    }); 
            }  
        });
-       
+    var cc = [[${hotelManagement.city.cityName}]];   
     $.ajax({
            url: '/City/selectAll',
            dataType: 'json',
@@ -178,7 +177,11 @@
        	        editable:false,
        	        onLoadSuccess: function(){
                       	var Data = $(this).combobox('getData');
-                    	  	$(this).combobox('select',Data[0].id);
+                      	for (var j = 0; j < jsonstr.length; j++) {
+                      	    if (cc == jsonstr[j].cityName) {
+                    	  	$(this).combobox('select',Data[j].id);
+							}
+						}
        		  	}  
        	    }); 
            }  
