@@ -4,7 +4,7 @@
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
 <meta charset="UTF-8" />
-<title>酒店管理新增</title>
+<title>酒店管理修改</title>
 <link rel="stylesheet" type="text/css" href="/css/reset.css"/>
 <link rel="stylesheet" type="text/css" href="/css/common.css"/>
 <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css"/>
@@ -23,39 +23,41 @@
 <body>
 <div>
 	<div class="alert_tit">
-		<h2 style="line-height: 30px;padding-left: 22px;">新增酒店信息</h2>
+		<h2 style="line-height: 30px;padding-left: 22px;">修改酒店信息</h2>
 	</div>
 	<form id="myform" name="myform" method="post" enctype="multipart/form-data">
+		<input type="hidden" id="hotelId" name="hotelId" th:value="${hotelManagement.id}"></input>
 		<table class="table table-bordered" style="margin-top: 30px;">
 			<tbody>
 				<tr>
 					<th width="15%">名称</th>
 					<td width="35%">
-					<input id="hotelName" name="hotelName" type="text" class="easyui-validatebox tb" data-options="required:true,validType:['charts','length[2,25]']"/><font style='color:red'>*</font>
+					<input id="hotelName" name="hotelName" type="text" th:value="${hotelManagement.hotelName}" class="easyui-validatebox tb" data-options="required:true,validType:['charts','length[2,25]']"/><font style='color:red'>*</font>
+					 
 					</td>
 					<th width="15%">级别</th>
 					<td width="35%">
-						<input id="hotelLevel" name="hotelLevel"/>
+					<input id="hotelLevel" name="hotelLevel" class="easyui-validatebox" data-options="validType:'selected'" style="width:180px"/>
 					</td>
 				</tr>
 				<tr>
 					<th width="">联系电话</th>
 					<td width="">
-					<input id="phone" name="phone" value="" type="text" class="easyui-numberbox"  data-options="required:true,min:0,validType:'length[6,11]'" maxlength="11"/>
+					<input id="phone" name="phone" th:value="${hotelManagement.phone}" type="text" class="easyui-numberbox"  data-options="required:true,min:0,validType:'length[6,11]'" maxlength="11"/>
 					</td>
 					<th width="">地址</th>
 					<td width="">
-					<input id="address" name="address" value="" type="text" maxlength="127"/>
+					<input id="address" name="address" th:value="${hotelManagement.address}" type="text" maxlength="127"/>
 					</td>
 				</tr>
 				<tr>
 					<th width="15%">所在城市</th>
 					<td width="35">
-					<input name="city" id="city"/>
+					<input id="city" name="city" th:value="${hotelManagement.city.cityName}" class="easyui-validatebox" data-options="validType:'selected'" style="width:180px"/>
 					</td>
 					<th width="">所在商圈</th>
 					<td width="">
-					<input id="businessDistrict" name="businessDistrict" value="" type="text" maxlength="32"/>
+					<input id="businessDistrict" name="businessDistrict" th:value="${hotelManagement.businessDistrict}" type="text" maxlength="32"/>
 					</td>
 				</tr>
 				<tr>
@@ -64,14 +66,14 @@
 				<tr>
 					<th width="">评分</th>
 					<td width="" >
-					<input id="score" name="score" value="" type="text" class="easyui-numberbox"  data-options="required:true,min:0,validType:'length[1,3]'" />
+					<input id="score" name="score" th:value="${hotelManagement.score}" type="text" class="easyui-numberbox"  data-options="required:true,min:0,validType:'length[1,3]'" />
 					</td>
 				</tr>
 				  <tr>
 				<th >提供服务</th>
 				<td colspan="5">
 					<li style="float: left;width: 151px;list-style: none;">
-						<div class="radio_right fl" id="service">
+						<div id="service">
 						</div>
 					</li>
 				</td>
@@ -79,57 +81,55 @@
 				<tr>
 					<th width="5%">酒店缩略图<input type="hidden" value="" name="hotelThumbnails"/></th>
 					<td >
-        			<form id="form0" action="/HotelManagementInfo/fileUpload" enctype="multipart/form-data" method="post" novalidate="" style="margin:0;padding:20px 50px">
-        			</form>
-       				<form id="form1" action="/HotelManagementInfo/fileUpload" enctype="multipart/form-data" method="post" novalidate="" style="margin:0;padding:20px 50px">
-            	<div>
-           		<input name="fileUpload" class="easyui-filebox" labelPosition="top" data-options="buttonText:'选择图片', accept:'image/jpeg' " style="width:100%"/>
-            	</div>
-        			</form>
-       	 		<input type="hidden" id="hotelThumbnails" name="hotelThumbnails" value="" ></input>
+			        <form id="form0" action="/HotelManagementInfo/fileUpload" enctype="multipart/form-data" method="post" novalidate="" style="margin:0;padding:20px 50px">
+			        </form>
+			        <form id="form1" action="/HotelManagementInfo/fileUpload" enctype="multipart/form-data" method="post" novalidate="" style="margin:0;padding:20px 50px">
+			            	<div>
+							<img id="img1" th:src="@{'/files/'+${hotelManagement.hotelThumbnails}}" height="150px" width="200px"/>
+			           		<input id="f1" name="fileUpload" class="easyui-filebox" labelPosition="top" value="" data-options="buttonText:'选择图片', accept:'image/jpeg' " style="width:100%"/>
+			            	</div>
+			        </form>
+       	 		    <input type="hidden" id="hotelThumbnails" name="hotelThumbnails" th:value="${hotelManagement.hotelThumbnails}" ></input>
 					</td>
 				</tr>
 				<tr>
 					<th width="5%">是否热门酒店</th>
 					<td width="" colspan="1">
-						<select style="width:100px;" id="popularHotels" name="popularHotels" >
-							<option  value="false">否</option>
-							<option  value="true">是</option>
-						</select>		
+						<select style="width:100px;" id="popularHotels" name="popularHotels">
+							<option value="false" th:if="${hotelManagement.popularHotels} == false " selected="selected">否</option>
+							<option value="true" th:if="${hotelManagement.popularHotels} == false ">是</option>
+							<option value="false" th:if="${hotelManagement.popularHotels} == true ">否</option>
+							<option value="true" th:if="${hotelManagement.popularHotels} == true " selected="selected">是</option>
+						</select>
 					</td>
 				</tr>
 				<tr>
 					<th width="">部门名称</th>
-					<td width="" colspan="3">
-						<input type="hidden" id="department" name="department" value="" ></input>	
-						<input id="department1" name="department1" value="" type="text" disabled="disabled"/>
+					<td width="" colspan="1">
+						<input id="department" name="department" th:value="${hotelManagement.department.id}" type="hidden" />
+						<input id="department1" name="department1" th:value="${hotelManagement.department.departmentName}" type="text" disabled="disabled"/>
 						<input onclick="depart()" type="button" class="btn btn-danger" value="选择部门"/>
+					
 					</td>
 				</tr>
 				<tr>
 					<th width="">简介</th>
-					<td width="" colspan="3">
-						<textarea rows="4" cols="50" id="introduction" name="introduction"></textarea>
+					<td width="" colspan="1">
+					<textarea rows="4" cols="50" id="introduction" name="introduction" th:text="${hotelManagement.introduction}"></textarea>
 					</td>
 				</tr>
-				
 				<tr>
 		        	<td colspan="4">
-						<a href="#" class="btn btn-danger" onclick="saveUser()" >添加<b></b></a>&nbsp;&nbsp;
+		        	    <a href="#" class="btn btn-danger" onclick="saveUser()" >保存<b></b></a>&nbsp;&nbsp;
 		        		<a href="javascript:history.back(-1)" class="btn btn-danger" id="closebtn" onclick="">返回</a>
 		        	</td>
 		        </tr>
 			</tbody>
 		</table>
-		
-		<div class="drop-mask"></div>
-		<div class="alert-main" id="alert-main" style="width: 75%;height: 800px;">
-	   		<iframe class="pageIframe" id="showIframe" src="" style="width: 100%;height: 100%;"/>
-	    </div>
 	</form>
 	
-	<div id="dlg" class="easyui-dialog" style="width:500px; left:100px;" 
-            closed="true" buttons="#dlg-buttons" data-options="modal: true" >
+	<div id="dlg" class="easyui-dialog" style="width:500px"
+            closed="true" buttons="#dlg-buttons" data-options="modal: true">
         <form id="fm" novalidate="" style="margin:0;padding:20px 50px">
         
         </form>
@@ -138,17 +138,18 @@
         <a id="info1" href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="getInfo()" style="width:90px">提交</a>
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')" style="width:90px">取消</a>
     </div>
+	
 </div>
 </body>
-<script type="text/javascript">
+<script type="text/javascript" th:inline="javascript">
 /*<![CDATA[*/   //这句坚决不能删
-     
-    $.ajax({  
+   
+     $.ajax({  
            url: '/HotelLevel/selectAll',  
            dataType: 'json',  
            success: function (jsonstr) {  
-               $('#hotelLevel').combobox({ 
-               	data: jsonstr,  
+               $('#hotelLevel').combobox({
+               	data: jsonstr,
        	    	valueField: 'id',    
        	        textField: 'levelName',
        	        editable:false,
@@ -160,13 +161,13 @@
            }  
        });
        
-    $.ajax({  
-           url: '/City/selectAll',  
-           dataType: 'json',  
-           success: function (jsonstr) {  
-               $('#city').combobox({ 
+    $.ajax({
+           url: '/City/selectAll',
+           dataType: 'json',
+           success: function (jsonstr) {
+               $('#city').combobox({
                	data: jsonstr,  
-       	    	valueField: 'id',    
+       	    	valueField: 'id', 
        	        textField: 'cityName',
        	        editable:false,
        	        onLoadSuccess: function(){
@@ -177,6 +178,8 @@
            }  
        });
     
+       var sss = [[${hotelManagement.hotelProvideService}]];
+       //服务	
        $.ajax({  
         	type: "POST", 
         	url: '/HotelProvideService/selectAll',  
@@ -195,9 +198,18 @@
     	        	        checkbox.setAttribute("name", "hotelProvideService");
     	        	        checkbox.setAttribute("value", data[i].serviceName);
     	        	        var li=document.createElement("li");
-    	        	        li.appendChild(checkbox);      
+    	        	        li.appendChild(checkbox);   
     	        	        li.appendChild(document.createTextNode(data[i].serviceName));
     	        	        ul.appendChild(li);
+    	        	        
+    	        	        for (var int = 0; int < sss.length; int++) {
+									for (var g = 0; g < data.length; g++) {
+										if (sss[int].id == data[g].id) {
+										$("input[id='"+data[g].id+"']").attr("checked","true");
+										}
+									}
+							}
+							
     	        	    }
             }  
         });
@@ -205,7 +217,7 @@
         function fileUpload1() {
        	var formData = new FormData($( "#form1" )[0]);  
 	        $.ajax({
-	             url: '/HotelManagementInfo/fileUpload' ,  
+	             url: '/HotelManagementInfo/fileUpload',  
 	             type: 'POST',  
 	             data: formData,  
 	             async: false,  
@@ -219,8 +231,8 @@
 	                 alert("错误!");  
 	             }  
 	        });  
-       }
-       
+       }          
+        
         //部门
         function depart(){
         	$('#dlg').dialog('open').dialog('center').dialog('setTitle','部门选择');
@@ -245,7 +257,6 @@
     		div.id="a";document.getElementById('fm').appendChild(div);
     	    var ul=document.createElement("ul");
     	    div.appendChild(ul);
-    	   
     	    printCheckbox1(data, parentId,ul);
     	    
     	}
@@ -254,23 +265,20 @@
     		for (var int = 0; int < data.length; int++) {
     			if(data[int].parentDepartment == parentId) {
     				var parId = data[int].id;
-    				/***/
     			    var checkbox=document.createElement("checkbox");
     			        // 加入复选框
     			        checkbox.setAttribute("type","radio");
     			        checkbox.setAttribute("name", "department");
     			        checkbox.setAttribute("value", data[int].departmentName);
     			        var li=document.createElement("li");
-    			        li.appendChild(checkbox);       
+    			        li.appendChild(checkbox);
     			        li.appendChild(document.createTextNode(data[int].departmentName+":"));
     			        ul.appendChild(li);
-    				 	/***/
     				 var zj = getCheckboxValue(data, parId);
     				 printCheckbox1(zj, parId,ul);
     			}
     			if(data[int].parentDepartment != null && data[int].parentDepartment.id == parentId) {
     				var parId = data[int].id;
-    				/***/
     			    var checkbox=document.createElement("input");
     			        // 加入复选框
     			        checkbox.setAttribute("type","radio");
@@ -278,10 +286,9 @@
     			        checkbox.setAttribute("name", "department");
     			        checkbox.setAttribute("value", data[int].departmentName);
     			        var li=document.createElement("li");
-    			        li.appendChild(checkbox);       
+    			        li.appendChild(checkbox);
     			        li.appendChild(document.createTextNode(data[int].departmentName));
     			        ul.appendChild(li);
-    				 	/***/
     				 var zj = getCheckboxValue(data, parId);
     				 printCheckbox1(zj, parId,ul);
     			}
@@ -299,7 +306,7 @@
     		}
     		return checkboxList;
     	}
-        
+       
        function getInfo(){
    		var check_val= [];
    		var check_name= [];
@@ -308,13 +315,14 @@
    	    for (var j in obj) {
    	    if (obj[j].checked == true ) {
    				check_val.push(obj[j].id);
+   				department.push({id:obj[j].id});
    				}
    			}
    			for (var h in obj) {
    				if (obj[h].checked == true) {
    				check_name.push(obj[h].value);
-   			}  
-   				} 
+   			}
+   				}
    	     	 $("#department").val(check_val);
    			 $("#department1").val(check_name);
    			 $('#dlg').dialog('close');
@@ -327,9 +335,11 @@
 	  	        if(obj[k].checked)
 	  	        	hotelProvideService.push({id:obj[k].id});
 	  	    }
-       	   
-    	   fileUpload1();
-       	   var obj={
+	        if ($("#f1").filebox('getValue') != "") {
+        		fileUpload1();
+		    }
+       	    var obj={
+       	        id:$("#hotelId").val(),
        		    hotelName:$("#hotelName").val(),
        			hotelLevel:{id:$("#hotelLevel").combobox("getValue")},
        			phone:$("#phone").val(),
@@ -346,32 +356,23 @@
    	       };
        	    //alert(JSON.stringify(obj));
        	    //提交方法
-			$.ajax({  
-				   type: "POST",  
-				   url: '/HotelManagementInfo/save', 
+			$.ajax({
+				   type: "POST", 
+				   url: '/HotelManagementInfo/save',
 				   data: JSON.stringify(obj),//将对象序列化成JSON字符串  
 				   dataType:"json",
-				   contentType : 'application/json;charset=utf-8', //设置请求头信息  
+				   contentType : 'application/json;charset=utf-8',//设置请求头信息  
 				   success: function(data){
 					   if(data.success)
-						{	
-					      	alert("保存成功!");
-					      	var values =data.msg;
-	                    	var input = document.createElement('input');
-	                    	document.body.appendChild(input);
-	                    	input.setAttribute('type', 'hidden');
-	                    	input.setAttribute('id', 'rId');
-	                    	input.setAttribute('value', values);
-	                    	routeId = values;
-	                    	$('#myform').form('clear');
+						{
+					      	alert("修改成功!");
 	                    	location.href="/ProductBusinessManage/RouteManage/HotelManagement";
 						}else{
 					      	alert(data.errorMsg);
 						}
 				   }
 			});
-       }
-           
+       } 
   /*]]>*/    //这句坚决不能删           
 </script>
 </html>
