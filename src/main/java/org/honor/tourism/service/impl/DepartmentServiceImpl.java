@@ -223,8 +223,7 @@ public class DepartmentServiceImpl extends CrudServiceImpl<Department> implement
 	@Override
 	public List<Department> findAll()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return repository.findAll();
 	}
 
 	@Override
