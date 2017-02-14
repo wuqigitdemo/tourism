@@ -53,7 +53,7 @@
 				<tr>
 					<th width="15%">所在城市</th>
 					<td width="35">
-					<input id="city" name="city" th:value="${hotelManagement.city.cityName}" class="easyui-validatebox" data-options="validType:'selected'" style="width:180px"/>
+					<input id="city" name="city" class="easyui-validatebox" data-options="validType:'selected'" style="width:180px"/>
 					</td>
 					<th width="">所在商圈</th>
 					<td width="">
@@ -143,8 +143,9 @@
 </body>
 <script type="text/javascript" th:inline="javascript">
 /*<![CDATA[*/   //这句坚决不能删
-   
-     $.ajax({  
+    
+    var cc = [[${hotelManagement.hotelLevel.levelName}]];    
+    $.ajax({  
            url: '/HotelLevel/selectAll',  
            dataType: 'json',  
            success: function (jsonstr) {  
@@ -155,7 +156,12 @@
        	        editable:false,
        	        onLoadSuccess: function(){
                       	var Data = $(this).combobox('getData');
-                    	  	$(this).combobox('select',Data[0].id);
+                      		for (var j = 0; j < jsonstr.length; j++) {
+                      	    if (cc == jsonstr[j].levelName) {
+                    	  	$(this).combobox('select',Data[j].id);
+							}
+                    	  	
+						}
        		  	}  
        	    }); 
            }  
