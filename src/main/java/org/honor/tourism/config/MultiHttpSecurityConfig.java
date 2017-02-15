@@ -1,6 +1,8 @@
 package org.honor.tourism.config;
 
+import org.honor.tourism.service.MyFilterSecurityInterceptor;
 import org.honor.tourism.service.impl.CustomUserServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -9,6 +11,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 
 
 @EnableWebSecurity
@@ -51,6 +54,9 @@ public class MultiHttpSecurityConfig {
 	@Configuration
 	public static class FormLoginWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
 		
+		@Autowired
+		private MyFilterSecurityInterceptor myFilterSecurityInterceptor;
+		
 		@Bean
 		UserDetailsService customUserService() {
 			return new CustomUserServiceImpl();
@@ -71,7 +77,7 @@ public class MultiHttpSecurityConfig {
 				.antMatchers("/register").permitAll()
 				.antMatchers("/login/register").permitAll()
 				.antMatchers("/login/login").permitAll()
-//				.antMatchers("/persons/**").hasRole("USER")
+//				.antMatchers("/TourismTheme/**").hasRole("USER")
 				.anyRequest()
 				.permitAll()
 //				.authenticated().and()
@@ -82,6 +88,7 @@ public class MultiHttpSecurityConfig {
 //				.and()
 //				.logout().permitAll()
 				;
+//			http.addFilterBefore(myFilterSecurityInterceptor, FilterSecurityInterceptor.class);
 		}
 		
 	}
