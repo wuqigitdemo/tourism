@@ -2,6 +2,7 @@ package org.honor.tourism.repository;
 
 import java.util.List;
 
+import org.honor.tourism.entity.SysRole;
 import org.honor.tourism.entity.SysUser;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

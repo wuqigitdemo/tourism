@@ -1,14 +1,497 @@
 <!DOCTYPE html>
 <!--  
  * 作者:修罗大人
- * 时间:Feb 6, 2017 5:06:51 PM
+ * 时间:Feb 6, 2017 5:07:20 PM
  -->
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
 <meta charset="UTF-8" />
-<title>Insert title here</title>
+<title>角色管理</title>
+<link rel="stylesheet" type="text/css"
+	href="/easyui/themes/default/easyui.css" />
+<link rel="stylesheet" type="text/css" href="/easyui/themes/icon.css" />
+<link rel="stylesheet" type="text/css" href="/easyui/demo/demo.css" />
+<script type="text/javascript" src="/easyui/jquery.min.js"></script>
+<script type="text/javascript" src="/easyui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="/easyui/locale/easyui-lang-zh_CN.js"></script>
+
+<!-- oldcss -->
+<link rel="stylesheet" type="text/css" href="/css/oldcss/base.css" />
+<link rel="stylesheet" type="text/css" href="/css/oldcss/animation1.css" />
+<link rel="stylesheet" type="text/css" href="/css/oldcss/form.css" />
+
 </head>
 <body>
+			<div class="layout_overflow">
+				<div class="inner6px submitdata">
+					<div class="boxBmargin12 cell">
+						<form id="searchform" name="searchform" method="post">
+							<table>
+								<tr>
+									<th width="15%">角色名称</th>
+									<td width="35%"><input name="roleName" id="roleNameSearch" value="" /></td>
+								</tr>
+								<tr>
+									<td colspan="4">
+										<div class="btn_area_setc">
+											<a href="###" class="btn_01" onclick="search_role();">查询<b></b></a>
+										</div>
+									</td>
+								</tr>
+							</table>
+						</form>
+					</div>
+
+					<div id="pagination"></div>
+					
+					<div id="ddRole" class="easyui-dialog"  title="添加/修改角色信息"
+							style="width: 300px;  height: 220px;"
+							data-options="resizable:true,modal:true"
+							closed="true">
+
+						<div class="inner6px">
+							<div class="cell">
+								<form id="roleform" name="roleform" method="post" action="saverole.action"
+									ajax="true">
+									<input id="roleId" type="hidden" name="id"/>
+									<table>
+										<tr>
+											<th>角色编号</th>
+											<td>
+												<input id="roleNumber" name="roleNumber"  class="easyui-validatebox tb" 
+													data-options="required:true,validType:['charts','length[2,30]'],invalidMessage:'编号至少2个字符,最多30个字符！'"  />	
+											</td>
+										</tr>
+										<tr>
+											<th>角色名称</th>
+											<td>
+												<input id="rolename" name="name"  class="easyui-validatebox tb" 
+													data-options="required:true,validType:['charts','length[2,30]'],invalidMessage:'名称至少2个字符,最多30个字符！'"  />
+											</td>
+										</tr>
+										<tr>
+											<th>同级排序</th>
+											<td><input id="rolesort" name="sort"  class="easyui-validatebox tb"  data-options="required:true,validType:'numRange[0,1000]',invalidMessage:'必须填写0~1000之间的数字'"  /></td>
+										</tr>
+										<tr>
+											<th width="80">角色状态</th>
+											<td>
+												<select id="rolestate" name="state">
+													<option value="1">正常</option>
+													<option value="0">注销</option>
+												</select>
+											</td>
+										</tr>
+										<tr>
+											<td colspan="4">
+												<div class="btn_area_setc">
+													<a href="###" class="btn_01_mini" onclick="javascript:submitrole();" type="submit">保存<b></b></a>
+													<a href="###" class="btn_01_mini" onclick="javascript:$('#ddRole').dialog('close');">关闭<b></b></a>
+												</div>
+											</td>
+										</tr>
+									</table>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			
+				<div id="ddRoleView" class="easyui-dialog" title="查看角色详细信息" 
+					style="width: 300px;  height: 220px;" data-options="resizable:true,modal:true"
+					closed="true">
+
+				</div>
+				
+				<div id="ddRoleUsersView" class="easyui-dialog" title="用户设置" 
+					style="width: 720px;  height: 430px;" data-options="resizable:true,modal:true"
+					closed="true">
+					<form id="setUsersForm" method="get" action="/SysRole/setRoleUsers">
+						<input id="userIds" type="hidden" name="userIds" /> 
+						<input id="roleIdSetUsers" type="hidden" name="roleId" />
+					</form>
+					<div class="inner6px">
+						<div class="popwin_layer_02">
+							<div class="btn_area_setc btn_area_bg popwin_layer_02_btnarea"
+								style="z-index: 10;">
+								<a href="#" class="btn_01" onclick="conflick();" id="confirm">确认<b></b></a>
+							</div>
+	
+							<div class="popwin_layer_02_left">
+								<div class="box_01">
+									<div class="caption_01">部门</div>
+									<div class="inner6px popwin_layer_02_height">
+										<ul id="deptTree"></ul>
+									</div>
+								</div>
+							</div>
+							<div class="popwin_layer_02_center">
+								<div class="box_01">
+									<div class="caption_01">待选择用户</div>
+									<div class="inner6px popwin_layer_02_height"
+										style="overflow-y: hidden;">
+										<select id="waitSelect" style="height: 100%; width: 100%;" multiple="multiple">
+	
+										</select>
+									</div>
+								</div>
+							</div>
+							<div class="popwin_layer_02_btn">
+								<a href="javascript:insertOption_task();" class="user_adbtn_01"></a>
+								<a href="javascript:delOption_task();" class="user_adbtn_02"></a>
+							</div>
+							<div class="popwin_layer_02_right">
+								<div class="box_01">
+									<div class="caption_01">已选择用户</div>
+									<div class="inner6px popwin_layer_02_height"
+										style="overflow-y: hidden;">
+										<select id="selectedUsers" style="height: 100%; width: 100%;" multiple="multiple">
+	
+										</select>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+					
+		</div>
 
 </body>
+<script type="text/javascript" th:inline="javascript">
+	/*<![CDATA[*///这句坚决不能删
+	
+	//自定义验证
+	 $.extend($.fn.validatebox.defaults.rules, {    
+	    numRange: {    
+	        validator: function(value, param){
+	            return (value >= param[0] && value <= param[1]);    
+	        },
+    		message: ''
+	    },
+	    userName:{
+	        validator:function(value,param){
+	            var reg = /^\w+$/;
+	            if(value.length < 4 || value.length > 30) return false;
+	            return reg.test(value);
+	        },
+	        message:  ''
+	    },
+	    phoneNum: {
+			validator: function(value){
+				var rex=/^1[3-8]+\d{9}$/;
+				
+				if (value.length > 11) return false;
+				return rex.test(value);
+			},
+			message: ''
+		}
+	});  
+	           
+	//新增/修改角色提交
+	function submitrole()
+	{
+		$('#roleform').form('submit',{
+			url:'/SysRole/save',
+            onSubmit: function(){
+                return $(this).form('validate');
+            },
+            success: function(resultJSON){
+            	
+            	$('#ddRole').dialog('close');
+            	var result = JSON.parse(resultJSON);
+				
+                if (result.errorMsg){
+                    $.messager.show({
+                        title: 'Error',
+                        msg: result.errorMsg
+                    });
+                } else {
+                    $('#pagination').datagrid('reload');    // reload the user data
+                    $('#roleTree').tree('reload');
+                }
+            }
+        });
+	}
+	
+	//将对象属性值的null替换成""
+	function displayProp(obj){   
+		var retObj = {};
+	          
+	    for(var name in obj){       
+	       	var value = obj[name];
+	       	if(value != null && value != "null")
+			{
+				retObj[name] = value;
+			}else{
+				retObj[name] = "";
+			}
+	    }  
+	    
+	    return retObj;
+	}
+	
+	//将对象属性值的""替换成null
+	function playProp(obj){   
+		var retObj = {};
+	          
+	    for(var name in obj){       
+	       	var value = obj[name];
+	       	if(value != null && value != "")
+			{
+				retObj[name] = value;
+			}else{
+				retObj[name] = null;
+			}
+	    }  
+	    
+	    return retObj;
+	}
+	
+	//修改角色信息
+	function edit_role(id)
+	{
+		$.ajax({
+			 url: '/SysRole/findById?roleId='+id,  
+	            dataType: 'json', 
+	            method:'POST',
+	            contentType : 'application/json;charset=utf-8',
+	            success: function (data) {
+					data = displayProp(data);
+					$('#roleId').val(data.id);
+					$('#roleNumber').val(data.roleNumber);
+					$('#rolename').val(data.name);
+					$('#rolesort').val(data.sort);
+					
+					if(data.state == true)
+					{
+						$('#rolestate').val('1');
+					}else{
+						$('#rolestate').val('0');
+					}
+
+					$('#ddRole').dialog('open');
+	            }
+		});
+	}
+	
+	//查询角色
+	function search_role()
+	{
+		var roleName = $('#roleNameSearch').val();
+
+		var url = "/SysRole/findRoles?roleName="+roleName;
+		
+		$('#pagination').datagrid('reload',url);    // reload the user data
+	}
+	
+	//角色列表
+	$('#pagination').datagrid({
+		toolbar:[{
+			text:'新增',
+			iconCls:'icon-add',
+			handler:function()
+			{
+				$('#roleform').form('clear');
+				$('#rolestate').val('1');
+				$('#ddRole').dialog('open');
+			}
+		},'-',{
+			text:'删除',
+			iconCls:'icon-remove',
+			handler:function()
+			{
+				$.messager.confirm('删除角色', '确定要删除这些角色吗？', function(result){
+					if(result)
+					{
+						var selectionsroles = $('#pagination').datagrid('getSelections');
+
+						var roleIds = [];
+						selectionsroles.forEach(function(value,index,array){
+							roleIds.push(value.id);
+						});
+								
+						$.ajax({  
+				            url: '/SysRole/deleteRoles',  
+				            dataType: 'json', 
+				            method:'POST',
+				            contentType : 'application/json;charset=utf-8',
+				            data:JSON.stringify(roleIds),
+				            success: function (data) {
+				            	if(data.success){
+				            		alert(data.msg);
+				            		$('#pagination').datagrid('reload');
+				            	}else{
+				            		alert(data.errorMsg);
+				            	}
+				            }  
+					    });
+					}
+				});
+			}
+		}],
+		title:'角色列表',
+		pagination:true,
+		rownumbers:true,
+		fitColumns:true,
+		nowrap:false,
+		height:315,
+		method:'GET',
+		url:'/SysRole/findAll',
+		columns:[[
+				  {field:'id',checkbox:true},
+					          {field:'roleNumber',title:'角色编号',width:20},
+					          {field:'name',title:'角色名',width:20},
+							  {field:'sort',title:'排序',width:20},
+					          {field:'state',title:'角色状态',width:20,formatter:function(value,rec){
+									if(rec.state == true)
+									{
+										return "正常";
+									}else{
+										return "注销";
+									}
+							  }},
+							  {field:'op',title:'操作',width:20,formatter:function(value,rec){
+				          			return "<a href='#' class='btn_01_mini' onclick='edit_role(\""+rec.id+"\")'>修改<b></b></a>"
+			          				  +"<a href='#' class='btn_01_mini' onclick='moduleright_set(\""+rec.id+"\")'>模块设置<b></b></a>"
+			          				  +"<a href='#' class='btn_01_mini' onclick='userrole_set(\""+rec.id+"\")'>用户设置<b></b></a>";
+						  }}
+		        ]]
+	});
+	
+	//设置用户
+	function userrole_set(id)
+	{
+		$('#ddRoleUsersView').dialog('open');
+		$('#roleIdSetUsers').val(id);
+		//部门列表，待选择用户
+		$('#deptTree').tree({
+			url: '/Department/findTree',
+            onClick:function(node){
+            	var url = '/Department/findProgenyUsers?id='+node.id;
+               	if(node.departmentName == '所有部门')
+				{
+					url = '/SysUserController/findAllUsers';
+				}
+            	$.ajax({  
+		            url: url,
+		            dataType: 'json', 
+		            method:'GET',
+		            contentType : 'application/json;charset=utf-8',
+		            success: function (users) {
+		            	var options = document.getElementById("waitSelect").options;	
+		            	for (var i = 0;i < options.length;i++){
+		            		options[i] = null;
+		            		i--;
+		            	}
+		            	users.forEach(function(value,index,array){
+		            		options.add(new Option(value.name,value.id));
+		            	});
+		            }  
+			    });
+          	},formatter:function(node){
+        		return node.departmentName;
+        	},onLoadSuccess:function(node,data){
+        		$.ajax({  
+		            url: '/SysUserController/findAllUsers',
+		            dataType: 'json', 
+		            method:'GET',
+		            contentType : 'application/json;charset=utf-8',
+		            success: function (users) {
+		            	var options = document.getElementById("waitSelect").options;	
+		            	for (var i = 0;i < options.length;i++){
+		            		options[i] = null;
+		            		i--;
+		            	}
+		            	users.forEach(function(value,index,array){
+		            		options.add(new Option(value.name,value.id));
+		            	});
+		            }  
+			    });
+        	}
+        }); 
+		
+		//已选择用户
+		$.ajax({  
+            url: '/SysRole/findUsersById?id='+id,
+            dataType: 'json', 
+            method:'GET',
+            contentType : 'application/json;charset=utf-8',
+            success: function (users) {
+            	var options = document.getElementById("selectedUsers").options;	
+            	for (var i = 0;i < options.length;i++){
+            		options[i] = null;
+            		i--;
+            	}
+            	users.forEach(function(value,index,array){
+            		options.add(new Option(value.name,value.id));
+            	});
+            }  
+	    });
+	}
+	
+    function conflick(){
+    	var selectedUsers = document.getElementById("selectedUsers").options;	
+    	var userIds = "";
+    	for(i=0;i<selectedUsers.length;i++){
+    		userIds += selectedUsers[i].value+"|";
+        }
+        $('#userIds').val(userIds);
+        
+        $('#setUsersForm').form('submit',{
+            success: function(data){
+            	$('#ddRoleUsersView').dialog('close');
+				data = JSON.parse(data);
+                if (data.errorMsg){
+                    $.messager.show({
+                        title: 'Error',
+                        msg: data.errorMsg
+                    });
+                } else {
+                    alert(data.msg);
+                }
+            }
+        });
+    }
+
+    function insertOption_task() {
+    	
+    	var waitSelect = document.getElementById("waitSelect").options;	
+    	var selectedUsers = document.getElementById("selectedUsers").options;	
+    	for (var i = 0;i < waitSelect.length;i++){
+    		if(waitSelect[i].selected)
+			{
+    			var aFlag = false;
+    			for (var j = 0;j < selectedUsers.length;j++){
+    	    		if (selectedUsers[j].value == waitSelect[i].value)
+   	    			{
+   	    				aFlag = true;
+   	    				break;
+   	    			}
+    	    	}
+    	    	if(aFlag == false)
+				{
+    	    		selectedUsers.add(new Option(waitSelect[i].text,waitSelect[i].value));
+				}
+    	    	
+    	    	waitSelect[i].selected = false;
+			}
+    	}
+    	
+	}
+	function delOption_task() {
+		var selectedUsers = document.getElementById("selectedUsers").options;	
+    	for (var i = 0;i < selectedUsers.length;i++){
+    		if(selectedUsers[i].selected)
+   			{
+    			selectedUsers[i] = null;
+    			i--;
+   			}
+    	}
+	}
+	
+	/*]]>*///这句坚决不能删
+</script>
 </html>

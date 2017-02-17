@@ -3,8 +3,11 @@ package org.honor.tourism.controller;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import org.honor.tourism.entity.SysRole;
 import org.honor.tourism.entity.SysUser;
 import org.honor.tourism.service.CrudService;
 import org.honor.tourism.service.SysUserService;
@@ -22,6 +25,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * 作者:修罗大人
@@ -71,8 +77,13 @@ public class SysUserController extends CrudController<SysUser> {
 	@ResponseBody
 	public SysUser findById(String id) {
 		
-		SysUser users = sysUserService.findById(id);
-		return users;
+		SysUser user = sysUserService.findById(id);
+		List<SysRole> roles = user.getRoles();
+		for (SysRole sysRole : roles) {
+			sysRole.setUsers(null);
+		}
+		
+		return user;
 	}
 	
 	/**
@@ -89,6 +100,14 @@ public class SysUserController extends CrudController<SysUser> {
 		Pageable pageable = new PageRequest(page.getPage(), page.getRows());
 		Page<SysUser> pageList =  sysUserService.findUsersByNameAndUsernameAndDeptId(name,username,deptId, pageable);
 		List<SysUser> rows = pageList.getContent();
+		
+		for (SysUser users : rows) {
+			List<SysRole> sysRoles = users.getRoles();
+			for (SysRole sysRole : sysRoles) {
+				sysRole.setUsers(new ArrayList<SysUser>());
+			}
+		}
+		
 		long total = pageList.getTotalElements();
 		return EasyuiResult.result(rows, total);
 	}
@@ -137,6 +156,55 @@ public class SysUserController extends CrudController<SysUser> {
 		}
 		
 		return EasyuiResult.result(true);
+	}
+
+	/**
+	 * 根据userId查找员工角色
+	 * @param userId
+	 * @return
+	 */
+	@RequestMapping("/findRolesById")
+	@ResponseBody
+	public List<SysRole> findRolesById(String userId) {
+		
+		SysUser user = sysUserService.findById(userId);
+		List<SysRole> roles = user.getRoles();
+		
+		for (SysRole sysRole : roles) {
+			sysRole.setUsers(null);
+			sysRole.setModuleList(null);
+		}
+		
+		return roles;
+	}
+	
+	@Override
+	@RequestMapping("/findAll")
+	@ResponseBody
+	public Map<String, Object> findAll(EasyuiPage page) {
+		Pageable pageable = new PageRequest(page.getPage(), page.getRows());
+		Page<SysUser> t =  sysUserService.findAll(pageable);
+		List<SysUser> rows = t.getContent();
+		
+		for (SysUser users : rows) {
+			List<SysRole> sysRoles = users.getRoles();
+			for (SysRole sysRole : sysRoles) {
+				sysRole.setUsers(new ArrayList<SysUser>());
+			}
+		}
+		
+		Long total = sysUserService.count();
+		return EasyuiResult.result(rows, total);
+	}
+	
+	/**
+	 * 查询全部员工，不带分页
+	 * @return
+	 */
+	@RequestMapping("findAllUsers")
+	@ResponseBody
+	public List<SysUser> findAllUsers() {
+		return sysUserService.findAllUsers();
 	}
 	
 	public SysUserService getSysUserService()

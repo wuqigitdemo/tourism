@@ -115,8 +115,7 @@
 										</tr> -->
 										<tr>
 											<th>同级排序</th>
-											<td><input class="form_text" name="dept.sortSQ" value=""
-												datatype="n1-3" maxlength="3" errormsg="排序号必须是小于1000的数字" /></td>
+											<td><input id="siblingSorting" name="siblingSorting"  class="easyui-validatebox tb"  data-options="required:true,validType:'numRange[0,1000]',invalidMessage:'必须填写0~1000之间的数字'"  /></td>
 										</tr>
 										<tr>
 											<td colspan="4">
@@ -148,6 +147,33 @@
 <script type="text/javascript" th:inline="javascript">
 	/*<![CDATA[*///这句坚决不能删
 	
+	//自定义验证
+	 $.extend($.fn.validatebox.defaults.rules, {    
+	    numRange: {    
+	        validator: function(value, param){
+	            return (value >= param[0] && value <= param[1]);    
+	        },
+    		message: ''
+	    },
+	    userName:{
+	        validator:function(value,param){
+	            var reg = /^\w+$/;
+	            if(value.length < 4 || value.length > 30) return false;
+	            return reg.test(value);
+	        },
+	        message:  ''
+	    },
+	    phoneNum: {
+			validator: function(value){
+				var rex=/^1[3-8]+\d{9}$/;
+				
+				if (value.length > 11) return false;
+				return rex.test(value);
+			},
+			message: ''
+		}
+	});  
+	           
 	//新增/修改员工提交
 	function submitDept()
 	{
@@ -431,7 +457,7 @@
 			    document.body.removeChild(form1);
 			}
 		}],
-		title:'人员列表',
+		title:'部门列表',
 		pagination:true,
 		rownumbers:true,
 		fitColumns:true,

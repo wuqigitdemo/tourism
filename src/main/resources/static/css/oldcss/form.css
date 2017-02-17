@@ -162,10 +162,10 @@ textarea{-webkit-box-shadow:1px 1px 1px #ccc inset;box-shadow:1px 1px 1px #ccc i
 
 
 
-.popwin_layer_01{height:400px;position:relative;background:none;border-radius:6px;}
+.popwin_layer_01{height:300px;position:relative;background:none;border-radius:6px;}
 .popwin_layer_01_left{width:300px;position:absolute;top:0;left:0;bottom:0;background:none}
 .popwin_layer_01_right{width:300px;position:absolute;top:0;left:320px;bottom:0;background:none}
-.popwin_layer_01_height{height:380px;background:#F7F7F7;overflow-x:auto;overflow-y:auto}
+.popwin_layer_01_height{height:300px;background:#F7F7F7;overflow-x:auto;overflow-y:auto}
 .popwin_layer_01 .multipleSelect{background:none;width: 100%;height: 380px;border: none;}
 
 

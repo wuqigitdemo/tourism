@@ -94,6 +94,11 @@ public class DepartmentServiceImpl extends CrudServiceImpl<Department> implement
 			departments = repository.findByParentDepartmentId(null);
 		}else {
 			departments = repository.findByParentDepartmentId(department.getId());
+			List<SysUser> users = sysUserRepository.findByDepartmentId(department.getId());
+
+			for (SysUser sysUser : users) {
+				this.users.add(sysUser);
+			}
 		}
 		
 		if (departments.size() != 0) 

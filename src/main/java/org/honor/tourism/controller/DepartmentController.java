@@ -1,25 +1,17 @@
 package org.honor.tourism.controller;
-
-import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.servlet.Servlet;
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.honor.tourism.entity.Department;
+import org.honor.tourism.entity.SysRole;
 import org.honor.tourism.entity.SysUser;
 import org.honor.tourism.service.DepartmentService;
 import org.honor.tourism.service.SysUserService;
 import org.honor.tourism.util.EasyuiPage;
 import org.honor.tourism.util.EasyuiResult;
-import org.honor.tourism.util.ExcelUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -160,6 +152,14 @@ public class DepartmentController {
 		}else {
 			Department department = service.findOne(id);
 			users = service.findUsers(department);
+		}
+
+		for (SysUser sysUser : users) {
+			sysUser.setRoles(new ArrayList<SysRole>());
+		}
+		
+		if (page.getRows() == null) {
+			return users;
 		}
 		
 		int startIndex = page.getPage();

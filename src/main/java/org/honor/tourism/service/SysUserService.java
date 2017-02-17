@@ -4,6 +4,8 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
+
+import org.honor.tourism.entity.SysRole;
 import org.honor.tourism.entity.SysUser;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -65,4 +67,11 @@ public interface SysUserService extends CrudService<SysUser> {
 	 * @throws Exception 
 	 */
 	public void inputUsersExcel (InputStream inputStream) throws Exception;
+
+	/**
+	 * 查询全部员工，不带分页
+	 * @return
+	 */
+	public List<SysUser> findAllUsers();
+	
 }

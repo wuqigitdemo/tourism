@@ -36,6 +36,18 @@ public class SysRole {
 	private boolean state;
 	@ManyToMany(cascade = { CascadeType.REFRESH }, fetch = FetchType.EAGER)
 	private List<Module> moduleList;
+	@ManyToMany(mappedBy="roles",cascade = { CascadeType.REFRESH }, fetch = FetchType.EAGER)
+	private List<SysUser> users;
+	
+	public List<SysUser> getUsers()
+	{
+		return users;
+	}
+
+	public void setUsers(List<SysUser> users)
+	{
+		this.users = users;
+	}
 
 	public String getId() {
 		return id;

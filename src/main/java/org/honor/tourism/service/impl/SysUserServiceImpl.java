@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.honor.tourism.entity.Department;
+import org.honor.tourism.entity.SysRole;
 import org.honor.tourism.entity.SysUser;
 import org.honor.tourism.repository.DepartmentRepository;
 import org.honor.tourism.repository.SysUserRepository;
@@ -197,6 +198,21 @@ public class SysUserServiceImpl extends CrudServiceImpl<SysUser> implements SysU
 		for (SysUser sysUser : users) {
 			repository.save(sysUser);
 		}
+	}
+	
+	/**
+	 * 查询全部员工，不带分页
+	 * @return
+	 */
+	public List<SysUser> findAllUsers()
+	{
+		List<SysUser> users = repository.findAll();
+		
+		for (SysUser sysUser : users) {
+			sysUser.setRoles(new ArrayList<SysRole>());
+		}
+		
+		return users;
 	}
 	
 }

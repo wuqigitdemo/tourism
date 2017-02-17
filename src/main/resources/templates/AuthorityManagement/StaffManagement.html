@@ -182,6 +182,47 @@
 						</form>
 					</div>
 					
+					<div id="setUserRoles" class="easyui-dialog" title="设置用户角色" 
+						style="width: 700px;  height: 400px;" data-options="resizable:true,modal:true"
+						closed="true">
+						<div class="inner6px">
+							<form id="setUserRolesForm" method="get" action="/SysRole/setUserRoles">
+								<input type="hidden" id="roleCodes" name="roleCodes" /> 
+								<input type="hidden" id="setUserRoleId" name="userId" />
+								<div class="popwin_layer_01">
+									<div class="popwin_layer_01_left">
+										<div class="box_01">
+											<div class="caption_01">待选择角色</div>
+											<div class="inner6px popwin_layer_01_height">
+												<ul id="roleTree"></ul>
+											</div>
+										</div>
+									</div>
+									<div class="popwin_layer_01_right">
+										<div class="box_01">
+											<div class="caption_01">
+												已选择角色
+												<div class="right">
+													<a href="javascript:RemoveSelect();"
+														class="btn_01_ultra_mini" style="width: 40px"><b></b>×</a>
+													<a href="javascript:confirm_onclick();"
+														class="btn_01_ultra_mini" style="width: 40px"><b></b>√</a>
+												</div>
+											</div>
+											<div class="inner6px popwin_layer_01_height">
+												<select id="roleIds" style="width: 100%; height: 100%;"
+													multiple="multiple" name="roleIds">
+	
+												</select>
+											</div>
+										</div>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+					
+					
 			</div>
 		</div>
 	</div>
@@ -382,23 +423,23 @@
 	
 	//组织机构
 	$('#deptTree').tree({   
-                url: '/Department/findTree', 
-                onBeforeExpand:function(node){
+               url: '/Department/findTree', 
+               onBeforeExpand:function(node){
 
-                },
-                onClick:function(node){
-                	$('#deptId').val(node.id);
-                	$('#namesearch').val('');
-            		$('#usernamesearch').val('');
-                	var url = '/Department/findProgenyUsers?id='+node.id;
-                	if(node.departmentName == '所有部门')
-					{
-						url = '/SysUserController/findAll';
-					}
-                	$('#pagination').datagrid('reload',url);
-              	},formatter:function(node){
-            		return node.departmentName;
-            	}
+               },
+               onClick:function(node){
+               	$('#deptId').val(node.id);
+               	$('#namesearch').val('');
+           		$('#usernamesearch').val('');
+               	var url = '/Department/findProgenyUsers?id='+node.id;
+               	if(node.departmentName == '所有部门')
+				{
+					url = '/SysUserController/findAll';
+				}
+               	$('#pagination').datagrid('reload',url);
+             	},formatter:function(node){
+           		return node.departmentName;
+           	}
      });
 	 
 	//用户部门
@@ -430,6 +471,7 @@
 			handler:function()
 			{
 				$('#userform').form('clear');
+				$('#password').val('123456');
 				$('#ddUser').dialog('open');
 			}
 		},'-',{
@@ -567,7 +609,7 @@
 		          {field:'op',title:'操作',width:350,formatter:function(value,rec){
 		          		var retStr = "<a href='#' class='btn_01_mini' onclick='view_user(\""+rec.id+"\")'>查看<b></b></a>"
 		          					+"<a href='#' class='btn_01_mini' onclick='edit_user(\""+rec.id+"\")'>修改<b></b></a>";	
-				  		retStr += "<a href='#' class='btn_01_mini' onclick='editUserRight(\""+rec.id+"\")'>角色设置<b></b></a>";
+				  		retStr += "<a href='#' class='btn_01_mini' onclick='editUserRoles(\""+rec.id+"\")'>角色设置<b></b></a>";
 				  		return retStr;
 				  }}
 		        ]]
@@ -632,6 +674,124 @@
            });
 	}
 	
+	//设置角色开始
+    function RemoveSelect(){
+
+        var options = document.getElementById("roleIds").options;
+        var i;
+        var treeNodes = $('#roleTree').tree('getRoots');
+        for(i=0;i<options.length;i++){
+        	if(options[i].selected)
+			{
+	            for (var j = 0;j < treeNodes.length;j++)
+            	{
+	            	if(treeNodes[j].id == options[i].value)
+					{
+	            		$('#roleTree').tree('uncheck',treeNodes[j].target);
+					}
+            	}
+	            i--;
+	        }
+        }
+        
+    }
+
+    function confirm_onclick(){
+
+    	var options = document.getElementById("roleIds").options; 
+    	/* if (options.length > 1) {
+    		$.messager.alert('提示','只能给用户分配一个角色！');
+    		return;
+    	} */
+    	var roleCodes = "";
+    	for(i=0;i<options.length;i++){
+    		roleCodes += options[i].value+"|";
+        }
+        $('#roleCodes').val(roleCodes);
+        
+        $('#setUserRolesForm').form('submit',{
+            success: function(data){
+            	$('#setUserRoles').dialog('close');
+            	data = JSON.parse(data);
+                if (data.errorMsg){
+                    $.messager.show({
+                        title: 'Error',
+                        msg: data.errorMsg
+                    });
+                } else {
+                    alert(data.msg);
+                }
+            }
+        });
+    }
+
+	function editUserRoles(id){
+		$('#setUserRoles').dialog('open');
+		$('#setUserRoleId').val(id);
+		var options = document.getElementById("roleIds").options; 
+
+		for(var i = 0;i < options.length;i++){
+			options[i] = null;
+			i--;
+		}
+
+        $('#roleTree').tree({
+             checkbox: true,
+             url: '/SysRole/findTree',
+         	 onCheck:function(node,checked){
+    	         var options = document.getElementById("roleIds").options;  
+    	         var id = node.id;
+    	         if(node.name=="角色")
+    	         	return;
+    	     	 else{
+	    	     	  if(checked){
+	    	               var i,bFlag;
+						   for (i=0; i < options.length; i++){
+							   if(options[i].value==id){
+								   bFlag=true;
+								   break;
+						       }	
+						   }
+						   if(!bFlag){
+							   options.add(new Option(node.name,id));
+							}
+	    	           }else {
+		    	           var i;
+		    	           for (i=0; i < options.length; i++) {
+			    	            if(options[i].value==id){
+				    	            options[i] = null;
+			                        i--;
+			                    }	
+			                }
+	    	           }
+	    	           node.checked = checked;  
+    	     	 }  
+       		 },formatter:function(node){
+         		return node.name;
+         	},onLoadSuccess:function(node, data){
+         		$.ajax({  
+		            url: '/SysUserController/findRolesById?userId='+id,  
+		            dataType: 'json', 
+		            method:'POST',
+		            contentType : 'application/json;charset=utf-8',
+		            success: function (roles) {
+		            	 var options = document.getElementById("roleIds").options;
+		                 var treeNodes = $('#roleTree').tree('getRoots');
+		                 for(var i=0;i<roles.length;i++){
+	         	            for (var j = 0;j < treeNodes.length;j++)
+	                     	{
+	         	            	if(treeNodes[j].id == roles[i].id)
+	         					{
+	         	            		options.add(new Option(roles[i].name,roles[i].id));
+	         	            		$('#roleTree').tree('check',treeNodes[j].target);
+	         					}
+	                     	}
+		                 }
+		            }
+         		});
+         	}
+         });   
+     }
 	
 	/*]]>*///这句坚决不能删
 </script>
