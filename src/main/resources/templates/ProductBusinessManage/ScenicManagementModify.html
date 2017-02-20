@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<meta charset="UTF-8" />
+<title>景区管理修改</title>
+ <link rel="stylesheet" type="text/css"
+	href="/easyui/themes/default/easyui.css" />
+<link rel="stylesheet" type="text/css" href="/easyui/themes/icon.css" />
+<link rel="stylesheet" type="text/css" href="/easyui/demo/demo.css" />
+<link rel="stylesheet" type="text/css" href="/easyui/themes/color.css" />
+<script type="text/javascript" src="/easyui/jquery.min.js"></script>
+<script type="text/javascript" src="/easyui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="/easyui/locale/easyui-lang-zh_CN.js"></script>
+<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="/css/common.css" />
+<link rel="stylesheet" type="text/css" href="/css/page.css" />
+<link rel="stylesheet" type="text/css" href="/css/reset.css" />
+<link rel="stylesheet" type="text/css"
+	href="/css/fullcalendar/fullcalendar.css" />
+<link rel="stylesheet" type="text/css"
+	href="/css/fullcalendar/fullcalendar.print.css" />
+<style type="text/css">
+#allmap {
+	width: 700px;
+	height: 400px;
+}
+</style>
+
+<script type="text/javascript"
+	src="/js/fullcalendar/fullcalendar.min.js"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&amp;ak=D5f896e95859383cc352c283c1cb7667"></script>
+
+<style type="text/css">
+.td {
+	border: 1px #0066ff solid;
+}
+
+.table {
+	border-collapse: collapse;
+}
+</style> 
+</head>
+<body onload="myfunction()">
+
+	<div class="alert_tit">
+			<h2 style="line-height: 30px;padding-left: 22px;">
+				修改   景区信息
+			</h2>
+		</div>
+		
+		<input type="hidden" id="photoAlbum" name="photoAlbum"  value=""></input>
+		<input type="hidden" id="simplifiedDiagram" name="simplifiedDiagram" value=""></input>
+		<input type="hidden" id="scenicVideo" name="scenicVideo" value=""></input>
+		<input type="hidden" id="guideMap" name="guideMap" value=""></input>
+		<input type="hidden" id="id" name="id" th:value="${scenicManagement.id}"></input>
+		<table id="table" style="margin-top: 20px;" class="table table-bordered table2 glg_tab">
+			<tbody>
+				<tr>
+					<td style="font-size: 16px; text-align: center;" width="300px">景区名称：</td>
+					<td colspan="4" style="text-align: left;"><input
+						id="scenicName" name="scenicName"  th:value="${scenicManagement.scenicName}" style="width: 50%;"
+						data-options="required:true,validType:['charts','length[2,30]']" />
+					</td>
+				</tr>
+				<tr>
+					<td style="font-size: 16px; text-align: center;" width="300px">部门名称：</td>
+					<td colspan="4" style="text-align: left;">
+					<input 
+					class="easyui-combobox" name="breakfast" id="breakfast"
+					data-options="
+								url: '/DiningType/selectAll', 
+								method:'get',
+								valueField:'id',
+								textField:'typeName',
+								prompt:'请选择',
+								editable:false,
+								panelHeight:'auto'" />
+						
+						</td>
+				</tr>
+				
+				<tr>
+					<td style="font-size: 16px; text-align: center;" width="300px">所属地区：</td>
+					<td colspan="4" style="text-align: left;">
+					<select  id="category1" >
+						</select>
+					<select name="categoryid" id="category2">
+						</select>
+					</td>
+				</tr>
+				
+				<tr>
+					<td style="font-size: 16px; text-align: center;" width="300px">评级：</td>
+					<td colspan="4" style="text-align: left;">
+				<select  style='width: 50%;border: none; border: 1px solid #DDDDDD;'  id="scenicRating"  name="scenicRating" >
+					<option  value="0">请选择</option>
+					<option th:if="${scenicManagement.scenicRating}==5" selected="selected" value="5">AAAAA</option>
+					<option th:if="${scenicManagement.scenicRating}!=5" value="5">AAAAA</option>
+					<option th:if="${scenicManagement.scenicRating}==4" selected="selected" value="4">AAAA</option>
+					<option th:if="${scenicManagement.scenicRating}!=4" value="4">AAAA</option>
+					<option th:if="${scenicManagement.scenicRating}==3" selected="selected" value="3">AAA</option>
+					<option th:if="${scenicManagement.scenicRating}!=3" value="3">AAA</option>
+					<option th:if="${scenicManagement.scenicRating}==2" selected="selected" value="2">AA</option>
+					<option th:if="${scenicManagement.scenicRating}!=2" value="2">AA</option>
+					<option th:if="${scenicManagement.scenicRating}==1" selected="selected" value="1">A</option>
+					<option th:if="${scenicManagement.scenicRating}!=1" value="1">A</option>
+					<option th:if="${scenicManagement.scenicRating}==0" selected="selected" value="0">地区评定</option> 
+					<option th:if="${scenicManagement.scenicRating}!=0" value="0">地区评定</option> 
+					</select> 
+					</td>
+				</tr>
+				
+				<tr>
+					<td style="font-size: 16px; text-align: center;" width="300px">电话：</td>
+					<td colspan="4" style="text-align: left;">
+					 <input id="phone" name="phone"  data-options="required:true,validType:'length[6,11]'" th:value="${scenicManagement.phone}"  style="width:50%"/>
+					</td>
+				</tr>
+				
+				<tr>
+					<td style="font-size: 16px; text-align: center;" width="300px">地址：</td>
+					<td colspan="4" style="text-align: left;">
+					 <input id="address" name="address"  data-options="required:true,validType:'length[2,100]'" th:value="${scenicManagement.address}" style="width:50%"/>
+					</td>
+				</tr>
+				
+				<tr>
+					<td style="font-size: 16px; text-align: center;" width="300px">是否市热门景区：</td>
+					<td colspan="4" style="text-align: left;">
+					<select id="popularScenicSpots" name="popularScenicSpots" >
+							<option th:if="${scenicManagement.popularScenicSpots}==false" selected="selected" value="false">否</option>
+							<option th:if="${scenicManagement.popularScenicSpots}!=false" value="false">否</option>
+							<option th:if="${scenicManagement.popularScenicSpots}==true" selected="selected" value="true">是</option>
+							<option th:if="${scenicManagement.popularScenicSpots}!=true"  value="true">是</option>
+						</select>
+					</td>
+				</tr>
+			
+				<tr>
+					<td style="font-size: 16px; text-align: center;" width="300px">否推荐至首页（最多4个）：</td>
+					<td colspan="4" style="text-align: left;">
+					<select id="recommendedHome" name="recommendedHome" >
+							<option th:if="${scenicManagement.recommendedHome}==false" selected="selected" value="false">否</option>
+							<option th:if="${scenicManagement.recommendedHome}!=false"  value="false">否</option>
+							<option th:if="${scenicManagement.recommendedHome}==true" selected="selected" value="true">否</option>
+							<option th:if="${scenicManagement.recommendedHome}!=true"  value="true">是</option>
+						</select>
+					</td>
+				</tr> 
+				
+					<tr>
+					<td style="font-size: 16px; text-align: center;" width="300px">评分：</td>
+					<td colspan="4" style="text-align: left;">
+				<select  style='width: 50%;border: none; border: 1px solid #DDDDDD;'  id="scenicScore"  name="scenicScore" >
+				<option  value="0">无</option>
+							<option th:if="${scenicManagement.scenicScore}==5" selected="selected" value="5">★★★★★</option>
+							<option th:if="${scenicManagement.scenicScore}!=5"  value="5">★★★★★</option>
+							<option th:if="${scenicManagement.scenicRating}==4" selected="selected" value="4">★★★★</option>
+							<option th:if="${scenicManagement.scenicScore}!=4"  value="4">★★★★</option>
+							<option th:if="${scenicManagement.scenicRating}==3" selected="selected" value="3">★★★</option>
+							<option  th:if="${scenicManagement.scenicScore}!=3" value="3">★★★</option>
+							<option th:if="${scenicManagement.scenicRating}==2" selected="selected" value="2">★★</option>
+							<option th:if="${scenicManagement.scenicScore}!=2"  value="2">★★</option>
+							<option th:if="${scenicManagement.scenicRating}==1" selected="selected" value="1">★</option>
+							<option th:if="${scenicManagement.scenicScore}!=1"  value="1">★</option>
+
+					</select> 
+					</td>
+				</tr>
+				
+				<tr>
+					<td style="font-size: 16px; text-align: center;" width="300px">相册：</td>
+					<td colspan="4" style="text-align: left;">
+		        <form id="form1" action="/ScenicManagement/multipleFileUpload"
+			enctype="multipart/form-data" method="post"
+			style="margin: 0; padding: 0px 50px">
+			<input
+				class="easyui-filebox" name="uploadMultipleFile"
+				data-options="prompt:'Choose a file...', accept:'image/jpeg'"
+				style="width: 50%" multiple="true" />
+		</form>
+		<div style="display: inline"  th:each="img,iterStat:${scenicManagement.photoAlbum}"  >
+　　						<img th:src="@{'/files/'+${img.imageAddress}}" style="width: 300px;height: 200px;"/>
+							<br th:if="${iterStat.index+1}%2==0"/>
+					</div>
+					</td>
+				</tr>
+				
+				<tr>
+					<td style="font-size: 16px; text-align: center;" width="300px">景区地图：</td>
+					<td colspan="4" style="text-align: left;">
+					<input id="searchPlace" class="easyui-textbox" data-options="prompt:'请输入要查询的地点'" style="width:50%;height:32px"/> 
+					 <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-search" plain="true" onclick="searchScenic()">查询</a>
+						<div id="allmap"></div>
+					</td>
+				</tr> 
+				
+				<tr>
+					<td style="font-size: 16px; text-align: center;" width="300px">开放时间：</td>
+					<td colspan="4" style="text-align: left;">
+					 <input id="openTime" name="openTime" th:value="${scenicManagement.openTime}"  style="width:50%"/>
+					</td>
+				</tr>
+				
+				<tr>
+					<td style="font-size: 16px; text-align: center;"  width="300px">交通信息：</td>
+					<td colspan="4" style="text-align: left;">
+					 <input id="trafficInformation" name="trafficInformation" th:value="${scenicManagement.trafficInformation}"  style="width:50%"/>
+					</td>
+				</tr>
+				
+				<tr>
+					<td style="font-size: 16px; text-align: center;" width="300px">简图：</td>
+					<td colspan="4" style="text-align: left;">
+					<form id="form2" action="/ScenicManagement/fileUpload"
+			enctype="multipart/form-data" method="post"
+			style="margin: 0; padding: 0px 50px">
+					 <input
+				class="easyui-filebox" name="uploadFile"
+				data-options="prompt:'Choose a file...', accept:'image/jpeg'"
+				style="width:40%" />
+				</form>
+				<img id="img2" th:src="@{'/files/'+${scenicManagement.simplifiedDiagram}}" height="200px" width="300px"/>
+					</td>
+				</tr>
+				
+				<tr>
+					<td style="font-size: 16px; text-align: center;" width="300px">景区视频：</td>
+					<td colspan="4" style="text-align: left;">
+					<form id="form3" action="/ScenicManagement/multipleFileUpload"
+			enctype="multipart/form-data" method="post"
+			style="margin: 0; padding: 0px 50px">
+					 <input
+				class="easyui-filebox" name="uploadMultipleFile"
+				data-options="prompt:'Choose a file...', accept:'video/mp4'"
+				style="width:40%" multiple="true" />
+				</form>
+				<div style="display: inline"  th:each="img,iterStat:${scenicManagement.scenicVideo}"  >
+　　						<video th:src="@{'/files/'+${img.imageAddress}}" controls="controls" style="width: 300px;height: 200px;"></video>
+							<br th:if="${iterStat.index+1}%2==0"/>
+					</div>
+					</td>
+				</tr>
+				
+				<tr>
+					<td style="font-size: 16px; text-align: center;" width="300px">导览图：</td>
+					<td colspan="4" style="text-align: left;">
+					<form id="form4" action="/ScenicManagement/fileUpload"
+			enctype="multipart/form-data" method="post"
+			style="margin: 0; padding: 0px 50px">
+					 <input
+				class="easyui-filebox" name="uploadFile"
+				data-options="prompt:'Choose a file...', accept:'image/jpeg'"
+				style="width:40%" />
+				</form>
+				<img id="img3" th:src="@{'/files/'+${scenicManagement.guideMap}}" height="200px" width="300px"/>
+					</td>
+				</tr>
+				
+				<tr>
+					<td style="font-size: 16px; text-align: center;" width="300px">导游词：</td>
+					<td colspan="4" style="text-align: left;">
+					<textarea id="guideWords" name="guideWords" th:text="${scenicManagement.guideWords}" rows="3" cols="70" ></textarea>
+					</td>
+				</tr>
+				
+				<tr>
+					<td style="font-size: 16px; text-align: center;" width="300px">景区简介：</td>
+					<td colspan="4" style="text-align: left;">
+					<textarea id="scenicSpotIntroduction" name="scenicSpotIntroduction" th:text="${scenicManagement.scenicSpotIntroduction}" rows="3" cols="70"></textarea>
+					</td>
+				</tr>
+				
+				<tr>
+					<td style="font-size: 16px; text-align: center;" width="300px">服务承诺：</td>
+					<td colspan="4" style="text-align: left;">
+					<textarea id="servicePromise" name="servicePromise" th:text="${scenicManagement.servicePromise}" rows="3" cols="70"></textarea>
+					</td>
+				</tr>
+				
+				<tr>
+					<td style="font-size: 16px; text-align: center;" width="300px">预订须知：</td>
+					<td colspan="4" style="text-align: left;">
+					<textarea id="bookingInformation" name="bookingInformation" th:text="${scenicManagement.bookingInformation}" rows="3" cols="70" ></textarea>
+					</td>
+				</tr>
+				
+			</tbody>
+			
+			<tfoot>
+			<tr>
+			<td colspan="4" style="text-align: center;">
+			<a href="javascript:void(0)" class="easyui-linkbutton c6" onclick="modifyScenicInformation()" style="width:90px">更新</a>
+			<a href="javascript:void(0)" class="easyui-linkbutton c6" onclick="javascript:location.href='/ProductBusinessManage/ScenicManagement';" style="width:90px">返回列表</a>
+			</td>
+		</tr>
+			</tfoot>
+		</table>
+    
+<script th:inline="javascript">
+/*<![CDATA[*/ 
+	// 百度地图API功能
+	var map = new BMap.Map("allmap"); // 创建Map实例
+	var lng = 126.611;
+	var lat = 45.773;
+	var point = new BMap.Point(lng, lat);
+	
+	map.centerAndZoom(point, 11); // 初始化地图,设置中心点坐标和地图级别
+	map.addControl(new BMap.MapTypeControl()); //添加地图类型控件
+	// map.setCurrentCity("哈尔滨"); // 设置地图显示的城市 此项是必须设置的
+	map.enableScrollWheelZoom(true); //开启鼠标滚轮缩放
+
+	// 增加搜索
+	var local = new BMap.LocalSearch(map, {
+		renderOptions:{map: map}
+	});
+
+	function searchScenic() {
+		var place = $.trim($("#searchPlace").val());
+		if (place != "") {
+			local.search(place);
+		}
+	}
+
+	//单击获取点击的经纬度
+	map.addEventListener("click",function(e){
+		map.clearOverlays();
+		pointMarker(map, e.point);
+		showInfo(e);
+	});
+
+	//判断是否回显 
+	if(document.getElementById("longitude").value != "" && document.getElementById("latitude").value != ""){
+		map.clearOverlays(); 
+		point = new BMap.Point(document.getElementById("longitude").value,document.getElementById("latitude").value);
+		var marker = new BMap.Marker(point);  // 创建标注
+		map.addOverlay(marker);              // 将标注添加到地图中
+		map.panTo(point);
+
+		// map.addEventListener("click", showInfo);
+		map.clearOverlays();
+		pointMarker(map, point);
+	}else{
+		pointMarker(map, point);
+		// map.addEventListener("click", showInfo);
+		
+		map.clearOverlays();
+		pointMarker(map, point);
+	}
+	
+	// 百度地图API功能
+	function showInfo(e) {
+		//alert("经度" + e.point.lng + ",纬度" + e.point.lat);
+		$("#longitude").val(e.point.lng);
+		$("#latitude").val(e.point.lat);
+	}
+	//map.addEventListener("click", showInfo);
+
+	//输入城市定位
+	/*function theLocation(){
+		var city = document.getElementById("cityName").value;
+		if(city != ""){
+			map.centerAndZoom(city,11);      // 用城市名设置地图中心点
+		}
+	}*/
+
+	//拖拽图标
+	function pointMarker(map, point){
+		var marker = new BMap.Marker(point);// 创建标注
+		map.addOverlay(marker);
+		marker.enableDragging();
+	}
+	
+	
+	//=================================================================================================================
+		
+		//向input传入文件路径
+		function myfunction(){
+			 document.getElementById('photoAlbum').value=JSON.stringify([[${scenicManagement.photoAlbum}]]);
+			document.getElementById('simplifiedDiagram').value=JSON.stringify([[${scenicManagement.simplifiedDiagram}]]);
+			document.getElementById('scenicVideo').value=JSON.stringify([[${scenicManagement.scenicVideo}]]);
+			document.getElementById('guideMap').value=JSON.stringify([[${scenicManagement.photoAlbum}]]); 
+	}
+	
+		
+	var url;
+    
+    function fileUpload1() {
+    	var formData = new FormData($( "#form1" )[0]);
+        $.ajax({
+             url: '/ScenicManagement/multipleFileUpload' ,  
+             type: 'POST',  
+             data: formData,  
+             async: false,  
+             cache: false,  
+             contentType: false,  
+             processData: false,  
+             success: function (returndata) {
+            	 $("#photoAlbum").val(JSON.stringify(returndata));
+             },  
+             error: function (returndata) {  
+                 alert("错误!");  
+             }  
+        });  
+    } 
+    
+    function fileUpload2() {
+    	var formData = new FormData($( "#form2" )[0]);
+        $.ajax({
+             url: '/ScenicManagement/fileUpload' ,  
+             type: 'POST',  
+             data: formData,  
+             async: false,  
+             cache: false,  
+             contentType: false,  
+             processData: false,  
+             success: function (returndata) {  
+            	 $("#simplifiedDiagram").val(returndata);
+             },  
+             error: function (returndata) {  
+                 alert("错误!");  
+             }  
+        });  
+    } 
+    
+    function fileUpload3() {
+    	var formData = new FormData($( "#form3" )[0]);
+        $.ajax({
+             url: '/ScenicManagement/multipleFileUpload' ,  
+             type: 'POST',  
+             data: formData,  
+             async: false,  
+             cache: false,  
+             contentType: false,  
+             processData: false,  
+             success: function (returndata) {
+            	 $("#scenicVideo").val(JSON.stringify(returndata));
+             },  
+             error: function (returndata) {  
+                 alert("错误!");  
+             }  
+        });  
+    } 
+    
+    function fileUpload4() {
+    	var formData = new FormData($( "#form4" )[0]);
+        $.ajax({
+             url: '/ScenicManagement/fileUpload' ,  
+             type: 'POST',  
+             data: formData,  
+             async: false,  
+             cache: false,  
+             contentType: false,  
+             processData: false,  
+             success: function (returndata) {  
+            	 $("#guideMap").val(returndata);
+             },  
+             error: function (returndata) {  
+                 alert("错误!");  
+             }  
+        });  
+    } 
+    
+    function modifyScenicInformation(){
+    	fileUpload1();
+    	fileUpload2();
+    	fileUpload3();
+    	fileUpload4();
+    	
+    	var photoAlbum=$("#photoAlbum").val();
+    	var simplifiedDiagram=$("#simplifiedDiagram").val();
+    	var scenicVideo=$("#scenicVideo").val();
+    	var guideMap=$("#guideMap").val();
+    	if(photoAlbum=='\"\"'){
+    		photoAlbum=null;
+		} else {
+			photoAlbum = photoAlbum;
+		} 
+    	if(simplifiedDiagram=="false"){
+    		simplifiedDiagram=null;
+		} else {
+			simplifiedDiagram = simplifiedDiagram;
+		} 
+    	if(scenicVideo=='\"\"'){
+    		scenicVideo=null;
+		} else {
+			scenicVideo = scenicVideo;
+		} 
+    	if(guideMap=="false"){
+    		guideMap=null;
+		} else {
+			guideMap =guideMap;
+		} 
+    	var obj={
+    			id:$("#id").val(),
+    			scenicName:$("#scenicName").val(),
+    			//department:$("#department").val(),
+    			//city:$("#city").val(),
+    			scenicRating:$("#scenicRating").val(),
+    			phone:$("#phone").val(),
+    			address:$("#address").val(),
+    			popularScenicSpots:$("#popularScenicSpots").val(),
+    			recommendedHome:$("#recommendedHome").val(),
+    			scenicScore:$("#scenicScore").val(),
+    			openTime:$("#openTime").val(),
+    			trafficInformation:$("#trafficInformation").val(),
+    			guideWords:$("#guideWords").val(),
+    			scenicSpotIntroduction:$("#scenicSpotIntroduction").val(),
+    			servicePromise:$("#servicePromise").val(),
+    			bookingInformation:$("#bookingInformation").val(),
+    			photoAlbum:JSON.parse(photoAlbum),
+    			simplifiedDiagram:simplifiedDiagram,
+    			scenicVideo:JSON.parse(scenicVideo),
+    			guideMap:guideMap
+    	};
+		alert(JSON.stringify(obj));
+    	$.ajax({
+            url: '/ScenicManagement/save',
+            type: "POST",
+            contentType : 'application/json;charset=utf-8', //设置请求头信息
+            dataType:"json",
+            data: JSON.stringify(obj),            //将Json对象序列化成Json字符串
+            success: function(data){
+            	var result = data;
+ 	            if (result.errorMsg){
+ 	                alert(result.errorMsg);
+ 	            } else {
+ 	            	alert("操作成功");
+ 	            	window.history.back(-1); 
+ 	            }
+            },
+            error: function(res){
+            	$.messager.show({    // show error message
+                    title: 'Error',
+                    msg: result.errorMsg
+                });
+            }
+        });
+    	
+    }
+
+
+ /*]]>*/ 
+</script>
+</body>
+
+</html>
