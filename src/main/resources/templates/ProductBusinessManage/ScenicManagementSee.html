@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<meta charset="UTF-8" />
+<title>景区管理查看</title>
+ <link rel="stylesheet" type="text/css"
+	href="/easyui/themes/default/easyui.css" />
+<link rel="stylesheet" type="text/css" href="/easyui/themes/icon.css" />
+<link rel="stylesheet" type="text/css" href="/easyui/demo/demo.css" />
+<link rel="stylesheet" type="text/css" href="/easyui/themes/color.css" />
+<script type="text/javascript" src="/easyui/jquery.min.js"></script>
+<script type="text/javascript" src="/easyui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="/easyui/locale/easyui-lang-zh_CN.js"></script>
+<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="/css/common.css" />
+<link rel="stylesheet" type="text/css" href="/css/page.css" />
+<link rel="stylesheet" type="text/css" href="/css/reset.css" />
+<link rel="stylesheet" type="text/css"
+	href="/css/fullcalendar/fullcalendar.css" />
+<link rel="stylesheet" type="text/css"
+	href="/css/fullcalendar/fullcalendar.print.css" />
+<style type="text/css">
+#allmap {
+	width: 700px;
+	height: 400px;
+}
+</style>
+
+<script type="text/javascript"
+	src="/js/fullcalendar/fullcalendar.min.js"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&amp;ak=D5f896e95859383cc352c283c1cb7667"></script>
+
+<style type="text/css">
+.td {
+	border: 1px #0066ff solid;
+}
+
+.table {
+	border-collapse: collapse;
+}
+</style> 
+</head>
+<body>
+	<div class="alert_tit">
+			<h2 style="line-height: 30px;padding-left: 22px;">
+				景区信息
+			</h2>
+		</div>
+		
+			<table id="table" style="margin-top: 20px;" class="table table-bordered table2 glg_tab">
+			<tbody>
+				<tr>
+					<td style="font-size: 16px; text-align: center;" width="300px">景区名称：</td>
+					<td colspan="4" style="text-align: left;" th:text="${scenicManagement.scenicName}">
+					
+					</td>
+				</tr>
+				<tr>
+					<td style="font-size: 16px; text-align: center;" width="300px">部门名称：</td>
+					<td colspan="4" style="text-align: left;">
+						</td>
+				</tr>
+				
+				<tr>
+					<td style="font-size: 16px; text-align: center;" width="300px">所属地区：</td>
+					<td colspan="4" style="text-align: left;">
+					</td>
+				</tr>
+				
+				<tr>
+					<td style="font-size: 16px; text-align: center;" width="300px">评级：</td>
+					<td colspan="4" style="text-align: left;" th:text="${scenicManagement.scenicRating}">
+					</td>
+				</tr>
+				
+				<tr>
+					<td style="font-size: 16px; text-align: center;" width="300px">电话：</td>
+					<td colspan="4" style="text-align: left;" th:text="${scenicManagement.phone}">
+					</td>
+				</tr>
+				
+				<tr>
+					<td style="font-size: 16px; text-align: center;" width="300px">地址：</td>
+					<td colspan="4" style="text-align: left;" th:text="${scenicManagement.address}">
+					</td>
+				</tr>
+				
+				<tr>
+					<td style="font-size: 16px; text-align: center;" width="300px">是否市热门景区：</td>
+					<td colspan="4" style="text-align: left;" th:text="${scenicManagement.popularScenicSpots}">
+					</td>
+				</tr>
+			
+				<tr>
+					<td style="font-size: 16px; text-align: center;" width="300px">否推荐至首页（最多4个）：</td>
+					<td colspan="4" style="text-align: left;" th:text="${scenicManagement.recommendedHome}">
+					</td>
+				</tr> 
+				
+					<tr>
+					<td style="font-size: 16px; text-align: center;" width="300px">评分：</td>
+					<td colspan="4" style="text-align: left;" th:text="${scenicManagement.scenicScore}">
+					</td>
+				</tr>
+				
+				<tr>
+					<td style="font-size: 16px; text-align: center;" width="300px">相册：</td>
+					<td colspan="4" style="text-align: left;">
+					<div style="display: inline"  th:each="img,iterStat:${scenicManagement.photoAlbum}"  >
+　　						<img th:src="@{'/files/'+${img.imageAddress}}" style="width: 300px;height: 200px;"/>
+							<br th:if="${iterStat.index+1}%2==0"/>
+					</div>
+					</td>
+				</tr>
+				
+				<tr>
+					<td style="font-size: 16px; text-align: center;" width="300px">景区地图：</td>
+					<td colspan="4" style="text-align: left;">
+					<input id="searchPlace" class="easyui-textbox" data-options="prompt:'请输入要查询的地点'" style="width:50%;height:32px"/> 
+					 <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-search" plain="true" onclick="searchScenic()">查询</a>
+						<div id="allmap"></div>
+					</td>
+				</tr> 
+				
+				<tr>
+					<td style="font-size: 16px; text-align: center;" width="300px">开放时间：</td>
+					<td colspan="4" style="text-align: left;" th:text="${scenicManagement.openTime}">
+					</td>
+				</tr>
+				
+				<tr>
+					<td style="font-size: 16px; text-align: center;" width="300px">交通信息：</td>
+					<td colspan="4" style="text-align: left;" th:text="${scenicManagement.trafficInformation}">
+					</td>
+				</tr>
+				
+				<tr>
+					<td style="font-size: 16px; text-align: center;" width="300px">简图：</td>
+					<td colspan="4" style="text-align: left;">
+					<img id="img2" th:src="@{'/files/'+${scenicManagement.simplifiedDiagram}}" height="200px" width="300px"/>
+					</td>
+				</tr>
+				
+				<tr>
+					<td style="font-size: 16px; text-align: center;" width="300px">景区视频：</td>
+					<td colspan="4" style="text-align: left;">
+					<div style="display: inline"  th:each="img,iterStat:${scenicManagement.scenicVideo}"  >
+　　						<video th:src="@{'/files/'+${img.imageAddress}}" controls="controls" style="width: 300px;height: 200px;"></video>
+							<br th:if="${iterStat.index+1}%2==0"/>
+					</div>
+					</td>
+				</tr>
+				
+				<tr>
+					<td style="font-size: 16px; text-align: center;" width="300px">导览图：</td>
+					<td colspan="4" style="text-align: left;">
+					<img id="img3" th:src="@{'/files/'+${scenicManagement.guideMap}}" height="200px" width="300px"/>
+					</td>
+				</tr>
+				
+				<tr>
+					<td style="font-size: 16px; text-align: center;" width="300px">导游词：</td>
+					<td colspan="4" style="text-align: left;" th:text="${scenicManagement.guideWords}">
+					</td>
+				</tr>
+				
+				<tr>
+					<td style="font-size: 16px; text-align: center;" width="300px">景区简介：</td>
+					<td colspan="4" style="text-align: left;" th:text="${scenicManagement.scenicSpotIntroduction}">
+					</td>
+				</tr>
+				
+				<tr>
+					<td style="font-size: 16px; text-align: center;" width="300px">服务承诺：</td>
+					<td colspan="4" style="text-align: left;" th:text="${scenicManagement.servicePromise}">
+					</td>
+				</tr>
+				
+				<tr>
+					<td style="font-size: 16px; text-align: center;" width="300px">预订须知：</td>
+					<td colspan="4" style="text-align: left;" th:text="${scenicManagement.bookingInformation}">
+					</td>
+				</tr>
+				
+			</tbody>
+			
+			<tfoot>
+			<tr>
+			<td colspan="4" style="text-align: center;">
+			<a href="javascript:void(0)" class="easyui-linkbutton c6" onclick="javascript:location.href='/ProductBusinessManage/ScenicManagement';" style="width:90px">返回列表</a>
+			</td>
+		</tr>
+			</tfoot>
+		</table>
+		    <script type="text/javascript">
+		/*<![CDATA[*/ 
+	// 百度地图API功能
+	var map = new BMap.Map("allmap"); // 创建Map实例
+	var lng = 126.611;
+	var lat = 45.773;
+	var point = new BMap.Point(lng, lat);
+	
+	map.centerAndZoom(point, 11); // 初始化地图,设置中心点坐标和地图级别
+	map.addControl(new BMap.MapTypeControl()); //添加地图类型控件
+	map.setCurrentCity("哈尔滨"); // 设置地图显示的城市 此项是必须设置的
+	map.enableScrollWheelZoom(true); //开启鼠标滚轮缩放
+
+	//判断是否回显 
+	if(document.getElementById("longitude").value != "" && document.getElementById("latitude").value != ""){
+		map.clearOverlays(); 
+		point = new BMap.Point(document.getElementById("longitude").value,document.getElementById("latitude").value);
+		var marker = new BMap.Marker(point);  // 创建标注
+		map.addOverlay(marker);              // 将标注添加到地图中
+		map.panTo(point);
+
+	}else{
+		
+	}
+
+
+ /*]]>*/ 
+</script>
+		
+    
+
+</body>
+
+</html>

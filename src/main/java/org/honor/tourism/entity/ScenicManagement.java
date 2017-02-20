@@ -1,6 +1,5 @@
 package org.honor.tourism.entity;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -29,6 +28,8 @@ public class ScenicManagement {
 	@GeneratedValue(generator = "uuid")
 	@GenericGenerator(name = "uuid", strategy = "uuid")
 	private String id;
+	/** 景区编号 */
+	private Integer scenicNumber;
 	/** 景区名称 */
 	@Length(min = 2, max = 30, message = "景区名称需要2-30位字符")
 	private String scenicName;
@@ -39,8 +40,7 @@ public class ScenicManagement {
 	@ManyToOne
 	private City city;
 	/** 评级 */
-	@ManyToOne
-	private ScenicRating scenicRating;
+	private Integer scenicRating;
 	/** 电话 */
 	@Length(min = 6, max = 11, message = "电话需要6-11位字符")
 	private String phone;
@@ -52,8 +52,7 @@ public class ScenicManagement {
 	/** 是否推荐至首页 */
 	private boolean recommendedHome;
 	/** 评分 */
-	@ManyToOne
-	private ScenicScore scenicScore;
+	private Integer scenicScore;
 	/** 相册 */
 	@OneToMany(cascade = { CascadeType.ALL })
 	@JoinColumn(name = "scenicManagementPhotoAlbum")
@@ -61,7 +60,7 @@ public class ScenicManagement {
 	/** 景区地图 */
 	private String scenicMap;
 	/** 开放时间 */
-	private Date openTime;
+	private String openTime;
 	/** 交通信息 */
 	private String trafficInformation;
 	/** 简图 */
@@ -97,6 +96,14 @@ public class ScenicManagement {
 		this.scenicName = scenicName;
 	}
 
+	public Integer getScenicNumber() {
+		return scenicNumber;
+	}
+
+	public void setScenicNumber(Integer scenicNumber) {
+		this.scenicNumber = scenicNumber;
+	}
+
 	public Department getDepartment() {
 		return department;
 	}
@@ -113,11 +120,11 @@ public class ScenicManagement {
 		this.city = city;
 	}
 
-	public ScenicRating getScenicRating() {
+	public Integer getScenicRating() {
 		return scenicRating;
 	}
 
-	public void setScenicRating(ScenicRating scenicRating) {
+	public void setScenicRating(Integer scenicRating) {
 		this.scenicRating = scenicRating;
 	}
 
@@ -153,11 +160,11 @@ public class ScenicManagement {
 		this.recommendedHome = recommendedHome;
 	}
 
-	public ScenicScore getScenicScore() {
+	public Integer getScenicScore() {
 		return scenicScore;
 	}
 
-	public void setScenicScore(ScenicScore scenicScore) {
+	public void setScenicScore(Integer scenicScore) {
 		this.scenicScore = scenicScore;
 	}
 
@@ -177,11 +184,11 @@ public class ScenicManagement {
 		this.scenicMap = scenicMap;
 	}
 
-	public Date getOpenTime() {
+	public String getOpenTime() {
 		return openTime;
 	}
 
-	public void setOpenTime(Date openTime) {
+	public void setOpenTime(String openTime) {
 		this.openTime = openTime;
 	}
 
