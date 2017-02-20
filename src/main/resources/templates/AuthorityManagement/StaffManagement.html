@@ -265,6 +265,10 @@
 		$('#userform').form('submit',{
 			url:'/SysUserController/save',
             onSubmit: function(){
+            	if($('#departmentId').val() == '001')
+				{
+            		$('#departmentId').val('');
+				}
                 return $(this).form('validate');
             },
             success: function(resultJSON){

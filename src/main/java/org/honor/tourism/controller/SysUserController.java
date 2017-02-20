@@ -1,12 +1,11 @@
 package org.honor.tourism.controller;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
+import javax.validation.Valid;
 import org.honor.tourism.entity.SysRole;
 import org.honor.tourism.entity.SysUser;
 import org.honor.tourism.service.CrudService;
@@ -19,15 +18,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * 作者:修罗大人
@@ -205,6 +202,28 @@ public class SysUserController extends CrudController<SysUser> {
 	@ResponseBody
 	public List<SysUser> findAllUsers() {
 		return sysUserService.findAllUsers();
+	}
+	
+	/** 新增和修改
+	 * @return
+	 */
+	@Override
+	@RequestMapping("/save")
+	@ResponseBody
+	public Map<String, Object> save(@Valid SysUser user, BindingResult result) {
+		if (result.hasErrors()) {//数据交验
+			return EasyuiResult.result(result);
+        }
+		
+		if (user.getDepartment().getId().equals("")) {
+			user.setDepartment(null);
+		}
+		
+		SysUser retUser = sysUserService.save(user);
+		if (retUser == null) {
+			EasyuiResult.result(false, "添加失败");
+		}
+		return EasyuiResult.result(true);
 	}
 	
 	public SysUserService getSysUserService()

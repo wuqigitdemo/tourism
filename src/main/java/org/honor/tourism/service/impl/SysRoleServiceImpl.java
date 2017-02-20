@@ -1,8 +1,12 @@
 package org.honor.tourism.service.impl;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
+import org.honor.tourism.entity.Module;
 import org.honor.tourism.entity.SysRole;
 import org.honor.tourism.entity.SysUser;
+import org.honor.tourism.repository.ModuleRepository;
 import org.honor.tourism.repository.SysRoleRepository;
 import org.honor.tourism.repository.SysUserRepository;
 import org.honor.tourism.service.SysRoleService;
@@ -11,6 +15,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * 作者:修罗大人
@@ -26,6 +32,9 @@ public class SysRoleServiceImpl extends CrudServiceImpl<SysRole> implements SysR
 	
 	@Autowired
 	private SysUserRepository userRepository;
+	
+	@Autowired
+	private ModuleRepository moduleRepository;
 	
 	@Autowired
 	public SysRoleServiceImpl(JpaRepository<SysRole, String> repository) {
@@ -113,4 +122,59 @@ public class SysRoleServiceImpl extends CrudServiceImpl<SysRole> implements SysR
 		}
 	}
 	
+	/** 设置模块角色
+	 * @param userId
+	 * @param roleCodes
+	 * @param roles
+	 */
+	public void setModuleRoles(String moduleId,String[] roleIds)
+	{
+		Module module = moduleRepository.findOne(moduleId);
+		
+		List<SysRole> roles = module.getSysRoleList();
+		for (int i = 0; i < roles.size(); i++) 
+		{
+			SysRole role = roles.get(i);
+			role.getModuleList().remove(module);
+			repository.save(role);
+		}
+
+		for (int i = 0; i < roleIds.length; i++) 
+		{
+			SysRole role = repository.findOne(roleIds[i]);
+			if (role == null) return;
+			List<Module> modules = role.getModuleList();
+			modules.add(module);
+			repository.save(role);
+		}
+	}
+
+	/** 设置角色模块
+	 * @param roleId
+	 * @param roleCodes
+	 * @return
+	 */
+	public void setRoleModules(String roleId,String[] moduleIds)
+	{
+		SysRole role = repository.findOne(roleId);
+		
+		List<Module> modules = new ArrayList<Module>();
+		for (int i = 0; i < moduleIds.length; i++) 
+		{
+			Module module = moduleRepository.findOne(moduleIds[i]);
+		    if (module != null) modules.add(module);
+		}
+		role.setModuleList(modules);
+		repository.save(role);
+	}
+
+	/**
+	 * findOne
+	 * @param id
+	 * @return
+	 */
+	public SysRole findOne(String id) {
+		SysRole role = repository.findOne(id);
+		return role;
+	}
 }

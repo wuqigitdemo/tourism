@@ -24,184 +24,144 @@
 
 </head>
 <body>
-	<div id="cc" class="easyui-layout" style="width: 100%; height: 450px;"
-		data-options="fit:true">
-		<div data-options="region:'west'" style="width: 200px;">
-			<div class="easyui-panel"
-				style="padding: 5px; width: 100%; height: 100%">
+	<div class="page_content">
+		<div class="layout_01_left">
+			<div class="layout_overflow">
 				<ul id="mt"></ul>
 			</div>
 		</div>
-		<div data-options="region:'center'" style="width: 100%;">
-			<div class="easyui-panel"
-				style="margin: 0px 0px 0px 10px; padding: 5px; width: 100%; height: 100%">
-
-				<div class="layout_overflow">
-					<div class="inner6px submitdata">
-
-						<!-- 条件搜索表单 -->
-						<div class="boxBmargin12 cell">
+		
+		<div class="layout_01_right">
+			<div class="layout_overflow">
+				<div class="inner6px submitdata">
+					<!-- 条件搜索表单 -->
+					<div class="boxBmargin12 cell">
+						<form id="searchform" name="searchform" method="post">
+							<input id="parentModuleId" type="hidden" name="parentModuleId" value="" />
 							<table>
 								<tbody>
 									<tr>
 										<th width="15%">模块名</th>
 										<td width="35%"><input class="input_text"
-											name="module.moduleName" id="moduleName" value="" type="text" />
+											name="moduleName" id="moduleName" value="" type="text" />
 										</td>
-										<th width="15%">是否显示禁用的模块</th>
-										<td width="35%"><select name="module.isVisible"
-											id="isVisible">
-												<option value="0">否</option>
-												<option value="1">是</option>
-										</select></td>
 									</tr>
 									<tr>
 										<td colspan="4">
 											<div class="btn_area_setc">
 												<a href="###" class="btn_01"
-													onclick="clear_form(document.myform);">清空<b></b></a> <a
+													onclick="javascript:$('#moduleName').val('');search_module();">清空<b></b></a> <a
 													href="###" class="btn_01" onclick="search_module();">查询<b></b></a>
 											</div>
 										</td>
 									</tr>
 								</tbody>
 							</table>
-						</div>
+						</form>
+					</div>
+					
+					<!-- 模块列表 -->
+					<div id="dgModule"></div>
 
-						<!-- 模块列表 -->
-						<table id="dgModule"  class="easyui-datagrid"
-							style="width: 100%; height: 380px;;" toolbar="#toolbar"
-							pagination="true"  rownumbers="true"  fitColumns="true"
-							singleSelect="true"  title="模块列表">
-						</table>
-
-						<div id="toolbar">
-							<a href="javascript:void(0)"  class="easyui-linkbutton"
-								iconCls="icon-add"  plain="true"
-								onclick="javascript:$('#ddModule').dialog('open');">新增</a>
-						</div>
-
-						<div id="ddModule" class="easyui-dialog"  title="新增模块信息"
-							style="width: 800px;  height: 300px;"
-							data-options="resizable:true,modal:true"
-							closed="true">
-							
-								<div class="inner6px">
-									<form id="myform"  method="post" >
-										<input type="hidden"  name="struts.token.name"  value="token"  />
-										<input type="hidden"  name="token"  value="LMZEKPJBACFCIXGEON06Q5TCJZMVRIL1"  />
-
-										<div class="cell">
-											<table>
-												<tr>
-													<th width="15%">模块名称</th>
-													<td width="35%">
-													<input name="module.moduleName"  class="easyui-validatebox tb" 
-													data-options="required:true,validType:['charts','length[1,30]'],invalidMessage:'模块名称最长30位'"  /></td>
-													<th width="15%">模块编号</th>
-													<td width="35%"><input name="module.moduleCode"  value="M01020301"  readonly="readonly" id="moduleCode"  /></td>
-												</tr>
-												<tr>
-													<th>上级模块</th>
-													<td valign="middle"><input id="parentModuleCode"
-														name="parentModuleName"  value="模块管理"  /> <input
-														id="parentModuleName"  name="moduleCode"  value="M010203"
-														type="hidden" />
-														<a id="btn" href="#" class="easyui-linkbutton">查找</a> 
-														</td>
-													<th>同级排序</th>
-													<td><input name="module.sortSq"  class="easyui-validatebox tb"  data-options="validType:'numRange[0,1000]',invalidMessage:'必须填写0~1000之间的数字'"  /></td>
-												</tr>
-												<tr>
-													<th>对应地址</th>
-													<td colspan="3"><input name="module.moduleAddr"
-														value=""  style="width: 400px;" /></td>
-												</tr>
-												<tr>
-													<th>可见</th>
-													<td><select name="module.isVisible">
-															<option value="1">显示</option>
-															<option value="0">隐藏</option>
-													</select></td>
-													<th>访问权限</th>
-													<td>公开 <input type="radio"  name="module.isPublic"  value="1"  /> 不公开 
-													<input type="radio"  name="module.isPublic"  value="0"  checked="checked"  />
-													</td>
-												</tr>
-												<tr>
-													<th>目标框架</th>
-													<td colspan="3"><select name="module.target">
-															<option value="框架">框架</option>
-															<option value="新窗口">新窗口</option>
-													</select></td>
-												</tr>
-												<tr>
-													<td colspan="4">
-														<div class="btn_area_setc">
-															<a onclick="javascript:submitModule();" class="btn_01"  type="submit">保存<b></b></a>
-															<a href="###"  class="btn_01"
-																onclick="javascript:$('#ddModule').dialog('close');">关闭<b></b></a>
-														</div>
-													</td>
-												</tr>
-											</table>
-										</div>
+					<div id="ddModule" class="easyui-dialog"  title="新增模块信息"
+						style="width: 440px;  height: 220px;"
+						data-options="resizable:true,modal:true"
+						closed="true">
+						
+							<div class="inner6px">
+								<div class="cell">
+									<form id="moduleForm"  method="post" >
+										<input id="moduleNewId" type="hidden" name="id" />
+										<table>
+											<tr>
+												<th width="15%">模块名称</th>
+												<td width="35%">
+												<input id="moduleNameNew" name="moduleName"  class="easyui-validatebox tb" 
+												data-options="required:true,validType:['charts','length[1,30]'],invalidMessage:'模块名称最长30位'"  /></td>
+											</tr>
+											<tr>
+												<th>链接地址</th>
+												<td>
+													<input id="linkddress" name="linkddress" style="width:90%;" class="easyui-validatebox tb" data-options="required:true"/>
+												</td>
+											</tr>
+											<tr>
+												<th>上级模块</th>
+												<td valign="middle">
+													<input id="parentModuleNew" name="parentModule.id" type="hidden" /> 
+													<input id="parentModuleName" readonly="readonly" /> 
+													<a id="btn" onclick="search_parentModule()" class="easyui-linkbutton">查找</a>
+												</td>
+											</tr>
+											<tr>
+												<th>同级排序</th>
+												<td><input id="moduleSort" name="moduleSort"  class="easyui-validatebox tb"  data-options="validType:'numRange[0,1000]',invalidMessage:'必须填写0~1000之间的数字'"  /></td>
+											</tr>
+											<tr>
+												<td colspan="4">
+													<div class="btn_area_setc">
+														<a onclick="javascript:submitModule();" class="btn_01"  type="submit">保存<b></b></a>
+														<a href="###"  class="btn_01"
+															onclick="javascript:$('#ddModule').dialog('close');">关闭<b></b></a>
+													</div>
+												</td>
+											</tr>
+										</table>
 									</form>
 								</div>
 							</div>
-						</div>
+					</div>
 
-						<div id="editModuleDg" class="easyui-dialog" data-options="resizable:true,modal:true"
-							closed="true" style="width: 700px;height: 500px;" title="修改模块信息">
-							<div class="inner6px">
-								<form method="get">
-									<input type="hidden" name="roleCodes" /> 
-									<input type="hidden" id="hideParentScroll" /> 
-									<input type="hidden" name="moduleId"
-										value="4028811552dd84830152dd87e2150004" />
-									<div class="popwin_layer_01">
-										<div class="popwin_layer_01_left">
-											<div class="box_01">
-												<div class="caption_01">待选择角色</div>
-												<div class="inner6px popwin_layer_01_height">
-													<ul id="roleTree"></ul>
-												</div>
-											</div>
-										</div>
-										<div class="popwin_layer_01_right">
-											<div class="box_01">
-												<div class="caption_01">
-													已选择角色
-													<div class="right">
-														<a href="javascript:RemoveSelect(this.form);"
-															class="btn_01_ultra_mini" style="width: 40px"><b></b>×</a>
-														<a href="javascript:confirm_onclick(this.form);"
-															class="btn_01_ultra_mini" style="width: 40px"><b></b>√</a>
-													</div>
-												</div>
-												<div class="inner6px popwin_layer_01_height">
-													<select id="roleIds" style="width: 100%; height: 100%"
-														multiple="multiple" name="roleIds">
-	
-														<option value="A13">门店</option>
-	
-														<option value="A26">供应商</option>
-	
-														<option value="A27">开发部</option>
-	
-													</select>
-												</div>
+					<div id="parentModuleDd" class="easyui-dialog" title="查找上级模块" 
+						style="width: 200px;  height: 350px;" data-options="resizable:true,modal:true"
+						closed="true">
+						<ul id="parentModuleTree"></ul>
+					</div>
+					 
+					 <div id="setModuleRoles" class="easyui-dialog" title="设置用户角色" 
+						style="width: 700px;  height: 400px;" data-options="resizable:true,modal:true"
+						closed="true">
+						<div class="inner6px">
+							<form id="setModuleRolesForm" method="get" action="/SysRole/setModuleRoles">
+								<input type="hidden" id="roleCodes" name="roleCodes" /> 
+								<input type="hidden" id="setModuleRoleId" name="moduleId" />
+								<div class="popwin_layer_01">
+									<div class="popwin_layer_01_left">
+										<div class="box_01">
+											<div class="caption_01">待选择角色</div>
+											<div class="inner6px popwin_layer_01_height">
+												<ul id="roleTree"></ul>
 											</div>
 										</div>
 									</div>
-								</form>
-							</div>
+									<div class="popwin_layer_01_right">
+										<div class="box_01">
+											<div class="caption_01">
+												已选择角色
+												<div class="right">
+													<a href="javascript:RemoveSelect();"
+														class="btn_01_ultra_mini" style="width: 40px"><b></b>×</a>
+													<a href="javascript:confirm_onclick();"
+														class="btn_01_ultra_mini" style="width: 40px"><b></b>√</a>
+												</div>
+											</div>
+											<div class="inner6px popwin_layer_01_height">
+												<select id="roleIds" style="width: 100%; height: 100%;"
+													multiple="multiple" name="roleIds">
+	
+												</select>
+											</div>
+										</div>
+									</div>
+								</div>
+							</form>
 						</div>
-
-				</div>
+					</div>
+					 
 				</div>
 			</div>
 		</div>
+	</div>
 </body>
 
 <script type="text/javascript" th:inline="javascript">
@@ -218,46 +178,216 @@
 	});           
 	           
 	$('#dgModule').datagrid({
-		//url : 'datagrid_data.json',
-		data:[{"id":"4028811552dd84830152dd87e2150004","isVisible":1,"moduleAddr":"welcome.action","moduleCode":"M10","moduleFullName":"","moduleName":"首页","sortSq":1,"target":"框架"},{"id":"402809812ec18be5012ec1a35b700002","isVisible":1,"moduleAddr":"jsp/information/contentInformationsList.action","moduleCode":"M06","moduleFullName":"","moduleName":"信息管理","sortSq":1,"target":"框架"},{"id":"402880e92ebc40c5012ebc430db50002","isVisible":1,"moduleAddr":"","moduleCode":"M01","moduleFullName":"","moduleName":"系统管理","sortSq":2,"target":"框架"},{"id":"8a818517400f896b01400f8c04240003","isVisible":0,"moduleAddr":"","moduleCode":"M05","moduleFullName":"","moduleName":"工作流管理","sortSq":3,"target":"框架"},{"id":"402880e92ebc40c5012ebc6317eb003f","isVisible":1,"moduleAddr":"","moduleCode":"M02","moduleFullName":"","moduleName":"个人设置","sortSq":3,"target":"框架"},{"id":"ff808081427da10b01427effd50e0013","isVisible":0,"moduleAddr":"","moduleCode":"M07","moduleFullName":"","moduleName":"工作流示例","sortSq":4,"target":"框架"},{"id":"2c908006598d063d01599670aaa704bd","isVisible":1,"moduleAddr":"","moduleCode":"M27","moduleFullName":"","moduleName":"基础资料","sortSq":4,"target":"框架"},{"id":"4ae6ee4b56a780fc0156aaf8b4d2002b","isVisible":1,"moduleAddr":"","moduleCode":"M25","moduleFullName":"","moduleName":"产品及业务管理","sortSq":5,"target":"框架"},{"id":"2c908006598d063d0159967dd8c604ec","isVisible":1,"moduleAddr":"","moduleCode":"M28","moduleFullName":"","moduleName":"呼叫中心","sortSq":6,"target":"框架"},{"id":"2c908006598d063d0159969701260560","isVisible":1,"moduleAddr":"","moduleCode":"M29","moduleFullName":"","moduleName":"计调中心","sortSq":7,"target":"框架"}],  
+		toolbar:[{
+			text:'新增',
+			iconCls:'icon-add',
+			handler:function()
+			{
+				$('#moduleNewId').val('');
+				$('#moduleNameNew').val('');
+				$('#linkddress').val('');
+				$('#moduleSort').val('');
+				$('#ddModule').dialog('open');
+ 				$('#parentModuleNew').val('');
+				$('#parentModuleName').val(''); 
+			}
+		},'-',{
+			text:'删除',
+			iconCls:'icon-remove',
+			handler:function()
+			{
+				$.messager.confirm('删除员工', '确定要删除这些模块吗？', function(result){
+					if(result)
+					{
+						var selectionsModules = $('#dgModule').datagrid('getSelections');
+						var moduleIds = [];
+						selectionsModules.forEach(function(value,index,array){
+							moduleIds.push(value.id);
+						});
+												
+						$.ajax({  
+				            url: '/Module/deleteModules',  
+				            dataType: 'json', 
+				            method:'POST',
+				            contentType : 'application/json;charset=utf-8',
+				            data:JSON.stringify(moduleIds),
+				            success: function (data) {
+				            	if(data.success){
+				            		alert(data.msg);
+				            		$('#dgModule').datagrid('reload');
+				            		$('#mt').tree('reload');
+				            	}else{
+				            		alert(data.errorMsg);
+				            	}
+				            }  
+					    });
+					}
+				});
+			}
+		}],
+		title:'模块列表',
+		pagination:true,
+		rownumbers:true,
+		fitColumns:true,
+		nowrap:false,
+		height:315,
+		method:'GET',
+		url : '/Module/findAll',
 		columns:[[
-				          {field:'moduleName',title:'模块名称'},
-				          {field:'moduleFullName',title:'模块全称'},
-				          {field:'moduleCode',title:'模块编码'},
-					      {field:'sortSq',title:'序号'},
-					      {field:'moduleAddr',title:'链接地址'},
-					      {field:'target',title:'目标框架'},
-				          {field:'op',title:'操作',formatter:function(value,rec){
-								if(rec.isVisible==1){
-									return "<a href='#' class='btn_01_mini' onclick='edit_module(\""+rec.id+"\")'>修改<b></b></a>"
-										  +"<a href='#' class='btn_01_mini' onclick='inactive_module(\""+rec.id+"\")'>禁用<b></b></a>"
-										  +"<a href='#' class='btn_01_mini' onclick='editModuleRole(\""+rec.id+"\")'>角色设置<b></b></a>";
-								}else
-									return "<a href='#' class='btn_01_mini' onclick='edit_module(\""+rec.id+"\")'>修改<b></b></a>"
-										  +"<a href='#' class='btn_01_mini' onclick='active_module(\""+rec.id+"\")'>激活<b></b></a>"
-										  +"<a href='#' class='btn_01_mini' onclick='editModuleRole(\""+rec.id+"\")'>角色设置<b></b></a>";
-						  }}
+				          {field:'id',checkbox:true},
+				          {field:'moduleName',title:'模块名称',width:15},
+					      {field:'linkddress',title:'链接地址',width:40},
+					      {field:'parentModule',title:'上级模块',width:15,formatter:function(value,row){
+					      	if(value != null)
+							{
+					    		return value.moduleName;
+							}
+					      }},
+					      {field:'moduleSort',title:'模块排序',width:10},
+				          {field:'op',title:'操作',width:20,formatter:function(value,rec){
+								return "<a href='#' class='btn_01_mini' onclick='edit_module(\""+rec.id+"\")'>修改<b></b></a>"
+										  +"<a href='#' class='btn_01_mini' onclick='editModuleRoles(\""+rec.id+"\")'>角色设置<b></b></a>";
+							}}
 				        ]]
 	});
 	
-	//角色设置
-	function editModuleRole(id)
+	//查询
+	function search_module()
 	{
-		$('#editModuleDg').dialog('open');
-		$.ajax({  
-	            url: '/RouteType/selectCategory',  
-	            dataType: 'json',  
-	            success: function (jsonstr) {  
-	            	//$('#editModuleDg').dialog('open');
-	            }  
-	   });
+		var parentModuleId = $('#parentModuleId').val();
+		var moduleName = $('#moduleName').val();
+
+		if(parentModuleId == '001')
+		{
+			parentModuleId = '';
+		}
+		
+		var url = "/Module/findModules?parentModuleId="+parentModuleId+"&moduleName="+moduleName;
+		
+		$('#dgModule').datagrid('reload',url); 
 	}
 	
-	//新增模块提交
+	//角色设置
+	function editModuleRoles(id)
+	{
+		$('#setModuleRoles').dialog('open');
+		$('#setModuleRoleId').val(id);
+		var options = document.getElementById("roleIds").options; 
+
+		for(var i = 0;i < options.length;i++){
+			options[i] = null;
+			i--;
+		}
+
+        $('#roleTree').tree({
+             checkbox: true,
+             url: '/SysRole/findTree',
+         	 onCheck:function(node,checked){
+    	         var options = document.getElementById("roleIds").options;  
+    	         var id = node.id;
+    	         if(node.name=="角色")
+    	         	return;
+    	     	 else{
+	    	     	  if(checked){
+	    	               var i,bFlag;
+						   for (i=0; i < options.length; i++){
+							   if(options[i].value==id){
+								   bFlag=true;
+								   break;
+						       }	
+						   }
+						   if(!bFlag){
+							   options.add(new Option(node.name,id));
+							}
+	    	           }else {
+		    	           var i;
+		    	           for (i=0; i < options.length; i++) {
+			    	            if(options[i].value==id){
+				    	            options[i] = null;
+			                        i--;
+			                    }	
+			                }
+	    	           }
+	    	           node.checked = checked;  
+    	     	 }  
+       		 },formatter:function(node){
+         		return node.name;
+         	},onLoadSuccess:function(node, data){
+         		$.ajax({  
+		            url: '/Module/findRolesById?moduleId='+id,  
+		            dataType: 'json', 
+		            method:'POST',
+		            contentType : 'application/json;charset=utf-8',
+		            success: function (roles) {
+		            	 var options = document.getElementById("roleIds").options;
+		                 var treeNodes = $('#roleTree').tree('getRoots');
+		                 for(var i=0;i<roles.length;i++){
+	         	            for (var j = 0;j < treeNodes.length;j++)
+	                     	{
+	         	            	if(treeNodes[j].id == roles[i].id)
+	         					{
+	         	            		options.add(new Option(roles[i].name,roles[i].id));
+	         	            		$('#roleTree').tree('check',treeNodes[j].target);
+	         					}
+	                     	}
+		                 }
+		            }
+         		});
+         	}
+         });   
+	}
+	
+	 function RemoveSelect()
+	 {
+        var options = document.getElementById("roleIds").options;
+        var i;
+        var treeNodes = $('#roleTree').tree('getRoots');
+        for(i=0;i<options.length;i++){
+        	if(options[i].selected)
+			{
+	            for (var j = 0;j < treeNodes.length;j++)
+            	{
+	            	if(treeNodes[j].id == options[i].value)
+					{
+	            		$('#roleTree').tree('uncheck',treeNodes[j].target);
+					}
+            	}
+	            i--;
+	        }
+        }
+	}
+
+    function confirm_onclick()
+    {
+    	var options = document.getElementById("roleIds").options; 
+    	
+    	var roleCodes = "";
+    	for(i=0;i<options.length;i++){
+    		roleCodes += options[i].value+"|";
+        }
+        $('#roleCodes').val(roleCodes);
+        
+        $('#setModuleRolesForm').form('submit',{
+            success: function(data){
+            	$('#setModuleRoles').dialog('close');
+            	data = JSON.parse(data);
+                if (data.errorMsg){
+                    $.messager.show({
+                        title: 'Error',
+                        msg: data.errorMsg
+                    });
+                } else {
+                    alert(data.msg);
+                }
+            }
+        });
+    }
+	
+	//新增/修改模块提交
 	function submitModule()
 	{
-		$('#myform').form('submit',{
-            url: 'http://101.2.175.12/operatorcenter/jsp/admin/module/saveModule.action',
+		$('#moduleForm').form('submit',{
+            url: '/Module/save',
             onSubmit: function(){
                 return $(this).form('validate');
             },
@@ -272,6 +402,7 @@
                     });
                 } else {
                     $('#dgModule').datagrid('reload');    // reload the user data
+                    $('#mt').tree('reload');
                 }
             }
         });
@@ -280,171 +411,71 @@
 	//修改模块信息
 	function edit_module(id)
 	{
-		alert(id);
 		$.ajax({  
-	            url: '/RouteType/selectCategory',  
-	            dataType: 'json',  
-	            success: function (jsonstr) {  
-	               
+	            url: '/Module/findOne?moduleId='+id,  
+	            dataType: 'json', 
+	            method:'POST',
+	            contentType : 'application/json;charset=utf-8',
+	            success: function (data) {
+	            	$('#moduleNewId').val(data.id);
+	            	$('#moduleNameNew').val(data.moduleName);
+					$('#linkddress').val(data.linkddress);
+					$('#moduleSort').val(data.moduleSort);
+					
+					if (data.parentModule != null)
+					{
+						$('#parentModuleNew').val(data.parentModule.id);
+						$('#parentModuleName').val(data.parentModule.moduleName); 
+					}
+					
+					$('#ddModule').dialog('open');
 	            }  
 	     });
 	}
 	
+	//查找上级模块
+	function search_parentModule()
+	{
+		$('#parentModuleTree').tree({
+			url: '/Module/findTree',
+	        onClick:function(node){
+	        	$('#parentModuleNew').val(node.id);
+	        	
+	        	if(node.id == '001')
+	    		{
+	        		$('#parentModuleNew').val('');
+	    		}
+	        	
+	        	$('#parentModuleName').val(node.moduleName);
+				$('#parentModuleDd').dialog('close');
+	      	},formatter:function(node){
+	    		return node.moduleName;
+	    	},onLoadSuccess:function(node, data){
+	    		$('#parentModuleDd').dialog('open');
+	    	}
+		});
+	}
+	
 	//模块
 	$('#mt').tree({
-		//url : 'http://101.2.175.12/operatorcenter/jsp/admin/module/findChildModule.action',
-		onBeforeExpand : function(node)
-		{
-			//$('#mt').tree('options').url = "http://101.2.175.12/operatorcenter/jsp/admin/module/findChildModule.action?selModule=" + node.id;
-		},
-		data : [ {
-			"id" : "M",
-			"text" : "所有模块",
-			"state" : "opened",
-			"children" : [ {
-				"id" : "M10",
-				"text" : "首页",
-				"iconCls" : "icon-module"
-			}, {
-				"id" : "M06",
-				"text" : "信息管理",
-				"iconCls" : "icon-module"
-			}, {
-				"id" : "M01",
-				"text" : "系统管理",
-				"state" : "closed",
-				"iconCls" : "icon-treeNodeParent",
-				"children" : [ {
-					"id" : "M0102",
-					"text" : "权限管理",
-					"state" : "closed",
-					"iconCls" : "icon-treeNodeParent"
-				}, {
-					"id" : "M0101",
-					"text" : "系统日志",
-					"state" : "closed",
-					"iconCls" : "icon-treeNodeParent"
-				}, {
-					"id" : "M0109",
-					"text" : "客户端版本管理",
-					"iconCls" : "icon-module"
-				}, {
-					"id" : "M0108",
-					"text" : "表单管理",
-					"iconCls" : "icon-module"
-				}, {
-					"id" : "M0112",
-					"text" : "登录页设置",
-					"iconCls" : "icon-module"
-				}, {
-					"id" : "M0113",
-					"text" : "操作日志",
-					"iconCls" : "icon-module"
-				} ]
-			}, {
-				"id" : "M02",
-				"text" : "个人设置",
-				"state" : "closed",
-				"iconCls" : "icon-treeNodeParent"
-			}, {
-				"id" : "M27",
-				"text" : "基础资料",
-				"state" : "closed",
-				"iconCls" : "icon-treeNodeParent"
-			}, {
-				"id" : "M25",
-				"text" : "产品及业务管理",
-				"state" : "closed",
-				"iconCls" : "icon-treeNodeParent"
-			}, {
-				"id" : "M28",
-				"text" : "呼叫中心",
-				"state" : "closed",
-				"iconCls" : "icon-treeNodeParent"
-			}, {
-				"id" : "M29",
-				"text" : "计调中心",
-				"state" : "closed",
-				"iconCls" : "icon-treeNodeParent"
-			}, {
-				"id" : "M30",
-				"text" : "门店中心",
-				"state" : "closed",
-				"iconCls" : "icon-treeNodeParent"
-			}, {
-				"id" : "M31",
-				"text" : "供应商",
-				"state" : "closed",
-				"iconCls" : "icon-treeNodeParent"
-			}, {
-				"id" : "M32",
-				"text" : "电商中心",
-				"state" : "closed",
-				"iconCls" : "icon-treeNodeParent"
-			}, {
-				"id" : "M33",
-				"text" : "财务中心",
-				"state" : "closed",
-				"iconCls" : "icon-treeNodeParent"
-			}, {
-				"id" : "M34",
-				"text" : "同业",
-				"state" : "closed",
-				"iconCls" : "icon-treeNodeParent"
-			}, {
-				"id" : "M26",
-				"text" : "统计分析",
-				"state" : "closed",
-				"iconCls" : "icon-treeNodeParent"
-			}, {
-				"id" : "M35",
-				"text" : "电商管理",
-				"state" : "closed",
-				"iconCls" : "icon-treeNodeParent"
-			} ],
-			"iconCls" : "icon-treeNodeParent"
-		} ]
+		url: '/Module/findTree',
+        onClick:function(node){
+        	$('#parentModuleId').val(node.id);
+        	$('#parentModuleNew').val(node.id);
+        	$('#parentModuleName').val(node.moduleName);
+        	
+        	var url = '/Module/findByParentModuleId?parentModuleId='+node.id;
+        	if(node.moduleName == '所有模块')
+			{
+				url = '/Module/findAll';
+				$('#parentModuleNew').val('');
+			}
+        	$('#dgModule').datagrid('reload',url);
+        	
+      	},formatter:function(node){
+    		return node.moduleName;
+    	}
 	});
-	
-	//角色
-	$('#roleTree').tree({   
-		checkbox: true,
-		//url: '/operatorcenter/jsp/admin/role/findRoleTreeForModule.action?userRole.roleType=ALL&moduleId=4028811552dd84830152dd87e2150004', 
-		onBeforeExpand:function(node,param){
-			//$('#roleTree').tree('options').url = "/operatorcenter/jsp/admin/role/findRoleTreeForModule.action?userRole.roleType=ALL&selNode=" + node.id+"&moduleId=moduleId=4028811552dd84830152dd87e2150004";
-		},
-		data:[{"id":"A","text":"角色","state":"opened","children":[{"id":"A01","text":"系统管理员"},{"id":"A27","text":"开发部","checked":true},{"id":"A26","text":"供应商","checked":true},{"id":"A25","text":"特产管理员"},{"id":"A19","text":"呼叫中心主管"},{"id":"A18","text":"呼叫中心"},{"id":"A17","text":"电商销售主管"},{"id":"A24","text":"操作中心操作员2"},{"id":"A16","text":"电商销售操作员"},{"id":"A15","text":"同业销售主管"},{"id":"A05","text":"同业销售操作员"},{"id":"A14","text":"网点销售主管"},{"id":"A13","text":"门店","checked":true},{"id":"A02","text":"车队中心操作员"},{"id":"A08","text":"餐饮中心操作员"},{"id":"A09","text":"住房中心操作员"},{"id":"A11","text":"景区中心操作员"},{"id":"A12","text":"签证中心操作员"},{"id":"A10","text":"交通中心操作员"},{"id":"A07","text":"导游中心操作员"},{"id":"A04","text":"计调"},{"id":"A20","text":"操作中心主管"},{"id":"A21","text":"销售中心主管"},{"id":"A22","text":"销售中心助理"},{"id":"A28","text":"网络运营"},{"id":"A30","text":"财务"},{"id":"A23","text":"黄岛金沙滩操作员"},{"id":"A29","text":"收银"}]}],
-		onCheck:function(node,checked){
-			var options = document.getElementById("roleIds").options;  
-			var id = node.id;
-			if(node.text=="角色")
-				return;
-			else{
-				if(checked){
-					var i,bFlag;
-					for (i=0; i < options.length; i++){
-						if(options[i].value==id){
-							bFlag=true;
-							break;
-						}	
-					}
-					if(!bFlag){
-						options.add(new Option(node.text,id));
-					}
-				}else {
-					var i;
-					for (i=0; i < options.length; i++) {
-						if(options[i].value==id){
-		    	            options[i] = null;
-	                        i--;
-	                    }	
-	                }
-				}
-				node.checked = checked;  
-			}  
-		}
-	});
-	
 	
 	/*]]>*///这句坚决不能删
 </script>

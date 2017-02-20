@@ -99,7 +99,7 @@ public class SysRoleController extends CrudController<SysRole> {
 	@RequestMapping("/findById")
 	@ResponseBody
 	public SysRole findById(String roleId) {
-		SysRole sysRole = service.findById(roleId);
+		SysRole sysRole = service.findOne(roleId);
 
 		List<SysUser> users = sysRole.getUsers();
 		for (SysUser sysUser : users) {
@@ -158,7 +158,6 @@ public class SysRoleController extends CrudController<SysRole> {
 	 * 设置用户角色
 	 * @param userId
 	 * @param roleCodes
-	 * @param roles
 	 * @return
 	 */
 	@RequestMapping("/setUserRoles")
@@ -169,6 +168,48 @@ public class SysRoleController extends CrudController<SysRole> {
 
 		try {
 			service.setUserRoles(userId, roleIds);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return EasyuiResult.result(false,"操作失败");
+		}
+		
+		return EasyuiResult.result(true,"操作成功");
+	}
+	
+	/** 设置模块角色
+	 * @param moduleId
+	 * @param roleCodes
+	 * @return
+	 */
+	@RequestMapping("/setModuleRoles")
+	@ResponseBody
+	public Map<String, Object> setModuleRoles(String moduleId,String roleCodes) {
+		
+		String[] roleIds = roleCodes.split("\\|");
+
+		try {
+			service.setModuleRoles(moduleId, roleIds);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return EasyuiResult.result(false,"操作失败");
+		}
+		
+		return EasyuiResult.result(true,"操作成功");
+	}
+	
+	/** 设置角色模块
+	 * @param roleId
+	 * @param roleCodes
+	 * @return
+	 */
+	@RequestMapping("/setRoleModules")
+	@ResponseBody
+	public Map<String, Object> setRoleModules(String roleId,String moduleCodes) {
+		
+		String[] moduleIds = moduleCodes.split("\\|");
+		
+		try {
+			service.setRoleModules(roleId, moduleIds);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return EasyuiResult.result(false,"操作失败");
@@ -208,7 +249,7 @@ public class SysRoleController extends CrudController<SysRole> {
 	@RequestMapping("/findOne")
 	@ResponseBody
 	public SysRole findOne(String id) {
-		SysRole role = service.findById(id);
+		SysRole role = service.findOne(id);
 		
 		List<SysUser> users = role.getUsers();
 		for (SysUser sysUser : users) {
@@ -226,7 +267,7 @@ public class SysRoleController extends CrudController<SysRole> {
 	@RequestMapping("/findUsersById")
 	@ResponseBody
 	public List<SysUser> findUsersById(String id) {
-		SysRole sysRole = service.findById(id);
+		SysRole sysRole = service.findOne(id);
 		List<SysUser> users = sysRole.getUsers();
 		
 		for (SysUser sysUser : users) {
@@ -234,6 +275,18 @@ public class SysRoleController extends CrudController<SysRole> {
 		}
 		
 		return users;
+	}
+	
+	/**
+	 * 查询角色的模块
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping("/findModulesById")
+	@ResponseBody
+	public List<Module> findModulesById(String id) {
+		List<Module> modules = service.findOne(id).getModuleList();
+		return modules;
 	}
 	
 }
