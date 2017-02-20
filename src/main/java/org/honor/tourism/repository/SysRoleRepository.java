@@ -1,8 +1,13 @@
 package org.honor.tourism.repository;
+import java.util.List;
+
+import org.honor.tourism.entity.Module;
 import org.honor.tourism.entity.SysRole;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * 作者:修罗大人

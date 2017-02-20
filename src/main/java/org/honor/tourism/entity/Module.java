@@ -14,6 +14,8 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.Length;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * 模块权限
  * 
@@ -27,7 +29,6 @@ public class Module {
 	@Id
 	@GeneratedValue(generator = "uuid")
 	@GenericGenerator(name = "uuid", strategy = "uuid")
-	@Length(min = 32, max = 32, message = "id需要32位字符")
 	private String id;
 	/** 模块名称 */
 	@Length(min = 1, max = 32, message = "模块名称需要1-32位字符")
@@ -40,6 +41,7 @@ public class Module {
 	/** 模块排序 */
 	private Integer moduleSort;
 	@ManyToMany(mappedBy = "moduleList", cascade = { CascadeType.REFRESH }, fetch = FetchType.EAGER)
+	@JsonIgnore
 	private List<SysRole> sysRoleList;
 
 	public String getId() {

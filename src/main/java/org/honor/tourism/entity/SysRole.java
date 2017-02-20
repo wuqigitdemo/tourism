@@ -12,6 +12,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * 角色表
  * 
@@ -35,8 +37,10 @@ public class SysRole {
 	/** 角色状态 */
 	private boolean state;
 	@ManyToMany(cascade = { CascadeType.REFRESH }, fetch = FetchType.EAGER)
+	@JsonIgnore
 	private List<Module> moduleList;
 	@ManyToMany(mappedBy="roles",cascade = { CascadeType.REFRESH }, fetch = FetchType.EAGER)
+	@JsonIgnore
 	private List<SysUser> users;
 	
 	public List<SysUser> getUsers()

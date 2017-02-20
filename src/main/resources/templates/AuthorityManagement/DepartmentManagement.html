@@ -467,16 +467,16 @@
 		url:'/Department/findAll',
 		columns:[[
 				  {field:'id',checkbox:true},
-					          {field:'departmentName',title:'部门名称',width:20},
-					          {field:'departmentNumber',title:'部门编号',width:20},
-							  {field:'parentDepartment',title:'上级部门',width:20,formatter:function(value,row){
-					        	  if(row.parentDepartment!=null)
-					        		  return row.parentDepartment.departmentName;
-							  }},
-					          {field:'op',title:'操作',width:40,formatter:function(value,rec){
-									return "<a href='#' class='btn_01_mini' onclick='view_dept(\""+rec.id+"\")'>查看<b></b></a>"
-										  +"<a href='#' class='btn_01_mini' onclick='edit_dept(\""+rec.id+"\")'>修改<b></b></a>"
-							  }}
+		          {field:'departmentName',title:'部门名称',width:20},
+		          {field:'departmentNumber',title:'部门编号',width:20},
+				  {field:'parentDepartment',title:'上级部门',width:20,formatter:function(value,row){
+		        	  if(row.parentDepartment!=null)
+		        		  return row.parentDepartment.departmentName;
+				  }},
+		          {field:'op',title:'操作',width:40,formatter:function(value,rec){
+						return "<a href='#' class='btn_01_mini' onclick='view_dept(\""+rec.id+"\")'>查看<b></b></a>"
+							  +"<a href='#' class='btn_01_mini' onclick='edit_dept(\""+rec.id+"\")'>修改<b></b></a>"
+				  }}
 		        ]]
 	});
 	
