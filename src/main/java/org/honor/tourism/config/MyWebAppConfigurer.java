@@ -1,7 +1,11 @@
 package org.honor.tourism.config;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
+import org.springframework.boot.context.embedded.ErrorPage;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -12,11 +16,28 @@ public class MyWebAppConfigurer extends WebMvcConfigurerAdapter {
 	@Value("${custom.file.upload.path}")
 	private String fileUploadPath;
 
+	/**
+     * 自定义异常页
+     */
+    @Bean
+    public EmbeddedServletContainerCustomizer containerCustomizer() {
+
+       return (container -> {
+            ErrorPage error401Page = new ErrorPage(HttpStatus.FORBIDDEN, "/403");
+            ErrorPage error404Page = new ErrorPage(HttpStatus.NOT_FOUND, "/404");
+            ErrorPage error500Page = new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR, "/500");
+            container.addErrorPages(error401Page, error404Page, error500Page);
+       });
+    }
+	
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
 		registry.addViewController("/home").setViewName("home");
 		registry.addViewController("/").setViewName("home");
 		registry.addViewController("/hello").setViewName("hello");
+		registry.addViewController("/403").setViewName("403");
+		registry.addViewController("/404").setViewName("404");
+		registry.addViewController("/500").setViewName("500");
 		registry.addViewController("/login").setViewName("login");
 		registry.addViewController("/register").setViewName("register");
 		registry.addViewController("/welcome").setViewName("welcome");

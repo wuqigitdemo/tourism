@@ -79,16 +79,16 @@ public class MultiHttpSecurityConfig {
 				.antMatchers("/login/login").permitAll()
 //				.antMatchers("/TourismTheme/**").hasRole("USER")
 				.anyRequest()
-				.permitAll()
-//				.authenticated().and()
-////				.httpBasic()
-//				.formLogin()
-//					.loginPage("/login")
-//					.permitAll()
-//				.and()
-//				.logout().permitAll()
+//				.permitAll()
+				.authenticated( ).and()
+//				.httpBasic()
+				.formLogin()
+					.loginPage("/login")
+					.permitAll()
+				.and()
+				.logout().permitAll()
 				;
-//			http.addFilterBefore(myFilterSecurityInterceptor, FilterSecurityInterceptor.class);
+			http.addFilterBefore(myFilterSecurityInterceptor, FilterSecurityInterceptor.class);
 		}
 		
 	}
