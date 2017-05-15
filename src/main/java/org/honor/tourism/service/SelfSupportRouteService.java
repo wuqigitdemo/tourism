@@ -1,12 +1,21 @@
 package org.honor.tourism.service;
 
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.hibernate.loader.custom.Return;
 import org.honor.tourism.entity.PriceInventory;
 import org.honor.tourism.entity.SelfSupportRoute;
+import org.honor.tourism.entity.SysUser;
 import org.honor.tourism.util.EasyuiPage;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.ConfigAttribute;
+import org.springframework.security.core.context.SecurityContext;
 
 /**
  * 作者:修罗大人
@@ -41,5 +50,5 @@ public interface SelfSupportRouteService extends CrudService<SelfSupportRoute> {
 	 * @param ids
 	 */
 	public void delete(List<SelfSupportRoute> ids);
-	
+
 }

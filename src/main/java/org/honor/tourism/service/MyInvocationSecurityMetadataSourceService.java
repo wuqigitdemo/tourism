@@ -7,13 +7,16 @@ import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.honor.tourism.entity.Module;
 import org.honor.tourism.entity.SysRole;
+import org.honor.tourism.entity.SysUser;
 import org.honor.tourism.repository.ModuleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -65,6 +68,37 @@ public class MyInvocationSecurityMetadataSourceService implements FilterInvocati
 		return null;
 	}
 
+	/**
+	 * 判断是否有权限
+	 * @param collection
+	 * @param request
+	 * @return
+	 */
+	public boolean isHaveRole(FilterInvocation filterInvocation) {
+		Collection<ConfigAttribute> collection = getAttributes(filterInvocation);
+		HttpServletRequest request = filterInvocation.getHttpRequest();
+		if (collection == null) return true;
+		
+		HttpSession session = request.getSession();
+		SecurityContext securityContext = (SecurityContext) session.getAttribute("SPRING_SECURITY_CONTEXT");
+		SysUser user = (SysUser) securityContext.getAuthentication().getPrincipal();
+		List<SysRole> roles = user.getRoles();
+		
+		for (Iterator<ConfigAttribute> iterator = collection.iterator(); iterator.hasNext();) {
+			ConfigAttribute cfg = (ConfigAttribute) iterator.next();
+			String roleName = cfg.getAttribute();
+			
+			for (SysRole sysRole : roles) {
+				if (roleName.equals(sysRole.getName())) {
+					return true;
+				}
+			}
+			
+		}
+		
+		return false;
+	}
+	
 	@Override
 	public Collection<ConfigAttribute> getAllConfigAttributes() {
 		return null;

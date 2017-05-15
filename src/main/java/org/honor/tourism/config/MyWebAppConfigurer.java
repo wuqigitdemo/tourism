@@ -26,7 +26,7 @@ public class MyWebAppConfigurer extends WebMvcConfigurerAdapter {
             ErrorPage error401Page = new ErrorPage(HttpStatus.FORBIDDEN, "/403");
             ErrorPage error404Page = new ErrorPage(HttpStatus.NOT_FOUND, "/404");
             ErrorPage error500Page = new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR, "/500");
-            container.addErrorPages(error401Page, error404Page, error500Page);
+            container.addErrorPages(error401Page,error404Page, error500Page);
        });
     }
 	
@@ -45,7 +45,7 @@ public class MyWebAppConfigurer extends WebMvcConfigurerAdapter {
 		registry.addViewController("/ProductBusinessManage/RouteManage/RouteCategory").setViewName("ProductBusinessManage/RouteManage/RouteCategory");
 		registry.addViewController("/ProductBusinessManage/RouteManage/InsuranceManagement").setViewName("ProductBusinessManage/RouteManage/InsuranceManagement");
 		registry.addViewController("/OtherTypeManage/InsuranceType").setViewName("OtherTypeManage/InsuranceType");
-		registry.addViewController("/ProductBusinessManage/RouteManage/SelfSupportRoute").setViewName("/ProductBusinessManage/RouteManage/SelfSupportRoute");
+//		registry.addViewController("/ProductBusinessManage/RouteManage/SelfSupportRoute").setViewName("/ProductBusinessManage/RouteManage/SelfSupportRoute");
 		registry.addViewController("/OtherTypeManage/VisaNationalsManage").setViewName("OtherTypeManage/VisaNationalsManage");
 		registry.addViewController("/OtherTypeManage/HotelCategoriesManage").setViewName("OtherTypeManage/HotelCategoriesManage");
 		registry.addViewController("/ProductBusinessManage/RouteManage/RouteBaseInfo").setViewName("ProductBusinessManage/RouteManage/RouteBaseInfo");
