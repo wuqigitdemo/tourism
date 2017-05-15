@@ -12,7 +12,6 @@ import org.honor.tourism.entity.PriceInventory;
 import org.honor.tourism.entity.RouteTrip;
 import org.honor.tourism.entity.SelfSupportRoute;
 import org.honor.tourism.service.CrudService;
-import org.honor.tourism.service.MyInvocationSecurityMetadataSourceService;
 import org.honor.tourism.service.RouteTypeService;
 import org.honor.tourism.service.SelfSupportRouteService;
 import org.honor.tourism.util.EasyuiPage;
@@ -48,27 +47,8 @@ public class SelfSupportRouteController extends CrudController<SelfSupportRoute>
 	public RouteTypeService routeTypeService;
 	
 	@Autowired
-	MyInvocationSecurityMetadataSourceService invocation;
-	
-	@Autowired
 	public SelfSupportRouteController(CrudService<SelfSupportRoute> service) {
 		super(service);
-	}
-	
-	/**
-	 * 页面
-	 * @return
-	 */
-	@RequestMapping("/htmlView")
-	public String htmlView(HttpServletRequest request,HttpServletResponse response,FilterChain chain) {
-		FilterInvocation filterInvocation = new FilterInvocation(request, response, chain);  
-		boolean isHaveRole = invocation.isHaveRole(filterInvocation);
-		
-		if (isHaveRole) {
-			return "/ProductBusinessManage/RouteManage/SelfSupportRoute";			
-		}else {
-			return "/403";
-		}
 	}
 	
 	/**

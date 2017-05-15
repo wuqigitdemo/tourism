@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.honor.tourism.entity.Module;
@@ -21,9 +22,11 @@ import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.ModelAndView;
 
 @Service
-public class MyInvocationSecurityMetadataSourceService implements FilterInvocationSecurityMetadataSource {
+public class MyInvocationSecurityMetadataSourceService implements FilterInvocationSecurityMetadataSource,HandlerInterceptor {
 
 	@Autowired
 	private ModuleRepository moduleRepository;
@@ -69,14 +72,39 @@ public class MyInvocationSecurityMetadataSourceService implements FilterInvocati
 	}
 
 	/**
-	 * 判断是否有权限
-	 * @param collection
+	 * 获取全部权限
 	 * @param request
 	 * @return
 	 */
-	public boolean isHaveRole(FilterInvocation filterInvocation) {
-		Collection<ConfigAttribute> collection = getAttributes(filterInvocation);
-		HttpServletRequest request = filterInvocation.getHttpRequest();
+	public Collection<ConfigAttribute> getRoles(HttpServletRequest request) {
+		if (map == null)
+			loadResourceDefine();
+		AntPathRequestMatcher matcher;
+		String resUrl;
+		for (Iterator<String> iter = map.keySet().iterator(); iter.hasNext();) {
+			resUrl = iter.next();
+			matcher = new AntPathRequestMatcher(resUrl);
+			if (matcher.matches(request)) {
+				return map.get(resUrl);
+			}
+		}
+		return null;
+	}
+	
+	@Override
+	public Collection<ConfigAttribute> getAllConfigAttributes() {
+		return null;
+	}
+
+	@Override
+	public boolean supports(Class<?> clazz) {
+		return true;
+	}
+
+	@Override
+	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+			throws Exception {
+		Collection<ConfigAttribute> collection = getRoles(request);
 		if (collection == null) return true;
 		
 		HttpSession session = request.getSession();
@@ -96,16 +124,21 @@ public class MyInvocationSecurityMetadataSourceService implements FilterInvocati
 			
 		}
 		
+		response.sendRedirect("/403");
 		return false;
-	}
-	
-	@Override
-	public Collection<ConfigAttribute> getAllConfigAttributes() {
-		return null;
 	}
 
 	@Override
-	public boolean supports(Class<?> clazz) {
-		return true;
+	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
+			ModelAndView modelAndView) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
+			throws Exception {
+		// TODO Auto-generated method stub
+		
 	}
 }
