@@ -66,8 +66,8 @@
 		</dependency>
 		<dependency>
 		    <groupId>com.itextpdf</groupId>
-		    <artifactId>itextasian</artifactId>
-		    <version>1.0</version>
+			<artifactId>itext-asian</artifactId>
+			<version>5.1.0</version>
 		</dependency>
 		
 		<!-- tomcat插件依赖包添加生命周期privided -->

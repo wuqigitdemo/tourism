@@ -27,7 +27,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = EasyuiJSONException.class)
     @ResponseBody
     public Map<String, Object> easyuiJSONErrorHandler(HttpServletRequest req, EasyuiJSONException e) throws Exception {
-        return EasyuiResult.result(false, e.getMessage());
+    		return EasyuiResult.result(false, e.getMessage());  
     }
 
 }

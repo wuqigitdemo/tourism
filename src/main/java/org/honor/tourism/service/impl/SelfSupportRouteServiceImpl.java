@@ -1,10 +1,17 @@
 package org.honor.tourism.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.honor.tourism.entity.PriceInventory;
 import org.honor.tourism.entity.SelfSupportRoute;
+import org.honor.tourism.entity.SysRole;
+import org.honor.tourism.entity.SysUser;
 import org.honor.tourism.repository.PriceInventoryRepository;
 import org.honor.tourism.repository.SelfSupportRouteRepository;
 import org.honor.tourism.service.SelfSupportRouteService;
@@ -13,8 +20,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.security.access.ConfigAttribute;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 /**
@@ -96,4 +104,6 @@ public class SelfSupportRouteServiceImpl extends CrudServiceImpl<SelfSupportRout
 		selfSupportRouteRepository.delete(ids);
 	}
 
+	
+	
 }

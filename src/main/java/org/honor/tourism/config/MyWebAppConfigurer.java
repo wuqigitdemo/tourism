@@ -1,11 +1,14 @@
 package org.honor.tourism.config;
 
+import org.honor.tourism.service.MyInvocationSecurityMetadataSourceService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
 import org.springframework.boot.context.embedded.ErrorPage;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -16,6 +19,9 @@ public class MyWebAppConfigurer extends WebMvcConfigurerAdapter {
 	@Value("${custom.file.upload.path}")
 	private String fileUploadPath;
 
+	@Autowired
+	MyInvocationSecurityMetadataSourceService invocation;
+	
 	/**
      * 自定义异常页
      */
@@ -26,7 +32,7 @@ public class MyWebAppConfigurer extends WebMvcConfigurerAdapter {
             ErrorPage error401Page = new ErrorPage(HttpStatus.FORBIDDEN, "/403");
             ErrorPage error404Page = new ErrorPage(HttpStatus.NOT_FOUND, "/404");
             ErrorPage error500Page = new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR, "/500");
-            container.addErrorPages(error401Page, error404Page, error500Page);
+            container.addErrorPages(error401Page,error404Page, error500Page);
        });
     }
 	
@@ -78,5 +84,11 @@ public class MyWebAppConfigurer extends WebMvcConfigurerAdapter {
 		sb.append(fileUploadPath);
 		registry.addResourceHandler("/files/**").addResourceLocations(sb.toString());
 		super.addResourceHandlers(registry);
+	}
+	
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		registry.addInterceptor(invocation);
+		super.addInterceptors(registry);
 	}
 }
